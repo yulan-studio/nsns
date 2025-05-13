@@ -25,6 +25,22 @@ header {
     padding: 0.5rem;
 }
 
+ul.dash-list {
+  list-style: none; /* Remove default bullets */
+  padding-left: 1em; /* Optional: add space before dashes */
+}
+
+ul.dash-list li::before {
+  content: "- ";        /* Dash with space */
+  color: inherit;       /* Optional: match text color */
+  font-weight: bold;    /* Optional: make the dash more visible */
+}
+
+.about-project-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
 
 
 .nav-container {
