@@ -41,6 +41,13 @@ ul.dash-list li::before {
   font-weight: bold;    /* Optional: make the dash more visible */
 }
 
+ul.dash-list li {
+  margin-bottom: 1.2rem;
+}
+
+
+
+
 .about-project-section p {
     font-size: 1rem;
     line-height: 1.7;
