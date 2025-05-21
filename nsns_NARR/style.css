@@ -19,6 +19,11 @@ body {
     color: #363636;
 }
 
+.small-text{
+  font-size: 0.9rem;
+  color:#003b6f
+}
+
 header {
     background-color: var(--primary-blue);
     color: var(--text-color);
