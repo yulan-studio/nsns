@@ -24,6 +24,12 @@ body {
   color:#003b6f
 }
 
+.small-text a{
+  font-size: 0.9rem;
+  color:#3d70bb
+}
+
+
 header {
     background-color: var(--primary-blue);
     color: var(--text-color);
