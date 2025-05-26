@@ -1,0 +1,98 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewData["Title"] = "Add Course";
+}
+@model Core.ViewModels.AddCourseViewModel
+
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+<script src="/js/coaches.js"></script>
+           
+
+
+<h2>Add Course</h2>
+
+<form method="post" action="/Course/Add">
+    <table style="border-collapse: collapse; width: 50%; text-align: left;">
+        <tr>
+            <td style="padding: 8px;"><label for="SpecialtyID">Specialty:</label></td>
+            <td style="padding: 8px;">
+                <select id="SpecialtyID" name="SpecialtyID" class="form-control" style="width: 100%;" onchange="fetchCoaches(this.value)">
+                    <option value="" selected>-- Select Specialty --</option>
+                    @foreach (var specialty in ViewBag.SpecialtyList)
+
+                    {
+                        <option value="@specialty.Value">@specialty.Text</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 8px;"><label for="CoachID">Coach:</label></td>
+            <td style="padding: 8px;">
+                <select id="CoachID" name="CoachID" class="form-control" style="width: 100%;">
+                    <option value="" selected>-- Select Coach --</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 8px;"><label for="Title">Course Title:</label></td>
+            <td style="padding: 8px;">
+                <input id="Title" name="Title" type="text" placeholder="Enter course title" style="width: 100%;" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 8px;"><label for="Description">Description:</label></td>
+            <td style="padding: 8px;">
+                <textarea id="Description" name="Description" placeholder="Enter course description" style="width: 100%;" rows="3" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 8px;"><label for="HourlyCost">Hourly Cost:</label></td>
+            <td style="padding: 8px;">
+                <input id="HourlyCost" name="HourlyCost" type="number" step="1" placeholder="Enter hourly cost" style="width: 100%;" required />
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 8px;"><label for="IsActive">Is Active:</label></td>
+            <td style="padding: 8px;">
+                <input id="IsActive" name="IsActive" type="checkbox" value="true" />
+                <input name="IsActive" type="hidden" value="false" />
+                <label for="IsActive">Check if the course is active</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: left;  padding: 20px 16px 16px 8px;">
+                <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Add Course</button>
+                <a href="/Course/List" style="background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Cancel</a>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                @if (!ViewData.ModelState.IsValid)
+
+                {
+
+                    foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+
+                    {
+                        <div class="alert alert-danger">
+                            @error.ErrorMessage
+                        </div>
+                    }
+
+                }
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+
+
+    

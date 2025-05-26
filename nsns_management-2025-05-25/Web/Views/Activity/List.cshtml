@@ -1,0 +1,78 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manage Activities";
+}
+
+
+@model IEnumerable<Core.ViewModels.ActivityViewModel>
+
+
+<h1>Manage Activities</h1>
+
+<a href="/Activity/Add" style="display: inline-block; margin-bottom: 20px;">Add Activity</a>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">Name</th>
+
+            <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Max Capacity</th>
+            <th style="padding: 8px; border: 1px solid #ddd;"># of Registrations</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Cost</th>
+          @*   <th style="padding: 8px; border: 1px solid #ddd;">Contact</th> *@
+        @*     <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th> *@
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var activity in Model)
+        {
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;">@activity.Title</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">@activity.Description</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">@activity.Address</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">@activity.MaxCapacity</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">@activity.RegisteredChildrenCount</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">@(activity.ScheduledAt.ToString("yyyy-MM-dd HH:mm"))</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">@(activity.Cost.ToString("C"))</td>
+            @*     <td style="padding: 8px; border: 1px solid #ddd;">@activity.IsActive</td> *@
+                <td style="padding: 8px; border: 1px solid #ddd;">@activity.Status</td>
+              @*   <td style="padding: 8px; border: 1px solid #ddd;">@activity.Contact</td> *@
+                <td style="padding: 8px; border: 1px solid #ddd;">
+                    <a href="/Activity/ConfirmDelete/@activity.ActivityID" style="margin-left: 10px; color: #007bff; text-decoration: none; @(activity.Status == "Canceled"||activity.Status == "Completed"||activity.RegisteredChildrenCount>0 ?"display: none;":"")">Delete</a>
+                    <a href="/Activity/Edit/@activity.ActivityID" style="margin-left: 10px; color: #007bff; text-decoration: none; @(activity.Status == "Canceled"||activity.Status == "Completed" ?"display: none;":"")">Edit</a>
+                </td>
+            </tr>
+        }
+                                                                                                               
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="9">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="9">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

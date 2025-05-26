@@ -1,0 +1,53 @@
+﻿@model Core.ViewModels.ChildSchedulesViewModel
+
+<h2>Course Schedules</h2>
+@if (Model.CoursesSchedules.Any())
+{
+
+    @foreach (var courseSchedules in Model.CoursesSchedules)
+    {
+        <div style="padding-top:30px"></div>
+        <h5>Course: @courseSchedules.Course.Title</h5>
+        <strong>Coach: </strong> @courseSchedules.Course.Coach.Name
+        <div style="padding-top:30px"></div>
+        <table style="border-collapse: collapse; width: 100%; text-align: left;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (courseSchedules.Schedules.Any())
+
+                {
+
+                    foreach (var schedule in courseSchedules.Schedules)
+
+                    {
+
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
+                      
+                        </tr>
+                    }
+
+                }
+
+                else
+
+                {
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding-top: 10px;">No schedules available.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+else
+{
+        <div style="text-align: left; padding-top: 30px;">No schedules available.</div>
+}
+<div style="margin-bottom: 30px;"></div>
