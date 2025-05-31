@@ -65,6 +65,17 @@
             <td style="padding: 8px;"><input type="text" name="password" value="@Model.User.PasswordHash" placeholder="Password" value="12345" style="width: 100%;" /></td>
         </tr> *@
 
+         <tr>
+            <td style="padding: 8px;"><label for="hasOAP">Has OAP:</label></td>
+            <td style="padding: 8px;">
+                <select name="gender" class="form-control" style="width: 100%;">
+                    <option value="">-- Select Has OAP --</option>
+                    <option value="true" selected="@(Model.HasOAP == true ? "selected" : null)">True</option>
+                    <option value="false" selected="@(Model.HasOAP == false ? "selected" : null)">False</option>
+                </select>
+            </td>
+        </tr>
+
         <tr>
             <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
                 <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save</button>

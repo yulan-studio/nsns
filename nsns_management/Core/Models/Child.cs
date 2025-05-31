@@ -36,5 +36,8 @@ namespace Core.Models
         // ✅ New: List of related parents
         public virtual ICollection<ParentChild> ParentChild { get; set; } = new List<ParentChild>();
 
+        //if child has OAP funding
+        public bool HasOAP { get; set; }
+
     }
 }
