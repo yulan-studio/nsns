@@ -52,7 +52,12 @@ namespace Core.Repositories
                     CoachName = c.Coach.Name,
                     Title = c.Title,
                     Description = c.Description,
+                    CourseType = c.CourseType,
+                    MaxCapacity = c.MaxCapacity,
+                    SessionCount = c.SessionCount,
+
                     HourlyCost = c.HourlyCost,
+                    HourlyCost2 = c.HourlyCost2,
                     RegisteredChildrenCount = _context.CourseEnrollments.Count(e => e.CourseID == c.CourseID && e.Status == "Registered"), // Count of registered children
                     IsActive = c.IsActive
                 })

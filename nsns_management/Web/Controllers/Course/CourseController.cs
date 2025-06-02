@@ -148,7 +148,7 @@ namespace Web.Controllers.Courses
             {
                 var user = await _userManager.GetUserAsync(User);
 
-                var result = await _courseService.AddAsync(model.Title, model.Description, model.HourlyCost, model.IsActive, model.CoachID, model.SpecialtyID,user);
+                var result = await _courseService.AddAsync(model.Title, model.Description,model.CourseType, model.MaxCapacity, model.SessionCount, model.HourlyCost, model.HourlyCost2, model.IsActive, model.CoachID, model.SpecialtyID, user);
 
                 if (!result)
                 {
@@ -207,7 +207,7 @@ namespace Web.Controllers.Courses
         [Authorize(Roles = "Staff")]
         [HttpPost("Edit/{courseId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int courseId, string title, string description, decimal hourlyCost, bool isActive/*, int userId, int updatedBy*/)
+        public async Task<IActionResult> Edit(int courseId, string title, string description, string courseType, int maxCapacity, int sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive/*, int userId, int updatedBy*/)
         {
             try
             {
@@ -220,7 +220,7 @@ namespace Web.Controllers.Courses
                     return RedirectToAction("List");
                 }
                     
-                var result = await _courseService.UpdateAsync(courseId, title, description, hourlyCost, isActive, user);
+                var result = await _courseService.UpdateAsync(courseId, title, description, courseType, maxCapacity, sessionCount, hourlyCost, hourlyCost2, isActive, user);
 
                 if (!result)
                 {

@@ -32,9 +32,33 @@
         </tr>
         <tr>
             <td style="padding: 8px;"><label for="description">Description:</label></td>
-            <td style="padding: 8px;"><textarea name="description" value="@Model.Description" , placeholder="Enter course description" style="width: 60%;" rows="3" required></textarea></td>
+            <td style="padding: 8px;"><textarea name="description" placeholder="Enter course description" style="width: 60%;" rows="3" required>@Model.Description</textarea></td>
             
         </tr>
+        <tr>
+            <td style="padding: 8px;"><label for="CourseType">Course Type:</label></td>
+            <td style="padding: 8px;">
+                <select name="courseType" class="form-control" style="width: 100%;">
+                    <option value="">-- Select Course Type --</option>
+                    <option value="Group" selected="@(Model.CourseType == "Group" ? "selected" : null)">Group</option>
+                    <option value="Private" selected="@(Model.CourseType == "Private" ? "selected" : null)">Private</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 8px;"><label for="MaxCapacity">Max Capacity:</label></td>
+            <td style="padding: 8px;">
+                <input id="MaxCapacity" name="MaxCapacity" value="@(Model.MaxCapacity)" type="number" step="1" placeholder="Enter Max Capacity" style="width: 100%;" required />
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 8px;"><label for="SessionCount">Session Count:</label></td>
+            <td style="padding: 8px;">
+                <input id="SessionCount" name="SessionCount" value="@(Model.SessionCount)" type="number" step="1" placeholder="Enter Session Count" style="width: 100%;" required />
+            </td>
+        </tr>
+
         <tr>
             <td style="padding: 8px;"><label for="hourlyCost">Hourly Cost:</label></td>
             @* <td style="padding: 8px;"><input type="text" name="hourlyCost" value="@Model.HourlyCost" placeholder="HourlyCost" style="width: 60%;" readonly /></td> *@
@@ -42,6 +66,15 @@
             <td style="padding: 8px;">@Model.HourlyCost</td>
            
         </tr>
+
+        <tr>
+            <td style="padding: 8px;"><label for="hourlyCost2">Hourly Cost(No funding):</label></td>
+            @* <td style="padding: 8px;"><input type="text" name="hourlyCost" value="@Model.HourlyCost" placeholder="HourlyCost" style="width: 60%;" readonly /></td> *@
+            <input type="hidden" name="hourlyCost2" value="@Model.HourlyCost2" />
+            <td style="padding: 8px;">@Model.HourlyCost2</td>
+        </tr>
+
+
          <tr>
            @*  <td style="padding: 8px;"><label for="isActive">Is Active:</label></td>
             <td style="padding: 8px;"> <input id="isActive" name="isActive" type="checkbox" value="@Model.IsActive" /> </td> *@

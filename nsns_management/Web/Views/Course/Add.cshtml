@@ -51,12 +51,47 @@
                 <textarea id="Description" name="Description" placeholder="Enter course description" style="width: 100%;" rows="3" required></textarea>
             </td>
         </tr>
+
+
+        <tr>
+            <td style="padding: 8px;"><label for="CourseType">Course Type:</label></td>
+            <td style="padding: 8px;">
+                <select name="CourseType" class="form-control" style="width: 100%;">
+                    <option value="">-- Select Course Type --</option>
+                    <option value="Group">Group</option>
+                    <option value="Private">Private</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 8px;"><label for="MaxCapacity">Max Capacity:</label></td>
+            <td style="padding: 8px;">
+                <input id="MaxCapacity" name="MaxCapacity" type="number" step="1" placeholder="Enter Max Capacity" style="width: 100%;" required />
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 8px;"><label for="SessionCount">Session Count:</label></td>
+            <td style="padding: 8px;">
+                <input id="SessionCount" name="SessionCount" type="number" step="1" placeholder="Enter Session Count" style="width: 100%;" required />
+            </td>
+        </tr>
+
         <tr>
             <td style="padding: 8px;"><label for="HourlyCost">Hourly Cost:</label></td>
             <td style="padding: 8px;">
                 <input id="HourlyCost" name="HourlyCost" type="number" step="1" placeholder="Enter hourly cost" style="width: 100%;" required />
             </td>
         </tr>
+
+        <tr>
+            <td style="padding: 8px;"><label for="HourlyCost2">Hourly Cost(No funding) :</label></td>
+            <td style="padding: 8px;">
+                <input id="HourlyCost2" name="HourlyCost2" type="number" step="1" placeholder="Enter hourly cost" style="width: 100%;" required />
+            </td>
+        </tr>
+
         <tr>
             <td style="padding: 8px;"><label for="IsActive">Is Active:</label></td>
             <td style="padding: 8px;">

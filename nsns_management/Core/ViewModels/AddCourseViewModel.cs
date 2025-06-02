@@ -16,9 +16,19 @@ namespace Core.ViewModels
 
         public string Description { get; set; }
 
+        public string CourseType { get; set; }
+
+        public int MaxCapacity { get; set; }
+
+        public int SessionCount { get; set; }
+
         [Required]
         [Range(0, double.MaxValue)]
         public decimal HourlyCost { get; set; }
+
+        [Required]
+        [Range(0, double.MaxValue)]
+        public decimal HourlyCost2 { get; set; }
 
         public bool IsActive { get; set; }
     }
