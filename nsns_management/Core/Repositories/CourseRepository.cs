@@ -49,7 +49,8 @@ namespace Core.Repositories
                 {
                     CourseID = c.CourseID,
                     SpecialtyName = c.Specialty.Title,
-                    CoachName = c.Coach.Name,
+                    //CoachName = c.Coach.Name,
+                    CoachName = c.Coach != null ? c.Coach.Name : "",
                     Title = c.Title,
                     Description = c.Description,
                     CourseType = c.CourseType,
@@ -107,7 +108,8 @@ namespace Core.Repositories
             {
                 if (entity == null)
                     throw new ArgumentNullException(nameof(entity));
-                _context.Entry(entity.Coach).State = EntityState.Unchanged;
+                if(entity.Coach !=null)
+                    _context.Entry(entity.Coach).State = EntityState.Unchanged;
                 //_context.ChangeTracker.Clear();  // Clears EF's tracking cache, this prevents EF Core from modifying CoachID unexpectedly
                 await _context.Courses.AddAsync(entity);
                 await _context.SaveChangesAsync();

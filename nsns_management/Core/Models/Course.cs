@@ -47,8 +47,8 @@ namespace Core.Models
         public bool IsActive { get; set; } = true; // Whether the course is active or not
 
         // Foreign keys for related tables
-        [Required]
-        public int CoachID { get; set; } // Foreign key to the Coach table
+        
+        public int? CoachID { get; set; } // Foreign key to the Coach table
         [Required]
         public int SpecialtyID { get; set; }
 
@@ -61,7 +61,7 @@ namespace Core.Models
 
         // Navigation properties
         [ForeignKey(nameof(CoachID))]
-        public virtual required Coach Coach { get; set; } // Correctly mapped to Coach
+        public virtual required Coach? Coach { get; set; } // Correctly mapped to Coach
 
         [ForeignKey(nameof(SpecialtyID))]
         public virtual required Specialty Specialty { get; set; }

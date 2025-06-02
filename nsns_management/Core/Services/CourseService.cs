@@ -86,17 +86,25 @@ namespace Core.Services
             // Create a new course instance
 
             //Retrieve the coach entity
-            var coach = await _coachRepository.GetAsync(coachId);
-            if (coach == null)
+
+            Coach? coach = null;
+
+            if (courseType == "Private")
             {
-                throw new Exception("No coach is added.");
+                coach = await _coachRepository.GetAsync(coachId);
+                if (coach == null)
+                {
+                    throw new Exception("No coach is added.");
+                }
             }
+            
+
 
             //Retrieve the coach entity
             var specialty = await _specialtyRepository.GetAsync(specialtyId);
             if (specialty == null)
             {
-                throw new Exception("No coach is added.");
+                throw new Exception("No specialty is added.");
             }
 
            
