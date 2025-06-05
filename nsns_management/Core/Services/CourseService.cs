@@ -213,9 +213,9 @@ namespace Core.Services
             return await _courseRepository.GetActiveCoursesAsync();
         }
 
-        public async Task<IEnumerable<Course>> GetActiveCoursesBySpecialtyAsync(int specialtyId)
+        public async Task<IEnumerable<Course>> GetActiveCoursesBySpecialtyAsync(int specialtyId, string courseType)
         {
-            return await _courseRepository.GetActiveCoursesBySpecialtyAsync(specialtyId);
+            return await _courseRepository.GetActiveCoursesBySpecialtyAsync(specialtyId, courseType);
         }
 
         public async Task<IEnumerable<Course>> GetActiveCourseByCoachBySpecialtyAsync(int coachId, int specialtyId)

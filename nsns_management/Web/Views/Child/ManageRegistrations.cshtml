@@ -16,12 +16,14 @@
 <!-- ✅ Table Showing Already Registered Courses -->
 <h3 style="color: 007bff">Registered Courses</h3>
 
+
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd;">Course Title</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Private Course Title</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Specialty</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Session Count</th>
            @*  <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th>
@@ -41,6 +43,7 @@
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SpecialtyName</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
                     @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours</td> *@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
@@ -63,14 +66,14 @@
         else
         {
             <tr>
-                <td colspan="8" style="text-align: center; padding: 10px;">No courses enrolled.</td>
+                <td colspan="10" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
             </tr>
         }
 
          @if (TempData["SuccessMessage1"] != null)
         {
             <tr>
-                <td colspan="9">
+                <td colspan="10">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage1"]
                     </div>
@@ -81,7 +84,7 @@
         @if (TempData["ErrorMessage1"] != null)
         {
             <tr>
-                <td colspan="9">
+                <td colspan="10">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage1"]
                     </div>

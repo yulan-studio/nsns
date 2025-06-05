@@ -598,9 +598,9 @@ namespace Web.Controllers.User
 
 
         [HttpGet("GetCoursesBySpecialty")]
-        public async Task<IActionResult> GetActiveCoursesBySpecialty(int specialtyId)
+        public async Task<IActionResult> GetActivePrivateCoursesBySpecialty(int specialtyId)
         {
-            var courses = await _courseService.GetActiveCoursesBySpecialtyAsync(specialtyId);
+            var courses = await _courseService.GetActiveCoursesBySpecialtyAsync(specialtyId, "Private");
             return Json(courses.Select(c => new { c.CourseID, c.Title }));
         }
 

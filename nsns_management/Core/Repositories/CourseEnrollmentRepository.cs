@@ -87,6 +87,7 @@ namespace Core.Repositories
            {
                CourseID = e.CourseID,
                IsActive = e.Course.IsActive,
+               SessionCount = e.Course.SessionCount,
                ChildID = e.ChildID,
                EnrollmentID = e.EnrollmentID,
                Title = e.Course.Title,

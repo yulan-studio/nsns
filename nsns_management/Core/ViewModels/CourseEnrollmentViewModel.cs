@@ -15,6 +15,8 @@ namespace Core.ViewModels
 
         public int EnrollmentID { get; set; }  //this is the EnrollmentID for each course which status is 'registered' for the child
         public string Title { get; set; }
+
+        public int SessionCount { get; set; }
         public string CoachName { get; set; }
         public string SpecialtyName { get; set; }
 

@@ -214,7 +214,7 @@ namespace Web.Controllers.Courses
                 var user = await _userManager.GetUserAsync(User);
 
                 var enrollments = await _courseEnrollmentService.GetScheduledEnrollmentsByCourseAsync(courseId);
-                if (enrollments != null && enrollments.Any())
+                if (enrollments != null && enrollments.Any() && isActive == false)
                 {
                     TempData["ErrorMessage"] = "This course cannot be set to inactive because it has scheduled sessions.  Please wait until all scheduled sessions completed or deleted all scheduled sessions before deactivating the course.";
                     return RedirectToAction("List");
