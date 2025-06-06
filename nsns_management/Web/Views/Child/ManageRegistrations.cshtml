@@ -9,6 +9,7 @@
     <p><strong>Birth Date:</strong> @(Model.Child.BirthDate.HasValue ? Model.Child.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")</p>
     <p><strong>Gender:</strong> @Model.Child.Gender</p>
     <p><strong>City:</strong> @(Model.Child.City != null ? Model.Child.City.Name : "N/A")</p>
+    <p><strong>Has OAP:</strong> @Model.Child.HasOAP</p>
 </div>
 <a href="/Child/List" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to List</a>
 <div style="border-top: 2px solid #ddd; margin: 20px 0;"></div>
@@ -26,6 +27,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Session Count</th>
            @*  <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No funding)</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Completed</th>
@@ -44,9 +46,10 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SpecialtyName</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SessionCount</td>
                     @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours</td> *@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsActive</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CompletedSessions</td>
@@ -66,14 +69,14 @@
         else
         {
             <tr>
-                <td colspan="10" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
+                <td colspan="11" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
             </tr>
         }
 
          @if (TempData["SuccessMessage1"] != null)
         {
             <tr>
-                <td colspan="10">
+                <td colspan="11">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage1"]
                     </div>
@@ -84,7 +87,7 @@
         @if (TempData["ErrorMessage1"] != null)
         {
             <tr>
-                <td colspan="10">
+                <td colspan="11">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage1"]
                     </div>

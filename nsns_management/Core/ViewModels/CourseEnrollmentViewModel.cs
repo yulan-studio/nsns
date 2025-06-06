@@ -21,6 +21,8 @@ namespace Core.ViewModels
         public string SpecialtyName { get; set; }
 
         public decimal HourlyCost { get; set; }
+
+        public decimal HourlyCost2 { get; set; }
         public string Status { get; set; }
         public int ScheduledSessions { get; set; }
         public int CompletedSessions { get; set; }

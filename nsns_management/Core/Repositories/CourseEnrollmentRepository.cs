@@ -94,6 +94,7 @@ namespace Core.Repositories
                CoachName = e.Course.Coach.Name,
                SpecialtyName = e.Course.Specialty.Title,
                HourlyCost = e.Course.HourlyCost,
+               HourlyCost2 = e.Course.HourlyCost2,
                Status = "Registered",
                ScheduledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Scheduled"), // Count all scheduled sessions
                CompletedSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Completed") // Count completed sessions
