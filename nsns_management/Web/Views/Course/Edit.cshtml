@@ -23,7 +23,7 @@
         <tr>
             <td style="padding: 8px;"><label for="name">Coach:</label></td>
            @*  <td style="padding: 8px;"><input type="text" name="name" value="@Model.Coach.Name" placeholder="Name" style="width: 60%;" readonly /><label>   Not to change</label></td> *@
-           <td style="padding: 8px;">@Model.Coach.Name</td>
+           <td style="padding: 8px;">@Model.Coach?.Name</td>
         </tr>
 
         <tr>
@@ -37,26 +37,22 @@
         </tr>
         <tr>
             <td style="padding: 8px;"><label for="CourseType">Course Type:</label></td>
-            <td style="padding: 8px;">
-                <select name="courseType" class="form-control" style="width: 100%;">
-                    <option value="">-- Select Course Type --</option>
-                    <option value="Group" selected="@(Model.CourseType == "Group" ? "selected" : null)">Group</option>
-                    <option value="Private" selected="@(Model.CourseType == "Private" ? "selected" : null)">Private</option>
-                </select>
-            </td>
+            <input type="hidden" name="courseType" value="@Model.CourseType" />
+            <td style="padding: 8px;">@Model.CourseType</td>
+            
         </tr>
         <tr>
             <td style="padding: 8px;"><label for="MaxCapacity">Max Capacity:</label></td>
             <td style="padding: 8px;">
-                <input id="MaxCapacity" name="MaxCapacity" value="@(Model.MaxCapacity)" type="number" step="1" placeholder="Enter Max Capacity" style="width: 100%;" required />
+                <input id="MaxCapacity" name="MaxCapacity" value="@(Model.MaxCapacity)" type="number" step="1" min="2" placeholder="Enter Max Capacity" style="width: 100%;"  />
             </td>
         </tr>
 
         <tr>
             <td style="padding: 8px;"><label for="SessionCount">Session Count:</label></td>
-            <td style="padding: 8px;">
-                <input id="SessionCount" name="SessionCount" value="@(Model.SessionCount)" type="number" step="1" placeholder="Enter Session Count" style="width: 100%;" required />
-            </td>
+           @*  <td style="padding: 8px;"><input id="SessionCount" name="SessionCount" value="@(Model.SessionCount)" type="number" step="1" min="1" placeholder="Enter Session Count" style="width: 100%;"  /> </td> *@
+            <input type="hidden" name="SessionCount" value="@Model.SessionCount" />
+            <td style="padding: 8px;">@Model.SessionCount</td>
         </tr>
 
         <tr>
@@ -85,7 +81,7 @@
         </tr> 
         <tr>
             <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
-                <small style="color:darkslategray">A course with scheduled sessions can't be set to inactive</smal>
+                <small style="color:darkslategray">Note: A course with scheduled sessions can't be set to inactive</small>
             </td>
         </tr>
         <tr>

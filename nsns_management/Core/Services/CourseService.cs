@@ -54,7 +54,7 @@ namespace Core.Services
 
         // Add a new course
         
-        public async  Task<bool> AddAsync(string title, string description, string courseType, int maxCapatcity, int sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, int coachId, int specialtyId, User user)
+        public async  Task<bool> AddAsync(string title, string description, string courseType, int? maxCapacity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, int coachId, int specialtyId, User user)
         {
             // Validate inputs
             if (string.IsNullOrWhiteSpace(title))
@@ -72,8 +72,8 @@ namespace Core.Services
                 throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost2));
             }
 
-            if(courseType == "Private")
-                maxCapatcity = 0;
+            //if(courseType == "Private")
+            //    maxCapatcity = 0;
 
             //Check for Coach/Specialty exists in course table)
             // Uncomment if needed
@@ -114,7 +114,7 @@ namespace Core.Services
                 Title = title,
                 Description = description,
                 CourseType = courseType,
-                MaxCapacity = maxCapatcity,
+                MaxCapacity = maxCapacity,
                 SessionCount = sessionCount,
                 HourlyCost = hourlyCost,
                 HourlyCost2 = hourlyCost2,
@@ -142,7 +142,7 @@ namespace Core.Services
 
 
         // Update an existing course
-        public async Task<bool> UpdateAsync(int courseId, string title, string description, string courseType, int maxCapatcity, int sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, User user/*, int userId, int updatedBy*/)
+        public async Task<bool> UpdateAsync(int courseId, string title, string description, string courseType, int? maxCapatcity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, User user/*, int userId, int updatedBy*/)
         {
             // Validate inputs
             if (string.IsNullOrWhiteSpace(title))
@@ -161,7 +161,7 @@ namespace Core.Services
             }
 
             if (courseType == "Private")
-                maxCapatcity = 0;
+                maxCapatcity = null;
 
             // Fetch the existing course
             var existingCourse = await _courseRepository.GetAsync(courseId);

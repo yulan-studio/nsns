@@ -18,9 +18,9 @@ namespace Core.ViewModels
 
         public string CourseType { get; set; }
 
-        public int MaxCapacity { get; set; }
+        public int? MaxCapacity { get; set; }
 
-        public int SessionCount { get; set; }
+        public int? SessionCount { get; set; }
 
         [Required]
         [Range(0, double.MaxValue)]

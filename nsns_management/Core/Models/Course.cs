@@ -24,11 +24,11 @@ namespace Core.Models
         [Required]
         public string CourseType { get; set; } // 'Group' or 'Private' 
 
-        [Required]
-        public int MaxCapacity { get; set; } // MaxCapacity For Group class  
+        
+        public int? MaxCapacity { get; set; } // MaxCapacity For Group class  
 
-        [Required]
-        public int SessionCount { get; set; } // SessionCount For Group class  
+      
+        public int? SessionCount { get; set; } // SessionCount For Group class  
 
 
         [Required]
@@ -61,7 +61,7 @@ namespace Core.Models
 
         // Navigation properties
         [ForeignKey(nameof(CoachID))]
-        public virtual required Coach? Coach { get; set; } // Correctly mapped to Coach
+        public virtual Coach? Coach { get; set; } // Correctly mapped to Coach
 
         [ForeignKey(nameof(SpecialtyID))]
         public virtual required Specialty Specialty { get; set; }
