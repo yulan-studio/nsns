@@ -33,6 +33,10 @@ namespace Core.Models
         [MaxLength(50)]
         public string Status { get; set; }
 
+        public string? ParentNote { get; set; }
+        public string? StaffNote { get; set; }
+        public string? CoachNote { get; set; }
+
         public int? CreatedBy { get; set; }
         [ForeignKey("CreatedBy")]
         public virtual User CreatedByUser { get; set; } // Navigation property to User (CreatedBy)

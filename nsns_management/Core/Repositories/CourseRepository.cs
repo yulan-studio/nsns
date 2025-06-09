@@ -62,6 +62,9 @@ namespace Core.Repositories
                     RegisteredChildrenCount = _context.CourseEnrollments.Count(e => e.CourseID == c.CourseID && e.Status == "Registered"), // Count of registered children
                     IsActive = c.IsActive
                 })
+                .OrderBy(c => c.CourseType)
+                .ThenBy(c => c.SpecialtyName)
+                .ThenBy(c => c.CoachName)
                 .ToListAsync();
            
            
