@@ -495,7 +495,6 @@ C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.GeneratedMSB
 C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.AssemblyInfoInputs.cache
 C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.AssemblyInfo.cs
 C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.csproj.CoreCompileInputs.cache
-C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.RazorAssemblyInfo.cache
 C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.RazorAssemblyInfo.cs
@@ -516,3 +515,4 @@ C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\refint\Web.dll
 C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.pdb
 C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.genruntimeconfig.cache
 C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\ref\Web.dll
+C:\Users\qiang\source\Repo\nsns_management\Web\obj\Debug\net8.0\Web.MvcApplicationPartsAssemblyInfo.cs

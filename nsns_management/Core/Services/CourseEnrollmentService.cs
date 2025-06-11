@@ -33,6 +33,35 @@ namespace Core.Services
             _coachRepository = coachRepository;
         }
 
+        // Get a enrollment by ID
+        public async Task<CourseEnrollment> GetAsync(int enrollmentId)
+        {
+            var enrollment = await _enrollmentRepository.GetAsync(enrollmentId);
+            if (enrollment == null)
+            {
+                throw new KeyNotFoundException($"Enrollment with ID {enrollmentId} not found.");
+            }
+            return enrollment;
+        }
+
+        
+
+        public async Task<bool> RemoveAsync(int enrollmentId)
+        {
+            try 
+            {
+                return await _enrollmentRepository.RemoveAsync(enrollmentId);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+            
+            
+        }
+
+
+
         public async Task<bool> IsChildEnrolledInCourse(int userId, int courseId)
         {
             var enrollments = await _enrollmentRepository.GetEnrollmentsByChildAsync(userId, "Registered");
@@ -136,6 +165,35 @@ namespace Core.Services
             return await _enrollmentRepository.GetEnrollmentsByCourseAsync(courseId, "Registered");
         }
 
+        //This is for Group Course (When Status is set to 'Open', means it is open for registration)
+        public async Task<IEnumerable<CourseEnrollment>> GetOpenSessionsByCourseAsync(int courseId)
+        {
+           return await _enrollmentRepository.GetSessionsByCourseAsync(courseId, "Open");
+        }
+
+        //This is for Group Course (When Status is set to 'Closed', means it is closed for registration)
+        public async Task<IEnumerable<CourseEnrollment>> GetClosedSessionsByCourseAsync(int courseId)
+        {
+            return await _enrollmentRepository.GetSessionsByCourseAsync(courseId, "Closed");
+        }
+
+        //This is for Group Course (When Status is set to 'Canceled', means it is canceled for unexpected reason)
+        public async Task<IEnumerable<CourseEnrollment>> GetCanceledSessionsByCourseAsync(int courseId)
+        {
+            return await _enrollmentRepository.GetSessionsByCourseAsync(courseId, "Canceled");
+        }
+
+        //This is for Group Course (When Status is set to 'Completed', means it is completed)
+        public async Task<IEnumerable<CourseEnrollment>> GetCompletedSessionsByCourseAsync(int courseId)
+        {
+            return await _enrollmentRepository.GetSessionsByCourseAsync(courseId, "Completed");
+        }
+
+        public async Task<IEnumerable<CourseEnrollment>> GetAllSessionsByCourseAsync(int courseId)
+        {
+            return await _enrollmentRepository.GetAllSessionsByCourseAsync(courseId);
+        }
+
         public async Task<IEnumerable<Core.ViewModels.ChildViewModel>> GetRegisterationByCourseAsync(int courseId)
         {
             //var course_enrollments = await _enrollmentRepository.GetEnrollmentsByCoachAsync(coachId, "Registered");
@@ -153,6 +211,7 @@ namespace Core.Services
 
         }
 
+        //Schedule Private Course for a child
         public async Task<bool> ScheduleCourseAsync(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, int coachId)
         {
             Child? child = await _childRepository.GetAsync(childId);
@@ -184,6 +243,40 @@ namespace Core.Services
                 throw new Exception(ex.Message, ex.InnerException);
             }
         }
+
+
+        //Add new session to Group Course
+        public async Task<bool> AddSessionToGroupCourseAsync(int courseId, DateTime scheduledAt, decimal scheduledHours, string location, string staffNote, User user)
+        {
+          
+            Course course = await _courseRepository.GetAsync(courseId);
+            var newSession = new CourseEnrollment
+            {
+                
+                ChildID = null,
+                Course = course,
+                ScheduledAt = scheduledAt,
+                ScheduledHours = scheduledHours,
+                Location = location,
+                StaffNote = staffNote,
+                CreatedBy = user.Id,
+                CreatedDate = DateTime.Now,
+                Status = "Open"
+            };
+
+            try
+            {
+                return await _enrollmentRepository.AddAsync(newSession);
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+        }
+
+
+
 
         public async Task<bool> RemoveScheduleAsync(int enrollmentId)
         {
@@ -236,6 +329,9 @@ namespace Core.Services
                 throw new ArgumentException("Invalid child.");
             return await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(courseId, childId, "Completed");
         }
+
+
+        
 
         public async Task<bool> CompleteCourseAsync(int enrollmentId, decimal actualHours)
         {

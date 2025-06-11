@@ -28,7 +28,8 @@
             <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Hourly Cost(No funding)</th>
             <th style="padding: 8px; border: 1px solid #ddd;"># of Registrations</th>
             <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Is Active</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 20%">Actions</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Sessions</th>
         </tr>
     </thead>
     <tbody>
@@ -55,6 +56,12 @@
                         <a href="/Course/ConfirmDelete/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none; @(course.RegisteredChildrenCount == 0 ?"":"display: none;")">Delete</a>
                         <a href="/Course/Edit/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
                     </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+
+                        @*   <a href="/Course/View/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none;">View</a> *@
+                        <a href="/Course/ManageSessions/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none; @(course.CourseType == "Group" ?"":"display: none;")">Manage</a>
+
+                    </td>
                 </tr>
                 index++;
             }
@@ -62,7 +69,7 @@
         @if (TempData["SuccessMessage"] != null)
         {
             <tr>
-                <td colspan="13">
+                <td colspan="14">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -73,7 +80,7 @@
         @if (TempData["ErrorMessage"] != null)
         {
             <tr>
-                <td colspan="13">
+                <td colspan="14">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>

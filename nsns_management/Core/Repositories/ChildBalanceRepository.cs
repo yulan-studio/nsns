@@ -52,7 +52,13 @@ namespace Core.Repositories
                 .Include(e => e.Course)
                 .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentId);
 
-            decimal latestBalance = await GetFinalBalanceAsync(enrollment.ChildID);
+            decimal latestBalance = 0;
+
+            if (enrollment != null && enrollment.ChildID != null)
+            {
+                latestBalance = await GetFinalBalanceAsync((int)enrollment.ChildID);
+            }
+            
 
             
 

@@ -8,7 +8,7 @@ namespace Core.ViewModels
 {
     public class CourseEnrollmentViewModel  //This is show course enrollment information for all registered courses for a child
     {
-        public int ChildID { get; set; }
+        public int? ChildID { get; set; }
         public int CourseID { get; set; }
 
         public bool IsActive { get; set; }

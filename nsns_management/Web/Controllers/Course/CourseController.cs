@@ -10,6 +10,7 @@ using Core.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System.Numerics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Web.Controllers.Courses
 {
@@ -94,6 +95,58 @@ namespace Web.Controllers.Courses
 
         }
 
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("ConfirmDeleteSession/{enrollmentId}")]
+        public async Task<IActionResult> ConfirmDeleteSession(int enrollmentId)
+        {
+
+            var session = await _courseEnrollmentService.GetAsync(enrollmentId);
+            if (session == null)
+            {
+                return NotFound();
+            }
+
+            return View(session);
+        }
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost("DeleteSessionConfirmed")]
+        public async Task<IActionResult> DeleteSessionConfirmed(int enrollmentId)
+        {
+            try
+            {
+                //var enrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByCourseAsync(courseId);
+
+                //if (enrollments != null && enrollments.Any())
+                //{
+                //    TempData["ErrorMessage"] = "This course cannot be deleted because it has enrolled students. Please try editing the course and set it to inactive.";
+                //    return RedirectToAction("List"); // Redirect to the course list page
+                //}
+
+
+                var result = await _courseEnrollmentService.RemoveAsync(enrollmentId);
+
+                if (!result)
+                {
+                    TempData["ErrorMessage"] = "The session could not be deleted.";
+                    return RedirectToAction("List");
+                }
+
+                TempData["SuccessMessage"] = "The session has been deleted successfully.";
+                return RedirectToAction("List"); // Redirect to the course list page
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"{ex.Message}";
+                return RedirectToAction("List"); // Redirect to the course list page
+            }
+
+            // If delete fails, reload the confirmation page
+
+
+        }
 
 
         // GET: Add View
@@ -242,6 +295,90 @@ namespace Web.Controllers.Courses
                 return View(course);
             }
         }
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("ManageSessions/{courseId}")]
+        public async Task<IActionResult> ManageSessions(int courseId)
+        {
+            //var course = _context.Courses.FirstOrDefault(c => c.CourseID == courseId);
+            //if (course == null || course.CourseType != "Group")
+            //{
+            //    TempData["ErrorMessage"] = "Invalid course.";
+            //    return RedirectToAction("Index");
+            //}
+
+            //var sessions = _context.Course_Enrollments
+            //    .Where(e => e.CourseID == courseId && e.Status == "Open")
+            //    .OrderBy(e => e.ScheduledAt)
+            //    .ToList();
+
+            Course course = await _courseService.GetAsync(courseId);
+            if (course == null || course.CourseType != "Group")
+            {
+                TempData["ErrorMessage"] = "Invalid course.";
+                return RedirectToAction("List");
+            }
+
+            var openSessions = await _courseEnrollmentService.GetOpenSessionsByCourseAsync(courseId);
+            var closedSessions = await _courseEnrollmentService.GetClosedSessionsByCourseAsync(courseId);
+            var canceledSessions = await _courseEnrollmentService.GetCanceledSessionsByCourseAsync(courseId);
+            var completedSessions = await _courseEnrollmentService.GetCompletedSessionsByCourseAsync(courseId);
+
+            var allSessions = await _courseEnrollmentService.GetAllSessionsByCourseAsync(courseId);
+
+            ViewBag.CourseID = courseId;
+
+           
+
+            var model = new ManageSessionsViewModel
+            {
+                Course = course,
+                OpenSessions = (List<CourseEnrollment>?)openSessions,
+                CompletedSessions = (List<CourseEnrollment>?)completedSessions,
+                CanceledSessions = (List<CourseEnrollment>?)canceledSessions,
+                ClosedSessions = (List<CourseEnrollment>?)closedSessions,
+                AllSessions = (List<CourseEnrollment>?)allSessions
+
+            };
+
+            return View(model);
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddSession(int courseId, DateTime scheduledAt, decimal scheduledHours, string location, string staffNote)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            Course course = await _courseService.GetAsync(courseId);
+            if (course == null || course.CourseType != "Group")
+            {
+                TempData["ErrorMessage"] = "Invalid course.";
+                return RedirectToAction("ManageSessions", new { courseId });
+            
+            }
+
+            try
+            {
+                var result = await _courseEnrollmentService.AddSessionToGroupCourseAsync(courseId, scheduledAt, scheduledHours, location, staffNote, user);
+                if (!result)
+                {
+                    TempData["ErrorMessage"] = "New session has problem to be added.";
+                }
+                TempData["SuccessMessage"] = "New session added successfully.";
+                return RedirectToAction("ManageSessions", new { courseId });
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"{ex.Message}";
+                return RedirectToAction("ManageSessions", new { courseId });
+            }
+
+           
+        }
+
+
     }   
 }
 

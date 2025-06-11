@@ -142,5 +142,22 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<CourseEnrollment>> GetSessionsByCourseAsync(int courseId, string status)
+        {
+            return await _context.CourseEnrollments
+                .Where(e => e.CourseID == courseId && e.Status == status && e.Child==null)
+                .ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<CourseEnrollment>> GetAllSessionsByCourseAsync(int courseId)
+        {
+            return await _context.CourseEnrollments
+                
+                .Where(e => e.CourseID == courseId && e.Child==null)
+                .OrderBy(e => e.ScheduledAt) // Sort by ScheduledAt ascending
+                .ToListAsync();
+        }
+
     }
 }
