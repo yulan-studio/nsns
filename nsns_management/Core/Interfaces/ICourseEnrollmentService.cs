@@ -33,7 +33,7 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetCompletedSessionsByCourseAsync(int courseId);
 
-        Task<IEnumerable<CourseEnrollment>> GetAllSessionsByCourseAsync(int courseId);
+        Task<IEnumerable<CourseEnrollment>> GetAllUpcomingSessionsByCourseAsync(int courseId);
 
         //Task<IEnumerable<Child>> GetRegisteredChildrenByCoachAsync(int coachId);
 

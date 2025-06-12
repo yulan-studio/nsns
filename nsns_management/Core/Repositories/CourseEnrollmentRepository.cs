@@ -150,11 +150,11 @@ namespace Core.Repositories
         }
 
 
-        public async Task<IEnumerable<CourseEnrollment>> GetAllSessionsByCourseAsync(int courseId)
+        public async Task<IEnumerable<CourseEnrollment>> GetAllUpcomingSessionsByCourseAsync(int courseId)
         {
             return await _context.CourseEnrollments
                 
-                .Where(e => e.CourseID == courseId && e.Child==null)
+                .Where(e => e.CourseID == courseId && e.Child==null && e.ScheduledAt >= DateTime.Today)
                 .OrderBy(e => e.ScheduledAt) // Sort by ScheduledAt ascending
                 .ToListAsync();
         }

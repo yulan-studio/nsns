@@ -194,9 +194,9 @@ namespace Core.Services
             return await _enrollmentRepository.GetSessionsByCourseAsync(courseId, "Completed");
         }
 
-        public async Task<IEnumerable<CourseEnrollment>> GetAllSessionsByCourseAsync(int courseId)
+        public async Task<IEnumerable<CourseEnrollment>> GetAllUpcomingSessionsByCourseAsync(int courseId)
         {
-            return await _enrollmentRepository.GetAllSessionsByCourseAsync(courseId);
+            return await _enrollmentRepository.GetAllUpcomingSessionsByCourseAsync(courseId);
         }
 
         public async Task<IEnumerable<Core.ViewModels.ChildViewModel>> GetRegisterationByCourseAsync(int courseId)

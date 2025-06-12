@@ -291,7 +291,7 @@ namespace Web.Controllers.Courses
             var canceledSessions = await _courseEnrollmentService.GetCanceledSessionsByCourseAsync(courseId);
             var completedSessions = await _courseEnrollmentService.GetCompletedSessionsByCourseAsync(courseId);
 
-            var allSessions = await _courseEnrollmentService.GetAllSessionsByCourseAsync(courseId);
+            var allSessions = await _courseEnrollmentService.GetAllUpcomingSessionsByCourseAsync(courseId);
 
             ViewBag.CourseID = courseId;
 
