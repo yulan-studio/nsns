@@ -44,6 +44,8 @@ namespace Core.Interfaces
 
         Task<bool> AddSessionToGroupCourseAsync(int courseId, DateTime scheduledAt, decimal scheduledHours, string location, string staffNote, User user);
 
+        Task<bool> UpdateSessionAsync(CourseEnrollment session);
+
         Task<bool> RemoveScheduleAsync(int enrollmentId);
 
         Task<IEnumerable<CourseEnrollment>> GetSchedulesByChildAsync(int childId);

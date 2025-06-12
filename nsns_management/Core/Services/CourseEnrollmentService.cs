@@ -61,6 +61,11 @@ namespace Core.Services
         }
 
 
+        
+
+       
+
+
 
         public async Task<bool> IsChildEnrolledInCourse(int userId, int courseId)
         {
@@ -273,6 +278,21 @@ namespace Core.Services
             {
                 throw new Exception(ex.Message, ex.InnerException);
             }
+        }
+
+
+
+        public async Task<bool> UpdateSessionAsync(CourseEnrollment session)
+        {
+            var existingSession = await _enrollmentRepository.GetAsync(session.EnrollmentID);
+            if (existingSession == null)
+                throw new KeyNotFoundException("Session not found.");
+
+            existingSession.Status = session.Status;
+            existingSession.StaffNote = session.StaffNote;
+            existingSession.Location = session.Location;
+
+            return await _enrollmentRepository.UpdateAsync(existingSession);
         }
 
 

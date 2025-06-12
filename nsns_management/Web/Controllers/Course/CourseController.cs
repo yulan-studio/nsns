@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System.Numerics;
 using Microsoft.EntityFrameworkCore;
+using Core.Services;
 
 namespace Web.Controllers.Courses
 {
@@ -111,42 +112,18 @@ namespace Web.Controllers.Courses
         }
 
 
-        [Authorize(Roles = "Staff")]
-        [HttpPost("DeleteSessionConfirmed")]
-        public async Task<IActionResult> DeleteSessionConfirmed(int enrollmentId)
-        {
-            try
-            {
-                //var enrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByCourseAsync(courseId);
-
-                //if (enrollments != null && enrollments.Any())
-                //{
-                //    TempData["ErrorMessage"] = "This course cannot be deleted because it has enrolled students. Please try editing the course and set it to inactive.";
-                //    return RedirectToAction("List"); // Redirect to the course list page
-                //}
+       
 
 
-                var result = await _courseEnrollmentService.RemoveAsync(enrollmentId);
-
-                if (!result)
-                {
-                    TempData["ErrorMessage"] = "The session could not be deleted.";
-                    return RedirectToAction("List");
-                }
-
-                TempData["SuccessMessage"] = "The session has been deleted successfully.";
-                return RedirectToAction("List"); // Redirect to the course list page
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = $"{ex.Message}";
-                return RedirectToAction("List"); // Redirect to the course list page
-            }
-
-            // If delete fails, reload the confirmation page
+        
 
 
-        }
+       
+
+
+
+
+
 
 
         // GET: Add View
@@ -378,6 +355,126 @@ namespace Web.Controllers.Courses
            
         }
 
+
+
+        
+
+
+        [HttpGet("EditSession/{enrollmentId}")]
+        public async Task<IActionResult> EditSession(int enrollmentId)
+        {
+
+            var session = await _courseEnrollmentService.GetAsync(enrollmentId);
+            if (session == null) return NotFound();
+
+            return PartialView("_EditSession", session);
+        }
+
+
+
+        // ✅ Save City (Add / Edit)
+        [HttpPost("SaveSession")]
+        public async Task<IActionResult> SaveSession(int enrollmentId, string location, string staffNote, string status)
+        {
+
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid data");
+            //city.CreatedBy = 1;  //temparaly set it to 1
+            var user = await _userManager.GetUserAsync(User);
+
+            CourseEnrollment session = await _courseEnrollmentService.GetAsync(enrollmentId);
+            try
+            {
+                var result = false;
+                session.Location = location;
+                session.StaffNote = staffNote;
+                session.Status = status;
+                result = await _courseEnrollmentService.UpdateSessionAsync(session);
+               
+                if (result)
+                    return Json(new { success = true });
+                else
+                    return Json(new { success = false });
+
+            }
+
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }); // ✅ Return error message
+            }
+
+
+        }
+
+        // ✅ Load Partial View for Add/Edit Form
+        [HttpGet("DeleteSessionConfirm/{enrollmentId}")]
+        public async Task<IActionResult> DeleteSessionConfirm(int enrollmentId)
+        {
+            //if (cityId == 0) return PartialView("_DeleteConfirm", new City { Name = string.Empty });
+
+            //var city = await _context.Cities.FindAsync(cityId);
+            var session = await _courseEnrollmentService.GetAsync(enrollmentId);
+            if (session == null) return NotFound();
+
+            return PartialView("_DeleteSessionConfirm", session);
+        }
+
+        // ✅ Delete a course session
+        [Authorize(Roles = "Staff")]
+        [HttpPost("DeleteSessionConfirmed/{enrollmentId}")]
+        public async Task<IActionResult> DeleteSessionConfirmed(int enrollmentId)
+        {
+
+            try
+            {
+                var result = await _courseEnrollmentService.RemoveAsync(enrollmentId);
+
+                if (result)
+                    return Json(new { success = true });
+                else
+                    return Json(new { success = false });
+            }
+
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message }); // ✅ Return error message
+            }
+
+        }
+
+
+
+
+
+        //[Authorize(Roles = "Staff")]
+        //[HttpPost("DeleteSessionConfirmed")]
+        //public async Task<IActionResult> DeleteSessionConfirmed(int enrollmentId)
+        //{
+        //    try
+        //    {
+                
+
+        //        var result = await _courseEnrollmentService.RemoveAsync(enrollmentId);
+
+        //        if (!result)
+        //        {
+        //            TempData["ErrorMessage"] = "The session could not be deleted.";
+        //            return RedirectToAction("List");
+        //        }
+
+        //        TempData["SuccessMessage"] = "The session has been deleted successfully.";
+        //        return RedirectToAction("List"); // Redirect to the course list page
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["ErrorMessage"] = $"{ex.Message}";
+        //        return RedirectToAction("List"); // Redirect to the course list page
+        //    }
+
+        //    // If delete fails, reload the confirmation page
+
+
+        //}
 
     }   
 }
