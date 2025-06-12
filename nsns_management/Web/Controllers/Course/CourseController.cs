@@ -277,17 +277,7 @@ namespace Web.Controllers.Courses
         [HttpGet("ManageSessions/{courseId}")]
         public async Task<IActionResult> ManageSessions(int courseId)
         {
-            //var course = _context.Courses.FirstOrDefault(c => c.CourseID == courseId);
-            //if (course == null || course.CourseType != "Group")
-            //{
-            //    TempData["ErrorMessage"] = "Invalid course.";
-            //    return RedirectToAction("Index");
-            //}
-
-            //var sessions = _context.Course_Enrollments
-            //    .Where(e => e.CourseID == courseId && e.Status == "Open")
-            //    .OrderBy(e => e.ScheduledAt)
-            //    .ToList();
+          
 
             Course course = await _courseService.GetAsync(courseId);
             if (course == null || course.CourseType != "Group")
@@ -326,6 +316,9 @@ namespace Web.Controllers.Courses
         [HttpPost]
         public async Task<IActionResult> AddSession(int courseId, DateTime scheduledAt, decimal scheduledHours, string location, string staffNote)
         {
+
+
+
             var user = await _userManager.GetUserAsync(User);
 
             Course course = await _courseService.GetAsync(courseId);
@@ -335,6 +328,7 @@ namespace Web.Controllers.Courses
                 return RedirectToAction("ManageSessions", new { courseId });
             
             }
+       
 
             try
             {

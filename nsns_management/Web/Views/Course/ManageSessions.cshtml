@@ -63,7 +63,7 @@
             <textarea name="staffNote" rows="3" style="width: 40%; padding: 5px;" placeholder="Enter note here..."></textarea>
         </div>
 
-        <button type="submit" style="background-color: #2198D4; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 4px;">Add Session</button>
+        <button type="submit" style="background-color: #ff4d4d; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 4px;">Add Session</button>
     </form>
 </div>
 
@@ -93,14 +93,15 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
-                   @*      <a href="/Course/ConfirmDeleteSession/@s.EnrollmentID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Delete</a>
-                        <a href="/Course/EditSession/@s.EnrollmentID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a> *@
-                        <a href="#" onclick="loadEditSessionForm(@s.EnrollmentID)" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
+                        @if (!(s.Status =="Canceled"))
+                        {
+                            <a href="#" onclick="loadEditSessionForm(@s.EnrollmentID)" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
+                        }
 
                        @*  @if (!Model.UsedCityIds.Contains(city.CityID)) *@
                         
                        @*  { *@
-                        <a href="#" onclick="loadDeleteSessionConfirm(@s.EnrollmentID)" style="margin-left: 10px; color: #007bff; text-decoration: none;">Delete</a>
+                        <a href="#" onclick="loadDeleteSessionConfirm(@s.EnrollmentID)" style="margin-left: 10px; color: #007bff; text-decoration: none;" >Delete</a>
                        @*  } *@
                     </td>
                 </tr>

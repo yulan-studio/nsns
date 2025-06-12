@@ -1,5 +1,4 @@
-﻿/*$(document).ready(function () {*/
-// Load Add/Edit Form in Modal
+﻿
 function loadAddForm() {
     $.get("/City/Add/", function (data) {
         $("#modalContent").html(data);
