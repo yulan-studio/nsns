@@ -11,6 +11,8 @@ namespace Core.ViewModels
         public int? ChildID { get; set; }
         public int CourseID { get; set; }
 
+        public string CourseType { get; set; }
+
         public bool IsActive { get; set; }
 
         public int EnrollmentID { get; set; }  //this is the EnrollmentID for each course which status is 'registered' for the child
@@ -26,5 +28,10 @@ namespace Core.ViewModels
         public string Status { get; set; }
         public int ScheduledSessions { get; set; }
         public int CompletedSessions { get; set; }
+
+        public int CanceledSessions { get; set; }
+        public int RequestToLeaveSessions { get; set; }
+
+        public int OnLeaveSessions { get; set; }
     }
 }

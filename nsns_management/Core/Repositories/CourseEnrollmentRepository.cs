@@ -81,11 +81,12 @@ namespace Core.Repositories
            .Include(e => e.Course)
            .Include(e => e.Course.Coach)
            .Include(e => e.Course.Specialty)
-           .Where(e => e.ChildID == childId && e.Status == "Registered")
+           .Where(e => e.ChildID == childId && (e.Status == "Registered" || e.Status == "Completed"))
            .OrderBy(e => e.CourseID)
            .Select(e => new CourseEnrollmentViewModel
            {
                CourseID = e.CourseID,
+               CourseType = e.Course.CourseType,
                IsActive = e.Course.IsActive,
                SessionCount = e.Course.SessionCount,
                ChildID = e.ChildID,
@@ -95,9 +96,12 @@ namespace Core.Repositories
                SpecialtyName = e.Course.Specialty.Title,
                HourlyCost = e.Course.HourlyCost,
                HourlyCost2 = e.Course.HourlyCost2,
-               Status = "Registered",
+               Status = e.Status,
                ScheduledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Scheduled"), // Count all scheduled sessions
-               CompletedSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Completed") // Count completed sessions
+               CompletedSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Completed"), // Count completed sessions
+               CanceledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Canceled"), // Count all canceled sessions
+               OnLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "OnLeave"), // Count all on leave sessions
+               RequestToLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToLeave") // Count all requested to leave sessions
            })
            .OrderBy(e => e.CourseID)
            .ToListAsync();
