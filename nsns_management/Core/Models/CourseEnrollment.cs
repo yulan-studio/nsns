@@ -14,6 +14,7 @@ namespace Core.Models
         [Key]
         public int EnrollmentID { get; set; }
 
+        public int? EnrollmentID_Ref { get; set; }
 
         public int? ChildID { get; set; }
         [ForeignKey("ChildID")]

@@ -67,9 +67,9 @@ namespace Core.Services
 
 
 
-        public async Task<bool> IsChildEnrolledInCourse(int userId, int courseId)
+        public async Task<bool> IsChildEnrolledInCourse(int childId, int courseId)
         {
-            var enrollments = await _enrollmentRepository.GetEnrollmentsByChildAsync(userId, "Registered");
+            var enrollments = await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Registered");
             return enrollments.Any(e => e.CourseID == courseId);
         }
 
@@ -89,7 +89,7 @@ namespace Core.Services
 
 
 
-            if(await IsChildEnrolledInCourse(userId, courseId))
+            if(await IsChildEnrolledInCourse(child.ChildID, courseId))
                 throw new ArgumentException("This course has already been registered.");
 
 

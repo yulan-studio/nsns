@@ -43,7 +43,7 @@ namespace Core.Interfaces
         // Get courses by coach ID
         //Task<IEnumerable<Course>> GetCoursesByCoachIdAsync(int coachId);
 
-        Task<IEnumerable<Course>> GetActiveCoursesBySpecialtyAsync(int specialtyId, string courseType);
+        Task<IEnumerable<Course>> GetActiveCoursesBySpecialtyAsync(int specialtyId);
 
         Task<IEnumerable<Course>> GetActiveCourseByCoachBySpecialtyAsync(int coachId, int specialtyId);
 

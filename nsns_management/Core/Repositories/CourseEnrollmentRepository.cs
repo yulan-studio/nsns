@@ -69,7 +69,7 @@ namespace Core.Repositories
                 .Include(e => e.Course)
                 .Include(e => e.Course.Coach)
                 .Include(e => e.Course.Specialty)
-                .Where(e => e.ChildID == childId && e.Status == status)
+                .Where(e => e.ChildID != null &&e.ChildID == childId && e.Status == status)
                 .OrderBy(e => e.CourseID)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
@@ -85,14 +85,16 @@ namespace Core.Repositories
            .OrderBy(e => e.CourseID)
            .Select(e => new CourseEnrollmentViewModel
            {
+               
                CourseID = e.CourseID,
                CourseType = e.Course.CourseType,
                IsActive = e.Course.IsActive,
                SessionCount = e.Course.SessionCount,
                ChildID = e.ChildID,
                EnrollmentID = e.EnrollmentID,
+               
                Title = e.Course.Title,
-               CoachName = e.Course.Coach.Name,
+               CoachName = e.Course.Coach != null ? e.Course.Coach.Name : "Unassigned",
                SpecialtyName = e.Course.Specialty.Title,
                HourlyCost = e.Course.HourlyCost,
                HourlyCost2 = e.Course.HourlyCost2,

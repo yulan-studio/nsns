@@ -600,7 +600,7 @@ namespace Web.Controllers.User
         [HttpGet("GetCoursesBySpecialty")]
         public async Task<IActionResult> GetActivePrivateCoursesBySpecialty(int specialtyId)
         {
-            var courses = await _courseService.GetActiveCoursesBySpecialtyAsync(specialtyId, "Private");
+            var courses = await _courseService.GetActiveCoursesBySpecialtyAsync(specialtyId);
             return Json(courses.Select(c => new { c.CourseID, c.Title }));
         }
 
