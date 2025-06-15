@@ -81,7 +81,7 @@ namespace Core.Repositories
            .Include(e => e.Course)
            .Include(e => e.Course.Coach)
            .Include(e => e.Course.Specialty)
-           .Where(e => e.ChildID == childId && (e.Status == "Registered" || e.Status == "Completed"))
+           .Where(e => e.ChildID == childId && ((e.Status == "Registered" || e.Status == "Completed" ) && e.EnrollmentID_Ref == null))  //Not included those registered to session
            .OrderBy(e => e.CourseID)
            .Select(e => new CourseEnrollmentViewModel
            {
@@ -139,15 +139,17 @@ namespace Core.Repositories
         //}
 
 
+        //return the children who registered/canceled/completed courses
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseAsync(int courseId, string status)
         {
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
                 .ThenInclude(c => c.City)
-                .Where(e => e.CourseID == courseId && e.Status == status)
+                .Where(e => e.CourseID == courseId && e.Status == status && e.EnrollmentID_Ref == null)
                 .ToListAsync();
         }
 
+        //open/closed course sessions
         public async Task<IEnumerable<CourseEnrollment>> GetSessionsByCourseAsync(int courseId, string status)
         {
             return await _context.CourseEnrollments

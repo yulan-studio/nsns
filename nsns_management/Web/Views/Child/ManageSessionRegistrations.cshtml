@@ -1,0 +1,39 @@
+﻿@model Core.ViewModels.ManageSessionRegistrationsViewModel
+
+@{
+    ViewData["Title"] = "Manage Sessions";
+}
+
+<h2>Manage Sessions for Course @Model.CourseID</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="ChildID" />
+    <input type="hidden" asp-for="CourseID" />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Scheduled At</th>
+                <th>Scheduled Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.AvailableSessions.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input asp-for="AvailableSessions[i].IsSelected" />
+                        <input type="hidden" asp-for="AvailableSessions[i].EnrollmentID" />
+                        <input type="hidden" asp-for="AvailableSessions[i].ScheduledAt" />
+                        <input type="hidden" asp-for="AvailableSessions[i].ScheduledHours" />
+                    </td>
+                    <td>@Model.AvailableSessions[i].ScheduledAt.ToString("g")</td>
+                    <td>@Model.AvailableSessions[i].ScheduledHours</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Add Sessions</button>
+</form>

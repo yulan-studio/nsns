@@ -52,6 +52,7 @@ namespace Core.ViewModels
 
     public class ChildViewModel
     {
+        public int EnrollmentID { get; set; }
         public int ChildID { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }

@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using Core.Repositories;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 
 namespace Core.Services
 {
@@ -73,14 +74,14 @@ namespace Core.Services
             return enrollments.Any(e => e.CourseID == courseId);
         }
 
-
-        public async Task<bool> AddRegisteredEnrollmentAsync(int userId, int courseId, decimal scheduledHours, string status, User user)
+        //Register course to child
+        public async Task<bool> AddRegisteredEnrollmentAsync(int childId, int courseId, decimal scheduledHours, string status, User user)
         {
-            if (userId <= 0 || courseId <= 0 || scheduledHours < 0)
+            if (childId <= 0 || courseId <= 0 || scheduledHours < 0)
                 throw new ArgumentException("Invalid child, course, or hours.");
 
             // ✅ Retrieve Course and Child from the database
-            var child = await _childRepository.GetAsync(userId);
+            var child = await _childRepository.GetAsync(childId);
             var course = await _courseRepository.GetAsync(courseId);
 
             if (child == null || course == null)
@@ -115,7 +116,8 @@ namespace Core.Services
             }
            
         }
-
+       
+        //Unregister course to child
         public async Task<bool> RemoveRegisteredEnrollmentAsync(int enrollmentId)
         {
             //Enrollment removal is only allowed for courses that have not started.
@@ -135,10 +137,65 @@ namespace Core.Services
             return await _enrollmentRepository.RemoveAsync(enrollmentId);
         }
 
+
+
+        //Register grouop course session to child
+
+        public async Task<bool> AddSessionRegisteredEnrollmentAsync(int childId, int courseId, DateTime? scheduledAt, decimal? scheduledHours, int enrollmentId_Ref, string status, User user)
+        {
+            //if (userId <= 0 || courseId <= 0 || scheduledHours < 0)
+            //    throw new ArgumentException("Invalid child, course, or hours.");
+
+            // ✅ Retrieve Course and Child from the database
+            var child = await _childRepository.GetAsync(childId);
+            var course = await _courseRepository.GetAsync(courseId);
+
+            if (child == null || course == null)
+                throw new ArgumentException("Invalid child or course.");
+
+
+
+
+            //if (await IsChildEnrolledInCourse(child.ChildID, courseId))
+            //    throw new ArgumentException("This course has already been registered.");
+
+
+            try
+            {
+                var enrollment = new CourseEnrollment
+                {
+                    //ChildID = childId,
+                    CourseID = courseId,
+                    ScheduledHours = scheduledHours,
+                    Child = child,
+                    Course = course,
+                    ScheduledAt = scheduledAt,
+                    EnrollmentID_Ref = enrollmentId_Ref,
+                    CreatedBy = user.Id,
+                    CreatedDate = DateTime.Now,
+                    Status = status
+                };
+
+                return await _enrollmentRepository.AddAsync(enrollment);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
+
+        }
+
+
+
+
+        //
+
         //public async Task<IEnumerable<CourseEnrollment>> GetRegisteredEnrollmentsByChildAsync(int childId)
         //{
         //    return await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Registered");
         //}
+
+
 
         public async Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId)
         {
@@ -199,13 +256,14 @@ namespace Core.Services
             return await _enrollmentRepository.GetAllUpcomingSessionsByCourseAsync(courseId);
         }
 
+        //Get Registered children for a course
         public async Task<IEnumerable<Core.ViewModels.ChildViewModel>> GetRegisterationByCourseAsync(int courseId)
         {
-            //var course_enrollments = await _enrollmentRepository.GetEnrollmentsByCoachAsync(coachId, "Registered");
             var course_enrollments = await _enrollmentRepository.GetEnrollmentsByCourseAsync(courseId, "Registered");
 
             return course_enrollments.Select(e => new ChildViewModel
             {
+                EnrollmentID = e.EnrollmentID,
                 ChildID = e.Child.ChildID,
                 Name = e.Child.Name,
                 Gender = e.Child.Gender,
@@ -217,7 +275,7 @@ namespace Core.Services
         }
 
         //Schedule Private Course for a child
-        public async Task<bool> ScheduleCourseAsync(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, int coachId)
+        public async Task<bool> ScheduleCourseAsync(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, int coachId, int enrollmentId_Ref)
         {
             Child? child = await _childRepository.GetAsync(childId);
             if (child == null)
@@ -235,7 +293,8 @@ namespace Core.Services
                 ScheduledHours = scheduledHours,
                 CreatedBy = coach.UserID,
                 CreatedDate = DateTime.Now,
-                Status = "Scheduled"
+                Status = "Scheduled",
+                EnrollmentID_Ref = enrollmentId_Ref
             };
 
             try

@@ -488,7 +488,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Coach")]
         [HttpGet("ManageSchedules/{childId}")]
-        public async Task<IActionResult> ManageSchedules(int childId, [FromQuery] int courseId)
+        public async Task<IActionResult> ManageSchedules(int childId, [FromQuery] int courseId, [FromQuery] int enrollmentId)
         {
             try
             {
@@ -510,6 +510,7 @@ namespace Web.Controllers.User
 
                 var model = new ManageSchedulesViewModel
                 {
+                    EnrollmentID = enrollmentId,
                     Child = child,
                     Course = course,
                     Schedules = schedules
@@ -527,7 +528,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Coach")]
         [HttpPost("ScheduleCourse")]
-        public async Task<IActionResult> ScheduleCourse(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours)
+        public async Task<IActionResult> ScheduleCourse(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, int enrollmentId_Ref)
         {
             var user = await _userManager.GetUserAsync(User);
             var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
@@ -540,7 +541,7 @@ namespace Web.Controllers.User
                 throw new ArgumentException("Child not found");
             }
 
-            bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, coachId);
+            bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, coachId, enrollmentId_Ref);
 
             if (result)
             {
@@ -551,13 +552,13 @@ namespace Web.Controllers.User
                 TempData["ErrorMessage"] = "Failed to schedule the course.";
             }
 
-            return RedirectToAction("ManageSchedules", new { childId, courseId = courseId });
+            return RedirectToAction("ManageSchedules", new { childId, courseId = courseId, enrollmentId = enrollmentId_Ref });
         }
 
 
         [Authorize(Roles = "Coach")]
         [HttpPost("DeleteSchedule")]
-        public async Task<IActionResult> DeleteSchedule(int enrollmentId, int childId, int courseId)
+        public async Task<IActionResult> DeleteSchedule(int enrollmentId, int childId, int courseId, int enrollmentId_Ref)
         {
             bool result = await _courseEnrollmentService.RemoveScheduleAsync(enrollmentId);
 
@@ -570,7 +571,7 @@ namespace Web.Controllers.User
                 TempData["ErrorMessage"] = "Failed to delete the schedule.";
             }
 
-            return RedirectToAction("ManageSchedules", new { childId, courseId = courseId });
+            return RedirectToAction("ManageSchedules", new { childId, courseId = courseId , enrollmentId = enrollmentId_Ref });
         }
 
 

@@ -16,6 +16,8 @@
     <div style="padding-top: 10px"></div>
    
         <strong>Child:</strong> @Model.Child.Name
+
+
      
       @*   <select id="childId" name="childId" required onchange="saveSelectedChild(this.value, @Model.Course.CourseID)">
             <option value="">-- Select Child --</option>
@@ -26,7 +28,7 @@
         </select> *@
     <div style="padding-top: 10px"></div>
 
-   
+        <input type="hidden" id="enrollmentId_Ref" name="enrollmentId_Ref" value="@Model.EnrollmentID" />
         <input type="hidden" id="childId" name="childId" value="@Model.Child.ChildID" />
         <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
 
@@ -75,6 +77,7 @@
                             <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
                             <input type="hidden" name="childId" value="@Model.Child.ChildID" />
                             <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
+                            <input type="hidden" name="enrollmentId_Ref"  value="@Model.EnrollmentID"   />
                             <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
                                 Remove
                             </button>

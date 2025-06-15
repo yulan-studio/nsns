@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.AspNetCore.Http.HttpResults;
+using static Core.ViewModels.ManageSessionRegistrationsViewModel;
 
 
 
@@ -922,8 +923,81 @@ namespace Web.Controllers.User
             ViewBag.FinalBalance = finalBalance;
             return View(balances);
         }
+
+
+        //Add course sessions to a child who has registered to a group course 
+        [Authorize(Roles = "Staff")]
+        [HttpGet("ManageSessionRegistrations")]
+        public async Task<IActionResult> ManageSessionRegistrations(int childId, int courseId)
+        {
+
+            ViewBag.ChildID = childId;
+            ViewBag.CourseID = courseId;
+
+            var sessionOptions = new List<SessionOption>();
+            var sessions = await _courseEnrollmentService.GetOpenSessionsByCourseAsync(courseId);
+            
+            
+            if (sessions != null)
+            {
+                foreach (var session in sessions) {
+                    var sessionOption = new ManageSessionRegistrationsViewModel.SessionOption
+                    { EnrollmentID = session.EnrollmentID,
+                        ScheduledAt = session.ScheduledAt ?? DateTime.MinValue,
+                        ScheduledHours = session.ScheduledHours ?? 0,
+                        IsSelected = false
+                    };
+                    sessionOptions.Add(sessionOption);
+
+                }
+            }
+           
+            var viewModel = new ManageSessionRegistrationsViewModel
+            {
+                ChildID = childId,
+                CourseID = courseId,
+                AvailableSessions = sessionOptions
+            };
+
+            return View(viewModel);
+        }
+
+        //Add course sessions to a child who has registered to a group course 
+        [Authorize(Roles = "Staff")]
+        [HttpPost("ManageSessionRegistrations")]
+        public async Task<IActionResult> ManageSessionRegistrations(ManageSessionRegistrationsViewModel model)
+        {
+            try
+            {
+                Core.Models.User user = await _userManager.GetUserAsync(User);
+                var selectedSessions = model.AvailableSessions.Where(s => s.IsSelected).ToList();
+
+                foreach (var session in selectedSessions)
+                {
+
+                    var sessionRef = await _courseEnrollmentService.GetAsync(session.EnrollmentID);
+
+                    if (sessionRef == null) continue;
+
+                    var result = await _courseEnrollmentService.AddSessionRegisteredEnrollmentAsync(model.ChildID, model.CourseID, sessionRef.ScheduledAt, sessionRef.ScheduledHours, sessionRef.EnrollmentID, "Registered", user);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"{ex.Message}";
+                return RedirectToAction("ManageRegistrations", new { model.ChildID });
+            }
+
+
+
+
+
+            return RedirectToAction("ManageRegistrations", new { model.ChildID });
+        }
     }
-
-
 }
+
+
+
 
