@@ -100,3 +100,8 @@ nsns_management/.vs/ProjectEvaluation/nsns_management.strings.v9.bin
 /nsns_management/.vs/ProjectEvaluation/nsns_management.metadata.v9.bin
 /nsns_management/.vs/ProjectEvaluation/nsns_management.projects.v9.bin
 /nsns_management/.vs/ProjectEvaluation/nsns_management.strings.v9.bin
+/nsns_management/Web/bin/Debug/net8.0/appsettings.Development.json
+/nsns_management/Web/bin/Debug/net8.0/Web.deps.json
+/nsns_management/Web/bin/Debug/net8.0/Web.runtimeconfig.json
+/nsns_management/Web/obj/Debug/net8.0/Web.csproj.Up2Date
+/nsns_management/Web/obj/Debug/net8.0/Web.genruntimeconfig.cache
