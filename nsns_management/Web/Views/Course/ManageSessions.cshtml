@@ -87,7 +87,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
-                        @if (!(s.Status =="Canceled"))
+                        @if (!(s.Status =="Canceled")&&!(s.Status == "completed"))
                         {
                             <a href="#" onclick="loadEditSessionForm(@s.EnrollmentID)" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
                         }

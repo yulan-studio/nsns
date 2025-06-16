@@ -20,10 +20,14 @@ namespace Core.Interfaces
         Task<bool> UpdateAsync(CourseEnrollment entity);
         Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId, string status);
 
+        Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId);
+
         Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId);  //Get Registered courses for a child, include number of scheduled sessions, number of completed sessions
         Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseAsync(int courseId);
         //Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCoachAsync(int coachId, string status);
         Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId, string status);
+
+        Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseAsync(int courseId, string status);  //yes
 

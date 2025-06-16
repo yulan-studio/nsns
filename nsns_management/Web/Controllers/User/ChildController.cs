@@ -29,10 +29,10 @@ namespace Web.Controllers.User
     public class ChildController : Controller
     {
         private readonly IChildService _childService;
+        private readonly ICourseService _courseService;
         private readonly IParentService _parentService;
         private readonly ICityService _cityService;
         private readonly IParentChildService _parentChildService;
-        private readonly ICourseService _courseService;
         private readonly ICourseEnrollmentService _courseEnrollmentService;
         private readonly ISpecialtyService _specialtyService;
         private readonly IActivityEnrollmentService _activityEnrollmentService;
@@ -41,7 +41,7 @@ namespace Web.Controllers.User
         private readonly IChildBalanceService _balanceService;
         private readonly UserManager<Core.Models.User> _userManager;
 
-        public ChildController(IChildService childService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ICourseService courseService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IPaymentService paymentService, UserManager<Core.Models.User> userManager)
+        public ChildController(IChildService childService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IPaymentService paymentService, UserManager<Core.Models.User> userManager)
         {
             _childService = childService;
             _balanceService = balanceService;
@@ -935,6 +935,8 @@ namespace Web.Controllers.User
             ViewBag.CourseID = courseId;
 
             var sessionOptions = new List<SessionOption>();
+
+            // Sessions available to register
             var sessions = await _courseEnrollmentService.GetOpenSessionsByCourseAsync(courseId);
             
             
@@ -951,12 +953,28 @@ namespace Web.Controllers.User
 
                 }
             }
-           
+
+
+            // Sessions the child already registered to
+            var enrolledSessions = await _courseEnrollmentService.GetEnrollmentsByCourseChildAsync(courseId, childId);
+
+            var enrolled_sessions = enrolledSessions.Select(e => new RegisteredSessionViewModel
+            {
+                EnrollmentID = e.EnrollmentID,
+                ScheduledAt = e.ScheduledAt ?? DateTime.MinValue,
+                ScheduledHours = e.ScheduledHours ?? 0,
+                Status = e.Status,
+                ParentNote = e.ParentNote,
+                StaffNote = e.StaffNote
+            }).ToList();
+
+
             var viewModel = new ManageSessionRegistrationsViewModel
             {
-                ChildID = childId,
-                CourseID = courseId,
-                AvailableSessions = sessionOptions
+                Child = await _childService.GetAsync(childId),
+                Course = await _courseService.GetAsync(courseId),
+                AvailableSessions = sessionOptions,
+                RegisteredSessions = enrolled_sessions
             };
 
             return View(viewModel);
@@ -964,13 +982,22 @@ namespace Web.Controllers.User
 
         //Add course sessions to a child who has registered to a group course 
         [Authorize(Roles = "Staff")]
-        [HttpPost("ManageSessionRegistrations")]
-        public async Task<IActionResult> ManageSessionRegistrations(ManageSessionRegistrationsViewModel model)
+        [HttpPost("AddRegisteredSessions")]
+        public async Task<IActionResult> AddRegisteredSessions(ManageSessionRegistrationsViewModel model)
         {
             try
             {
                 Core.Models.User user = await _userManager.GetUserAsync(User);
                 var selectedSessions = model.AvailableSessions.Where(s => s.IsSelected).ToList();
+                
+
+                if (selectedSessions.Count + model.RegisteredSessions.Count > model.Course.SessionCount)
+                {
+                    TempData["ErrorMessage"] = "You can't register more than " + model.Course.SessionCount + " sessions";
+                    return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
+
+                }
+                    
 
                 foreach (var session in selectedSessions)
                 {
@@ -979,22 +1006,59 @@ namespace Web.Controllers.User
 
                     if (sessionRef == null) continue;
 
-                    var result = await _courseEnrollmentService.AddSessionRegisteredEnrollmentAsync(model.ChildID, model.CourseID, sessionRef.ScheduledAt, sessionRef.ScheduledHours, sessionRef.EnrollmentID, "Registered", user);
 
+
+                    var success = await _courseEnrollmentService.AddSessionRegisteredEnrollmentAsync(model.Child.ChildID, model.Course.CourseID, sessionRef.ScheduledAt, sessionRef.ScheduledHours, sessionRef.EnrollmentID, "Registered", user);
+
+                    if (!success)
+                    {
+                        TempData["ErrorMessage"] = "Failed to add session.";
+                    }
+                    else
+                    {
+                        TempData["SuccessMessage"] = "Session added successfully.";
+                    }
                 }
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"{ex.Message}";
-                return RedirectToAction("ManageRegistrations", new { model.ChildID });
+                return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
             }
 
-
-
-
-
-            return RedirectToAction("ManageRegistrations", new { model.ChildID });
+            return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
         }
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateRegisteredSessions(ManageSessionRegistrationsViewModel model)
+        {
+            try
+            {
+                foreach (var session in model.RegisteredSessions)
+                {
+                    var enrollment = await _courseEnrollmentService.GetAsync(session.EnrollmentID);
+
+                    if (enrollment != null)
+                    {
+                        enrollment.Status = session.Status;
+                        enrollment.StaffNote = session.StaffNote;
+                        enrollment.UpdatedDate = DateTime.UtcNow;
+                        var result = await _courseEnrollmentService.UpdateSessionAsync(enrollment);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"{ex.Message}";
+                return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
+            }
+            
+            return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
+        }
+
+
     }
 }
 

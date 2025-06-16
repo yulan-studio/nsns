@@ -12,9 +12,13 @@ namespace Core.ViewModels
 {
     public class ManageSessionRegistrationsViewModel
     {
-        public int ChildID { get; set; }
-        public int CourseID { get; set; }
+        //public int ChildID { get; set; }
+        //public int CourseID { get; set; }
+
+        public Child Child { get; set; }
+        public Course Course { get; set; }
         public List<SessionOption> AvailableSessions { get; set; } = new();
+        public List<RegisteredSessionViewModel> RegisteredSessions { get; set; } = new();
 
         public class SessionOption
         {
@@ -23,5 +27,21 @@ namespace Core.ViewModels
             public decimal ScheduledHours { get; set; }
             public bool IsSelected { get; set; }
         }
+
+
+        public class RegisteredSessionViewModel
+        {
+            public int EnrollmentID { get; set; }
+            public DateTime ScheduledAt { get; set; }
+            public decimal ScheduledHours { get; set; }
+            public required string Status { get; set; }
+            public string? ParentNote { get; set; }
+            public string? StaffNote { get; set; }
+        }
+
+
+            
+           
+       
     }
 }

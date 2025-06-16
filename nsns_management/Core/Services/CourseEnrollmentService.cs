@@ -74,6 +74,15 @@ namespace Core.Services
             return enrollments.Any(e => e.CourseID == courseId);
         }
 
+
+        public async Task<bool> IsChildEnrolledInCourseSession(int childId, int enrollmentId_Ref)
+        {
+            var enrollments = await _enrollmentRepository.GetEnrollmentsByChildAsync(childId);
+            return enrollments.Any(e => e.EnrollmentID_Ref == enrollmentId_Ref);
+        }
+
+
+
         //Register course to child
         public async Task<bool> AddRegisteredEnrollmentAsync(int childId, int courseId, decimal scheduledHours, string status, User user)
         {
@@ -154,10 +163,8 @@ namespace Core.Services
                 throw new ArgumentException("Invalid child or course.");
 
 
-
-
-            //if (await IsChildEnrolledInCourse(child.ChildID, courseId))
-            //    throw new ArgumentException("This course has already been registered.");
+            if (await IsChildEnrolledInCourseSession(child.ChildID, enrollmentId_Ref))
+                throw new ArgumentException("This course session has already been registered.");
 
 
             try
@@ -380,11 +387,7 @@ namespace Core.Services
 
         public async Task<IEnumerable<CourseEnrollment>> GetSchedulesByChildAsync(int childId)
         {
-            //return await _context.CourseEnrollments
-            //.Where(e => e.UserID == childId)
-            //.OrderBy(e => e.ScheduledAt)
-            //.ToListAsync();
-
+          
             Child? child = await _childRepository.GetAsync(childId);
             if (child == null)
                 throw new ArgumentException("Invalid child.");
@@ -410,7 +413,15 @@ namespace Core.Services
         }
 
 
-        
+        public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId)
+        {
+            Child? child = await _childRepository.GetAsync(childId);
+            if (child == null)
+                throw new ArgumentException("Invalid child.");
+            return await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(courseId, childId);
+
+        }
+
 
         public async Task<bool> CompleteCourseAsync(int enrollmentId, decimal actualHours)
         {

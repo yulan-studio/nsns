@@ -63,18 +63,34 @@ namespace Core.Repositories
             }
         }
 
+        //Get Registered/Scheduled/completed course session
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId, string status)
         {
             return await _context.CourseEnrollments
                 .Include(e => e.Course)
                 .Include(e => e.Course.Coach)
                 .Include(e => e.Course.Specialty)
-                .Where(e => e.ChildID != null &&e.ChildID == childId && e.Status == status)
+                .Where(e => e.ChildID != null &&e.ChildID == childId && e.Status == status && e.EnrollmentID_Ref != null)
                 .OrderBy(e => e.CourseID)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }
 
+
+        public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId)
+        {
+            return await _context.CourseEnrollments
+                .Include(e => e.Course)
+                .Include(e => e.Course.Coach)
+                .Include(e => e.Course.Specialty)
+                .Where(e => e.ChildID != null && e.ChildID == childId &&  e.EnrollmentID_Ref != null)
+                .OrderBy(e => e.CourseID)
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
+
+        //Get registered and completed course information
         public async Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId)  //Get Registered courses for a child, include number of scheduled sessions, number of completed sessions
         {
             return await _context.CourseEnrollments
@@ -109,11 +125,12 @@ namespace Core.Repositories
            .ToListAsync();
         }
 
+        //Return all children's enrollments with a course
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseAsync(int courseId)
         {
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
-                .Where(e => e.CourseID == courseId)
+                .Where(e => e.CourseID == courseId && e.EnrollmentID_Ref != null)
                 .ToListAsync();
         }
 
@@ -122,8 +139,19 @@ namespace Core.Repositories
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
                 .Include(e => e.Course)
-                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.Status == status)
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.Status == status && e.EnrollmentID_Ref !=null)
                 .OrderBy (e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId)
+        {
+            return await _context.CourseEnrollments
+                .Include(e => e.Child)
+                .Include(e => e.Course)
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null)
+                .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }
 

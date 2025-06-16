@@ -21,6 +21,7 @@ namespace Core.Interfaces
         Task<bool> AddSessionRegisteredEnrollmentAsync(int childId, int courseId, DateTime? scheduledAt, decimal? scheduledHours, int enrollmentId_Ref, string status, User user);
         Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId);
 
+        Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId);
         Task<IEnumerable<CourseEnrollment>> GetCompletedEnrollmentsByChildAsync(int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetScheduledEnrollmentsByCourseAsync(int courseId);
