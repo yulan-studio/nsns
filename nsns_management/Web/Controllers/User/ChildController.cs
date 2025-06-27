@@ -938,11 +938,19 @@ namespace Web.Controllers.User
 
             // Sessions available to register
             var sessions = await _courseEnrollmentService.GetOpenSessionsByCourseAsync(courseId);
-            
-            
+
+            // Sessions the child already registered to
+            var enrolledSessions = await _courseEnrollmentService.GetEnrollmentsByCourseChildAsync(courseId, childId);
+
             if (sessions != null)
             {
                 foreach (var session in sessions) {
+
+                    if (enrolledSessions.Any(e => e.ScheduledAt == session.ScheduledAt))
+                    {
+                        continue;
+                    }
+
                     var sessionOption = new ManageSessionRegistrationsViewModel.SessionOption
                     { EnrollmentID = session.EnrollmentID,
                         ScheduledAt = session.ScheduledAt ?? DateTime.MinValue,
@@ -955,8 +963,7 @@ namespace Web.Controllers.User
             }
 
 
-            // Sessions the child already registered to
-            var enrolledSessions = await _courseEnrollmentService.GetEnrollmentsByCourseChildAsync(courseId, childId);
+            
 
             var enrolled_sessions = enrolledSessions.Select(e => new RegisteredSessionViewModel
             {
@@ -973,6 +980,8 @@ namespace Web.Controllers.User
             {
                 Child = await _childService.GetAsync(childId),
                 Course = await _courseService.GetAsync(courseId),
+                ChildID = childId,
+                CourseID = courseId,
                 AvailableSessions = sessionOptions,
                 RegisteredSessions = enrolled_sessions
             };
@@ -1023,10 +1032,10 @@ namespace Web.Controllers.User
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"{ex.Message}";
-                return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
+                return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
             }
 
-            return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
+            return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
         }
 
 
@@ -1052,10 +1061,10 @@ namespace Web.Controllers.User
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"{ex.Message}";
-                return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
+                return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
             }
             
-            return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
+            return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
         }
 
 

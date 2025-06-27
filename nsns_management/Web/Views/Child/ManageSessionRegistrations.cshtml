@@ -29,8 +29,8 @@
     <br/>
 
     <form method="post" asp-action="AddRegisteredSessions">
-        <input type="hidden" name="ChildID" value="@Model.Child.ChildID" />
-        <input type="hidden" name="CourseID" value="@Model.Course.CourseID" />
+        <input type="hidden" name="ChildID" value="@Model.ChildID" />
+        <input type="hidden" name="CourseID" value="@Model.CourseID" />
 
         <table class="table" style="background-color: #f2f2f2; ">
             <thead>
@@ -41,17 +41,26 @@
                 </tr>
             </thead>
             <tbody>
-                @for (int i = 0; i < Model.AvailableSessions.Count; i++)
+                @if (Model.AvailableSessions.Any())
+                {
+                    @for (int i = 0; i < Model.AvailableSessions.Count; i++)
+                    {
+                        <tr>
+                            <td>
+                                <input asp-for="AvailableSessions[i].IsSelected" />
+                                <input type="hidden" asp-for="AvailableSessions[i].EnrollmentID" />
+                                <input type="hidden" asp-for="AvailableSessions[i].ScheduledAt" />
+                                <input type="hidden" asp-for="AvailableSessions[i].ScheduledHours" />
+                            </td>
+                            <td>@Model.AvailableSessions[i].ScheduledAt.ToString("g")</td>
+                            <td>@Model.AvailableSessions[i].ScheduledHours</td>
+                        </tr>
+                    }
+                }
+                else
                 {
                     <tr>
-                        <td>
-                            <input asp-for="AvailableSessions[i].IsSelected" />
-                            <input type="hidden" asp-for="AvailableSessions[i].EnrollmentID" />
-                            <input type="hidden" asp-for="AvailableSessions[i].ScheduledAt" />
-                            <input type="hidden" asp-for="AvailableSessions[i].ScheduledHours" />
-                        </td>
-                        <td>@Model.AvailableSessions[i].ScheduledAt.ToString("g")</td>
-                        <td>@Model.AvailableSessions[i].ScheduledHours</td>
+                        <td colspan="3" style="text-align: center; padding: 10px;">No session to be added.</td>
                     </tr>
                 }
             </tbody>

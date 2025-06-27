@@ -12,8 +12,8 @@ namespace Core.ViewModels
 {
     public class ManageSessionRegistrationsViewModel
     {
-        //public int ChildID { get; set; }
-        //public int CourseID { get; set; }
+        public int ChildID { get; set; }
+        public int CourseID { get; set; }
 
         public Child Child { get; set; }
         public Course Course { get; set; }
