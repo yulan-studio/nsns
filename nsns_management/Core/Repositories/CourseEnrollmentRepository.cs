@@ -186,12 +186,24 @@ namespace Core.Repositories
         }
 
 
+        //Only return upcoming sessions to delete or edit 
         public async Task<IEnumerable<CourseEnrollment>> GetAllUpcomingSessionsByCourseAsync(int courseId)
         {
             return await _context.CourseEnrollments
                 
                 .Where(e => e.CourseID == courseId && e.Child==null && e.ScheduledAt >= DateTime.Today)
                 .OrderBy(e => e.ScheduledAt) // Sort by ScheduledAt ascending
+                .ToListAsync();
+        }
+
+
+        //Only return List of Upcoming Session IDs in a course that are registered 
+        public async Task<List<int?>> GetRegisteredUpcomingSessionsByCourseAsync(int courseId)
+        {
+            return await _context.CourseEnrollments
+                .Where(e => e.CourseID == courseId && e.ChildID != null && e.ScheduledAt >= DateTime.Today)
+                .OrderBy(e => e.ScheduledAt) // Sort by ScheduledAt ascending
+                .Select(e => e.EnrollmentID_Ref)
                 .ToListAsync();
         }
 

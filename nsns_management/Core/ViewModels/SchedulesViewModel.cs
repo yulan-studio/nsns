@@ -24,6 +24,9 @@ namespace Core.ViewModels
 
         public List<CourseEnrollment>? CompletedSessions { get; set; }
 
-        public List<CourseEnrollment>? AllSessions { get; set; }
+        public List<CourseEnrollment>? AllUpcomingSessions { get; set; }
+
+        // ✅ New Property: List of Session IDs that are registered
+        public List<int?> RegisteredUpcomingSessionIds { get; set; } = new List<int?>();
     }
 }

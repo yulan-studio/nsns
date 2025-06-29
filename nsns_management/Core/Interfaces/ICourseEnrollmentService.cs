@@ -38,6 +38,8 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetAllUpcomingSessionsByCourseAsync(int courseId);
 
+        Task<List<int?>> GetRegisteredUpcomingSessionsByCourseAsync(int courseId);
+
         //Task<IEnumerable<Child>> GetRegisteredChildrenByCoachAsync(int coachId);
 
         //Task<IEnumerable<Core.ViewModels.RegisteredChild>> GetRegisterationByCoachAsync(int coachId);

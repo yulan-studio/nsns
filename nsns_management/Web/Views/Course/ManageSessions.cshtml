@@ -62,7 +62,7 @@
 </div>
 
 <!-- Existing Sessions Table -->
-<h3>Existing Sessions</h3>
+<h3>Upcoming Sessions</h3>
 
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
@@ -76,9 +76,9 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.AllSessions.Any())
+        @if (Model.AllUpcomingSessions.Any())
         {
-            foreach (var s in Model.AllSessions)
+            foreach (var s in Model.AllUpcomingSessions)
             {
                 <tr id="row-@s.EnrollmentID">
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
@@ -92,11 +92,11 @@
                             <a href="#" onclick="loadEditSessionForm(@s.EnrollmentID)" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
                         }
 
-                       @*  @if (!Model.UsedCityIds.Contains(city.CityID)) *@
+                        @if (!Model.RegisteredUpcomingSessionIds.Contains(@s.EnrollmentID))
                         
-                       @*  { *@
+                        {
                         <a href="#" onclick="loadDeleteSessionConfirm(@s.EnrollmentID)" style="margin-left: 10px; color: #007bff; text-decoration: none;" >Delete</a>
-                       @*  } *@
+                        }
                     </td>
                 </tr>
             }

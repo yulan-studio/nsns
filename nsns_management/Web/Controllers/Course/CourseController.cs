@@ -291,7 +291,8 @@ namespace Web.Controllers.Courses
             var canceledSessions = await _courseEnrollmentService.GetCanceledSessionsByCourseAsync(courseId);
             var completedSessions = await _courseEnrollmentService.GetCompletedSessionsByCourseAsync(courseId);
 
-            var allSessions = await _courseEnrollmentService.GetAllUpcomingSessionsByCourseAsync(courseId);
+            var allUpcomingSessions = await _courseEnrollmentService.GetAllUpcomingSessionsByCourseAsync(courseId);
+            var allRegisteredUpcomingSessionIds = await _courseEnrollmentService.GetRegisteredUpcomingSessionsByCourseAsync(courseId);
 
             ViewBag.CourseID = courseId;
 
@@ -304,7 +305,8 @@ namespace Web.Controllers.Courses
                 CompletedSessions = (List<CourseEnrollment>?)completedSessions,
                 CanceledSessions = (List<CourseEnrollment>?)canceledSessions,
                 ClosedSessions = (List<CourseEnrollment>?)closedSessions,
-                AllSessions = (List<CourseEnrollment>?)allSessions
+                AllUpcomingSessions = (List<CourseEnrollment>?)allUpcomingSessions,
+                RegisteredUpcomingSessionIds = allRegisteredUpcomingSessionIds
 
             };
 
