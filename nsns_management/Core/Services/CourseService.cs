@@ -213,6 +213,13 @@ namespace Core.Services
             return await _courseRepository.GetActiveCoursesAsync();
         }
 
+     
+
+        public async Task<IEnumerable<Course>> GetActiveGroupCoursesAsync()
+        {
+            return await _courseRepository.GetActiveGroupCoursesAsync();
+        }
+
         public async Task<IEnumerable<Course>> GetActiveCoursesBySpecialtyAsync(int specialtyId)
         {
             return await _courseRepository.GetActiveCoursesBySpecialtyAsync(specialtyId);

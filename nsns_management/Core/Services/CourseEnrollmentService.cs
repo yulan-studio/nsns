@@ -368,6 +368,20 @@ namespace Core.Services
 
 
 
+        public async Task UpdateChildCompletedSessionsAsync(int courseId)
+        {
+            await _enrollmentRepository.UpdateChildCompletedSessionsAsync(courseId);
+        }
+
+
+        public async Task UpdateCompletedSessionsAsync(int courseId)
+        {
+            await _enrollmentRepository.UpdateCompletedSessionsAsync(courseId);
+        }
+
+
+
+
 
         public async Task<bool> RemoveScheduleAsync(int enrollmentId)
         {

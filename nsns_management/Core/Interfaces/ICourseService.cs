@@ -39,6 +39,8 @@ namespace Core.Interfaces
         // Get active courses
         Task<IEnumerable<Course>> GetActiveCoursesAsync();
 
+        Task<IEnumerable<Course>> GetActiveGroupCoursesAsync();
+
 
         // Get courses by coach ID
         //Task<IEnumerable<Course>> GetCoursesByCoachIdAsync(int coachId);

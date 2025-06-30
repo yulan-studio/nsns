@@ -170,6 +170,17 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Course>> GetActiveGroupCoursesAsync()
+        {
+            return await _context.Courses
+                .Where(c => c.IsActive == true && c.CourseType == "Group")
+                .Include(c => c.Coach)
+                .ToListAsync();
+        }
+
+
+        
+
         public async Task<IEnumerable<Course>> GetActiveCoursesBySpecialtyAsync(int specialtyId)
         {
             //return await _context.Courses

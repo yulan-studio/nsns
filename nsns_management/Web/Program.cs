@@ -165,6 +165,8 @@ catch (Exception ex)
 
 builder.Services.AddHostedService<ActivityStatusUpdater>();
 
+builder.Services.AddHostedService<GroupCourseStatusUpdater>();
+
 
 // Add Identity
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>

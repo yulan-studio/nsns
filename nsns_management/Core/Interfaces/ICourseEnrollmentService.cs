@@ -51,6 +51,10 @@ namespace Core.Interfaces
 
         Task<bool> UpdateSessionAsync(CourseEnrollment session);
 
+        Task UpdateChildCompletedSessionsAsync(int courseId);
+
+        Task UpdateCompletedSessionsAsync(int courseId);
+
         Task<bool> RemoveScheduleAsync(int enrollmentId);
 
         Task<IEnumerable<CourseEnrollment>> GetSchedulesByChildAsync(int childId);
