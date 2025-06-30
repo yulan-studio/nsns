@@ -28,5 +28,7 @@ namespace Core.ViewModels
 
         // ✅ New Property: List of Session IDs that are registered
         public List<int?> RegisteredUpcomingSessionIds { get; set; } = new List<int?>();
+
+        
     }
 }

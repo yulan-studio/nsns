@@ -23,7 +23,8 @@
     <strong>Course:</strong> @Model.Course.Title <br /><br />
    
 
-    <strong>Session Count:</strong> @Model.Course.SessionCount <br/>
+    <strong>Session Count:</strong> @Model.Course.SessionCount (Number of sessions the child needs to be enrolled in for this course.)<br />
+
 
 
 
@@ -62,17 +63,17 @@
 </div>
 
 <!-- Existing Sessions Table -->
-<h3>Upcoming Sessions</h3>
+<h5>Upcoming Sessions</h5>
 
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Hours</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Location</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">NSNS Note</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 18%">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">NSNS Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -140,3 +141,91 @@
         </div>
     </div>
 </div>
+
+
+
+
+<br />
+
+
+<!-- Canceled Sessions Table -->
+<h5>Canceled Sessions</h5>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd; width: 18%">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">NSNS Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CanceledSessions.Any())
+        {
+            foreach (var s in Model.CanceledSessions)
+            {
+                <tr id="row-@s.EnrollmentID">
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Location</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;"></td>
+                </tr>
+            }
+        }
+
+        else
+        {
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 10px;">No Canceled sessions.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<!-- Completed Sessions Table -->
+<h5>Completed Sessions</h5>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd; width: 18%">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">NSNS Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CompletedSessions.Any())
+        {
+            foreach (var s in Model.CompletedSessions)
+            {
+                <tr id="row-@s.EnrollmentID">
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Location</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;"></td>
+                </tr>
+            }
+        }
+
+        else
+        {
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 10px;">No Completed sessions.</td>
+            </tr>
+        }
+    </tbody>
+</table>

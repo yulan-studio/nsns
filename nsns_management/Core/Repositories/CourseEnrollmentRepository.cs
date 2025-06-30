@@ -239,7 +239,7 @@ namespace Core.Repositories
             //Get all sessions of the course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments
                 .Where(e => e.CourseID == courseId
-                            && e.Status == "Open"
+                            && (e.Status == "Open" || e.Status == "Closed")
                             && e.ScheduledAt != null
                             && e.ScheduledHours != null
                             && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) <= now)
@@ -248,7 +248,7 @@ namespace Core.Repositories
             // Update Status
             foreach (var session in sessionsToUpdate)
             {
-                session.Status = "Closed";
+                session.Status = "Completed";
             }
 
             await _context.SaveChangesAsync();
