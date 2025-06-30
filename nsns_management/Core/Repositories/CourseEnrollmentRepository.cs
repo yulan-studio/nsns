@@ -207,6 +207,7 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+        //Set children's sessions to be completed when it's finished
         public async Task UpdateChildCompletedSessionsAsync(int courseId)
         {
            
@@ -232,30 +233,7 @@ namespace Core.Repositories
 
 
 
-        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId)
-        {
-
-           
-
-            //Get all registered sessions of the course session, which Status is 'Scheduled' or 'Registered'
-            var sessionsToUpdate = await _context.CourseEnrollments
-                .Where(e => e.EnrollmentID_Ref == enrollmentId
-                            && (e.Status == "Scheduled" || e.Status == "Registered")
-                            && e.ScheduledAt != null
-                            && e.ScheduledHours != null)
-                .ToListAsync();
-
-            // Update Status
-            foreach (var session in sessionsToUpdate)
-            {
-                session.Status = "Canceled";
-            }
-
-            await _context.SaveChangesAsync();
-        }
-
-
-
+        //Set sessions to be completed when it's finished
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
 
@@ -280,7 +258,31 @@ namespace Core.Repositories
         }
 
 
-        
+        //Set all registration related to a enrollmentId to be Cancled.
+        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId)
+        {
+
+
+
+            //Get all registered sessions of the course session, which Status is 'Scheduled' or 'Registered'
+            var sessionsToUpdate = await _context.CourseEnrollments
+                .Where(e => e.EnrollmentID_Ref == enrollmentId
+                            && (e.Status == "Scheduled" || e.Status == "Registered")
+                            && e.ScheduledAt != null
+                            && e.ScheduledHours != null)
+                .ToListAsync();
+
+            // Update Status
+            foreach (var session in sessionsToUpdate)
+            {
+                session.Status = "Canceled";
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+
+
 
     }
 }
