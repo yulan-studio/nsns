@@ -16,6 +16,13 @@
         main {
             flex: 1;
         }
+
+
+        /* .container-fluid {
+            padding-left: 20px;
+            padding-right: 20px;
+            width: 100%
+        } */
     </style>
 </head>
 <body>
@@ -99,8 +106,21 @@
         </nav>
     </header>
 
+    @{
+        string mainClass = "container mt-4";
+
+        if (ViewContext.RouteData.Values["Controller"]?.ToString() == "Home"
+
+        && ViewContext.RouteData.Values["Action"]?.ToString() == "Index")
+
+        {
+
+            mainClass = "container-fluid mt-4";
+
+        }
+    }
     <!-- Main Content -->
-    <main class="container mt-4">
+    <main class="@mainClass">
         @RenderBody()
     </main>
 
