@@ -367,19 +367,23 @@ namespace Core.Services
         }
 
 
-
+        //Set Session status of children registration to be completed 
         public async Task UpdateChildCompletedSessionsAsync(int courseId)
         {
             await _enrollmentRepository.UpdateChildCompletedSessionsAsync(courseId);
         }
 
-
+        //Set Session status to be completed
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
             await _enrollmentRepository.UpdateCompletedSessionsAsync(courseId);
         }
 
-
+        //Set Session status of children registration to be canceled 
+        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId)
+        {
+            await _enrollmentRepository.UpdateChildCanceledSessionsAsync(enrollmentId);
+        }
 
 
 

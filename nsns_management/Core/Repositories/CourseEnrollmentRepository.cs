@@ -231,6 +231,31 @@ namespace Core.Repositories
         }
 
 
+
+        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId)
+        {
+
+           
+
+            //Get all registered sessions of the course session, which Status is 'Scheduled' or 'Registered'
+            var sessionsToUpdate = await _context.CourseEnrollments
+                .Where(e => e.EnrollmentID_Ref == enrollmentId
+                            && (e.Status == "Scheduled" || e.Status == "Registered")
+                            && e.ScheduledAt != null
+                            && e.ScheduledHours != null)
+                .ToListAsync();
+
+            // Update Status
+            foreach (var session in sessionsToUpdate)
+            {
+                session.Status = "Canceled";
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+
+
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
 
@@ -253,6 +278,9 @@ namespace Core.Repositories
 
             await _context.SaveChangesAsync();
         }
+
+
+        
 
     }
 }

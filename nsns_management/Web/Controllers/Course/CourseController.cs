@@ -368,7 +368,7 @@ namespace Web.Controllers.Courses
 
 
 
-        // ✅ Save City (Add / Edit)
+        // ✅ Save Session (Add / Edit)
         [HttpPost("SaveSession")]
         public async Task<IActionResult> SaveSession(int enrollmentId, string location, string staffNote, string status)
         {
@@ -385,12 +385,20 @@ namespace Web.Controllers.Courses
                 session.Location = location;
                 session.StaffNote = staffNote;
                 session.Status = status;
+
+                //This also include if update the session Status to 'Canceled', all children's registration to the session need to be canceled. 
                 result = await _courseEnrollmentService.UpdateSessionAsync(session);
-               
                 if (result)
-                    return Json(new { success = true });
+                {
+                   
+                        await _courseEnrollmentService.UpdateChildCanceledSessionsAsync(session.EnrollmentID);
+                        return Json(new { success = true });
+                  
+                }
                 else
+                {
                     return Json(new { success = false });
+                }
 
             }
 
