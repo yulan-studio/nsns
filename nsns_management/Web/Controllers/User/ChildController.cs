@@ -865,7 +865,7 @@ namespace Web.Controllers.User
 
             // Retrieve registered courses and schedules
            // var courseEnrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
-            var scheduledCourses = await _courseEnrollmentService.GetSchedulesByChildAsync(child.ChildID);
+            var scheduledCourses = await _courseEnrollmentService.GetScheduledSessionsByChildAsync(child.ChildID);
 
             var courseSchedulesList = scheduledCourses
                 .GroupBy(e => e.Course)
@@ -875,10 +875,24 @@ namespace Web.Controllers.User
                     Schedules = group.ToList()
                 }).ToList();
 
+
+            var scheduledCoursesToConfirm = await _courseEnrollmentService.GetScheduledSessionsToConfirmByChildAsync(child.ChildID);
+
+            var courseSchedulesToConfirmList = scheduledCoursesToConfirm
+                .GroupBy(e => e.Course)
+                .Select(group => new CourseSchedulesViewModel
+                {
+                    Course = group.Key,
+                    Schedules = group.ToList()
+                }).ToList();
+
+
+
             var viewModel = new ChildSchedulesViewModel
             {
                 Child = child,
-                CoursesSchedules = courseSchedulesList
+                CoursesSchedules = courseSchedulesList,
+                CoursesSchedulesToConfirm = courseSchedulesToConfirmList
             };
 
             return View("MySchedules", viewModel);

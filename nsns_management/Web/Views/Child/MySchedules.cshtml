@@ -6,30 +6,185 @@
 
     @foreach (var courseSchedules in Model.CoursesSchedules)
     {
-        <div style="padding-top:30px"></div>
-        <h5>Course: @courseSchedules.Course.Title</h5>
-        <strong>Coach: </strong> @courseSchedules.Course.Coach.Name
-        <div style="padding-top:30px"></div>
+        <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+            <h5>Course: @courseSchedules.Course.Title</h5>
+            <strong>Course Type: </strong>  @courseSchedules.Course.CourseType
+            <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedules.Course.SessionCount
+            <strong> &nbsp; &nbsp;Coach: </strong> @(courseSchedules.Course.Coach?.Name ?? "Undefined")
+        </div>
+   
+
+        <form method="post" asp-action="UpdateSchedules">
+            <input type="hidden" name="CourseID" value="@courseSchedules.Course.CourseID" />
+
+            @* <table class="table"> *@
+             <table  style="border-collapse: collapse; width: 100%; text-align: left;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Scheduled At</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="12%">Hours</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="15%">Location</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="18%">Status</th>
+                       
+                        
+                        @if (courseSchedules.Course.CourseType == "Private")
+                        {
+                            <th style="padding: 8px; border: 1px solid #ddd;"  width="20%">
+                                Coach Note
+                            </th>
+                        }
+
+                        @if (courseSchedules.Course.CourseType == "Group")
+                        {
+                            <th style="padding: 8px; border: 1px solid #ddd;"  width="20%">
+                                Staff Note
+                            </th>
+                        }
+
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="20%">Parent Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (courseSchedules.Schedules.Any())
+                    {
+                        @for (int i = 0; i < courseSchedules.Schedules.Count; i++)
+                        {
+                            <tr>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@(courseSchedules.Schedules[i].ScheduledAt.HasValue ? courseSchedules.Schedules[i].ScheduledAt.Value.ToString("g") : "")</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].ScheduledHours</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].Location</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    <select name="Schedules[@i].Status" class="form-select">
+                                      
+                                        <option value="Registered" selected="@(courseSchedules.Schedules[i].Status == "Scheduled")">Scheduled</option>
+                                        @if (courseSchedules.Course.CourseType =="Private")
+                                        {
+                                            <option value="RequestToReschedule" selected="@(courseSchedules.Schedules[i].Status == "RequestToReschedule")">Request to Reschedule</option>
+                                        }
+                                        @if (courseSchedules.Course.CourseType == "Group")
+                                        {
+                                            <option value="RequestToLeave" selected="@(courseSchedules.Schedules[i].Status == "RequestToLeave")">Request to Leave</option>
+                                        }
+                                    </select>
+                                    <input type="hidden" name="Schedules[@i].ScheduleID" value="@courseSchedules.Schedules[i].EnrollmentID" />
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @if (courseSchedules.Course.CourseType == "Private")
+                                    {
+                                        @courseSchedules.Schedules[i].CoachNote
+                                    
+                                    }
+                                    @if (courseSchedules.Course.CourseType == "Group")
+                                    {
+                                        @courseSchedules.Schedules[i].StaffNote
+                                    }
+                                   
+                              
+                                    
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    <textarea name="Schedules[@i].CoachNote" class="form-control"> @courseSchedules.Schedules[i].ParentNote</textarea>
+                                   
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 10px;">No schedules available.</td>
+                        </tr>
+                    }
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <tr>
+                            <td colspan="6">
+                                <div class="alert alert-success">
+                                    @TempData["SuccessMessage"]
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <tr>
+                            <td colspan="6">
+                                <div class="alert alert-danger">
+                                    @TempData["ErrorMessage"]
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
+        </form>
+    }
+}
+else
+{
+        <div style="text-align: left; padding-top: 30px;">No schedules available.</div>
+}
+<div style="margin-bottom: 30px;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>Course Schedules to Confirm</h2>
+
+
+@if (Model.CoursesSchedulesToConfirm.Any())
+{
+
+    @foreach (var courseSchedulesToConfirm in Model.CoursesSchedulesToConfirm)
+    {
+        <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+            <h5>Course: @courseSchedulesToConfirm.Course.Title</h5>
+        
+
+            <strong>Course Type: </strong>  @courseSchedulesToConfirm.Course.CourseType
+            <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedulesToConfirm.Course.SessionCount
+            <strong> &nbsp; &nbsp;Coach: </strong>   @(courseSchedulesToConfirm.Course.Coach?.Name ?? "Undefined")
+
+
+        </div>
         <table style="border-collapse: collapse; width: 100%; text-align: left;">
             <thead>
                 <tr style="background-color: #f2f2f2;">
-                    <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
-                    <th style="padding: 8px; border: 1px solid #ddd;">Hours</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Scheduled At</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;" width="12%">Hours</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Location</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;" width="18%">Status</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;" width="40%">Staff Note</th>
+              
                 </tr>
             </thead>
             <tbody>
-                @if (courseSchedules.Schedules.Any())
+                @if (courseSchedulesToConfirm.Schedules.Any())
 
                 {
 
-                    foreach (var schedule in courseSchedules.Schedules)
+                    foreach (var schedule in courseSchedulesToConfirm.Schedules)
 
                     {
 
                         <tr>
                             <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                             <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
-                      
+                            <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">@schedule.StaffNote</td>
                         </tr>
                     }
 
@@ -39,7 +194,7 @@
 
                 {
                     <tr>
-                        <td colspan="5" style="text-align: center; padding-top: 10px;">No schedules available.</td>
+                        <td colspan="5" style="text-align: center; padding-top: 10px;">No to be confirmed schedules available.</td>
                     </tr>
                 }
             </tbody>
@@ -48,6 +203,6 @@
 }
 else
 {
-        <div style="text-align: left; padding-top: 30px;">No schedules available.</div>
+    <div style="text-align: left; padding-top: 30px;">No to be confirmed schedules available.</div>
 }
 <div style="margin-bottom: 30px;"></div>

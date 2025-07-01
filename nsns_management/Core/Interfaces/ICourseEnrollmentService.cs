@@ -59,7 +59,9 @@ namespace Core.Interfaces
 
         Task<bool> RemoveScheduleAsync(int enrollmentId);
 
-        Task<IEnumerable<CourseEnrollment>> GetSchedulesByChildAsync(int childId);
+        Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsByChildAsync(int childId);
+
+        Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsToConfirmByChildAsync(int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetSchedulesByCourseChildAsync(int courseId, int childId);
 

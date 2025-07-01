@@ -408,7 +408,8 @@ namespace Core.Services
             }
         }
 
-        public async Task<IEnumerable<CourseEnrollment>> GetSchedulesByChildAsync(int childId)
+        //Get Scheduled Sessions (Include Group Course Session and Private Course Sessions)
+        public async Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsByChildAsync(int childId)
         {
           
             Child? child = await _childRepository.GetAsync(childId);
@@ -417,6 +418,20 @@ namespace Core.Services
 
             return await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Scheduled");
         }
+
+
+        //Get Registered Sessions (For Group Course Sessions), these sessions need to be confirmed by parent to change status to 'Scheduled'
+        public async Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsToConfirmByChildAsync(int childId)
+        {
+
+            Child? child = await _childRepository.GetAsync(childId);
+            if (child == null)
+                throw new ArgumentException("Invalid child.");
+
+            return await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Registered");
+        }
+
+
 
 
         public async Task<IEnumerable<CourseEnrollment>> GetSchedulesByCourseChildAsync(int courseId, int childId)

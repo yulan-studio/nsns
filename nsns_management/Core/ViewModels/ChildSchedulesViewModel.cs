@@ -14,6 +14,8 @@ namespace Core.ViewModels
     {
         public Child Child { get; set; }
         public List<CourseSchedulesViewModel> CoursesSchedules { get; set; }
+
+        public List<CourseSchedulesViewModel> CoursesSchedulesToConfirm{ get; set; }
     }
 
     public class CourseSchedulesViewModel
