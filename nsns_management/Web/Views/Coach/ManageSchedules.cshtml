@@ -60,6 +60,8 @@
      
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Coach Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Parent Note</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Action</th>
         </tr>
     </thead>
@@ -72,6 +74,9 @@
 
                     <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
+                    
+                    <td style="padding: 8px; border: 1px solid #ddd;"><textarea class="form-control"> @schedule.ParentNote</textarea></td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ParentNote</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Coach/DeleteSchedule">
                             <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
@@ -89,14 +94,14 @@
         else
         {
             <tr>
-                <td colspan="4" style="text-align: center; padding: 10px;">No scheduled courses.</td>
+                <td colspan="5" style="text-align: center; padding: 10px;">No scheduled courses.</td>
             </tr>
         }
 
         @if (TempData["SuccessMessage"] != null)
         {
             <tr>
-                <td colspan="3">
+                <td colspan="5">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -107,7 +112,7 @@
         @if (TempData["ErrorMessage"] != null)
         {
             <tr>
-                <td colspan="3">
+                <td colspan="5">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>
