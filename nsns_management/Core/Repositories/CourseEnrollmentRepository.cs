@@ -144,7 +144,7 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
-
+        //Include Registered/Scheduled/Canceled/Completed
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId)
         {
             return await _context.CourseEnrollments

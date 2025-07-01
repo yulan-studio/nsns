@@ -975,15 +975,20 @@ namespace Web.Controllers.User
                 StaffNote = e.StaffNote
             }).ToList();
 
+            Child child = await _childService.GetAsync(childId);
+            Course course = await _courseService.GetAsync(courseId);
 
             var viewModel = new ManageSessionRegistrationsViewModel
             {
-                Child = await _childService.GetAsync(childId),
-                Course = await _courseService.GetAsync(courseId),
+                Child = child,
+                Course = course,
                 ChildID = childId,
                 CourseID = courseId,
                 AvailableSessions = sessionOptions,
-                RegisteredSessions = enrolled_sessions
+                RegisteredSessions = enrolled_sessions,
+                CourseSessionsCount = (int)course.SessionCount,
+                RegisteredSessionsCount = enrolledSessions.Count()
+
             };
 
             return View(viewModel);
@@ -1000,10 +1005,10 @@ namespace Web.Controllers.User
                 var selectedSessions = model.AvailableSessions.Where(s => s.IsSelected).ToList();
                 
 
-                if (selectedSessions.Count + model.RegisteredSessions.Count > model.Course.SessionCount)
+                if (selectedSessions.Count + model.RegisteredSessionsCount > model.CourseSessionsCount)
                 {
-                    TempData["ErrorMessage"] = "You can't register more than " + model.Course.SessionCount + " sessions";
-                    return RedirectToAction("ManageSessionRegistrations", new { childId = model.Child.ChildID, courseId = model.Course.CourseID });
+                    TempData["ErrorMessage"] = "You can't register more than " + model.CourseSessionsCount + " sessions";
+                    return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
 
                 }
                     
@@ -1017,7 +1022,7 @@ namespace Web.Controllers.User
 
 
 
-                    var success = await _courseEnrollmentService.AddSessionRegisteredEnrollmentAsync(model.Child.ChildID, model.Course.CourseID, sessionRef.ScheduledAt, sessionRef.ScheduledHours, sessionRef.EnrollmentID, "Registered", user);
+                    var success = await _courseEnrollmentService.AddSessionRegisteredEnrollmentAsync(model.ChildID, model.CourseID, sessionRef.ScheduledAt, sessionRef.ScheduledHours, sessionRef.EnrollmentID, "Registered", user);
 
                     if (!success)
                     {

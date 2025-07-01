@@ -27,10 +27,13 @@
 
     <h2>Add Sessions </h2>
     <br/>
-
+     Total session count: @Model.CourseSessionsCount  |  @Model.RegisteredSessionsCount sessions added
+    <br /><br />
     <form method="post" asp-action="AddRegisteredSessions">
         <input type="hidden" name="ChildID" value="@Model.ChildID" />
         <input type="hidden" name="CourseID" value="@Model.CourseID" />
+        <input type="hidden" name="RegisteredSessionsCount" value="@Model.RegisteredSessionsCount" />
+        <input type="hidden" name="CourseSessionsCount" value="@Model.CourseSessionsCount" />
 
         <table class="table" style="background-color: #f2f2f2; ">
             <thead>
@@ -67,6 +70,8 @@
         </table>
 
         <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Add Sessions</button>
+      
+
     </form>
 </div>
 
@@ -77,8 +82,8 @@
 <h3>Registered Sessions</h3>
 
 <form method="post" asp-action="UpdateRegisteredSessions">
-    <input type="hidden" name="ChildID" value="@Model.Child.ChildID" />
-    <input type="hidden" name="CourseID" value="@Model.Course.CourseID" />
+    <input type="hidden" name="ChildID" value="@Model.ChildID" />
+    <input type="hidden" name="CourseID" value="@Model.CourseID" />
 
     <table class="table">
         <thead>
@@ -125,7 +130,7 @@
             </tr>
             }
 
-            @if (TempData["SuccessMessage1"] != null)
+            @if (TempData["SuccessMessage"] != null)
             {
                 <tr>
                     <td colspan="5">
@@ -136,7 +141,7 @@
                 </tr>
             }
 
-            @if (TempData["ErrorMessage1"] != null)
+            @if (TempData["ErrorMessage"] != null)
             {
                 <tr>
                     <td colspan="5">
