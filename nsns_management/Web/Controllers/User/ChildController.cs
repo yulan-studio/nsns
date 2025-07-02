@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.AspNetCore.Http.HttpResults;
 using static Core.ViewModels.ManageSessionRegistrationsViewModel;
+using Core.FormModels;
 
 
 
@@ -863,15 +864,16 @@ namespace Web.Controllers.User
             Core.Models.User user = await _userManager.GetUserAsync(User);
             var child = await _childService.GetByIdAsync(user.Id);
 
-            // Retrieve registered courses and schedules
-           // var courseEnrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
-            var scheduledCourses = await _courseEnrollmentService.GetScheduledSessionsByChildAsync(child.ChildID);
+
+            //var scheduledCourses = await _courseEnrollmentService.GetScheduledSessionsByChildAsync(child.ChildID);
+            var scheduledCourses = await _courseEnrollmentService.GetUpcomingEnrollmentsByChildAsync(child.ChildID);
 
             var courseSchedulesList = scheduledCourses
                 .GroupBy(e => e.Course)
                 .Select(group => new CourseSchedulesViewModel
                 {
                     Course = group.Key,
+                    CourseID = group.Key.CourseID,
                     Schedules = group.ToList()
                 }).ToList();
 
@@ -883,6 +885,7 @@ namespace Web.Controllers.User
                 .Select(group => new CourseSchedulesViewModel
                 {
                     Course = group.Key,
+                    CourseID = group.Key.CourseID,
                     Schedules = group.ToList()
                 }).ToList();
 
@@ -891,6 +894,7 @@ namespace Web.Controllers.User
             var viewModel = new ChildSchedulesViewModel
             {
                 Child = child,
+                ChildID = child.ChildID,
                 CoursesSchedules = courseSchedulesList,
                 CoursesSchedulesToConfirm = courseSchedulesToConfirmList
             };
@@ -1072,7 +1076,7 @@ namespace Web.Controllers.User
 
 
         [Authorize(Roles = "Staff")]
-        [HttpPost]
+        [HttpPost("UpdateAllSessions")]
         public async Task<IActionResult> UpdateAllSessions(ManageSessionRegistrationsViewModel model)
         {
             try
@@ -1099,6 +1103,66 @@ namespace Web.Controllers.User
             return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
         }
 
+
+
+        [Authorize(Roles = "Child")]
+        [HttpPost("UpdateSchedules")]
+        public async Task<IActionResult> UpdateSchedules(UpdateSchedulesFormModel model)
+        {
+            if (model?.Schedules != null && model.Schedules.Any())
+            {
+                foreach (var schedule in model.Schedules)
+                {
+                    var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
+                    if (existing != null)
+                    {
+                        existing.Status = schedule.Status;
+                        existing.ParentNote = schedule.ParentNote;
+                        await _courseEnrollmentService.UpdateSessionAsync(existing);
+                    }
+                }
+
+                TempData["SuccessMessage1"] = "Schedules updated successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage1"] = "No schedules to update.";
+            }
+
+            return RedirectToAction("MySchedules");
+        }
+
+
+
+
+
+        [Authorize(Roles = "Child")]
+        [HttpPost("UpdateSchedulesToConform")]
+        public async Task<IActionResult> UpdateSchedulesToConform(ChildSchedulesViewModel model)
+        {
+            //try
+            //{
+            //    foreach (var session in model.AllSessions)
+            //    {
+            //        var enrollment = await _courseEnrollmentService.GetAsync(session.EnrollmentID);
+
+            //        if (enrollment != null)
+            //        {
+            //            enrollment.Status = session.Status;
+            //            enrollment.StaffNote = session.StaffNote;
+            //            enrollment.UpdatedDate = DateTime.UtcNow;
+            //            var result = await _courseEnrollmentService.UpdateSessionAsync(enrollment);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    TempData["ErrorMessage"] = $"{ex.Message}";
+            //    return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
+            //}
+
+            return RedirectToAction("MySchedules");
+        }
 
 
 

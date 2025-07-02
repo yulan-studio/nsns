@@ -202,6 +202,11 @@ namespace Core.Services
         //    return await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Registered");
         //}
 
+        public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId)
+        {
+            return await _enrollmentRepository.GetUpcomingEnrollmentsByChildAsync(childId);
+        }
+
 
 
         public async Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId)
@@ -361,6 +366,7 @@ namespace Core.Services
 
             existingSession.Status = session.Status;
             existingSession.StaffNote = session.StaffNote;
+            existingSession.ParentNote = session.ParentNote;
             existingSession.Location = session.Location;
 
             return await _enrollmentRepository.UpdateAsync(existingSession);
@@ -464,6 +470,16 @@ namespace Core.Services
             if (child == null)
                 throw new ArgumentException("Invalid child.");
             return await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(courseId, childId);
+
+        }
+
+
+        public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByCourseChildAsync(int courseId, int childId)
+        {
+            Child? child = await _childRepository.GetAsync(childId);
+            if (child == null)
+                throw new ArgumentException("Invalid child.");
+            return await _enrollmentRepository.GetUpcomingEnrollmentsByCourseChildAsync(courseId, childId);
 
         }
 

@@ -63,7 +63,7 @@ namespace Core.Repositories
             }
         }
 
-        //Get Registered/Scheduled/completed course session
+        //Get Registered/Scheduled/completed/request to schedule/request to leave/deleted course session
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId, string status)
         {
             return await _context.CourseEnrollments
@@ -84,6 +84,19 @@ namespace Core.Repositories
                 .Include(e => e.Course.Coach)
                 .Include(e => e.Course.Specialty)
                 .Where(e => e.ChildID != null && e.ChildID == childId &&  e.EnrollmentID_Ref != null)
+                .OrderBy(e => e.CourseID)
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
+        //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled (not include Deleted, Registered, Completed )
+        public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId)
+        {
+            return await _context.CourseEnrollments
+                .Include(e => e.Course)
+                .Include(e => e.Course.Coach)
+                .Include(e => e.Course.Specialty)
+                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Deleted" && e.Status != "Registered" && e.Status != "Completed" )
                 .OrderBy(e => e.CourseID)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
@@ -156,7 +169,20 @@ namespace Core.Repositories
         }
 
 
-        
+
+        //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled (not include Deleted, Registered, Completed )
+        public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByCourseChildAsync(int courseId, int childId)
+        {
+            return await _context.CourseEnrollments
+                .Include(e => e.Child)
+                .Include(e => e.Course)
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Deleted" && e.Status != "Registered" && e.Status != "Completed")
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
+
+
 
 
         //public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCoachAsync(int coachId, string status)
