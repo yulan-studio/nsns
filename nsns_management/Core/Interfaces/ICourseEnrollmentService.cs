@@ -63,6 +63,8 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsToConfirmByChildAsync(int childId);
 
+        Task<IEnumerable<CourseEnrollment>> GetRegisteredByCourseChildAsync(int courseId, int childId);
+
         Task<IEnumerable<CourseEnrollment>> GetSchedulesByCourseChildAsync(int courseId, int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetCompletesByCourseChildAsync(int courseId, int childId);

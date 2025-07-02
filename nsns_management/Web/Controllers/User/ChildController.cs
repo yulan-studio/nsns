@@ -954,7 +954,7 @@ namespace Web.Controllers.User
             var sessions = await _courseEnrollmentService.GetOpenSessionsByCourseAsync(courseId);
 
             // Sessions the child already registered to
-            var enrolledSessions = await _courseEnrollmentService.GetEnrollmentsByCourseChildAsync(courseId, childId);
+            var enrolledSessions = await _courseEnrollmentService.GetRegisteredByCourseChildAsync(courseId, childId);
 
             if (sessions != null)
             {

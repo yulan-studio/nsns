@@ -107,8 +107,8 @@
                         <td>
                             <select name="RegisteredSessions[@i].Status" class="form-select">
                                 <option value="Registered" selected="@("Registered" == Model.RegisteredSessions[i].Status)">Registered</option>
-                                <option value="Canceled" selected="@("Canceled" == Model.RegisteredSessions[i].Status)">Canceled</option>
-                                <option value="OnLeave" selected="@("OnLeave" == Model.RegisteredSessions[i].Status)">On Leave</option>
+                                <option value="Deleted" selected="@("Deleted" == Model.RegisteredSessions[i].Status)">Deleted</option>
+                               
                             </select>
                             <input type="hidden" name="RegisteredSessions[@i].EnrollmentID" value="@Model.RegisteredSessions[i].EnrollmentID" />
                         </td>

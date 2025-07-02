@@ -144,7 +144,7 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
-        //Include Registered/Scheduled/Canceled/Completed
+        //Include Registered/Scheduled/Canceled/Completed/Deleted/RequestToReschedule/RequestToCancel
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId)
         {
             return await _context.CourseEnrollments
@@ -154,6 +154,10 @@ namespace Core.Repositories
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }
+
+
+        
+
 
         //public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCoachAsync(int coachId, string status)
         //{

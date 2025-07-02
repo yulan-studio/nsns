@@ -78,7 +78,7 @@ namespace Core.Services
         public async Task<bool> IsChildEnrolledInCourseSession(int childId, int enrollmentId_Ref)
         {
             var enrollments = await _enrollmentRepository.GetEnrollmentsByChildAsync(childId);
-            return enrollments.Any(e => e.EnrollmentID_Ref == enrollmentId_Ref);
+            return enrollments.Any(e => e.EnrollmentID_Ref == enrollmentId_Ref && e.Status != "Deleted");
         }
 
 
@@ -432,6 +432,13 @@ namespace Core.Services
         }
 
 
+        public async Task<IEnumerable<CourseEnrollment>> GetRegisteredByCourseChildAsync(int courseId, int childId)
+        {
+            Child? child = await _childRepository.GetAsync(childId);
+            if (child == null)
+                throw new ArgumentException("Invalid child.");
+            return await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(courseId, childId, "Registered");
+        }
 
 
         public async Task<IEnumerable<CourseEnrollment>> GetSchedulesByCourseChildAsync(int courseId, int childId)
