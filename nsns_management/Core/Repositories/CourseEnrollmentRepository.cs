@@ -144,13 +144,13 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
-        //Include Registered/Scheduled/Canceled/Completed/Deleted/RequestToReschedule/RequestToCancel
+        //Include Registered/Scheduled/Canceled/Completed/RequestToReschedule/RequestToCancel (not include Deleted)
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId)
         {
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
                 .Include(e => e.Course)
-                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null)
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Deleted")
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }

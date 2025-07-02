@@ -954,13 +954,13 @@ namespace Web.Controllers.User
             var sessions = await _courseEnrollmentService.GetOpenSessionsByCourseAsync(courseId);
 
             // Sessions the child already registered to
-            var enrolledSessions = await _courseEnrollmentService.GetRegisteredByCourseChildAsync(courseId, childId);
-
+            //var registeredSessions = await _courseEnrollmentService.GetRegisteredByCourseChildAsync(courseId, childId);
+            var allEnrolledSessions = await _courseEnrollmentService.GetEnrollmentsByCourseChildAsync(courseId, childId);
             if (sessions != null)
             {
                 foreach (var session in sessions) {
 
-                    if (enrolledSessions.Any(e => e.ScheduledAt == session.ScheduledAt))
+                    if (allEnrolledSessions.Any(e => e.ScheduledAt == session.ScheduledAt))
                     {
                         continue;
                     }
@@ -977,9 +977,9 @@ namespace Web.Controllers.User
             }
 
 
-            
+            //var allSessions = await _courseEnrollmentService.GetEnrollmentsByCourseChildAsync(courseId, childId);
 
-            var enrolled_sessions = enrolledSessions.Select(e => new RegisteredSessionViewModel
+            var all_sessions = allEnrolledSessions.Select(e => new SessionViewModel
             {
                 EnrollmentID = e.EnrollmentID,
                 ScheduledAt = e.ScheduledAt ?? DateTime.MinValue,
@@ -988,6 +988,18 @@ namespace Web.Controllers.User
                 ParentNote = e.ParentNote,
                 StaffNote = e.StaffNote
             }).ToList();
+
+            //var scheduledSessions = await _courseEnrollmentService.GetSchedulesByCourseChildAsync(courseId, childId);
+
+            //var scheduled_sessions = scheduledSessions.Select(e => new SessionViewModel
+            //{
+            //    EnrollmentID = e.EnrollmentID,
+            //    ScheduledAt = e.ScheduledAt ?? DateTime.MinValue,
+            //    ScheduledHours = e.ScheduledHours ?? 0,
+            //    Status = e.Status,
+            //    ParentNote = e.ParentNote,
+            //    StaffNote = e.StaffNote
+            //}).ToList();
 
             Child child = await _childService.GetAsync(childId);
             Course course = await _courseService.GetAsync(courseId);
@@ -999,9 +1011,10 @@ namespace Web.Controllers.User
                 ChildID = childId,
                 CourseID = courseId,
                 AvailableSessions = sessionOptions,
-                RegisteredSessions = enrolled_sessions,
+                AllSessions = all_sessions,
+                //ScheduledSessions = scheduled_sessions,
                 CourseSessionsCount = (int)course.SessionCount,
-                RegisteredSessionsCount = enrolledSessions.Count()
+                EnrolledSessionsCount = allEnrolledSessions.Count()
 
             };
 
@@ -1019,7 +1032,7 @@ namespace Web.Controllers.User
                 var selectedSessions = model.AvailableSessions.Where(s => s.IsSelected).ToList();
                 
 
-                if (selectedSessions.Count + model.RegisteredSessionsCount > model.CourseSessionsCount)
+                if (selectedSessions.Count + model.EnrolledSessionsCount > model.CourseSessionsCount)
                 {
                     TempData["ErrorMessage"] = "You can't register more than " + model.CourseSessionsCount + " sessions";
                     return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
@@ -1060,11 +1073,11 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost]
-        public async Task<IActionResult> UpdateRegisteredSessions(ManageSessionRegistrationsViewModel model)
+        public async Task<IActionResult> UpdateAllSessions(ManageSessionRegistrationsViewModel model)
         {
             try
             {
-                foreach (var session in model.RegisteredSessions)
+                foreach (var session in model.AllSessions)
                 {
                     var enrollment = await _courseEnrollmentService.GetAsync(session.EnrollmentID);
 
@@ -1085,6 +1098,37 @@ namespace Web.Controllers.User
             
             return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
         }
+
+
+
+
+        //[Authorize(Roles = "Staff")]
+        //[HttpPost]
+        //public async Task<IActionResult> UpdateScheduledSessions(ManageSessionRegistrationsViewModel model)
+        //{
+        //    try
+        //    {
+        //        foreach (var session in model.AllSessions)
+        //        {
+        //            var enrollment = await _courseEnrollmentService.GetAsync(session.EnrollmentID);
+
+        //            if (enrollment != null)
+        //            {
+        //                enrollment.Status = session.Status;
+        //                enrollment.StaffNote = session.StaffNote;
+        //                enrollment.UpdatedDate = DateTime.UtcNow;
+        //                var result = await _courseEnrollmentService.UpdateSessionAsync(enrollment);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["ErrorMessage2"] = $"{ex.Message}";
+        //        return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
+        //    }
+
+        //    return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
+        //}
 
 
     }

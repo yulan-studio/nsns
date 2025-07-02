@@ -27,12 +27,12 @@
 
     <h2>Add Sessions </h2>
     <br/>
-     Total session count: @Model.CourseSessionsCount  |  @Model.RegisteredSessionsCount sessions added
+     Total session count: @Model.CourseSessionsCount  |  @Model.EnrolledSessionsCount sessions added
     <br /><br />
     <form method="post" asp-action="AddRegisteredSessions">
         <input type="hidden" name="ChildID" value="@Model.ChildID" />
         <input type="hidden" name="CourseID" value="@Model.CourseID" />
-        <input type="hidden" name="RegisteredSessionsCount" value="@Model.RegisteredSessionsCount" />
+        <input type="hidden" name="EnrolledSessionsCount" value="@Model.EnrolledSessionsCount" />
         <input type="hidden" name="CourseSessionsCount" value="@Model.CourseSessionsCount" />
 
         <table class="table" style="background-color: #f2f2f2; ">
@@ -79,9 +79,9 @@
 
 
 
-<h3>Registered Sessions</h3>
+<h3>All Sessions</h3>
 
-<form method="post" asp-action="UpdateRegisteredSessions">
+<form method="post" asp-action="UpdateAllSessions">
     <input type="hidden" name="ChildID" value="@Model.ChildID" />
     <input type="hidden" name="CourseID" value="@Model.CourseID" />
 
@@ -97,24 +97,51 @@
         </thead>
         <tbody>
 
-            @if (Model.RegisteredSessions.Any())
+            @if (Model.AllSessions.Any())
             {
-                @for (int i = 0; i < Model.RegisteredSessions.Count; i++)
+                @for (int i = 0; i < Model.AllSessions.Count; i++)
                 {
                     <tr>
-                        <td>@Model.RegisteredSessions[i].ScheduledAt.ToString("g")</td>
-                        <td>@Model.RegisteredSessions[i].ScheduledHours</td>
+                        <td>@Model.AllSessions[i].ScheduledAt.ToString("g")</td>
+                        <td>@Model.AllSessions[i].ScheduledHours</td>
                         <td>
                             <select name="RegisteredSessions[@i].Status" class="form-select">
-                                <option value="Registered" selected="@("Registered" == Model.RegisteredSessions[i].Status)">Registered</option>
-                                <option value="Deleted" selected="@("Deleted" == Model.RegisteredSessions[i].Status)">Deleted</option>
+
+                               @*  <option value="Registered" selected="@("Registered" == Model.AllSessions[i].Status)">Registered</option>
+                                <option value="Deleted" selected="@("Deleted" == Model.AllSessions[i].Status)">Deleted</option> *@
+                                @if (Model.AllSessions[i].Status == "Registered")
+                                {
+                                    <option value="Registered" selected>Registered</option>
+                                    <option value="Deleted">Deleted</option>
+                                }
+                                else if (Model.AllSessions[i].Status == "Scheduled")
+                                {
+                                    <option value="Scheduled" selected>Scheduled</option>
+                                    <option value="Canceled">Canceled</option>
+                                }
+                                else if (Model.AllSessions[i].Status == "RequestToLeave")
+                                {
+                                    <option value="RequestToLeave" selected>Request To Leave</option>
+                                    <option value="OnLeave">On Leave</option>
+                                }
+                                else if (Model.AllSessions[i].Status == "Completed")
+                                {
+                                    <option value="Completed" selected>Completed</option>
+                                }
+                                else if (Model.AllSessions[i].Status == "Canceled")
+                                {
+
+                                    <option value="Deleted" selected="@(Model.AllSessions[i].Status == "Canceled")">Canceled</option>
+                                }
+                               
+                               
                                
                             </select>
-                            <input type="hidden" name="RegisteredSessions[@i].EnrollmentID" value="@Model.RegisteredSessions[i].EnrollmentID" />
+                            <input type="hidden" name="AllSessions[@i].EnrollmentID" value="@Model.AllSessions[i].EnrollmentID" />
                         </td>
-                        <td>@Model.RegisteredSessions[i].ParentNote</td>
+                        <td>@Model.AllSessions[i].ParentNote</td>
                         <td>
-                            <textarea name="RegisteredSessions[@i].StaffNote" class="form-control">@Model.RegisteredSessions[i].StaffNote</textarea>
+                            <textarea name="AllSessions[@i].StaffNote" class="form-control">@Model.AllSessions[i].StaffNote</textarea>
                         </td>
                     </tr>
                 }
@@ -156,5 +183,91 @@
 
     <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
 </form>
+
+
+
+
+
+@* <div style="margin-top: 20px;"></div>
+
+
+
+<h3>Scheduled Sessions</h3>
+
+<form method="post" asp-action="UpdateScheduledSessions">
+    <input type="hidden" name="ChildID" value="@Model.ChildID" />
+    <input type="hidden" name="CourseID" value="@Model.CourseID" />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Scheduled At</th>
+                <th>Scheduled Hours</th>
+                <th>Status</th>
+                <th>Parent Note</th>
+                <th>Staff Note</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.ScheduledSessions.Any())
+            {
+                @for (int i = 0; i < Model.ScheduledSessions.Count; i++)
+                {
+                    <tr>
+                        <td>@Model.ScheduledSessions[i].ScheduledAt.ToString("g")</td>
+                        <td>@Model.ScheduledSessions[i].ScheduledHours</td>
+                        <td>
+                            <select name="ScheduledSessions[@i].Status" class="form-select">
+                                <option value="Registered" selected="@("Registered" == Model.ScheduledSessions[i].Status)">Registered</option>
+                                <option value="Deleted" selected="@("Deleted" == Model.ScheduledSessions[i].Status)">Deleted</option>
+
+                            </select>
+                            <input type="hidden" name="ScheduledSessions[@i].EnrollmentID" value="@Model.ScheduledSessions[i].EnrollmentID" />
+                        </td>
+                        <td>@Model.ScheduledSessions[i].ParentNote</td>
+                        <td>
+                            <textarea name="ScheduledSessions[@i].StaffNote" class="form-control">@Model.ScheduledSessions[i].StaffNote</textarea>
+                        </td>
+                    </tr>
+                }
+            }
+
+
+
+
+            else
+            {
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 10px;">No session has been scheduled.</td>
+                </tr>
+            }
+
+            @if (TempData["SuccessMessage2"] != null)
+            {
+                <tr>
+                    <td colspan="5">
+                        <div class="alert alert-success">
+                            @TempData["SuccessMessage2"]
+                        </div>
+                    </td>
+                </tr>
+            }
+
+            @if (TempData["ErrorMessage2"] != null)
+            {
+                <tr>
+                    <td colspan="5">
+                        <div class="alert alert-danger">
+                            @TempData["ErrorMessage2"]
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
+</form> *@
 
 
