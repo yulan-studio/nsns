@@ -62,7 +62,7 @@ namespace Core.Interfaces
 
         Task UpdateChildCanceledSessionsAsync(int courseId);
 
-        Task<bool> RemoveScheduleAsync(int enrollmentId);
+        Task<bool> RemoveScheduleAsync(int enrollmentId, string coachNote);
 
         Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsByChildAsync(int childId);
 

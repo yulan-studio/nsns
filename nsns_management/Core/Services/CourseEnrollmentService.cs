@@ -392,20 +392,26 @@ namespace Core.Services
         }
 
 
-
-        public async Task<bool> RemoveScheduleAsync(int enrollmentId)
+        //This is set Status to "Deleted", not actually delete the record. All the Delete change made by Coach can be seen by Coach and Parent.
+        public async Task<bool> RemoveScheduleAsync(int enrollmentId, string coachNote)
         {
             //Enrollment removal is only allowed for courses that have not started.
             var enrollment = await _enrollmentRepository.GetAsync(enrollmentId);
             if (enrollment == null)
                 throw new ArgumentException("Invalid scheduled course.");
 
-            if (enrollment.Status != "Scheduled")
-                throw new ArgumentException("This is not scheduled");
+            if (enrollment.Status == "Scheduled" || enrollment.Status == "RequestToReschedule")
+            {
+                //throw new ArgumentException("This is not scheduled");
+                enrollment.Status = "Deleted";
+                enrollment.CoachNote = coachNote;
+            }
+           
 
             try
             {
-                return await _enrollmentRepository.RemoveAsync(enrollmentId);
+                //return await _enrollmentRepository.RemoveAsync(enrollmentId);
+                return await _enrollmentRepository.UpdateAsync(enrollment);
             }
 
             catch (Exception ex)

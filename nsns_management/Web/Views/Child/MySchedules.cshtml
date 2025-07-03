@@ -55,12 +55,10 @@
                                 <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].ScheduledHours</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].Location</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">
-                                    <select name="Schedules[@i].Status" class="form-select" @(courseSchedules.Schedules[i].Status == "Canceled" ? "disabled" : "")>
+                                    <select name="Schedules[@i].Status" class="form-select" @(courseSchedules.Schedules[i].Status == "Canceled" || courseSchedules.Schedules[i].Status == "Deleted" ? "disabled" : "")>
 
                                         <option value="Scheduled" selected="@(courseSchedules.Schedules[i].Status == "Scheduled")">Scheduled</option>
-                                        <option value="Canceled" selected="@(courseSchedules.Schedules[i].Status == "canceled")">Canceled</option>
-                                      
-                                        @if (courseSchedules.Course.CourseType =="Private")
+                                        @if (courseSchedules.Course.CourseType == "Private")
                                         {
                                             <option value="RequestToReschedule" selected="@(courseSchedules.Schedules[i].Status == "RequestToReschedule")">Request to Reschedule</option>
                                         }
@@ -68,6 +66,9 @@
                                         {
                                             <option value="RequestToLeave" selected="@(courseSchedules.Schedules[i].Status == "RequestToLeave")">Request to Leave</option>
                                         }
+                                        <option value="Canceled" disabled selected="@(courseSchedules.Schedules[i].Status == "Canceled")">Canceled</option>
+                                        <option value="Deleted" disabled selected = "@(courseSchedules.Schedules[i].Status == "Deleted")">Deleted</option>
+
                                     </select>
                                     <input type="hidden" name="Schedules[@i].ScheduleID" value="@courseSchedules.Schedules[i].EnrollmentID" />
                                 </td>
@@ -86,7 +87,7 @@
                                     
                                 </td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">
-                                    <textarea name="Schedules[@i].ParentNote" class="form-control"> @courseSchedules.Schedules[i].ParentNote</textarea>
+                                    <textarea name="Schedules[@i].ParentNote" class="form-control" @(courseSchedules.Schedules[i].Status == "Canceled" || courseSchedules.Schedules[i].Status == "Deleted" ? "disabled" : "")> @courseSchedules.Schedules[i].ParentNote</textarea>
                                    
                                 </td>
                             </tr>

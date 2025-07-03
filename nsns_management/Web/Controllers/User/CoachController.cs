@@ -504,7 +504,7 @@ namespace Web.Controllers.User
                 var course = await _courseService.GetAsync(courseId);
 
                 // ✅ Get schedules for the child and course
-                List<CourseEnrollment> schedules = (List<CourseEnrollment>)await _courseEnrollmentService.GetSchedulesByCourseChildAsync(course.CourseID, childId);
+                List<CourseEnrollment> schedules = (List<CourseEnrollment>)await _courseEnrollmentService.GetUpcomingEnrollmentsByCourseChildAsync(course.CourseID, childId);
 
 
 
@@ -558,9 +558,9 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Coach")]
         [HttpPost("DeleteSchedule")]
-        public async Task<IActionResult> DeleteSchedule(int enrollmentId, int childId, int courseId, int enrollmentId_Ref)
+        public async Task<IActionResult> DeleteSchedule(int enrollmentId, int childId, int courseId, string coachNote, int enrollmentId_Ref)
         {
-            bool result = await _courseEnrollmentService.RemoveScheduleAsync(enrollmentId);
+            bool result = await _courseEnrollmentService.RemoveScheduleAsync(enrollmentId, coachNote);
 
             if (result)
             {

@@ -1116,8 +1116,12 @@ namespace Web.Controllers.User
                     var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
                     if (existing != null)
                     {
-                        existing.Status = schedule.Status;
-                        existing.ParentNote = schedule.ParentNote;
+                        if(existing.Status != "Canceled" && existing.Status != "Deleted")
+                        {
+                            existing.Status = schedule.Status;
+                            existing.ParentNote = schedule.ParentNote;
+                        }
+                        
                         await _courseEnrollmentService.UpdateSessionAsync(existing);
                     }
                 }

@@ -60,8 +60,9 @@
      
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Coach Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Parent Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Coach Note</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Action</th>
         </tr>
     </thead>
@@ -74,34 +75,45 @@
 
                     <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
-                    
-                    <td style="padding: 8px; border: 1px solid #ddd;"><textarea class="form-control"> @schedule.ParentNote</textarea></td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ParentNote</td>
+                    <form method="post" action="/Coach/DeleteSchedule">
+                    <td style="padding: 8px; border: 1px solid #ddd;"><textarea class="form-control" name="coachNote"> @schedule.CoachNote</textarea></td>
+                    
                     <td style="padding: 8px; border: 1px solid #ddd;">
-                        <form method="post" action="/Coach/DeleteSchedule">
-                            <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
-                            <input type="hidden" name="childId" value="@Model.Child.ChildID" />
-                            <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
-                            <input type="hidden" name="enrollmentId_Ref"  value="@Model.EnrollmentID"   />
-                            <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
-                                Remove
-                            </button>
-                        </form>
+
+                       
+                           
+                                <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
+                                <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+
+                                <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
+                                <input type="hidden" name="coachNote" value="@schedule.CoachNote" />
+                                <input type="hidden" name="enrollmentId_Ref"  value="@Model.EnrollmentID"   />
+                            @if (schedule.Status != "Deleted")
+                            {
+                                <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;" >
+                                    Remove
+                                </button>
+                            }
+                           
+                       
                     </td>
+                    </form>
                 </tr>
             }
         }
         else
         {
             <tr>
-                <td colspan="5" style="text-align: center; padding: 10px;">No scheduled courses.</td>
+                <td colspan="6" style="text-align: center; padding: 10px;">No scheduled courses.</td>
             </tr>
         }
 
         @if (TempData["SuccessMessage"] != null)
         {
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -112,7 +124,7 @@
         @if (TempData["ErrorMessage"] != null)
         {
             <tr>
-                <td colspan="5">
+                <td colspan="6">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>

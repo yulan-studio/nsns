@@ -89,14 +89,14 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
-        //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled (not include Deleted, Registered, Completed )
+        //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled/Deleted (not include Registered, Completed )
         public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId)
         {
             return await _context.CourseEnrollments
                 .Include(e => e.Course)
                 .Include(e => e.Course.Coach)
                 .Include(e => e.Course.Specialty)
-                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Deleted" && e.Status != "Registered" && e.Status != "Completed" )
+                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Registered" && e.Status != "Completed" )
                 .OrderBy(e => e.CourseID)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
@@ -170,13 +170,13 @@ namespace Core.Repositories
 
 
 
-        //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled (not include Deleted, Registered, Completed )
+        //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled/Deleted (not include Registered, Completed )
         public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByCourseChildAsync(int courseId, int childId)
         {
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
                 .Include(e => e.Course)
-                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Deleted" && e.Status != "Registered" && e.Status != "Completed")
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Registered" && e.Status != "Completed")
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }
