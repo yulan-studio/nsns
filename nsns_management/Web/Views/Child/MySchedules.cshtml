@@ -3,6 +3,7 @@
 <h2>-- Course Schedules --</h2>
 @if (Model.CoursesSchedules.Any())
 {
+    var now = DateTime.Now;
 
     @foreach (var courseSchedules in Model.CoursesSchedules)
     {
@@ -49,22 +50,25 @@
                     {
                         @for (int i = 0; i < courseSchedules.Schedules.Count; i++)
                         {
+                            var schedule = courseSchedules.Schedules[i];
+                            var isWithin24Hours = schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+
                             <input type="hidden" name="Schedules[@i].EnrollmentID" value=@courseSchedules.Schedules[i].EnrollmentID>
                             <tr>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@(courseSchedules.Schedules[i].ScheduledAt.HasValue ? courseSchedules.Schedules[i].ScheduledAt.Value.ToString("g") : "")</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].ScheduledHours</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].Location</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">
-                                    <select name="Schedules[@i].Status" class="form-select" @(courseSchedules.Schedules[i].Status == "Canceled" || courseSchedules.Schedules[i].Status == "Deleted" ? "disabled" : "")>
+                                    <select name="Schedules[@i].Status" class="form-select" @(courseSchedules.Schedules[i].Status == "Canceled" || courseSchedules.Schedules[i].Status == "Deleted" || isWithin24Hours ? "disabled" : "")>
 
                                         <option value="Scheduled" selected="@(courseSchedules.Schedules[i].Status == "Scheduled")">Scheduled</option>
                                         @if (courseSchedules.Course.CourseType == "Private")
                                         {
-                                            <option value="RequestToReschedule" selected="@(courseSchedules.Schedules[i].Status == "RequestToReschedule")">Request to Reschedule</option>
+                                            <option value="RequestToReschedule"  selected="@(courseSchedules.Schedules[i].Status == "RequestToReschedule")">Request to Reschedule</option>
                                         }
                                         @if (courseSchedules.Course.CourseType == "Group")
                                         {
-                                            <option value="RequestToLeave" selected="@(courseSchedules.Schedules[i].Status == "RequestToLeave")">Request to Leave</option>
+                                            <option value="RequestToLeave"  selected="@(courseSchedules.Schedules[i].Status == "RequestToLeave")">Request to Leave</option>
                                         }
                                         <option value="Canceled" disabled selected="@(courseSchedules.Schedules[i].Status == "Canceled")">Canceled</option>
                                         <option value="Deleted" disabled selected = "@(courseSchedules.Schedules[i].Status == "Deleted")">Deleted</option>
