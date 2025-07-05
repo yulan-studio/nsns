@@ -22,6 +22,8 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId);
 
+        Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsToConfirmByChildAsync(int childId);
+
         Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId);
 
         Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId);  //Get Registered courses for a child, include number of scheduled sessions, number of completed sessions

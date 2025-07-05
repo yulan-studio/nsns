@@ -63,7 +63,7 @@ namespace Core.Repositories
             }
         }
 
-        //Get Registered/Scheduled/completed/request to schedule/request to leave/deleted course session
+        //Get Registered/Scheduled/completed/request to schedule/request to leave/deleted group course session
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId, string status)
         {
             return await _context.CourseEnrollments
@@ -71,6 +71,19 @@ namespace Core.Repositories
                 .Include(e => e.Course.Coach)
                 .Include(e => e.Course.Specialty)
                 .Where(e => e.ChildID != null &&e.ChildID == childId && e.Status == status && e.EnrollmentID_Ref != null)
+                .OrderBy(e => e.CourseID)
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
+        //Return Group Course Schedule/Deleted sessions, this is the status of the group sessions before confirming
+        public async Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsToConfirmByChildAsync(int childId)
+        {
+            return await _context.CourseEnrollments
+                .Include(e => e.Course)
+                .Include(e => e.Course.Coach)
+                .Include(e => e.Course.Specialty)
+                .Where(e => e.ChildID != null && e.ChildID == childId && (e.Status == "Registered"||e.Status =="Deleted") && e.Course.CourseType=="Group" && e.EnrollmentID_Ref != null)
                 .OrderBy(e => e.CourseID)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
@@ -89,21 +102,22 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
-        //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled/Deleted (not include Registered, Completed )
+        //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled/Deleted (not include Registered, Completed )  for private course
+        //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled (not include Registered, Completed, Deleted ) for group courses
         public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId)
         {
             return await _context.CourseEnrollments
                 .Include(e => e.Course)
                 .Include(e => e.Course.Coach)
                 .Include(e => e.Course.Specialty)
-                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Registered" && e.Status != "Completed" )
+                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && (e.Status != "Registered" && e.Status != "Completed" && e.Status != "Deleted"|| (e.Course.CourseType == "Private" && e.Status == "Deleted")) )
                 .OrderBy(e => e.CourseID)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }
 
 
-        //Get registered and completed course information
+        //Get registered and completed course information, so that these session won't be registered again
         public async Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId)  //Get Registered courses for a child, include number of scheduled sessions, number of completed sessions
         {
             return await _context.CourseEnrollments

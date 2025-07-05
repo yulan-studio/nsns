@@ -125,6 +125,19 @@
             </table>
             <br/>
             <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
+            @if (courseSchedules.Course.CourseType == "Group")
+            {
+                <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                    You may request a one-time reschedule for group sessions by selecting 'Request to Leave' and click 'Save Changes', provided it is at least 24 hours before the session begins. 
+                </div>
+            }
+
+            @if (courseSchedules.Course.CourseType == "Private")
+            {
+                <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                    You can request a reschedule by clicking 'Request to Reschedule' at least 24 hours before the session begins. It is recommended that you communicate with the coach before making a reschedule request.
+                </div>
+            }
         </form>
     }
 }

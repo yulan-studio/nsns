@@ -440,7 +440,7 @@ namespace Core.Services
             if (child == null)
                 throw new ArgumentException("Invalid child.");
 
-            return await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Registered");
+            return await _enrollmentRepository.GetScheduledSessionsToConfirmByChildAsync(childId);
         }
 
 
