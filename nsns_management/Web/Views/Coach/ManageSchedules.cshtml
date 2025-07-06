@@ -79,17 +79,22 @@
 
                        
                            
-                                <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
-                                <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+                            <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
+                            <input type="hidden" name="childId" value="@Model.Child.ChildID" />
 
-                                <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
-                                <input type="hidden" name="coachNote" value="@schedule.CoachNote" />
-                                <input type="hidden" name="enrollmentId_Ref"  value="@Model.EnrollmentID"   />
-                            @if (schedule.Status != "Deleted")
+                            <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
+                            <input type="hidden" name="coachNote" value="@schedule.CoachNote" />
+                            <input type="hidden" name="enrollmentId_Ref"  value="@Model.EnrollmentID"   />
+                            @{
+                                var now = DateTime.Now;
+                                var isWithin24Hours = @schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+                            }
+                       
+                            @if (schedule.Status != "Deleted" && !isWithin24Hours)
                             {
-                                <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;" >
+                            <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
                                     Remove
-                                </button>
+                            </button>
                             }
                            
                        
