@@ -506,14 +506,18 @@ namespace Web.Controllers.User
                 // ✅ Get schedules for the child and course
                 List<CourseEnrollment> schedules = (List<CourseEnrollment>)await _courseEnrollmentService.GetUpcomingEnrollmentsByCourseChildAsync(course.CourseID, childId);
 
+                List<CourseEnrollment> completed = (List<CourseEnrollment>)await _courseEnrollmentService.GetCompletesByCourseChildAsync(courseId, childId);
 
+                List<CourseEnrollment> scheduled = (List<CourseEnrollment>)await _courseEnrollmentService.GetSchedulesByCourseChildAsync(courseId, childId);
 
-                var model = new ManageSchedulesViewModel
+               var model = new ManageSchedulesViewModel
                 {
                     EnrollmentID = enrollmentId,
                     Child = child,
                     Course = course,
-                    Schedules = schedules
+                    Schedules = schedules,
+                    ScheduledCount = scheduled.Count,
+                    CompletedCount = completed.Count
                 };
 
                 return View(model);

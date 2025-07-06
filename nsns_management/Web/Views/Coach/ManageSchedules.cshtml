@@ -12,30 +12,23 @@
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
 
     <form method="post" action="/Coach/ScheduleCourse">
-    <strong>Course:</strong> @Model.Course.Title  
+        <strong>Course:</strong> @Model.Course.Title
+        <div style="padding-top: 10px"></div>
+        <strong> Session Count: </strong>@Model.Course.SessionCount &nbsp;&nbsp;  <strong>Scheduled: </strong>@Model.ScheduledCount &nbsp;&nbsp; <strong>Completed: </strong>@Model.CompletedCount &nbsp;&nbsp;
     <div style="padding-top: 10px"></div>
    
         <strong>Child:</strong> @Model.Child.Name
-
-
      
-      @*   <select id="childId" name="childId" required onchange="saveSelectedChild(this.value, @Model.Course.CourseID)">
-            <option value="">-- Select Child --</option>
-            @foreach (var child in Model.Children)
-            {
-                <option value="@child.Value" selected="@(child.Value == Model.SelectedChildId.ToString() ? "selected" : null)">@child.Text</option>
-            }
-        </select> *@
     <div style="padding-top: 10px"></div>
 
         <input type="hidden" id="enrollmentId_Ref" name="enrollmentId_Ref" value="@Model.EnrollmentID" />
         <input type="hidden" id="childId" name="childId" value="@Model.Child.ChildID" />
         <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
 
-        <strong>Scheduled Date:</strong>
+        <strong>Scheduled Date: &nbsp;&nbsp; </strong>
         <input type="datetime-local" id="scheduledAt" name="scheduledAt" required />
         <div style="padding-top: 10px"></div>
-        <strong>Scheduled Hours:</strong>
+        <strong>Scheduled Hours:&nbsp;</strong>
         <input id="scheduledHours" name="scheduledHours" type="number" step="0.5" min="0.5" required />
         <div style="padding-top: 15px"></div>
         <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">Schedule</button>

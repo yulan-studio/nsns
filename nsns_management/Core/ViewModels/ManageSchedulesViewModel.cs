@@ -15,6 +15,12 @@ namespace Core.ViewModels
         public int EnrollmentID { get; set; }
         public Child Child { get; set; }
         public Course Course { get; set; }
+
+        public int ScheduledCount { get; set; }
+
+        public int CompletedCount { get; set; }
+
+
         public List<CourseEnrollment> Schedules { get; set; }
     }
 }
