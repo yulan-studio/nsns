@@ -14,6 +14,9 @@ namespace Core.ViewModels
     {
         public int EnrollmentID { get; set; }
         public Child Child { get; set; }
+
+        public IEnumerable<ParentChild> Parents { get; set; }
+
         public Course Course { get; set; }
 
         public int ScheduledCount { get; set; }

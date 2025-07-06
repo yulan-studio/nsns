@@ -34,9 +34,10 @@ namespace Web.Controllers.User
         private readonly ICourseEnrollmentService _courseEnrollmentService;
         private readonly ICourseService _courseService;
         private readonly IChildService _childService;
+        private readonly IParentChildService _parentChildService;
         private readonly UserManager<Core.Models.User> _userManager;
         
-        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, UserManager<Core.Models.User> userManager)
+        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, UserManager<Core.Models.User> userManager)
         {
             _coachService = coachService;
             _incomeService = incomeService;
@@ -48,6 +49,7 @@ namespace Web.Controllers.User
             _courseEnrollmentService = courseEnrollmentService;
             _courseService = courseService;
             _childService = childService;
+            _parentChildService = parentChildService;
             _userManager = userManager;
             
         }
@@ -497,6 +499,7 @@ namespace Web.Controllers.User
                 int coachId = coach.CoachID;
                 // ✅ Get children who are enrolled in the coach's courses
                 var child = await _childService.GetAsync(childId);
+                var parents = await _parentChildService.GetParentsByChildIdAsync(childId);
 
                 // ✅ Get courses assigned to the coach
                 //var course = await _courseService.GetActiveCourseByCoachAsync(coachId);
@@ -514,6 +517,7 @@ namespace Web.Controllers.User
                 {
                     EnrollmentID = enrollmentId,
                     Child = child,
+                    Parents = parents,
                     Course = course,
                     Schedules = schedules,
                     ScheduledCount = scheduled.Count,
