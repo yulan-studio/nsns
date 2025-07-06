@@ -278,7 +278,9 @@ namespace Core.Services
         {
             var course_enrollments = await _enrollmentRepository.GetEnrollmentsByCourseAsync(courseId, "Registered");
 
-            return course_enrollments.Select(e => new ChildViewModel
+
+
+            var childTasks = course_enrollments.Select(async e => new ChildViewModel
             {
                 EnrollmentID = e.EnrollmentID,
                 ChildID = e.Child.ChildID,
@@ -286,8 +288,14 @@ namespace Core.Services
                 Gender = e.Child.Gender,
                 City = e.Child.City.Name,
                 BirthDate = e.Child.BirthDate,
-                RegisteredDate = e.CreatedDate // Ensure CreatedDate maps to RegisteredDate
+                RegisteredDate = e.CreatedDate, // Ensure CreatedDate maps to RegisteredDate
+                Scheduled = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Scheduled")).Count(),
+                Completed = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Completed")).Count()
             }).ToList();
+
+            var children = (await Task.WhenAll(childTasks)).ToList();
+            
+            return children;
 
         }
 

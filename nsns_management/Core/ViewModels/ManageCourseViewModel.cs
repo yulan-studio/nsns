@@ -46,6 +46,8 @@ namespace Core.ViewModels
         public int CourseID { get; set; }
         public string CourseTitle { get; set; }
 
+        public int? SessionCount { get; set; }
+
         public List<ChildViewModel> RegisteredChildren { get; set; } = new List<ChildViewModel>();
     }
 
@@ -57,6 +59,8 @@ namespace Core.ViewModels
         public string Name { get; set; }
         public string Gender { get; set; }
         public string City { get; set; }
+        public int Scheduled { get; set; }
+        public int Completed { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime RegisteredDate { get; set; }
     }

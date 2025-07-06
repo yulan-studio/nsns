@@ -455,8 +455,9 @@ namespace Web.Controllers.User
                         var courseChildren = new CourseChildrenViewModel();
                         courseChildren.CourseID = course.CourseID;
                         courseChildren.CourseTitle = course.Title;
+                        courseChildren.SessionCount = course.SessionCount;
 
-                      
+
 
                         var children = (List<ChildViewModel>)await _courseEnrollmentService.GetRegisterationByCourseAsync(course.CourseID);
                         courseChildren.RegisteredChildren = children;
