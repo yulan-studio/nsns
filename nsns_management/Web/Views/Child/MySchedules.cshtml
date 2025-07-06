@@ -12,6 +12,12 @@
             <strong>Course Type: </strong>  @courseSchedules.Course.CourseType
             <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedules.Course.SessionCount
             <strong> &nbsp; &nbsp;Coach: </strong> @(courseSchedules.Course.Coach?.Name ?? "Undefined")
+            @if (courseSchedules.Course.CourseType == "Private")
+            {
+            <strong> &nbsp; &nbsp;Phone#: </strong> @(courseSchedules.Course.Coach?.Phone ?? "Undefined")
+            <strong> &nbsp; &nbsp;Wechat: </strong> @(courseSchedules.Course.Coach?.Wechat ?? "Undefined")
+            }
+           
         </div>
    
 
