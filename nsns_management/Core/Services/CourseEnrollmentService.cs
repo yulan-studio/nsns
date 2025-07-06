@@ -508,7 +508,7 @@ namespace Core.Services
             enrollment.Status = "Completed";
             enrollment.ActualHours = actualHours;
 
-            if(DateTime.Now < enrollment.ScheduledAt)
+            if(enrollment.ScheduledAt.HasValue && enrollment.ScheduledHours.HasValue && DateTime.Now < enrollment.ScheduledAt.Value.AddHours((double)enrollment.ScheduledHours))
             {
                 throw new Exception("You can only complete the course after the scheduled date.");
             }
