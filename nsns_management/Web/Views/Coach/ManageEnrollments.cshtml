@@ -20,6 +20,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
+            
         </tr>
     </thead>
     <tbody>
@@ -36,7 +37,7 @@
                             <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
                             <input type="hidden" name="childId" value="@Model.Child.ChildID" />
                             <input type="hidden" name="courseId" value="@Model.Course.CourseID" />
-                            <input name="actualHours" value="@schedule.ActualHours" type="number" step="0.5" min="0" required />
+                            <input name="actualHours" value="@schedule.ActualHours" type="number" step="0.5" min="0" required /> &nbsp;&nbsp;
                             <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
                                 Complete
                             </button>
