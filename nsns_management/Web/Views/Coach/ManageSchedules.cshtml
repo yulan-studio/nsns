@@ -34,6 +34,8 @@
         <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">Schedule</button>
     </form>
 
+    
+
 
   
     
@@ -94,7 +96,16 @@
                     </td>
                     </form>
                 </tr>
+                
             }
+            <tr>
+                <td colspan="6" >
+                    <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                        If a parent requests to reschedule, the coach is required to remove the existing schedule and create a new one. <br />
+                        Coaches can also reschedule a session at least 24 hours before the scheduled start time. Please make sure to inform the parent about the change.
+                    </div>
+                </td>
+            </tr>
         }
         else
         {
@@ -102,6 +113,8 @@
                 <td colspan="6" style="text-align: center; padding: 10px;">No scheduled courses.</td>
             </tr>
         }
+
+
 
         @if (TempData["SuccessMessage"] != null)
         {
@@ -124,6 +137,10 @@
                 </td>
             </tr>
         }
+
+        
+
+       
     </tbody>
 </table>
 
