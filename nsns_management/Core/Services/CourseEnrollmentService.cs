@@ -70,7 +70,7 @@ namespace Core.Services
 
         public async Task<bool> IsChildEnrolledInCourse(int childId, int courseId)
         {
-            var enrollments = await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Registered");
+            var enrollments = await _enrollmentRepository.GetRootEnrollmentsByChildAsync(childId, "Registered");
             return enrollments.Any(e => e.CourseID == courseId);
         }
 

@@ -32,6 +32,8 @@ namespace Core.ViewModels
         public int CanceledSessions { get; set; }
         public int RequestToLeaveSessions { get; set; }
 
+        public int RequestToRescheduleSessions { get; set; }
+
         public int OnLeaveSessions { get; set; }
     }
 }

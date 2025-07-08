@@ -17,12 +17,20 @@
     <thead>
         <tr style="background-color: #f2f2f2;">
             <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Type</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Course Type</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Specialty</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th> *@
+            
             <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No Funding)</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Session Count</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Completed</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Canceled</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Request To Reschedule</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Request To Leave</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
             
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
            @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
@@ -41,10 +49,20 @@
                     <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.IsActive == false ?"color: red":"")">@enrollment.IsActive</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SpecialtyName</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
-                    @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours</td> *@
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
                     
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td>
+                    
+                    
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SessionCount</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CompletedSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CanceledSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.RequestToRescheduleSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.RequestToLeaveSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.OnLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
+
                   @*   <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Child/UnregisterCourse">
                             <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
@@ -57,13 +75,13 @@
                 </tr>
             }
             <tr>
-                <td colspan="7" style="text-align: center; padding: 10px; color:darkslategray"><small>Please check <a href="/Child/MySchedules">Schedules</a> for details.</small></td>
+                <td colspan="15" style="text-align: center; padding: 10px; color:darkslategray"><small>Please check <a href="/Child/MySchedules">Schedules</a> for details.</small></td>
             </tr>
         }
         else
         {
             <tr>
-                <td colspan="7" style="text-align: center; padding: 10px;">No courses enrolled.</td>
+                <td colspan="15" style="text-align: center; padding: 10px;">No courses enrolled.</td>
             </tr>
         }
 

@@ -63,7 +63,7 @@ namespace Core.Repositories
             }
         }
 
-        //Get Registered/Scheduled/completed/request to schedule/request to leave/deleted group course session
+        //Get Registered/Scheduled/completed/request to schedule/request to leave/deleted group or private course session
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId, string status)
         {
             return await _context.CourseEnrollments
@@ -76,6 +76,18 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+        //Get Registered/Completed records of root course registration
+        public async Task<IEnumerable<CourseEnrollment>> GetRootEnrollmentsByChildAsync(int childId, string status)
+        {
+            return await _context.CourseEnrollments
+                .Include(e => e.Course)
+                .Include(e => e.Course.Coach)
+                .Include(e => e.Course.Specialty)
+                .Where(e => e.ChildID != null && e.ChildID == childId && e.Status == status)
+                .OrderBy(e => e.CourseID)
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
         //Return Group Course Schedule/Deleted sessions, this is the status of the group sessions before confirming
         public async Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsToConfirmByChildAsync(int childId)
         {
@@ -146,7 +158,8 @@ namespace Core.Repositories
                CompletedSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Completed"), // Count completed sessions
                CanceledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Canceled"), // Count all canceled sessions
                OnLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "OnLeave"), // Count all on leave sessions
-               RequestToLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToLeave") // Count all requested to leave sessions
+               RequestToLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToLeave"), // Count all requested to leave sessions,
+               RequestToRescheduleSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToReschedule") // Count all requested to leave sessions
            })
            .OrderBy(e => e.CourseID)
            .ToListAsync();
