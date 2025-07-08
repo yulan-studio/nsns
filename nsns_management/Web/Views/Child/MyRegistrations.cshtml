@@ -17,6 +17,7 @@
     <thead>
         <tr style="background-color: #f2f2f2;">
             <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Type</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Specialty</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
@@ -36,6 +37,7 @@
             {
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CourseType</td>
                     <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.IsActive == false ?"color: red":"")">@enrollment.IsActive</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SpecialtyName</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
@@ -55,13 +57,13 @@
                 </tr>
             }
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px; color:darkslategray"><small>Please check <a href="/Child/MySchedules">Schedules</a> for details.</small></td>
+                <td colspan="7" style="text-align: center; padding: 10px; color:darkslategray"><small>Please check <a href="/Child/MySchedules">Schedules</a> for details.</small></td>
             </tr>
         }
         else
         {
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px;">No courses enrolled.</td>
+                <td colspan="7" style="text-align: center; padding: 10px;">No courses enrolled.</td>
             </tr>
         }
 

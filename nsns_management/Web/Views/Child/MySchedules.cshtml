@@ -110,8 +110,8 @@
                         </tr>
                     }
 
-                    @if (TempData["SuccessMessage1"] != null)
-                    {
+                    @if (TempData["SuccessMessage1"] != null && TempData["CourseID"]?.ToString() == courseSchedules.Course.CourseID.ToString())
+            {
                         <tr>
                             <td colspan="6">
                                 <div class="alert alert-success">
@@ -121,7 +121,7 @@
                         </tr>
                     }
 
-                    @if (TempData["ErrorMessage1"] != null)
+                    @if (TempData["ErrorMessage1"] != null && TempData["CourseID"]?.ToString() == courseSchedules.Course.CourseID.ToString())
                     {
                         <tr>
                             <td colspan="6">
@@ -134,20 +134,21 @@
                 </tbody>
             </table>
             <br/>
-            <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
+           
             @if (courseSchedules.Course.CourseType == "Group")
             {
-                <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                <div style="padding: 10px 20px 10px 20px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
                     If you can’t attend the session, select 'Request to Leave' and click 'Save Changes'. A one-time reschedule is available for your first leave request. Please type 'First Leave' in the Parent Note with your request and contact NSNS by email.
                 </div>
             }
 
             @if (courseSchedules.Course.CourseType == "Private")
             {
-                <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                <div style="padding: 10px 20px 10px 20px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
                     You can request a reschedule by clicking 'Request to Reschedule' at least 24 hours before the session begins. It is recommended that you communicate with the coach before making a reschedule request.
                 </div>
             }
+            <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
         </form>
     }
 }

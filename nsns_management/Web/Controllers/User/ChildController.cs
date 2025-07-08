@@ -1137,27 +1137,37 @@ namespace Web.Controllers.User
         {
             if (model?.Schedules != null && model.Schedules.Any())
             {
-                foreach (var schedule in model.Schedules)
+                try
                 {
-                    var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
-                    if (existing != null)
+                    
+
+                    foreach (var schedule in model.Schedules)
                     {
-                        if(existing.Status != "Canceled" && existing.Status != "Deleted")
+                        var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
+                        if (existing != null)
                         {
-                            existing.Status = schedule.Status;
-                            existing.ParentNote = schedule.ParentNote;
+                            if (existing.Status != "Canceled" && existing.Status != "Deleted" && schedule.Status != null)  //schedule.Status is null means Status dropdown list is enabled
+                            {
+                                existing.Status = schedule.Status;
+                                existing.ParentNote = schedule.ParentNote;
+                            }
+
+                            await _courseEnrollmentService.UpdateSessionAsync(existing);
                         }
-                        
-                        await _courseEnrollmentService.UpdateSessionAsync(existing);
                     }
+
+                    TempData["SuccessMessage1"] = "Schedules updated successfully.";
+                    TempData["CourseID"] = model.CourseID;
                 }
 
-                TempData["SuccessMessage1"] = "Schedules updated successfully.";
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage1"] = ex.Message;   //This seems to be strange
+                    TempData["CourseID"] = model.CourseID;
+                }
+
             }
-            else
-            {
-                TempData["ErrorMessage1"] = "No schedules to update.";   //This seems to be strange
-            }
+           
 
             return RedirectToAction("MySchedules");
         }
