@@ -1077,30 +1077,56 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("UpdateAllSessions")]
-        public async Task<IActionResult> UpdateAllSessions(ManageSessionRegistrationsViewModel model)
+        public async Task<IActionResult> UpdateAllSessions(UpdateAllSessionsFormModel formModel)
         {
-            try
+            if (formModel.AllSessions == null || !formModel.AllSessions.Any())
             {
-                foreach (var session in model.AllSessions)
-                {
-                    var enrollment = await _courseEnrollmentService.GetAsync(session.EnrollmentID);
+                TempData["ErrorMessage"] = "No sessions submitted.";
+                return RedirectToAction("ManageSessionRegistrations", new { courseId = formModel.CourseID, childId = formModel.ChildID });
+            }
 
-                    if (enrollment != null)
-                    {
-                        enrollment.Status = session.Status;
-                        enrollment.StaffNote = session.StaffNote;
-                        enrollment.UpdatedDate = DateTime.UtcNow;
-                        var result = await _courseEnrollmentService.UpdateSessionAsync(enrollment);
-                    }
-                }
-            }
-            catch (Exception ex)
+            foreach (var session in formModel.AllSessions)
             {
-                TempData["ErrorMessage"] = $"{ex.Message}";
-                return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
+                // Example pseudo-code for updating session in database
+                //var existingSession = _dbContext.CourseEnrollments.FirstOrDefault(e => e.EnrollmentID == session.EnrollmentID);
+                var existingSession = await _courseEnrollmentService.GetAsync(session.EnrollmentID);
+                if (existingSession != null)
+                {
+                    existingSession.Status = session.Status;
+                    existingSession.StaffNote = session.StaffNote;
+                    var result = await _courseEnrollmentService.UpdateSessionAsync(existingSession);
+                }
+                
             }
+
             
-            return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
+            //_dbContext.SaveChanges();
+
+            TempData["SuccessMessage"] = "Session updates saved successfully.";
+            return RedirectToAction("ManageSessionRegistrations", new { childId = formModel.ChildID, courseId = formModel.CourseID});
+
+            //try
+            //{
+            //    foreach (var session in model.AllSessions)
+            //    {
+            //        var enrollment = await _courseEnrollmentService.GetAsync(session.EnrollmentID);
+
+            //        if (enrollment != null)
+            //        {
+            //            enrollment.Status = session.Status;
+            //            enrollment.StaffNote = session.StaffNote;
+            //            enrollment.UpdatedDate = DateTime.UtcNow;
+            //            var result = await _courseEnrollmentService.UpdateSessionAsync(enrollment);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    TempData["ErrorMessage"] = $"{ex.Message}";
+            //    return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
+            //}
+
+            //return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
         }
 
 
@@ -1130,7 +1156,7 @@ namespace Web.Controllers.User
             }
             else
             {
-                TempData["ErrorMessage1"] = "No schedules to update.";
+                TempData["ErrorMessage1"] = "No schedules to update.";   //This seems to be strange
             }
 
             return RedirectToAction("MySchedules");
@@ -1142,28 +1168,58 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Child")]
         [HttpPost("UpdateSchedulesToConform")]
-        public async Task<IActionResult> UpdateSchedulesToConform(ChildSchedulesViewModel model)
+       
+         public async Task<IActionResult> UpdateSchedulesToConform(UpdateSchedulesToConfirmFormModel model, string actionType)
         {
-            //try
-            //{
-            //    foreach (var session in model.AllSessions)
-            //    {
-            //        var enrollment = await _courseEnrollmentService.GetAsync(session.EnrollmentID);
+            if(actionType == "SaveChanges")
+            {
+                if (model?.Schedules != null && model.Schedules.Any())
+                {
+                    foreach (var schedule in model.Schedules)
+                    {
+                        var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
+                        if (existing != null)
+                        {
+                            if (existing.Status != "Deleted")
+                            {
+                                existing.ParentNote = schedule.ParentNote;
+                            }
 
-            //        if (enrollment != null)
-            //        {
-            //            enrollment.Status = session.Status;
-            //            enrollment.StaffNote = session.StaffNote;
-            //            enrollment.UpdatedDate = DateTime.UtcNow;
-            //            var result = await _courseEnrollmentService.UpdateSessionAsync(enrollment);
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    TempData["ErrorMessage"] = $"{ex.Message}";
-            //    return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
-            //}
+                            await _courseEnrollmentService.UpdateSessionAsync(existing);
+                        }
+                    }
+
+                    TempData["SuccessMessage2"] = "Schedules updated successfully.";
+                }
+                //else
+                //{
+                //    TempData["ErrorMessage2"] = "No schedules to update.";   //This seems to be strange
+                //}
+            }
+
+            else if (actionType == "Confirm")
+            {
+                // Handle Confirm logic
+                if (model?.Schedules != null && model.Schedules.Any())
+                {
+                    foreach (var schedule in model.Schedules)
+                    {
+                        var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
+                        if (existing != null)
+                        {
+                            if (existing.Status == "Registered")
+                            {
+                                existing.Status = "Scheduled";
+                            }
+
+                            await _courseEnrollmentService.UpdateSessionAsync(existing);
+                        }
+                    }
+
+                    TempData["SuccessMessage2"] = "Course schedules confirmed successfully.";
+                }
+            }
+
 
             return RedirectToAction("MySchedules");
         }

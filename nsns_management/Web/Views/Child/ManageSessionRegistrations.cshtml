@@ -105,7 +105,7 @@
                         <td>@Model.AllSessions[i].ScheduledAt.ToString("g")</td>
                         <td>@Model.AllSessions[i].ScheduledHours</td>
                         <td>
-                            <select name="RegisteredSessions[@i].Status" class="form-select">
+                            <select name="AllSessions[@i].Status" class="form-select">
 
                                @*  <option value="Registered" selected="@("Registered" == Model.AllSessions[i].Status)">Registered</option>
                                 <option value="Deleted" selected="@("Deleted" == Model.AllSessions[i].Status)">Deleted</option> *@

@@ -191,7 +191,7 @@ else
 
           <form method="post" asp-action="UpdateSchedulesToConform">
             <input type="hidden" name="CourseID" value="@courseSchedulesToConfirm.Course.CourseID" />
-            <input type="hidden" name="ChildID" value="@Model.ChildID" />
+          @*   <input type="hidden" name="ChildID" value="@Model.ChildID" /> *@
          
 
 
@@ -212,17 +212,18 @@ else
 
                     {
 
-                        foreach (var schedule in courseSchedulesToConfirm.Schedules)
-
-                        {
-
+                       // foreach (var schedule in courseSchedulesToConfirm.Schedules)
+                           @for (int i = 0; i < courseSchedulesToConfirm.Schedules.Count; i++)
+                            {
+                            var schedule = courseSchedulesToConfirm.Schedules[i];
+                            <input type="hidden" name="Schedules[@i].EnrollmentID" value="@schedule.EnrollmentID" />
                             <tr>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@schedule.StaffNote</td>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><textarea name="ParentNote" class="form-control"> @schedule.ParentNote</textarea></td>
+                                <td style="padding: 8px; border: 1px solid #ddd;"><textarea name="Schedules[@i].ParentNote" class="form-control"> @schedule.ParentNote</textarea></td>
                             </tr>
                         }
 
@@ -232,14 +233,37 @@ else
 
                     {
                         <tr>
-                            <td colspan="5" style="text-align: center; padding-top: 10px;">No to be confirmed schedules available.</td>
+                            <td colspan="6" style="text-align: center; padding-top: 10px;">There are currently no schedules waiting for your confirmation.</td>
+                        </tr>
+                    }
+
+                   
+                    @if (TempData["SuccessMessage2"] != null)
+                    {
+                        <tr>
+                            <td colspan="6">
+                                <div class="alert alert-success">
+                                    @TempData["SuccessMessage2"]
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    @if (TempData["ErrorMessage2"] != null)
+                    {
+                        <tr>
+                            <td colspan="6">
+                                <div class="alert alert-danger">
+                                    @TempData["ErrorMessage2"]
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>
             </table>
             <br />
-            <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
-            &nbsp;<button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
+            <button type="submit" name="actionType" value="SaveChanges" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
+            &nbsp;<button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
        
         </form>
 
