@@ -11,11 +11,11 @@
             <h5>Course: @courseSchedules.Course.Title</h5>
             <strong>Course Type: </strong>  @courseSchedules.Course.CourseType
             <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedules.Course.SessionCount
-            <strong> &nbsp; &nbsp;Coach: </strong> @(courseSchedules.Course.Coach?.Name ?? "Undefined")
+            <strong> &nbsp; &nbsp;Coach: </strong> @(courseSchedules.Course.Coach?.Name ?? "N/A")
             @if (courseSchedules.Course.CourseType == "Private")
             {
-            <strong> &nbsp; &nbsp;Phone#: </strong> @(courseSchedules.Course.Coach?.Phone ?? "Undefined")
-            <strong> &nbsp; &nbsp;Wechat: </strong> @(courseSchedules.Course.Coach?.Wechat ?? "Undefined")
+                <strong> &nbsp; &nbsp;Phone#: </strong> @(courseSchedules.Course.Coach?.Phone ?? "N/A")
+                <strong> &nbsp; &nbsp;Wechat: </strong> @(courseSchedules.Course.Coach?.Wechat ?? "N/A")
             }
            
         </div>
@@ -184,7 +184,7 @@ else
 
             <strong>Course Type: </strong>  @courseSchedulesToConfirm.Course.CourseType
             <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedulesToConfirm.Course.SessionCount
-            <strong> &nbsp; &nbsp;Coach: </strong>   @(courseSchedulesToConfirm.Course.Coach?.Name ?? "Undefined")
+            <strong> &nbsp; &nbsp;Coach: </strong>   @(courseSchedulesToConfirm.Course.Coach?.Name ?? "N/A")
 
 
         </div>
