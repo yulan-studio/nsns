@@ -239,6 +239,7 @@ namespace Core.Repositories
         {
             return await _context.CourseEnrollments
                 .Where(e => e.CourseID == courseId && e.Status == status && e.Child==null)
+                .OrderBy(e => e.ScheduledAt) // Sort by ScheduledAt ascending
                 .ToListAsync();
         }
 
