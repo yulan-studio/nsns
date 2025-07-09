@@ -33,7 +33,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
             
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
+         
         </tr>
     </thead>
     <tbody>
@@ -63,15 +63,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.OnLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
 
-                  @*   <td style="padding: 8px; border: 1px solid #ddd;">
-                        <form method="post" action="/Child/UnregisterCourse">
-                            <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
-                            <input type="hidden" name="childId" value="@enrollment.ChildID" />
-                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;">
-                                Remove
-                            </button>
-                        </form>
-                    </td> *@
+                 
                 </tr>
             }
             <tr>

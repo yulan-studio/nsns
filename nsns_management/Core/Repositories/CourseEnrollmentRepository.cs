@@ -129,8 +129,9 @@ namespace Core.Repositories
         }
 
 
-        //Get registered and completed course information, so that these session won't be registered again
-        public async Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId)  //Get Registered courses for a child, include number of scheduled sessions, number of completed sessions
+        //Get registered and completed course information, so that these course won't be registered again
+        //Get Registered courses for a child, include number of scheduled sessions, number of completed sessions
+        public async Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId)  
         {
             return await _context.CourseEnrollments
            .Include(e => e.Course)
