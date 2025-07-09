@@ -7,7 +7,7 @@
 
 <div style="padding-top: 20px; padding-bottom: 20px">
 
-    <h5>Completed Courses</h5>
+    <h5>Completed Course Sessions</h5>
 
 </div>
 
@@ -17,6 +17,7 @@
         <tr style="background-color: #f2f2f2;">
             <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Location</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
@@ -32,6 +33,7 @@
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Course.Title</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@(enrollment.Course.Coach?.Name ?? "N/A")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Location</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@((enrollment.ScheduledAt.HasValue) ? enrollment.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "") </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ActualHours</td>
@@ -43,7 +45,7 @@
         else
         {
             <tr>
-                <td colspan="5" style="text-align: center; padding: 10px;">No completed courses.</td>
+                <td colspan="7" style="text-align: center; padding: 10px;">No completed courses.</td>
             </tr>
         }
 

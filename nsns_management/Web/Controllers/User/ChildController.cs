@@ -543,6 +543,7 @@ namespace Web.Controllers.User
                 return RedirectToAction("List"); // Redirect to child list page if not found
             }
 
+            //Get Registered and Completed Courses
             var courseEnrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByChildAsync(childId);
             var specialties = await _specialtyService.GetAllAsync();
 
@@ -580,6 +581,7 @@ namespace Web.Controllers.User
             Core.Models.User user = await _userManager.GetUserAsync(User);
             var child = await _childService.GetByIdAsync(user.Id);
 
+            //Get Registered and Completed Courses
             var courseEnrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
             
 

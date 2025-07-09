@@ -10,9 +10,11 @@
 
 <!-- ✅ Table Showing Already Registered Courses -->
 <div style="padding-top: 20px; padding-bottom: 20px">
-<h5 style="color: 007bff">Registered Courses</h5>
+    <h5>Registered Courses</h5>
 </div>
-
+<div style="padding: 10px 10px 10px 10px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+    All registered courses and completed courses (Please check <a href="/Child/MySchedules">Schedules</a> for details.)
+</div>
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
@@ -33,7 +35,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
             
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
+         
         </tr>
     </thead>
     <tbody>
@@ -55,7 +57,7 @@
                     
                     
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SessionCount</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; color:@(enrollment.ScheduledSessions > 0 ? "red" : "black");">@enrollment.ScheduledSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CompletedSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CanceledSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.RequestToRescheduleSessions</td>
@@ -63,20 +65,10 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.OnLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
 
-                  @*   <td style="padding: 8px; border: 1px solid #ddd;">
-                        <form method="post" action="/Child/UnregisterCourse">
-                            <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
-                            <input type="hidden" name="childId" value="@enrollment.ChildID" />
-                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;">
-                                Remove
-                            </button>
-                        </form>
-                    </td> *@
+                 
                 </tr>
             }
-            <tr>
-                <td colspan="15" style="text-align: center; padding: 10px; color:darkslategray"><small>Please check <a href="/Child/MySchedules">Schedules</a> for details.</small></td>
-            </tr>
+           
         }
         else
         {
@@ -96,10 +88,11 @@
 
 <!-- ✅ Table Showing Already Enrolled Activities -->
 <div style="padding-top: 20px; padding-bottom: 20px">
-<h5 style="color: 007bff">Registered Activities</h5>
-    
+<h5>Registered Activities </h5>
 </div>
-
+<div style="padding: 10px 10px 10px 10px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+    All registered activities that has not completed
+</div>
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
