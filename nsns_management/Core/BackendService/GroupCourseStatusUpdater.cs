@@ -31,7 +31,9 @@ namespace Core.BackendService
                     var courseEnrollmentService = scope.ServiceProvider.GetRequiredService<ICourseEnrollmentService>();
                     foreach (var course in courses)
                     {
+                        //Automatically update children's group course sessions to "Completed" after their scheduled time.
                         await courseEnrollmentService.UpdateChildCompletedSessionsAsync(course.CourseID);
+                        //Automatically update group course sessions to "Completed" after their scheduled time.
                         await courseEnrollmentService.UpdateCompletedSessionsAsync(course.CourseID);
                     }
                     

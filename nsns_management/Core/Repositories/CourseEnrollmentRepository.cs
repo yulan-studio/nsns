@@ -266,7 +266,7 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
-        //Set children's sessions to be completed when it's finished
+        //For Group Courses Set children's sessions to be completed when it's finished
         public async Task UpdateChildCompletedSessionsAsync(int courseId)
         {
            
@@ -274,7 +274,9 @@ namespace Core.Repositories
 
            //Get all sessions of the course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments
+                .Include(e=>e.Course)
                 .Where(e => e.CourseID == courseId
+                            && e.Course.CourseType == "Group"
                             && e.Status == "Scheduled"
                             && e.ScheduledAt!=null
                             && e.ScheduledHours != null
@@ -292,7 +294,7 @@ namespace Core.Repositories
 
 
 
-        //Set sessions to be completed when it's finished
+        //For Group Courses, Set sessions to be completed when it's finished
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
 
@@ -300,7 +302,9 @@ namespace Core.Repositories
 
             //Get all sessions of the course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments
+                .Include(e => e.Course)
                 .Where(e => e.CourseID == courseId
+                            && (e.Course.CourseType == "Group")
                             && (e.Status == "Open" || e.Status == "Closed")
                             && e.ScheduledAt != null
                             && e.ScheduledHours != null
