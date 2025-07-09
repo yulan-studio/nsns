@@ -150,7 +150,7 @@ namespace Core.Repositories
                EnrollmentID = e.EnrollmentID,
                
                Title = e.Course.Title,
-               CoachName = e.Course.Coach != null ? e.Course.Coach.Name : "Unassigned",
+               CoachName = e.Course.Coach != null ? e.Course.Coach.Name : "N/A",
                SpecialtyName = e.Course.Specialty.Title,
                HourlyCost = e.Course.HourlyCost,
                HourlyCost2 = e.Course.HourlyCost2,
@@ -342,6 +342,59 @@ namespace Core.Repositories
             }
 
             await _context.SaveChangesAsync();
+        }
+
+
+
+        public async Task<bool> UpdateCompletedCoursesAsync()
+        {
+            var updated = false;
+
+            // Step 1: Get all root course enrollments (not per-session enrollments)
+            var rootEnrollments = await _context.CourseEnrollments
+                .Include(e => e.Course)
+                .Where(e =>
+                    e.Status == "Registered" &&
+                    e.EnrollmentID_Ref == null &&
+                    e.ScheduledAt == null)
+                .ToListAsync();
+
+            foreach (var root in rootEnrollments)
+            {
+                int completedSessions = await _context.CourseEnrollments
+                    .Where(c =>
+                        c.ChildID == root.ChildID &&
+                        c.CourseID == root.CourseID &&
+                        c.EnrollmentID_Ref != null &&
+                        c.Status == "Registered") // We only want to change "Registered" sessions to "Completed"
+                    .CountAsync();
+
+                if (completedSessions == root.Course.SessionCount)
+                {
+                    // Fetch those registered sessions to update them
+                    var sessionsToUpdate = await _context.CourseEnrollments
+                        .Where(c =>
+                            c.ChildID == root.ChildID &&
+                            c.CourseID == root.CourseID &&
+                            c.EnrollmentID_Ref != null &&
+                            c.Status == "Registered")
+                        .ToListAsync();
+
+                    foreach (var session in sessionsToUpdate)
+                    {
+                        session.Status = "Completed";
+                    }
+
+                    updated = true;
+                }
+            }
+
+            if (updated)
+            {
+                await _context.SaveChangesAsync();
+            }
+
+            return updated;
         }
 
 

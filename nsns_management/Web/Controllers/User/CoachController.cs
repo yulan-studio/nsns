@@ -619,8 +619,8 @@ namespace Web.Controllers.User
         }
 
         [Authorize(Roles = "Coach")]
-        [HttpPost("CompleteCourse")]
-        public async Task<IActionResult> CompleteCourse(int enrollmentId, int childId, int courseId, decimal actualHours)
+        [HttpPost("CompleteSession")]
+        public async Task<IActionResult> CompleteSession(int enrollmentId, int childId, int courseId, decimal actualHours)
         {
             //int coachId = 16; // GetLoggedInCoachId(); // Replace with actual logic to get coach ID
             var user = await _userManager.GetUserAsync(User);
@@ -633,7 +633,7 @@ namespace Web.Controllers.User
 
             try
             {
-                bool result1 = await _courseEnrollmentService.CompleteCourseAsync(enrollmentId, actualHours);
+                bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, actualHours);
                 //bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
                 //bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id);
 

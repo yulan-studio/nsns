@@ -498,12 +498,12 @@ namespace Core.Services
         }
 
 
-        public async Task<bool> CompleteCourseAsync(int enrollmentId, decimal actualHours)
+        public async Task<bool> CompleteSessionAsync(int enrollmentId, decimal actualHours)
         {
             //Enrollment removal is only allowed for courses that have not started.
             var enrollment = await _enrollmentRepository.GetAsync(enrollmentId);
             if (enrollment == null)
-                throw new ArgumentException("Invalid scheduled course.");
+                throw new ArgumentException("Invalid scheduled session.");
 
             if (enrollment.Status != "Scheduled")
                 throw new ArgumentException("This is not scheduled");
@@ -518,7 +518,7 @@ namespace Core.Services
 
             if(enrollment.ScheduledAt.HasValue && enrollment.ScheduledHours.HasValue && DateTime.Now < enrollment.ScheduledAt.Value.AddHours((double)enrollment.ScheduledHours))
             {
-                throw new Exception("You can only complete the course after the scheduled date.");
+                throw new Exception("You can only complete the session after the scheduled date.");
             }
             enrollment.UpdatedDate = DateTime.Now;
 
@@ -531,6 +531,13 @@ namespace Core.Services
             {
                 throw new Exception(ex.Message, ex.InnerException);
             }
+        }
+
+
+
+        public async Task<bool> UpdateCompletedCoursesAsync()
+        {
+            return await _enrollmentRepository.UpdateCompletedCoursesAsync();
         }
     }
 

@@ -74,7 +74,10 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetCompletesByCourseChildAsync(int courseId, int childId);
 
-        Task<bool> CompleteCourseAsync(int enrollmentId, Decimal actualHours);
+        //Manually set session to be completed by Coach
+        Task<bool> CompleteSessionAsync(int enrollmentId, Decimal actualHours);
+
+        Task<bool> UpdateCompletedCoursesAsync();
     }
 
 

@@ -80,7 +80,7 @@ namespace Core.Services
         }
 
       
-
+        
         public async Task<IEnumerable<ActivityEnrollment>> GetRegisteredEnrollmentsByChildAsync(int childId)
         {
             return await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Registered");

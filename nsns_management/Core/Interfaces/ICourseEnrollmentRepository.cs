@@ -51,6 +51,8 @@ namespace Core.Interfaces
 
         Task UpdateChildCanceledSessionsAsync(int courseId);
 
+        Task<bool> UpdateCompletedCoursesAsync();
+
 
     }
 }

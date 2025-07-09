@@ -33,7 +33,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
-                        <form method="post" action="/Coach/CompleteCourse">
+                        <form method="post" action="/Coach/CompleteSession">
                             <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
                             <input type="hidden" name="childId" value="@Model.Child.ChildID" />
                             <input type="hidden" name="courseId" value="@Model.Course.CourseID" />

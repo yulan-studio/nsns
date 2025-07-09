@@ -57,12 +57,12 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsActive</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CompletedSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CanceledSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.RequestToRescheduleSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.RequestToLeaveSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.OnLeaveSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.ScheduledSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.CompletedSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.CanceledSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; color:@((enrollment.RequestToRescheduleSessions > 0) && enrollment.CourseType == "Group"? "red" : "black");" >@enrollment.RequestToRescheduleSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; color:@(enrollment.RequestToLeaveSessions > 0 ? "red" : "black");">@enrollment.RequestToLeaveSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.OnLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Child/UnregisterCourse">
                             <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
