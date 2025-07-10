@@ -550,15 +550,24 @@ namespace Web.Controllers.User
                 throw new ArgumentException("Child not found");
             }
 
-            bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, coachId, enrollmentId_Ref);
-
-            if (result)
+            if (scheduledAt < DateTime.Now)
             {
-                TempData["SuccessMessage"] = "Course scheduled successfully.";
+                TempData["ErrorMessage"] = "Please choose a future time.";
             }
+
             else
-            {
-                TempData["ErrorMessage"] = "Failed to schedule the course.";
+            { 
+
+                bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, coachId, enrollmentId_Ref);
+
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Course scheduled successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Failed to schedule the course.";
+                }
             }
 
             return RedirectToAction("ManageSchedules", new { childId, courseId = courseId, enrollmentId = enrollmentId_Ref });

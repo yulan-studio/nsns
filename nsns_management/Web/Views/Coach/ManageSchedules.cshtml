@@ -2,6 +2,24 @@
 
 @* <script src="/js/schedules.js"></script> *@
 
+<script>
+    function validateScheduleTime() {
+        const scheduledAtInput = document.getElementById("scheduledAt");
+        const errorSpan = document.getElementById("scheduledAtError");
+        const scheduledDate = new Date(scheduledAtInput.value);
+        const now = new Date();
+
+        if (!scheduledAtInput.value || scheduledDate <= now) {
+            errorSpan.textContent = "Scheduled time must be in the future.";
+            return false;
+        }
+
+        errorSpan.textContent = ""; // clear error if valid
+        return true;
+    }
+</script>
+
+
  @model Core.ViewModels.ManageSchedulesViewModel
 
 <h2>Schedule Course</h2>
@@ -26,25 +44,13 @@
 <!-- Course Scheduling Form -->
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
 
-    <form method="post" action="/Coach/ScheduleCourse">
+    <form method="post" action="/Coach/ScheduleCourse" onsubmit="return validateScheduleTime()">
         <strong>Course:</strong> @Model.Course.Title
         <div style="padding-top: 10px"></div>
         <strong> Session Count: </strong>@Model.Course.SessionCount &nbsp;&nbsp;  <strong>Scheduled: </strong>@Model.ScheduledCount &nbsp;&nbsp; <strong>Completed: </strong>@Model.CompletedCount &nbsp;&nbsp;
     <div style="padding-top: 10px"></div>
    
- @*        <strong>Child:</strong> @Model.Child.Name
-        <div style="padding-top: 10px"></div>
-
-        @foreach (var parentChild in Model.Parents)
-        {
-            <strong>@parentChild.Relationship:</strong> @parentChild.Parent.Name
-
-            <strong>&nbsp; &nbsp;Phone:</strong> @parentChild.Parent.Phone
-
-            <strong>&nbsp; &nbsp;Wechat:</strong> @parentChild.Parent.Wechat
-
-            <div style="padding-top: 10px"></div>
-        } *@
+ 
      
     <div style="padding-top: 10px"></div>
 
@@ -53,7 +59,8 @@
         <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
 
         <strong>Scheduled Date: &nbsp;&nbsp; </strong>
-        <input type="datetime-local" id="scheduledAt" name="scheduledAt" required />
+        <input type="datetime-local" id="scheduledAt" name="scheduledAt" required />  
+        <span id="scheduledAtError" style="color: red; margin-left: 10px;"></span>
         <div style="padding-top: 10px"></div>
         <strong>Scheduled Hours:&nbsp;</strong>
         <input id="scheduledHours" name="scheduledHours" type="number" step="0.5" min="0.5" required />

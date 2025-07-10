@@ -4,6 +4,24 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/js/sessions.js"></script>
 
+<script>
+    function validateScheduleTime() {
+        const scheduledAtInput = document.getElementById("scheduledAt");
+        const errorSpan = document.getElementById("scheduledAtError");
+        const scheduledDate = new Date(scheduledAtInput.value);
+        const now = new Date();
+
+        if (!scheduledAtInput.value || scheduledDate <= now) {
+            errorSpan.textContent = "Scheduled time must be in the future.";
+            return false;
+        }
+
+        errorSpan.textContent = ""; // clear error if valid
+        return true;
+    }
+</script>
+
+
 @* @model IEnumerable<Core.ViewModels.SchedulesViewModel> *@
 @{
     ViewData["Title"] = "Manage Group Course Sessions";
@@ -33,16 +51,17 @@
 
 <!-- Add New Session Form -->
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2; border-radius: 8px;">
-    <form method="post" asp-action="AddSession" asp-controller="Course">
+    <form method="post" asp-action="AddSession" asp-controller="Course" onsubmit="return validateScheduleTime()">
         <input type="hidden" name="courseId" value="@courseId" />
         <input type="hidden" name="courseId" value="@courseId" />
 
 
         <div style="margin-bottom: 10px;">
             <strong>Scheduled At:</strong><br />
-            <input type="datetime-local" name="scheduledAt" required style="width: 40%; padding: 5px;" />
+            <input type="datetime-local" name="scheduledAt" id="scheduledAt" required style="width: 40%; padding: 5px;" />
+            <span id="scheduledAtError" style="color: red; margin-left: 10px;"></span>
         </div>
-
+       
         <div style="margin-bottom: 10px;">
             <strong>Scheduled Hours:</strong><br />
             <input type="number" step="0.5" min="0.5" name="scheduledHours" required style="width: 40%; padding: 5px;" />
