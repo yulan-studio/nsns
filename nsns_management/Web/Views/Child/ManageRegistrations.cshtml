@@ -33,7 +33,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Schedculed</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Completed</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Canceled</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Request To Reschedule</th>
+           @*  <th style="padding: 8px; border: 1px solid #ddd;">Request To Reschedule</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Request To Leave</th>
             <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
@@ -60,7 +60,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.ScheduledSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.CompletedSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.CanceledSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; color:@((enrollment.RequestToRescheduleSessions > 0) && enrollment.CourseType == "Group"? "red" : "black");" >@enrollment.RequestToRescheduleSessions</td>
+                  @*   <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; color:@((enrollment.RequestToRescheduleSessions > 0) && enrollment.CourseType == "Group"? "red" : "black");" >@enrollment.RequestToRescheduleSessions</td> *@
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; color:@(enrollment.RequestToLeaveSessions > 0 ? "red" : "black");">@enrollment.RequestToLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.OnLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
@@ -91,14 +91,14 @@
         else
         {
             <tr>
-                <td colspan="17" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
+                <td colspan="16" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
             </tr>
         }
 
          @if (TempData["SuccessMessage1"] != null)
         {
             <tr>
-                <td colspan="17">
+                <td colspan="16">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage1"]
                     </div>
@@ -109,7 +109,7 @@
         @if (TempData["ErrorMessage1"] != null)
         {
             <tr>
-                <td colspan="17">
+                <td colspan="16">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage1"]
                     </div>
