@@ -26,7 +26,7 @@ namespace Core.BackendService
                 using (var scope = _serviceProvider.CreateScope())
                 {
                     var courseEnrollmentService = scope.ServiceProvider.GetRequiredService<ICourseEnrollmentService>();
-                    await courseEnrollmentService.UpdateCompletedCoursesAsync();
+                    await courseEnrollmentService.UpdateCompletedCoursesAsync(); //To Private Courses, when SessionCount = Completed count, the Course is completed.
                 }
 
                 await Task.Delay(TimeSpan.FromMinutes(10), stoppingToken); // Run every 10 minutes

@@ -387,7 +387,7 @@ namespace Core.Services
             await _enrollmentRepository.UpdateChildCompletedSessionsAsync(courseId);
         }
 
-        //Set Session status to be completed
+        //Set Session status to be completed after the session past the scheduled time
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
             await _enrollmentRepository.UpdateCompletedSessionsAsync(courseId);
@@ -534,7 +534,7 @@ namespace Core.Services
         }
 
 
-
+        //Update course to be completed for private course
         public async Task<bool> UpdateCompletedCoursesAsync()
         {
             return await _enrollmentRepository.UpdateCompletedCoursesAsync();

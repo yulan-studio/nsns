@@ -155,12 +155,12 @@ namespace Core.Repositories
                HourlyCost = e.Course.HourlyCost,
                HourlyCost2 = e.Course.HourlyCost2,
                Status = e.Status,
-               ScheduledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Scheduled"), // Count all scheduled sessions
-               CompletedSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Completed"), // Count completed sessions
-               CanceledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Canceled"), // Count all canceled sessions
-               OnLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "OnLeave"), // Count all on leave sessions
-               RequestToLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToLeave"), // Count all requested to leave sessions,
-               RequestToRescheduleSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToReschedule") // Count all requested to leave sessions
+               ScheduledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Scheduled" && c.EnrollmentID_Ref != null), // Count all scheduled sessions
+               CompletedSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Completed" && c.EnrollmentID_Ref != null), // Count completed sessions
+               CanceledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Canceled" && c.EnrollmentID_Ref != null), // Count all canceled sessions
+               OnLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "OnLeave" && c.EnrollmentID_Ref != null), // Count all on leave sessions
+               RequestToLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToLeave" && c.EnrollmentID_Ref != null), // Count all requested to leave sessions,
+               RequestToRescheduleSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToReschedule" && c.EnrollmentID_Ref != null) // Count all requested to leave sessions
            })
            .OrderBy(e => e.CourseID)
            .ToListAsync();
@@ -300,7 +300,7 @@ namespace Core.Repositories
 
             DateTime now = DateTime.Now;
 
-            //Get all sessions of the course, which Status is 'Scheduled'
+            //Get all sessions of the group course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments
                 .Include(e => e.Course)
                 .Where(e => e.CourseID == courseId
@@ -350,7 +350,7 @@ namespace Core.Repositories
         {
             var updated = false;
 
-            // Step 1: Get all root course enrollments (not per-session enrollments)
+            // Step 1: Get all root course enrollments for private and group courses (not per-session enrollments)
             var rootEnrollments = await _context.CourseEnrollments
                 .Include(e => e.Course)
                 .Where(e =>
@@ -358,7 +358,7 @@ namespace Core.Repositories
                     e.EnrollmentID_Ref == null &&
                     e.ScheduledAt == null)
                 .ToListAsync();
-
+            //Step 2: Get all Completed sessions for all root course, check completed count
             foreach (var root in rootEnrollments)
             {
                 int completedSessions = await _context.CourseEnrollments
@@ -366,24 +366,29 @@ namespace Core.Repositories
                         c.ChildID == root.ChildID &&
                         c.CourseID == root.CourseID &&
                         c.EnrollmentID_Ref != null &&
-                        c.Status == "Registered") // We only want to change "Registered" sessions to "Completed"
+                        c.Status == "Completed") // We only want to change "registered" sessions to "Completed"
                     .CountAsync();
 
+                //if completed count equal to session count
                 if (completedSessions == root.Course.SessionCount)
                 {
-                    // Fetch those registered sessions to update them
-                    var sessionsToUpdate = await _context.CourseEnrollments
-                        .Where(c =>
-                            c.ChildID == root.ChildID &&
-                            c.CourseID == root.CourseID &&
-                            c.EnrollmentID_Ref != null &&
-                            c.Status == "Registered")
-                        .ToListAsync();
+                    //Step 3: Fetch those registered sessions to update them
 
-                    foreach (var session in sessionsToUpdate)
-                    {
-                        session.Status = "Completed";
-                    }
+                    //var registrationToUpdate = await _context.CourseEnrollments
+                    //    .Where(c =>
+                    //        c.ChildID == root.ChildID &&
+                    //        c.CourseID == root.CourseID &&
+                    //        c.EnrollmentID_Ref == null &&
+                    //        c.ScheduledAt == null &&
+                    //        c.Status == "Registered")
+                    //    .ToListAsync();
+
+                    //foreach (var registration in registrationToUpdate)
+                    //{
+                    //    registration.Status = "Completed";
+                    //}
+
+                    root.Status = "Completed";
 
                     updated = true;
                 }
