@@ -61,6 +61,8 @@ namespace Core.ViewModels
         public string City { get; set; }
         public int Scheduled { get; set; }
         public int Completed { get; set; }
+
+        public int RequestToReschedule { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime RegisteredDate { get; set; }
     }

@@ -29,7 +29,7 @@
                         <th style="padding: 10px; border: 1px solid #ddd;">Birthday</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Registration Date</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Scheduled</th>
-                        <th style="padding: 10px; border: 1px solid #ddd;">Request to Rescheduled</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Request to Reschedule</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Completed</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Schedules</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Enrollments</th>
@@ -47,7 +47,7 @@
                                 <td style="padding: 10px; border: 1px solid #ddd;">@(child.BirthDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
                                 <td style="padding: 10px; border: 1px solid #ddd;">@child.RegisteredDate.ToString("yyyy-MM-dd")</td>
                                 <td style="padding: 10px; border: 1px solid #ddd;">@child.Scheduled</td>
-                                <td style="padding: 10px; border: 1px solid #ddd;"></td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color:@(child.RequestToReschedule > 0 ? "#FFDBF6" : "#f9f9f9")">@child.RequestToReschedule</td>
                              
                                 <td style="padding: 10px; border: 1px solid #ddd;">@child.Completed</td>
                                 <td style="padding: 10px; border: 1px solid #ddd;">

@@ -290,6 +290,7 @@ namespace Core.Services
                 BirthDate = e.Child.BirthDate,
                 RegisteredDate = e.CreatedDate, // Ensure CreatedDate maps to RegisteredDate
                 Scheduled = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Scheduled")).Count(),
+                RequestToReschedule = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "RequestToReschedule")).Count(),
                 Completed = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Completed")).Count()
             }).ToList();
 
@@ -510,7 +511,7 @@ namespace Core.Services
 
             if (actualHours < 0)
             {
-                throw new Exception("Actual Hours must be greater than zero.");
+                throw new Exception("Actual Hours must be equal or greater than zero.");
             }
 
             enrollment.Status = "Completed";
@@ -518,7 +519,7 @@ namespace Core.Services
 
             if(enrollment.ScheduledAt.HasValue && enrollment.ScheduledHours.HasValue && DateTime.Now < enrollment.ScheduledAt.Value.AddHours((double)enrollment.ScheduledHours))
             {
-                throw new Exception("You can only complete the session after the scheduled date.");
+                throw new Exception("You’ll be able to complete the session only after the scheduled date has passed.");
             }
             enrollment.UpdatedDate = DateTime.Now;
 
