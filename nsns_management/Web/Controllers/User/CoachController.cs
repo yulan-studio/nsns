@@ -537,7 +537,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Coach")]
         [HttpPost("ScheduleCourse")]
-        public async Task<IActionResult> ScheduleCourse(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, int enrollmentId_Ref)
+        public async Task<IActionResult> ScheduleCourse(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, string location, int enrollmentId_Ref)
         {
             var user = await _userManager.GetUserAsync(User);
             var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
@@ -558,7 +558,7 @@ namespace Web.Controllers.User
             else
             { 
 
-                bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, coachId, enrollmentId_Ref);
+                bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, location, coachId, enrollmentId_Ref);
 
                 if (result)
                 {

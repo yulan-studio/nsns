@@ -302,7 +302,7 @@ namespace Core.Services
         }
 
         //Schedule Private Course for a child
-        public async Task<bool> ScheduleCourseAsync(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, int coachId, int enrollmentId_Ref)
+        public async Task<bool> ScheduleCourseAsync(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, string location, int coachId, int enrollmentId_Ref)
         {
             Child? child = await _childRepository.GetAsync(childId);
             if (child == null)
@@ -318,6 +318,7 @@ namespace Core.Services
                 Course = course,
                 ScheduledAt = scheduledAt,
                 ScheduledHours = scheduledHours,
+                Location = location,
                 CreatedBy = coach.UserID,
                 CreatedDate = DateTime.Now,
                 Status = "Scheduled",
