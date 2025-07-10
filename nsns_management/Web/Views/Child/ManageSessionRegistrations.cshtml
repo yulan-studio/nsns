@@ -133,6 +133,10 @@
 
                                     <option value="Deleted" selected="@(Model.AllSessions[i].Status == "Canceled")">Canceled</option>
                                 }
+                                else if (Model.AllSessions[i].Status == "OnLeave")
+                                {
+                                    <option value="OnLeave">On Leave</option>
+                                }
                                
                                
                                
