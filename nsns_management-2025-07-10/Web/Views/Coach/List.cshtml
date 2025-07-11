@@ -1,0 +1,97 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manage Coaches";
+}
+
+
+@* @model IEnumerable<Coach> *@
+@model List<Core.ViewModels.CoachWithDeleteViewModel>
+
+
+<h1>Manage Coaches</h1>
+
+<a href="/Coach/Add" style="display: inline-block; margin-bottom: 20px;">Add Coach</a>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">#</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Name</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Specialties</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Gender</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Email</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Phone</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Wechat</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">City</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int index = 1;
+            
+            foreach (var coachWithDelete in Model)
+            {
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@index</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.Name</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @if (coachWithDelete.Coach.CoachSpecialties != null && coachWithDelete.Coach.CoachSpecialties.Any())
+                        {
+                            @string.Join(", ", coachWithDelete.Coach.CoachSpecialties.Select(cs => cs.Specialty.Title))
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.Gender</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.User.Email</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.Phone</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.Wechat</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@(coachWithDelete.Coach.City != null ? coachWithDelete.Coach.City.Name : "N/A")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @if (coachWithDelete.CanDelete)
+                        {
+                            <a href="/Coach/ConfirmDelete/@coachWithDelete.Coach.CoachID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Delete</a>
+                        }
+                        <a href="/Coach/Edit/@coachWithDelete.Coach.CoachID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
+
+                    </td>
+                </tr>
+                index++;
+            }
+        }
+
+
+
+       
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="9">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="9">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

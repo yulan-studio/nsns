@@ -1,0 +1,250 @@
+﻿ @model Core.ViewModels.ManageSessionsViewModel
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/sessions.js"></script>
+
+<script>
+    function validateScheduleTime() {
+        const scheduledAtInput = document.getElementById("scheduledAt");
+        const errorSpan = document.getElementById("scheduledAtError");
+        const scheduledDate = new Date(scheduledAtInput.value);
+        const now = new Date();
+
+        if (!scheduledAtInput.value || scheduledDate <= now) {
+            errorSpan.textContent = "Scheduled time must be in the future.";
+            return false;
+        }
+
+        errorSpan.textContent = ""; // clear error if valid
+        return true;
+    }
+</script>
+
+
+@* @model IEnumerable<Core.ViewModels.SchedulesViewModel> *@
+@{
+    ViewData["Title"] = "Manage Group Course Sessions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int courseId = (int)ViewBag.CourseID;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<a href="/Course/List" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to Courses List</a>
+
+
+
+<div style="padding-top: 40px; padding-bottom: 20px">
+
+
+    <strong>Course:</strong> @Model.Course.Title <br /><br />
+   
+
+    <strong>Session Count:</strong> @Model.Course.SessionCount (Number of sessions the child needs to be enrolled in for this course)<br />
+
+
+
+
+
+</div>
+
+<!-- Add New Session Form -->
+<div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2; border-radius: 8px;">
+    <form method="post" asp-action="AddSession" asp-controller="Course" onsubmit="return validateScheduleTime()">
+        <input type="hidden" name="courseId" value="@courseId" />
+        <input type="hidden" name="courseId" value="@courseId" />
+
+
+        <div style="margin-bottom: 10px;">
+            <strong>Scheduled At:</strong><br />
+            <input type="datetime-local" name="scheduledAt" id="scheduledAt" required style="width: 40%; padding: 5px;" />
+            <span id="scheduledAtError" style="color: red; margin-left: 10px;"></span>
+        </div>
+       
+        <div style="margin-bottom: 10px;">
+            <strong>Scheduled Hours:</strong><br />
+            <input type="number" step="0.5" min="0.5" name="scheduledHours" required style="width: 40%; padding: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <strong>Location:</strong><br />
+            <input type="text"  name="location" required style="width: 40%; padding: 5px;" />
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <strong>Staff Note:</strong><br />
+            <textarea name="staffNote" rows="3" style="width: 40%; padding: 5px;" placeholder="Enter note here..."></textarea>
+        </div>
+
+        <button type="submit" style="background-color: #ff4d4d; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 4px;">Add Session</button>
+    </form>
+</div>
+
+<!-- Existing Sessions Table -->
+<h5>Upcoming Sessions</h5>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd; width: 18%">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Staff Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.AllUpcomingSessions.Any())
+        {
+            foreach (var s in Model.AllUpcomingSessions)
+            {
+                <tr id="row-@s.EnrollmentID">
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Location</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @if (!(s.Status =="Canceled")&&!(s.Status == "completed"))
+                        {
+                            <a href="#" onclick="loadEditSessionForm(@s.EnrollmentID)" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
+                        }
+
+                        @if (!Model.RegisteredUpcomingSessionIds.Contains(@s.EnrollmentID))
+                        
+                        {
+                        <a href="#" onclick="loadDeleteSessionConfirm(@s.EnrollmentID)" style="margin-left: 10px; color: #007bff; text-decoration: none;" >Delete</a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+
+      
+
+
+        else
+        {
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 10px;">No sessions scheduled yet.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" style="margin-top: 20px;">@TempData["SuccessMessage"]</div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" style="margin-top: 20px;">@TempData["ErrorMessage"]</div>
+}
+
+<!-- Modal Popup -->
+<div id="sessionModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Course Session</h5>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- The Add/Edit form will be loaded here dynamically -->
+                <!-- The Delete Confirm popup will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<br />
+
+
+<!-- Canceled Sessions Table -->
+<h5>Canceled Sessions</h5>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd; width: 18%">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Staff Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CanceledSessions.Any())
+        {
+            foreach (var s in Model.CanceledSessions)
+            {
+                <tr id="row-@s.EnrollmentID">
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Location</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;"></td>
+                </tr>
+            }
+        }
+
+        else
+        {
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 10px;">No Canceled sessions.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<!-- Completed Sessions Table -->
+<h5>Completed Sessions</h5>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd; width: 18%">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Staff Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CompletedSessions.Any())
+        {
+            foreach (var s in Model.CompletedSessions)
+            {
+                <tr id="row-@s.EnrollmentID">
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Location</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;"></td>
+                </tr>
+            }
+        }
+
+        else
+        {
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 10px;">No Completed sessions.</td>
+            </tr>
+        }
+    </tbody>
+</table>

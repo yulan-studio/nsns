@@ -1,0 +1,134 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\repositories\\adminrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\repositories\\adminrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D72C54B1-7C67-45FD-A80A-ACC6E2429FD7}|DB_backup{D72C54B1-7C67-45FD-A80A-ACC6E2429FD7}|C:\\Backups\\backup_restore_command.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D72C54B1-7C67-45FD-A80A-ACC6E2429FD7}|DB_backup{D72C54B1-7C67-45FD-A80A-ACC6E2429FD7}|C:\\Backups\\nsns_db3_backup_2025_04_19.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "Web\\Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "Web\\Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T20:28:28.88Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\appsettings.json",
+              "RelativeDocumentMoniker": "Web\\appsettings.json",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\appsettings.json",
+              "RelativeToolTip": "Web\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-19T10:34:49.07Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AdminRepository.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\AdminRepository.cs",
+              "RelativeDocumentMoniker": "Core\\Repositories\\AdminRepository.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\AdminRepository.cs",
+              "RelativeToolTip": "Core\\Repositories\\AdminRepository.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAjwGcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T03:09:18.918Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "backup_restore_command.txt",
+              "DocumentMoniker": "C:\\Backups\\backup_restore_command.txt",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Backups\\backup_restore_command.txt",
+              "ToolTip": "C:\\Backups\\backup_restore_command.txt",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Backups\\backup_restore_command.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-04-21T10:23:02.191Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Program.cs",
+              "RelativeDocumentMoniker": "Web\\Program.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Program.cs",
+              "RelativeToolTip": "Web\\Program.cs",
+              "ViewState": "AgIAAIwAAAAAAAAAAAAAwJoAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-21T08:51:49.584Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "nsns_db3_backup_2025_04_19.sql",
+              "DocumentMoniker": "C:\\Backups\\nsns_db3_backup_2025_04_19.sql",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Backups\\nsns_db3_backup_2025_04_19.sql",
+              "ToolTip": "C:\\Backups\\nsns_db3_backup_2025_04_19.sql",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Backups\\nsns_db3_backup_2025_04_19.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-04-19T22:09:08.935Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

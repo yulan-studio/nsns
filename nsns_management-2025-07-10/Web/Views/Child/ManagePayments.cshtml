@@ -1,0 +1,158 @@
+﻿
+
+
+<script src="/js/payments.js"></script>
+@model Core.ViewModels.ManagePaymentsViewModel
+
+
+<div>
+    <p><strong>Name:</strong> @Model.Child.Name</p>
+    <p><strong>Birth Date:</strong> @(Model.Child.BirthDate.HasValue ? Model.Child.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")</p>
+    <p><strong>Gender:</strong> @Model.Child.Gender</p>
+    <p><strong>City:</strong> @(Model.Child.City != null ? Model.Child.City.Name : "N/A")</p>
+</div>
+<a href="/Child/List" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to List</a>
+<div style="border-top: 2px solid #ddd; margin: 20px 0;"></div>
+
+
+
+<!-- ✅ Table Showing Payments -->
+<h3 style="color: 007bff">Manage Payments</h3>
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">Parent</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Payment Package</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Amount</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Payment Date</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Receipt</th>
+            
+            <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Payments.Any())
+
+        {
+
+            foreach (var payment in Model.Payments)
+
+            {
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@payment.Parent.Name</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@payment.PaymentPackage.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">$@payment.Amount</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@(payment.PaymentDate.HasValue? payment.PaymentDate.Value.ToString("yyyy-MM-dd") : "")</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(payment.Receipt))
+
+                        {
+                            <a href="@payment.Receipt" target="_blank">
+                                <img src="@payment.Receipt" alt="Receipt" width="100">
+                            </a>
+                        }
+
+                        else
+
+                        {
+                            <span>No Receipt</span>
+                        }
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                       @*  <a href="/Payment/Edit/@payment.PaymentID" style="margin-right: 10px; color: #007bff; text-decoration: none;">Edit</a>
+                        <a href="/Payment/ConfirmDelete/@payment.PaymentID" style="color: red; text-decoration: none;">Delete</a>
+ *@
+
+                        <form method="post" action="/Child/RemovePayment">
+                            <input type="hidden" name="paymentId" value="@payment.PaymentID" />
+                            <input type="hidden" name="childId" value="@payment.Child.ChildID" />
+                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                                Remove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+
+        }
+
+        else
+
+        {
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 10px;">No payments found.</td>
+            </tr>
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+
+        {
+            <tr>
+                <td colspan="6">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+
+        {
+            <tr>
+                <td colspan="6">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+<!-- ✅ Form to Add a New Payment -->
+<div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
+    <b>Add Payment for @Model.Child.Name</b>
+    <div style="margin-bottom: 10px;"></div>
+    <form method="post" action="/Child/AddPayment" enctype="multipart/form-data">
+        <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+
+        <label for="parentId">Select Parent:</label>
+        <select id="parentId" name="parentId" required>
+            <option value="">-- Select Parent --</option>
+            @foreach (var parent in ViewBag.ParentList)
+            {
+                <option value="@parent.Value">@parent.Text</option>
+            }
+        </select>
+
+        <div style="padding-top: 5px"></div>
+
+        <label for="packageId">Select Payment Package:</label>
+        <select id="packageId" name="packageId" required onchange="fetchPackageAmount(this.value)">
+            <option value="">-- Select Package --</option>
+            @foreach (var package in ViewBag.PaymentPackages)
+            {
+                <option value="@package.Value">@package.Text</option>
+            }
+        </select>
+
+        <label for="amount">Amount:</label>
+        <input name="amount"  required readonly />
+
+        <div style="padding-top: 5px"></div>
+
+        <label for="receiptFile">Upload Receipt:</label>
+        <input type="file" name="receiptFile" accept="image/*" required />
+
+        <div style="padding-top: 5px"></div>
+
+        <label for="paymentDate">Payment Date:</label>
+        <input type="date" name="paymentDate" required />
+
+        <div style="padding-top: 5px"></div>
+
+        <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Add Payment</button>
+    </form>
+</div>

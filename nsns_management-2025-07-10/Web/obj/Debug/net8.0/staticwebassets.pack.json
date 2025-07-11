@@ -1,0 +1,353 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Web.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Web.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\css\\site_old.css",
+      "PackagePath": "staticwebassets\\css\\site_old.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\images\\nsns_logo.jpg",
+      "PackagePath": "staticwebassets\\images\\nsns_logo.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\cities.js",
+      "PackagePath": "staticwebassets\\js\\cities.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\coaches.js",
+      "PackagePath": "staticwebassets\\js\\coaches.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\courses.js",
+      "PackagePath": "staticwebassets\\js\\courses.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\payments.js",
+      "PackagePath": "staticwebassets\\js\\payments.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\registrations.js",
+      "PackagePath": "staticwebassets\\js\\registrations.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\schedules.js",
+      "PackagePath": "staticwebassets\\js\\schedules.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\sessions.js",
+      "PackagePath": "staticwebassets\\js\\sessions.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\specialties.js",
+      "PackagePath": "staticwebassets\\js\\specialties.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\008e2224-5bf2-4d80-bf32-e435166b0ad8_2.jpg",
+      "PackagePath": "staticwebassets\\receipts\\008e2224-5bf2-4d80-bf32-e435166b0ad8_2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\0337932a-e510-4af2-bbdc-aac3780686e3_1.webp",
+      "PackagePath": "staticwebassets\\receipts\\0337932a-e510-4af2-bbdc-aac3780686e3_1.webp"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\19d14672-e210-4457-bebd-aca7012766b6_IMG_2138.jpg",
+      "PackagePath": "staticwebassets\\receipts\\19d14672-e210-4457-bebd-aca7012766b6_IMG_2138.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\1ad40d58-b900-44d4-982b-6e8cfc9ab2fb_2.jpg",
+      "PackagePath": "staticwebassets\\receipts\\1ad40d58-b900-44d4-982b-6e8cfc9ab2fb_2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\1b10dacd-f8e3-48ae-8374-7b5d2eefc62d_IMG_2138.jpg",
+      "PackagePath": "staticwebassets\\receipts\\1b10dacd-f8e3-48ae-8374-7b5d2eefc62d_IMG_2138.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\21bdc664-ea44-4aaf-92d6-631656a15fb8_key term & key theme 2.jpg",
+      "PackagePath": "staticwebassets\\receipts\\21bdc664-ea44-4aaf-92d6-631656a15fb8_key term & key theme 2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\347ee6af-fe0a-4239-b277-c3df2e29f27e_key term & key theme 2.jpg",
+      "PackagePath": "staticwebassets\\receipts\\347ee6af-fe0a-4239-b277-c3df2e29f27e_key term & key theme 2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\3e55c50b-6773-408b-a9bf-1695dd830ae7_1.jpg",
+      "PackagePath": "staticwebassets\\receipts\\3e55c50b-6773-408b-a9bf-1695dd830ae7_1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\48915607-0ead-4de8-8f1a-1b753baf01f5_IMG_2138.jpg",
+      "PackagePath": "staticwebassets\\receipts\\48915607-0ead-4de8-8f1a-1b753baf01f5_IMG_2138.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\afb18891-4da7-417e-9668-e4df93388335_1.jpg",
+      "PackagePath": "staticwebassets\\receipts\\afb18891-4da7-417e-9668-e4df93388335_1.jpg"
+    },
+    {
+      "Id": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\receipts\\fe1834c5-fc40-4bfa-ae6d-847f92eee30d_IMG_2138.jpg",
+      "PackagePath": "staticwebassets\\receipts\\fe1834c5-fc40-4bfa-ae6d-847f92eee30d_IMG_2138.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Web.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Web.props",
+      "PackagePath": "build\\Web.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Web.props",
+      "PackagePath": "buildMultiTargeting\\Web.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Web.props",
+      "PackagePath": "buildTransitive\\Web.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

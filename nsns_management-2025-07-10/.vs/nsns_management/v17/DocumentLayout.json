@@ -1,0 +1,1524 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\myschedules.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\myschedules.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\coach\\manageschedules.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\coach\\manageschedules.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\myregistrations.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\myregistrations.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\manageregistrations.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\manageregistrations.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\coach\\manageenrollments.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\coach\\manageenrollments.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\interfaces\\icourseenrollmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\interfaces\\icourseenrollmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\services\\courseenrollmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\services\\courseenrollmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\controllers\\user\\coachcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\controllers\\user\\coachcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\myenrollmentshistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\myenrollmentshistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\repositories\\courseenrollmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\repositories\\courseenrollmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\controllers\\user\\childcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\controllers\\user\\childcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\coach\\managecourse.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\coach\\managecourse.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\course\\managesessions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\course\\managesessions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\managecourseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\managecourseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\managesessionregistrations.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\managesessionregistrations.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\course\\_editsession.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\course\\_editsession.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\course\\_deletesessionconfirm.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\course\\_deletesessionconfirm.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\controllers\\course\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\controllers\\course\\coursecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\backendservice\\activitystatusupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\backendservice\\activitystatusupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\backendservice\\groupcoursestatusupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\backendservice\\groupcoursestatusupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\backendservice\\rootcoursestatusupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\backendservice\\rootcoursestatusupdater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\interfaces\\icourseenrollmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\interfaces\\icourseenrollmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\services\\activityenrollmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\services\\activityenrollmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\manageregisterationsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\manageregisterationsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\managepayments.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\managepayments.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\coach\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\coach\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\enrollmentshistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\enrollmentshistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\courseenrollmentviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\courseenrollmentviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\models\\child.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\models\\child.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\managesessionregistrationsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\managesessionregistrationsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\formmodels\\updateallsessionsformmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\formmodels\\updateallsessionsformmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\formmodels\\updateschedulestoconfirmformmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\formmodels\\updateschedulestoconfirmformmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\formmodels\\updateschedulesformmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\formmodels\\updateschedulesformmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\manageparents.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\manageparents.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\manageschedulesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\manageschedulesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\manageparentsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\manageparentsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\activityviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\activityviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\models\\courseenrollment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\models\\courseenrollment.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\js\\sessions.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\js\\sessions.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\controllers\\home\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\controllers\\home\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\shared\\_baselayout2.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\shared\\_baselayout2.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\schedulesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\schedulesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\repositories\\courserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\repositories\\courserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\interfaces\\icourserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\interfaces\\icourserepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\interfaces\\icourseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\interfaces\\icourseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\services\\courseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\services\\courseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\course\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\course\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\editparent.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\editparent.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\repositories\\childrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\repositories\\childrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\coach\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\coach\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\js\\registrations.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\js\\registrations.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\course\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\course\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\js\\courses.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\js\\courses.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\js\\payments.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\js\\payments.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\js\\schedules.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\js\\schedules.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\city\\_edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\city\\_edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\course\\confirmdelete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\course\\confirmdelete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\course\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\course\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\city\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\city\\list.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\controllers\\setting\\citycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\controllers\\setting\\citycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\js\\cities.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\js\\cities.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\js\\coaches.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\js\\coaches.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\services\\cityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\services\\cityservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\manageenrollmentsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\manageenrollmentsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\courseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\courseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\services\\childservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\services\\childservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\services\\parentchildservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\services\\parentchildservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\repositories\\childbalancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\repositories\\childbalancerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\services\\coachservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\services\\coachservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\models\\course.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\models\\course.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\viewmodels\\addcourseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\viewmodels\\addcourseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\js\\specialties.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\js\\specialties.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\views\\child\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\views\\child\\add.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\interfaces\\ichildservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\interfaces\\ichildservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\interfaces\\ichildrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\interfaces\\ichildrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\qiang\\source\\Repo\\nsns_management-2025-05-25\\Web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\qiang\\source\\Repo\\nsns_management-2025-05-25\\Dockerfile||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\web\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CEA206F-2218-4DC8-A099-C86F1870E64B}|Web\\Web.csproj|solutionrelative:web\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|c:\\users\\qiang\\source\\repo\\nsns_management\\core\\repositories\\adminrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C5891154-67AC-4A25-ACD5-300A7B33B5D7}|Core\\Core.csproj|solutionrelative:core\\repositories\\adminrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D72C54B1-7C67-45FD-A80A-ACC6E2429FD7}|DB_backup{D72C54B1-7C67-45FD-A80A-ACC6E2429FD7}|C:\\Backups\\backup_restore_command.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D72C54B1-7C67-45FD-A80A-ACC6E2429FD7}|DB_backup{D72C54B1-7C67-45FD-A80A-ACC6E2429FD7}|C:\\Backups\\nsns_db3_backup_2025_04_19.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MySchedules.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\MySchedules.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\MySchedules.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\MySchedules.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\MySchedules.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-01T19:06:05.105Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ManageSchedules.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\ManageSchedules.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Coach\\ManageSchedules.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\ManageSchedules.cshtml",
+              "RelativeToolTip": "Web\\Views\\Coach\\ManageSchedules.cshtml",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACYAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-10T14:42:07.539Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ICourseEnrollmentService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\ICourseEnrollmentService.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\ICourseEnrollmentService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\ICourseEnrollmentService.cs",
+              "RelativeToolTip": "Core\\Interfaces\\ICourseEnrollmentService.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAewDQAAACBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T15:58:00.694Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MyRegistrations.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\MyRegistrations.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\MyRegistrations.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\MyRegistrations.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\MyRegistrations.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-08T19:22:13.861Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ManageEnrollments.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\ManageEnrollments.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Coach\\ManageEnrollments.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\ManageEnrollments.cshtml",
+              "RelativeToolTip": "Web\\Views\\Coach\\ManageEnrollments.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA8AAAByAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-11T15:20:24.145Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ManageRegistrations.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\ManageRegistrations.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\ManageRegistrations.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\ManageRegistrations.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\ManageRegistrations.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAACxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-05T02:34:45.395Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CourseEnrollmentService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\CourseEnrollmentService.cs",
+              "RelativeDocumentMoniker": "Core\\Services\\CourseEnrollmentService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\CourseEnrollmentService.cs",
+              "RelativeToolTip": "Core\\Services\\CourseEnrollmentService.cs",
+              "ViewState": "AgIAACEBAAAAAAAAAAArwDABAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-04T21:38:43.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CoachController.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\User\\CoachController.cs",
+              "RelativeDocumentMoniker": "Web\\Controllers\\User\\CoachController.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\User\\CoachController.cs",
+              "RelativeToolTip": "Web\\Controllers\\User\\CoachController.cs",
+              "ViewState": "AgIAABgCAAAAAAAAAAArwDACAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T19:32:15.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MyEnrollmentsHistory.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\MyEnrollmentsHistory.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\MyEnrollmentsHistory.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\MyEnrollmentsHistory.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\MyEnrollmentsHistory.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAC8AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-01T22:19:20.505Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CourseEnrollmentRepository.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\CourseEnrollmentRepository.cs",
+              "RelativeDocumentMoniker": "Core\\Repositories\\CourseEnrollmentRepository.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\CourseEnrollmentRepository.cs",
+              "RelativeToolTip": "Core\\Repositories\\CourseEnrollmentRepository.cs",
+              "ViewState": "AgIAAHAAAAAAAAAAAAArwHwAAAD2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-04T21:35:31.659Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ChildController.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\User\\ChildController.cs",
+              "RelativeDocumentMoniker": "Web\\Controllers\\User\\ChildController.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\User\\ChildController.cs",
+              "RelativeToolTip": "Web\\Controllers\\User\\ChildController.cs",
+              "ViewState": "AgIAAFcDAAAAAAAAAAArwGYDAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T21:07:27.397Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "ManageCourse.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\ManageCourse.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Coach\\ManageCourse.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\ManageCourse.cshtml",
+              "RelativeToolTip": "Web\\Views\\Coach\\ManageCourse.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAADEAAACbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-13T17:03:57.501Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "ManageSessions.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\ManageSessions.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Course\\ManageSessions.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\ManageSessions.cshtml",
+              "RelativeToolTip": "Web\\Views\\Course\\ManageSessions.cshtml",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAAAN0AAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-09T20:07:22.398Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ManageCourseViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageCourseViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\ManageCourseViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageCourseViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\ManageCourseViewModel.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAYwEAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-15T17:55:06.417Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ManageSessionRegistrations.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\ManageSessionRegistrations.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\ManageSessionRegistrations.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\ManageSessionRegistrations.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\ManageSessionRegistrations.cshtml",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAAAE0AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-14T23:51:16.284Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "_EditSession.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\_EditSession.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Course\\_EditSession.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\_EditSession.cshtml",
+              "RelativeToolTip": "Web\\Views\\Course\\_EditSession.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAiwCAAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-12T02:56:46.851Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "_DeleteSessionConfirm.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\_DeleteSessionConfirm.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Course\\_DeleteSessionConfirm.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\_DeleteSessionConfirm.cshtml",
+              "RelativeToolTip": "Web\\Views\\Course\\_DeleteSessionConfirm.cshtml",
+              "ViewState": "AgIAAAEAAAAAAAAAAAAuwA0AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-12T02:27:41.154Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Web\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAACAAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-30T19:13:07.352Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CourseController.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\Course\\CourseController.cs",
+              "RelativeDocumentMoniker": "Web\\Controllers\\Course\\CourseController.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\Course\\CourseController.cs",
+              "RelativeToolTip": "Web\\Controllers\\Course\\CourseController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAvwBIAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T22:26:01.821Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ActivityStatusUpdater.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\BackendService\\ActivityStatusUpdater.cs",
+              "RelativeDocumentMoniker": "Core\\BackendService\\ActivityStatusUpdater.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\BackendService\\ActivityStatusUpdater.cs",
+              "RelativeToolTip": "Core\\BackendService\\ActivityStatusUpdater.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAQwAkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-29T23:22:00.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "GroupCourseStatusUpdater.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\BackendService\\GroupCourseStatusUpdater.cs",
+              "RelativeDocumentMoniker": "Core\\BackendService\\GroupCourseStatusUpdater.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\BackendService\\GroupCourseStatusUpdater.cs",
+              "RelativeToolTip": "Core\\BackendService\\GroupCourseStatusUpdater.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwCIAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-29T23:14:44.926Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Program.cs",
+              "RelativeDocumentMoniker": "Web\\Program.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Program.cs",
+              "RelativeToolTip": "Web\\Program.cs",
+              "ViewState": "AgIAAKoAAAAAAAAAAAAcwKkAAAB3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-21T08:51:49.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "RootCourseStatusUpdater.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\BackendService\\RootCourseStatusUpdater.cs",
+              "RelativeDocumentMoniker": "Core\\BackendService\\RootCourseStatusUpdater.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\BackendService\\RootCourseStatusUpdater.cs",
+              "RelativeToolTip": "Core\\BackendService\\RootCourseStatusUpdater.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwB8AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T20:24:25.197Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "ICourseEnrollmentRepository.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\ICourseEnrollmentRepository.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\ICourseEnrollmentRepository.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\ICourseEnrollmentRepository.cs",
+              "RelativeToolTip": "Core\\Interfaces\\ICourseEnrollmentRepository.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAnwDUAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-11T21:17:16.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ActivityEnrollmentService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\ActivityEnrollmentService.cs",
+              "RelativeDocumentMoniker": "Core\\Services\\ActivityEnrollmentService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\ActivityEnrollmentService.cs",
+              "RelativeToolTip": "Core\\Services\\ActivityEnrollmentService.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAAAjwFIAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T19:21:45.443Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ManageRegisterationsViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageRegisterationsViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\ManageRegisterationsViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageRegisterationsViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\ManageRegisterationsViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAwAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-08T19:37:24.802Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "ManagePayments.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\ManagePayments.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\ManagePayments.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\ManagePayments.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\ManagePayments.cshtml",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAAAJsAAACAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-16T17:38:25.358Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Add.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\Add.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Coach\\Add.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\Add.cshtml",
+              "RelativeToolTip": "Web\\Views\\Coach\\Add.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-09T20:06:57.035Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "EnrollmentsHistory.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\EnrollmentsHistory.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\EnrollmentsHistory.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\EnrollmentsHistory.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\EnrollmentsHistory.cshtml",
+              "ViewState": "AgIAAFAAAAAAAAAAAAAAAF8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-09T04:56:08.002Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "CourseEnrollmentViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\CourseEnrollmentViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\CourseEnrollmentViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\CourseEnrollmentViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\CourseEnrollmentViewModel.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAIwCEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T03:32:04.907Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Child.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Models\\Child.cs",
+              "RelativeDocumentMoniker": "Core\\Models\\Child.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Models\\Child.cs",
+              "RelativeToolTip": "Core\\Models\\Child.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAA5wA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T20:00:09.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "UpdateSchedulesToConfirmFormModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\FormModels\\UpdateSchedulesToConfirmFormModel.cs",
+              "RelativeDocumentMoniker": "Core\\FormModels\\UpdateSchedulesToConfirmFormModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\FormModels\\UpdateSchedulesToConfirmFormModel.cs",
+              "RelativeToolTip": "Core\\FormModels\\UpdateSchedulesToConfirmFormModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-07T21:58:49.213Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "UpdateAllSessionsFormModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\FormModels\\UpdateAllSessionsFormModel.cs",
+              "RelativeDocumentMoniker": "Core\\FormModels\\UpdateAllSessionsFormModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\FormModels\\UpdateAllSessionsFormModel.cs",
+              "RelativeToolTip": "Core\\FormModels\\UpdateAllSessionsFormModel.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABQAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-07T23:29:11.216Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "ManageSessionRegistrationsViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageSessionRegistrationsViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\ManageSessionRegistrationsViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageSessionRegistrationsViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\ManageSessionRegistrationsViewModel.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAuwAwAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-14T23:52:50.931Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "UpdateSchedulesFormModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\FormModels\\UpdateSchedulesFormModel.cs",
+              "RelativeDocumentMoniker": "Core\\FormModels\\UpdateSchedulesFormModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\FormModels\\UpdateSchedulesFormModel.cs",
+              "RelativeToolTip": "Core\\FormModels\\UpdateSchedulesFormModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T22:10:33.215Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Web\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-30T19:15:32.126Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "ManageParents.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\ManageParents.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\ManageParents.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\ManageParents.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\ManageParents.cshtml",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAACsAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-15T14:11:47.734Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "ManageSchedulesViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageSchedulesViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\ManageSchedulesViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageSchedulesViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\ManageSchedulesViewModel.cs",
+              "ViewState": "AgIAAAEAAAAAAAAAAAApwBEAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-15T12:46:51.053Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "ManageParentsViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageParentsViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\ManageParentsViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageParentsViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\ManageParentsViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA4AAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-06T17:22:24.334Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "ActivityViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ActivityViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\ActivityViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ActivityViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\ActivityViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-02T22:10:48.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "CourseEnrollment.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Models\\CourseEnrollment.cs",
+              "RelativeDocumentMoniker": "Core\\Models\\CourseEnrollment.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Models\\CourseEnrollment.cs",
+              "RelativeToolTip": "Core\\Models\\CourseEnrollment.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAkwDIAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-09T17:50:23.205Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "sessions.js",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\sessions.js",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\js\\sessions.js",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\sessions.js",
+              "RelativeToolTip": "Web\\wwwroot\\js\\sessions.js",
+              "ViewState": "AgIAABUAAAAAAAAAAAAYwB8AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-12T02:38:23.43Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\Home\\HomeController.cs",
+              "RelativeDocumentMoniker": "Web\\Controllers\\Home\\HomeController.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\Home\\HomeController.cs",
+              "RelativeToolTip": "Web\\Controllers\\Home\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-30T19:13:57.467Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "Web\\wwwroot\\css\\site.css",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAEwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-06-30T19:49:16.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "_BaseLayout2.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Shared\\_BaseLayout2.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Shared\\_BaseLayout2.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Shared\\_BaseLayout2.cshtml",
+              "RelativeToolTip": "Web\\Views\\Shared\\_BaseLayout2.cshtml",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAGsAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-30T19:20:14.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "SchedulesViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\SchedulesViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\SchedulesViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\SchedulesViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\SchedulesViewModel.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAuwB8AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T23:59:10.35Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "CourseRepository.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\CourseRepository.cs",
+              "RelativeDocumentMoniker": "Core\\Repositories\\CourseRepository.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\CourseRepository.cs",
+              "RelativeToolTip": "Core\\Repositories\\CourseRepository.cs",
+              "ViewState": "AgIAAKAAAAAAAAAAAAAcwKwAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T15:41:16.605Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "ICourseRepository.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\ICourseRepository.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\ICourseRepository.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\ICourseRepository.cs",
+              "RelativeToolTip": "Core\\Interfaces\\ICourseRepository.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAkwCgAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-05T03:03:10.777Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "ICourseService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\ICourseService.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\ICourseService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\ICourseService.cs",
+              "RelativeToolTip": "Core\\Interfaces\\ICourseService.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAD4vykAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T21:55:05.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "CourseService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\CourseService.cs",
+              "RelativeDocumentMoniker": "Core\\Services\\CourseService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\CourseService.cs",
+              "RelativeToolTip": "Core\\Services\\CourseService.cs",
+              "ViewState": "AgIAAMoAAAAAAAAAAAAWwNkAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T21:59:32.46Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "List.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\List.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Course\\List.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\List.cshtml",
+              "RelativeToolTip": "Web\\Views\\Course\\List.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-02T15:26:09.091Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "List.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\List.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\List.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\List.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\List.cshtml",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAAUAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-31T02:17:23.701Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "EditParent.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\EditParent.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\EditParent.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\EditParent.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\EditParent.cshtml",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-15T14:08:50.607Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "ChildRepository.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\ChildRepository.cs",
+              "RelativeDocumentMoniker": "Core\\Repositories\\ChildRepository.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\ChildRepository.cs",
+              "RelativeToolTip": "Core\\Repositories\\ChildRepository.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAADwvxoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T21:42:15.64Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Coach\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Coach\\Edit.cshtml",
+              "RelativeToolTip": "Web\\Views\\Coach\\Edit.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAADEAAABnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-13T21:56:18.335Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "registrations.js",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\registrations.js",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\js\\registrations.js",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\registrations.js",
+              "RelativeToolTip": "Web\\wwwroot\\js\\registrations.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-02T18:38:35.48Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Course\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\Edit.cshtml",
+              "RelativeToolTip": "Web\\Views\\Course\\Edit.cshtml",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAADQAAADNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-31T23:23:38.44Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "courses.js",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\courses.js",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\js\\courses.js",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\courses.js",
+              "RelativeToolTip": "Web\\wwwroot\\js\\courses.js",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACYAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-02T18:32:46.629Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "payments.js",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\payments.js",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\js\\payments.js",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\payments.js",
+              "RelativeToolTip": "Web\\wwwroot\\js\\payments.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-02T18:38:10.326Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "schedules.js",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\schedules.js",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\js\\schedules.js",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\schedules.js",
+              "RelativeToolTip": "Web\\wwwroot\\js\\schedules.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-02T18:38:37.926Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 60,
+              "Title": "_Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\City\\_Edit.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\City\\_Edit.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\City\\_Edit.cshtml",
+              "RelativeToolTip": "Web\\Views\\City\\_Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-12T02:06:04.092Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "ConfirmDelete.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\ConfirmDelete.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Course\\ConfirmDelete.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\ConfirmDelete.cshtml",
+              "RelativeToolTip": "Web\\Views\\Course\\ConfirmDelete.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-02T16:46:58.112Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "Add.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\Add.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Course\\Add.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Course\\Add.cshtml",
+              "RelativeToolTip": "Web\\Views\\Course\\Add.cshtml",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAAAHAAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-31T22:45:15.198Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "List.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\City\\List.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\City\\List.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\City\\List.cshtml",
+              "RelativeToolTip": "Web\\Views\\City\\List.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAEAAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-06-12T01:54:09.137Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "CityController.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\Setting\\CityController.cs",
+              "RelativeDocumentMoniker": "Web\\Controllers\\Setting\\CityController.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Controllers\\Setting\\CityController.cs",
+              "RelativeToolTip": "Web\\Controllers\\Setting\\CityController.cs",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAowJEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T02:01:51.963Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "cities.js",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\cities.js",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\js\\cities.js",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\cities.js",
+              "RelativeToolTip": "Web\\wwwroot\\js\\cities.js",
+              "ViewState": "AgIAACEAAAAAAAAAAAAowDQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-02T18:31:00.62Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
+              "Title": "coaches.js",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\coaches.js",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\js\\coaches.js",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\coaches.js",
+              "RelativeToolTip": "Web\\wwwroot\\js\\coaches.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAoAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-02T18:38:21.837Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "CityService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\CityService.cs",
+              "RelativeDocumentMoniker": "Core\\Services\\CityService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\CityService.cs",
+              "RelativeToolTip": "Core\\Services\\CityService.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAxwC8AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-12T15:25:13.853Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 68,
+              "Title": "ManageEnrollmentsViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageEnrollmentsViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\ManageEnrollmentsViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\ManageEnrollmentsViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\ManageEnrollmentsViewModel.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAwAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-11T16:52:56.866Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 70,
+              "Title": "LoginViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\LoginViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\LoginViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\LoginViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\LoginViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-11T16:52:37.177Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 72,
+              "Title": "ParentChildService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\ParentChildService.cs",
+              "RelativeDocumentMoniker": "Core\\Services\\ParentChildService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\ParentChildService.cs",
+              "RelativeToolTip": "Core\\Services\\ParentChildService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-11T16:51:58.773Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 69,
+              "Title": "CourseViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\CourseViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\CourseViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\CourseViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\CourseViewModel.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABgAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-02T15:33:54.256Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 71,
+              "Title": "ChildService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\ChildService.cs",
+              "RelativeDocumentMoniker": "Core\\Services\\ChildService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\ChildService.cs",
+              "RelativeToolTip": "Core\\Services\\ChildService.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAIAwwIkAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T21:21:25.207Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 73,
+              "Title": "ChildBalanceRepository.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\ChildBalanceRepository.cs",
+              "RelativeDocumentMoniker": "Core\\Repositories\\ChildBalanceRepository.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\ChildBalanceRepository.cs",
+              "RelativeToolTip": "Core\\Repositories\\ChildBalanceRepository.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAApwDYAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T17:26:11.065Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 75,
+              "Title": "Course.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Models\\Course.cs",
+              "RelativeDocumentMoniker": "Core\\Models\\Course.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Models\\Course.cs",
+              "RelativeToolTip": "Core\\Models\\Course.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAuwBgAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T21:38:41.055Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 74,
+              "Title": "CoachService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\CoachService.cs",
+              "RelativeDocumentMoniker": "Core\\Services\\CoachService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Services\\CoachService.cs",
+              "RelativeToolTip": "Core\\Services\\CoachService.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-10T16:10:21.231Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 76,
+              "Title": "AddCourseViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\AddCourseViewModel.cs",
+              "RelativeDocumentMoniker": "Core\\ViewModels\\AddCourseViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\ViewModels\\AddCourseViewModel.cs",
+              "RelativeToolTip": "Core\\ViewModels\\AddCourseViewModel.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAuwBYAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T22:26:43.374Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 78,
+              "Title": "site.js",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\site.js",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\js\\site.js",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\site.js",
+              "RelativeToolTip": "Web\\wwwroot\\js\\site.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-02T18:38:43.944Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 77,
+              "Title": "specialties.js",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\specialties.js",
+              "RelativeDocumentMoniker": "Web\\wwwroot\\js\\specialties.js",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\wwwroot\\js\\specialties.js",
+              "RelativeToolTip": "Web\\wwwroot\\js\\specialties.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-06-02T18:38:50.585Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 80,
+              "Title": "Add.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\Add.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\Add.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\Add.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\Add.cshtml",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAADwAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-26T20:02:09.688Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 79,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Web\\Views\\Child\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Views\\Child\\Edit.cshtml",
+              "RelativeToolTip": "Web\\Views\\Child\\Edit.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-31T23:04:44.811Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 82,
+              "Title": "IChildRepository.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\IChildRepository.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\IChildRepository.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\IChildRepository.cs",
+              "RelativeToolTip": "Core\\Interfaces\\IChildRepository.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-31T01:33:09.513Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 81,
+              "Title": "IChildService.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\IChildService.cs",
+              "RelativeDocumentMoniker": "Core\\Interfaces\\IChildService.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Interfaces\\IChildService.cs",
+              "RelativeToolTip": "Core\\Interfaces\\IChildService.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABUAAACBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-26T21:27:25.551Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 83,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management-2025-05-25\\Web\\appsettings.json",
+              "RelativeDocumentMoniker": "..\\nsns_management-2025-05-25\\Web\\appsettings.json",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management-2025-05-25\\Web\\appsettings.json",
+              "RelativeToolTip": "..\\nsns_management-2025-05-25\\Web\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-26T01:49:31.54Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 84,
+              "Title": "Dockerfile",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management-2025-05-25\\Dockerfile",
+              "RelativeDocumentMoniker": "..\\nsns_management-2025-05-25\\Dockerfile",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management-2025-05-25\\Dockerfile",
+              "RelativeToolTip": "..\\nsns_management-2025-05-25\\Dockerfile",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-26T01:42:38.287Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 86,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "Web\\Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "Web\\Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T20:28:28.88Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 85,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\appsettings.json",
+              "RelativeDocumentMoniker": "Web\\appsettings.json",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Web\\appsettings.json",
+              "RelativeToolTip": "Web\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-19T10:34:49.07Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 87,
+              "Title": "AdminRepository.cs",
+              "DocumentMoniker": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\AdminRepository.cs",
+              "RelativeDocumentMoniker": "Core\\Repositories\\AdminRepository.cs",
+              "ToolTip": "C:\\Users\\qiang\\source\\Repo\\nsns_management\\Core\\Repositories\\AdminRepository.cs",
+              "RelativeToolTip": "Core\\Repositories\\AdminRepository.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAjwGcAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T03:09:18.918Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 88,
+              "Title": "backup_restore_command.txt",
+              "DocumentMoniker": "C:\\Backups\\backup_restore_command.txt",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Backups\\backup_restore_command.txt",
+              "ToolTip": "C:\\Backups\\backup_restore_command.txt",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Backups\\backup_restore_command.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-04-21T10:23:02.191Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 89,
+              "Title": "nsns_db3_backup_2025_04_19.sql",
+              "DocumentMoniker": "C:\\Backups\\nsns_db3_backup_2025_04_19.sql",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Backups\\nsns_db3_backup_2025_04_19.sql",
+              "ToolTip": "C:\\Backups\\nsns_db3_backup_2025_04_19.sql",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Backups\\nsns_db3_backup_2025_04_19.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-04-19T22:09:08.935Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
