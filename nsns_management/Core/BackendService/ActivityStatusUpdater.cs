@@ -10,7 +10,7 @@ namespace Core.BackendService
     public class ActivityStatusUpdater : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IChildBalanceService _childBalanceService;
+
 
         public ActivityStatusUpdater(IServiceProvider serviceProvider)
         {

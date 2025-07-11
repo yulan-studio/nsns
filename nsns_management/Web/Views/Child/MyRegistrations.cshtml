@@ -10,21 +10,33 @@
 
 <!-- ✅ Table Showing Already Registered Courses -->
 <div style="padding-top: 20px; padding-bottom: 20px">
-<h5 style="color: 007bff">Registered Courses</h5>
+    <h5>Registered Courses</h5>
 </div>
-
+<div style="padding: 10px 10px 10px 10px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+    All registered and completed courses <br />
+    <span style="color:cadetblue">(To view upcoming course session schedules, please check the <a href="/Child/MySchedules">Schedules</a> section. For completed sessions, please refer to the <a href="/Child/MyEnrollmentsHistory">Enrollments</a> section.)</span>
+</div>
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
             <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Course Type</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Specialty</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th> *@
+            
             <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No Funding)</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Session Count</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Completed</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Canceled</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Request To Reschedule</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Request To Leave</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
             
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
+         
         </tr>
     </thead>
     <tbody>
@@ -36,32 +48,33 @@
             {
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CourseType</td>
                     <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.IsActive == false ?"color: red":"")">@enrollment.IsActive</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SpecialtyName</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
-                    @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours</td> *@
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
                     
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td>
+                    
+                    
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SessionCount</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; color:@(enrollment.ScheduledSessions > 0 ? "red" : "black");">@enrollment.ScheduledSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.CompletedSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;@(@enrollment.CanceledSessions>0 ?"color: red":"")">@enrollment.CanceledSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;@(enrollment.RequestToRescheduleSessions > 0 ?"color: red":"")">@enrollment.RequestToRescheduleSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;@(@enrollment.RequestToLeaveSessions>0 ?"color: red":"")">@enrollment.RequestToLeaveSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; @(@enrollment.OnLeaveSessions>0 ?"color: red":"")">@enrollment.OnLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
-                  @*   <td style="padding: 8px; border: 1px solid #ddd;">
-                        <form method="post" action="/Child/UnregisterCourse">
-                            <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
-                            <input type="hidden" name="childId" value="@enrollment.ChildID" />
-                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;">
-                                Remove
-                            </button>
-                        </form>
-                    </td> *@
+
+                 
                 </tr>
             }
-            <tr>
-                <td colspan="6" style="text-align: center; padding: 10px; color:darkslategray"><small>Please check <a href="/Child/MySchedules">Schedules</a> for details.</small></td>
-            </tr>
+           
         }
         else
         {
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px;">No courses enrolled.</td>
+                <td colspan="15" style="text-align: center; padding: 10px;">No courses enrolled.</td>
             </tr>
         }
 
@@ -76,10 +89,14 @@
 
 <!-- ✅ Table Showing Already Enrolled Activities -->
 <div style="padding-top: 20px; padding-bottom: 20px">
-<h5 style="color: 007bff">Registered Activities</h5>
-    
+<h5>Registered Activities </h5>
 </div>
+<div style="padding: 10px 10px 10px 10px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+    All registered activities that are not yet completed<br/>
+    <span style="color:cadetblue">For completed activities, please refer to the <a href="/Child/MyEnrollmentsHistory">Enrollments</a> section.</span>
 
+
+</div>
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">

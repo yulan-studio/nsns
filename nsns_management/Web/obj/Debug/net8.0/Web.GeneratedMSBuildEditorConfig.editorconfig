@@ -118,6 +118,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hpbGRcTWFuYWdlUmVnaXN0cmF0aW9ucy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/qiang/source/Repo/nsns_management/Web/Views/Child/ManageSessionRegistrations.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hpbGRcTWFuYWdlU2Vzc2lvblJlZ2lzdHJhdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/qiang/source/Repo/nsns_management/Web/Views/Child/MyBalance.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2hpbGRcTXlCYWxhbmNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -200,6 +204,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/qiang/source/Repo/nsns_management/Web/Views/Course/List.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/qiang/source/Repo/nsns_management/Web/Views/Course/ManageSessions.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXE1hbmFnZVNlc3Npb25zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/qiang/source/Repo/nsns_management/Web/Views/Course/_DeleteSessionConfirm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXF9EZWxldGVTZXNzaW9uQ29uZmlybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/qiang/source/Repo/nsns_management/Web/Views/Course/_EditSession.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ291cnNlXF9FZGl0U2Vzc2lvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/qiang/source/Repo/nsns_management/Web/Views/Dashboard/Admin.cshtml]

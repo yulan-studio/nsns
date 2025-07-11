@@ -13,13 +13,19 @@ namespace Core.ViewModels
     public class ChildSchedulesViewModel
     {
         public Child Child { get; set; }
-        public List<CourseSchedulesViewModel> CoursesSchedules { get; set; }
+
+        public int ChildID { get; set; }
+        public List<CourseSchedulesViewModel> CoursesSchedules { get; set; } = new();
+
+        public List<CourseSchedulesViewModel> CoursesSchedulesToConfirm { get; set; } = new();
     }
 
     public class CourseSchedulesViewModel
     {
         public Course Course { get; set; }
-        public List<CourseEnrollment> Schedules { get; set; }
+
+        public int CourseID { get; set; }
+        public List<CourseEnrollment> Schedules { get; set; } = new();
     }
 
 

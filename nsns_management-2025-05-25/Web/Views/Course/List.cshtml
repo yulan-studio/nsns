@@ -1,0 +1,75 @@
+﻿
+
+@model IEnumerable<Core.ViewModels.CourseViewModel> 
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manage Courses";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+
+<a href="/Course/Add" style="display: inline-block; margin-bottom: 20px;">Add Course</a>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">#</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Specialty</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Coach</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 20%;">Title</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Description</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Hourly Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;"># of Registrations</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Is Active</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 20%">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+      @{
+            int index = 1;
+            foreach (var course in Model)
+            {
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@index</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@course.SpecialtyName</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@course.CoachName</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@course.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@course.Description</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@course.HourlyCost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@course.RegisteredChildrenCount</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@course.IsActive</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                       
+                      @*   <a href="/Course/View/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none;">View</a> *@
+                        <a href="/Course/ConfirmDelete/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none; @(course.RegisteredChildrenCount == 0 ?"":"display: none;")">Delete</a>
+                        <a href="/Course/Edit/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
+                    </td>
+                </tr>
+                index++;
+            }
+        }
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="9">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="9">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

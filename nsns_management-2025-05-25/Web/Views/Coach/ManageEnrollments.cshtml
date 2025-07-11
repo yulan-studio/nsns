@@ -1,0 +1,117 @@
+﻿@model Core.ViewModels.ManageEnrollmentsViewModel
+
+<h2>Manage Enrollments</h2>
+
+<a href="/Coach/ManageCourse" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to Courses List</a>
+
+<div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
+    <p><strong>Course:</strong> @Model.Course.Title</p>
+    <p><strong>Child:</strong> @Model.Child.Name</p>
+</div>
+
+
+<div style="margin: 0; padding: 30px 0; color: #1B7BAB;"><h5>Scheduled Courses</h5></div>
+
+
+<table id="scheduleTable" style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ScheduledEnrollments.Any())
+        {
+            foreach (var schedule in Model.ScheduledEnrollments)
+            {
+                <tr>
+
+                    <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        <form method="post" action="/Coach/CompleteCourse">
+                            <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
+                            <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+                            <input type="hidden" name="courseId" value="@Model.Course.CourseID" />
+                            <input name="actualHours" value="@schedule.ActualHours" type="number" step="0.5" min="0" required />
+                            <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                                Complete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" style="text-align: center; padding: 10px;">No scheduled courses.</td>
+            </tr>
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div style="padding-top: 30px"></div>
+
+
+
+<div style="margin: 0; padding: 30px 0; color: #1B7BAB;"><h5>Completed Courses</h5></div>
+
+
+<table id="completeTable" style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CompletedEnrollments.Any())
+        {
+            foreach (var complete in Model.CompletedEnrollments)
+            {
+                <tr>
+
+                    <td style="padding: 8px; border: 1px solid #ddd;">@((complete.ScheduledAt.HasValue) ? complete.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@complete.ScheduledHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@complete.ActualHours</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3" style="text-align: center; padding: 10px;">No completed courses.</td>
+            </tr>
+        }
+
+        
+    </tbody>
+</table>

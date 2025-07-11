@@ -19,12 +19,46 @@ body {
     color: #363636;
 }
 
+.small-text{
+  font-size: 0.9rem;
+  color:#003b6f
+}
+
+.small-text a{
+  font-size: 0.9rem;
+  color:#3d70bb
+}
+
+
 header {
     background-color: var(--primary-blue);
     color: var(--text-color);
     padding: 0.5rem;
 }
 
+ul.dash-list {
+  list-style: none; /* Remove default bullets */
+  padding-left: 1em; /* Optional: add space before dashes */
+}
+
+ul.dash-list li::before {
+  content: "- ";        /* Dash with space */
+  color: inherit;       /* Optional: match text color */
+  font-weight: bold;    /* Optional: make the dash more visible */
+}
+
+ul.dash-list li {
+  margin-bottom: 1.2rem;
+}
+
+
+
+
+.about-project-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
 
 
 .nav-container {

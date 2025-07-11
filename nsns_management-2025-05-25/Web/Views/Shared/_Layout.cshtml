@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+   @*  <link rel="stylesheet" href="~/css/site.css" /> *@
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a href="https://example.com">
+                <img src="/images/nsns_logo.jpg" alt="NSNS" style="width: 100px; height: auto;" />
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/Home/Index">NSNS Portal</a></li>
+                    @if (User.IsInRole("Admin"))
+
+                    {
+                       @*  <li class="nav-item"><a class="nav-link" href="/Dashboard/Admin">Dashboard</a></li> *@
+                        <li class="nav-item"><a class="nav-link" href="/Admin/List">Admins</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Staff/List">Staff</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
+                    }
+
+                    else if (User.IsInRole("Staff"))
+
+                    {
+                        @* <li class="nav-item"><a class="nav-link" href="/Dashboard/Staff">Dashboard</a></li> *@
+                        <li class="nav-item"><a class="nav-link" href="/Specialty/List">Specialties</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/City/List">Cities</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Coach/List">Coaches</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/PaymentPackage/List">Packages</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Course/List">Courses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Activity/List">Activities</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Child/List">Children</a></li>
+                    }
+
+                    else if (User.IsInRole("Coach"))
+
+                    {
+                       @*  <li class="nav-item"><a class="nav-link" href="/Dashboard/Coach">Dashboard</a></li> *@
+                        <li class="nav-item"><a class="nav-link" href="/Coach/ManageCourse">Courses</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Feedbacks</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Coach/Income">Income</a></li>
+                    }
+
+                    else if (User.IsInRole("Child"))
+
+                    {
+                        @* <li class="nav-item"><a class="nav-link" href="/Dashboard/Child">Dashboard</a></li> *@
+
+
+
+                        <li class="nav-item"><a class="nav-link" href="/Child/MyRegistrations">Registerations</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Child/MySchedules">Schedules</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Child/MyEnrollmentsHistory">Enrollments</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Notifications</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Child/MyBalance">Balance</a></li>
+                    }
+                    @if (User.Identity.IsAuthenticated)
+
+                    {
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit();">Logout (@User.Identity.Name)</a>
+                            <form id="logout-form" asp-controller="Account" asp-action="Logout" method="post" style="display: none;"></form>
+                        </li>
+                    }
+
+                    else
+
+                    {
+                        <!-- Show Login if user is not logged in -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mt-4">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center mt-4">
+        <p>&copy; @DateTime.Now.Year - NSNS</p>
+    </footer>
+
+    <!-- Scripts -->
+   @*  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>    $.ajaxSetup({ cache: false });</script> *@
+</body>
+</html>

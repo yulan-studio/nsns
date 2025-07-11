@@ -34,9 +34,10 @@ namespace Web.Controllers.User
         private readonly ICourseEnrollmentService _courseEnrollmentService;
         private readonly ICourseService _courseService;
         private readonly IChildService _childService;
+        private readonly IParentChildService _parentChildService;
         private readonly UserManager<Core.Models.User> _userManager;
         
-        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, UserManager<Core.Models.User> userManager)
+        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, UserManager<Core.Models.User> userManager)
         {
             _coachService = coachService;
             _incomeService = incomeService;
@@ -48,6 +49,7 @@ namespace Web.Controllers.User
             _courseEnrollmentService = courseEnrollmentService;
             _courseService = courseService;
             _childService = childService;
+            _parentChildService = parentChildService;
             _userManager = userManager;
             
         }
@@ -453,8 +455,9 @@ namespace Web.Controllers.User
                         var courseChildren = new CourseChildrenViewModel();
                         courseChildren.CourseID = course.CourseID;
                         courseChildren.CourseTitle = course.Title;
+                        courseChildren.SessionCount = course.SessionCount;
 
-                      
+
 
                         var children = (List<ChildViewModel>)await _courseEnrollmentService.GetRegisterationByCourseAsync(course.CourseID);
                         courseChildren.RegisteredChildren = children;
@@ -488,7 +491,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Coach")]
         [HttpGet("ManageSchedules/{childId}")]
-        public async Task<IActionResult> ManageSchedules(int childId, [FromQuery] int courseId)
+        public async Task<IActionResult> ManageSchedules(int childId, [FromQuery] int courseId, [FromQuery] int enrollmentId)
         {
             try
             {
@@ -497,6 +500,7 @@ namespace Web.Controllers.User
                 int coachId = coach.CoachID;
                 // ✅ Get children who are enrolled in the coach's courses
                 var child = await _childService.GetAsync(childId);
+                var parents = await _parentChildService.GetParentsByChildIdAsync(childId);
 
                 // ✅ Get courses assigned to the coach
                 //var course = await _courseService.GetActiveCourseByCoachAsync(coachId);
@@ -504,15 +508,21 @@ namespace Web.Controllers.User
                 var course = await _courseService.GetAsync(courseId);
 
                 // ✅ Get schedules for the child and course
-                List<CourseEnrollment> schedules = (List<CourseEnrollment>)await _courseEnrollmentService.GetSchedulesByCourseChildAsync(course.CourseID, childId);
+                List<CourseEnrollment> schedules = (List<CourseEnrollment>)await _courseEnrollmentService.GetUpcomingEnrollmentsByCourseChildAsync(course.CourseID, childId);
 
+                List<CourseEnrollment> completed = (List<CourseEnrollment>)await _courseEnrollmentService.GetCompletesByCourseChildAsync(courseId, childId);
 
+                List<CourseEnrollment> scheduled = (List<CourseEnrollment>)await _courseEnrollmentService.GetSchedulesByCourseChildAsync(courseId, childId);
 
-                var model = new ManageSchedulesViewModel
+               var model = new ManageSchedulesViewModel
                 {
+                    EnrollmentID = enrollmentId,
                     Child = child,
+                    Parents = parents,
                     Course = course,
-                    Schedules = schedules
+                    Schedules = schedules,
+                    ScheduledCount = scheduled.Count,
+                    CompletedCount = completed.Count
                 };
 
                 return View(model);
@@ -527,7 +537,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Coach")]
         [HttpPost("ScheduleCourse")]
-        public async Task<IActionResult> ScheduleCourse(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours)
+        public async Task<IActionResult> ScheduleCourse(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, string location, int enrollmentId_Ref)
         {
             var user = await _userManager.GetUserAsync(User);
             var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
@@ -540,26 +550,35 @@ namespace Web.Controllers.User
                 throw new ArgumentException("Child not found");
             }
 
-            bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, coachId);
-
-            if (result)
+            if (scheduledAt < DateTime.Now)
             {
-                TempData["SuccessMessage"] = "Course scheduled successfully.";
+                TempData["ErrorMessage"] = "Please choose a future time.";
             }
+
             else
-            {
-                TempData["ErrorMessage"] = "Failed to schedule the course.";
+            { 
+
+                bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, location, coachId, enrollmentId_Ref);
+
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Course scheduled successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Failed to schedule the course.";
+                }
             }
 
-            return RedirectToAction("ManageSchedules", new { childId, courseId = courseId });
+            return RedirectToAction("ManageSchedules", new { childId, courseId = courseId, enrollmentId = enrollmentId_Ref });
         }
 
 
         [Authorize(Roles = "Coach")]
         [HttpPost("DeleteSchedule")]
-        public async Task<IActionResult> DeleteSchedule(int enrollmentId, int childId, int courseId)
+        public async Task<IActionResult> DeleteSchedule(int enrollmentId, int childId, int courseId, string coachNote, int enrollmentId_Ref)
         {
-            bool result = await _courseEnrollmentService.RemoveScheduleAsync(enrollmentId);
+            bool result = await _courseEnrollmentService.RemoveScheduleAsync(enrollmentId, coachNote);
 
             if (result)
             {
@@ -570,7 +589,7 @@ namespace Web.Controllers.User
                 TempData["ErrorMessage"] = "Failed to delete the schedule.";
             }
 
-            return RedirectToAction("ManageSchedules", new { childId, courseId = courseId });
+            return RedirectToAction("ManageSchedules", new { childId, courseId = courseId , enrollmentId = enrollmentId_Ref });
         }
 
 
@@ -609,8 +628,8 @@ namespace Web.Controllers.User
         }
 
         [Authorize(Roles = "Coach")]
-        [HttpPost("CompleteCourse")]
-        public async Task<IActionResult> CompleteCourse(int enrollmentId, int childId, int courseId, decimal actualHours)
+        [HttpPost("CompleteSession")]
+        public async Task<IActionResult> CompleteSession(int enrollmentId, int childId, int courseId, decimal actualHours)
         {
             //int coachId = 16; // GetLoggedInCoachId(); // Replace with actual logic to get coach ID
             var user = await _userManager.GetUserAsync(User);
@@ -623,11 +642,12 @@ namespace Web.Controllers.User
 
             try
             {
-                bool result1 = await _courseEnrollmentService.CompleteCourseAsync(enrollmentId, actualHours);
-                bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
-                bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id);
+                bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, actualHours);
+                //bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
+                //bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id);
 
-                if (result1 && result2 && result3)
+                //if (result1 && result2 && result3)
+                if (result1)
                 {
                     TempData["SuccessMessage"] = "Course Completed successfully.";
                 }

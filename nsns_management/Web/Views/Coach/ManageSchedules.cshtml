@@ -2,42 +2,76 @@
 
 @* <script src="/js/schedules.js"></script> *@
 
+<script>
+    function validateScheduleTime() {
+        const scheduledAtInput = document.getElementById("scheduledAt");
+        const errorSpan = document.getElementById("scheduledAtError");
+        const scheduledDate = new Date(scheduledAtInput.value);
+        const now = new Date();
+
+        if (!scheduledAtInput.value || scheduledDate <= now) {
+            errorSpan.textContent = "Scheduled time must be in the future.";
+            return false;
+        }
+
+        errorSpan.textContent = ""; // clear error if valid
+        return true;
+    }
+</script>
+
+
  @model Core.ViewModels.ManageSchedulesViewModel
 
 <h2>Schedule Course</h2>
 
 <a href="/Coach/ManageCourse" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to Courses List</a>
 
+<div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
+    <strong>Child:</strong> @Model.Child.Name
+    <div style="padding-top: 10px"></div>
+
+    @foreach (var parentChild in Model.Parents)
+    {
+        <strong>@parentChild.Relationship:</strong> @parentChild.Parent.Name
+
+        <strong>&nbsp; &nbsp;Phone:</strong> @parentChild.Parent.Phone
+
+        <strong>&nbsp; &nbsp;WeChat:</strong> @parentChild.Parent.Wechat
+
+        <div style="padding-top: 10px"></div>
+    }
+</div>
 <!-- Course Scheduling Form -->
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
 
-    <form method="post" action="/Coach/ScheduleCourse">
-    <strong>Course:</strong> @Model.Course.Title  
+    <form method="post" action="/Coach/ScheduleCourse" onsubmit="return validateScheduleTime()">
+        <strong>Course:</strong> @Model.Course.Title
+        <div style="padding-top: 10px"></div>
+        <strong> Session Count: </strong>@Model.Course.SessionCount &nbsp;&nbsp;  <strong>Scheduled: </strong>@Model.ScheduledCount &nbsp;&nbsp; <strong>Completed: </strong>@Model.CompletedCount &nbsp;&nbsp;
     <div style="padding-top: 10px"></div>
    
-        <strong>Child:</strong> @Model.Child.Name
+ 
      
-      @*   <select id="childId" name="childId" required onchange="saveSelectedChild(this.value, @Model.Course.CourseID)">
-            <option value="">-- Select Child --</option>
-            @foreach (var child in Model.Children)
-            {
-                <option value="@child.Value" selected="@(child.Value == Model.SelectedChildId.ToString() ? "selected" : null)">@child.Text</option>
-            }
-        </select> *@
     <div style="padding-top: 10px"></div>
 
-   
+        <input type="hidden" id="enrollmentId_Ref" name="enrollmentId_Ref" value="@Model.EnrollmentID" />
         <input type="hidden" id="childId" name="childId" value="@Model.Child.ChildID" />
         <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
 
-        <strong>Scheduled Date:</strong>
-        <input type="datetime-local" id="scheduledAt" name="scheduledAt" required />
+        <strong>Scheduled Date: &nbsp;&nbsp; </strong>
+        <input type="datetime-local" id="scheduledAt" name="scheduledAt" required />  
+        <span id="scheduledAtError" style="color: red; margin-left: 10px;"></span>
         <div style="padding-top: 10px"></div>
-        <strong>Scheduled Hours:</strong>
+        <strong>Scheduled Hours:&nbsp;</strong>
         <input id="scheduledHours" name="scheduledHours" type="number" step="0.5" min="0.5" required />
+        <div style="padding-top: 10px"></div>
+        <strong>Location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+        <input id="location" name="location" required />
         <div style="padding-top: 15px"></div>
         <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">Schedule</button>
     </form>
+
+    
 
 
   
@@ -58,6 +92,10 @@
      
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Parent Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Coach Note</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Action</th>
         </tr>
     </thead>
@@ -70,30 +108,64 @@
 
                     <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ParentNote</td>
+                    <form method="post" action="/Coach/DeleteSchedule">
+                    <td style="padding: 8px; border: 1px solid #ddd;"><textarea class="form-control" name="coachNote"> @schedule.CoachNote</textarea></td>
+                    
                     <td style="padding: 8px; border: 1px solid #ddd;">
-                        <form method="post" action="/Coach/DeleteSchedule">
+
+                       
+                           
                             <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
                             <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+
                             <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
+                            <input type="hidden" name="coachNote" value="@schedule.CoachNote" />
+                            <input type="hidden" name="enrollmentId_Ref"  value="@Model.EnrollmentID"   />
+                            @{
+                                var now = DateTime.Now;
+                                var isWithin24Hours = @schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+                            }
+                       
+                            @if (schedule.Status != "Deleted" && !isWithin24Hours)
+                            {
                             <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
-                                Remove
+                                    Remove
                             </button>
-                        </form>
+                            }
+                           
+                       
                     </td>
+                    </form>
                 </tr>
+                
             }
+            <tr>
+                <td colspan="7" >
+                    <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                        - If a parent requests to reschedule, the coach is required to remove the existing schedule and create a new one. <br />
+                        - Coaches can also reschedule a session at least 24 hours before the scheduled start time. <br />
+                        - In the case of the location is not available for the time, please also remove the existing schedule.<br/>
+                        <span style="color:cadetblue">- Kindly ensure the parent is informed of the change via phone or WeChat.</span>
+                    </div>
+                </td>
+            </tr>
         }
         else
         {
             <tr>
-                <td colspan="4" style="text-align: center; padding: 10px;">No scheduled courses.</td>
+                <td colspan="7" style="text-align: center; padding: 10px;">No scheduled courses.</td>
             </tr>
         }
+
+
 
         @if (TempData["SuccessMessage"] != null)
         {
             <tr>
-                <td colspan="3">
+                <td colspan="7">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -104,13 +176,17 @@
         @if (TempData["ErrorMessage"] != null)
         {
             <tr>
-                <td colspan="3">
+                <td colspan="7">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>
                 </td>
             </tr>
         }
+
+        
+
+       
     </tbody>
 </table>
 

@@ -14,8 +14,9 @@ namespace Core.Models
         [Key]
         public int EnrollmentID { get; set; }
 
-        [Required]
-        public int ChildID { get; set; }
+        public int? EnrollmentID_Ref { get; set; }
+
+        public int? ChildID { get; set; }
         [ForeignKey("ChildID")]
         public virtual Child Child { get; set; } // Navigation property to Child table (ChildID)
 
@@ -32,6 +33,12 @@ namespace Core.Models
 
         [MaxLength(50)]
         public string Status { get; set; }
+
+        public string? ParentNote { get; set; }
+        public string? StaffNote { get; set; }
+        public string? CoachNote { get; set; }
+
+        public string? Location { get; set; }
 
         public int? CreatedBy { get; set; }
         [ForeignKey("CreatedBy")]

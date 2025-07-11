@@ -15,15 +15,21 @@
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">#</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 3%">#</th>
             <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Specialty</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Coach</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Coach</th>
             <th style="padding: 8px; border: 1px solid #ddd; width: 20%;">Title</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Description</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 20%">Description</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Course Type</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Session Max Capacity</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 2%">Session Count</th>
+            
             <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Hourly Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Hourly Cost(No funding)</th>
             <th style="padding: 8px; border: 1px solid #ddd;"># of Registrations</th>
             <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Is Active</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 20%">Actions</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 5%">Group Sessions</th>
         </tr>
     </thead>
     <tbody>
@@ -37,7 +43,11 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@course.CoachName</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@course.Title</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@course.Description</td>
+                    <th style="padding: 8px; border: 1px solid #ddd;">@course.CourseType</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">@course.MaxCapacity</th>
+                    <th style="padding: 8px; border: 1px solid #ddd;">@course.SessionCount</th>
                     <td style="padding: 8px; border: 1px solid #ddd;">@course.HourlyCost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@course.HourlyCost2</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@course.RegisteredChildrenCount</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@course.IsActive</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
@@ -46,6 +56,12 @@
                         <a href="/Course/ConfirmDelete/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none; @(course.RegisteredChildrenCount == 0 ?"":"display: none;")">Delete</a>
                         <a href="/Course/Edit/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
                     </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+
+                        @*   <a href="/Course/View/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none;">View</a> *@
+                        <a href="/Course/ManageSessions/@course.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none; @(course.CourseType == "Group" ?"":"display: none;")">Manage</a>
+
+                    </td>
                 </tr>
                 index++;
             }
@@ -53,7 +69,7 @@
         @if (TempData["SuccessMessage"] != null)
         {
             <tr>
-                <td colspan="9">
+                <td colspan="14">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -64,7 +80,7 @@
         @if (TempData["ErrorMessage"] != null)
         {
             <tr>
-                <td colspan="9">
+                <td colspan="14">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>

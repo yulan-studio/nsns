@@ -54,7 +54,7 @@ namespace Core.Services
 
         // Add a new course
         
-        public async  Task<bool> AddAsync(string title, string description, decimal hourlyCost, bool isActive, int coachId, int specialtyId, User user)
+        public async  Task<bool> AddAsync(string title, string description, string courseType, int? maxCapacity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, int coachId, int specialtyId, User user)
         {
             // Validate inputs
             if (string.IsNullOrWhiteSpace(title))
@@ -67,6 +67,14 @@ namespace Core.Services
                 throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost));
             }
 
+            if (hourlyCost2 <= 0)
+            {
+                throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost2));
+            }
+
+            //if(courseType == "Private")
+            //    maxCapatcity = 0;
+
             //Check for Coach/Specialty exists in course table)
             // Uncomment if needed
             // var coachExists = await _courseRepository.GetByCoachAsync(coachId, true);
@@ -78,17 +86,25 @@ namespace Core.Services
             // Create a new course instance
 
             //Retrieve the coach entity
-            var coach = await _coachRepository.GetAsync(coachId);
-            if (coach == null)
+
+            Coach? coach = null;
+
+            if (courseType == "Private")
             {
-                throw new Exception("No coach is added.");
+                coach = await _coachRepository.GetAsync(coachId);
+                if (coach == null)
+                {
+                    throw new Exception("No coach is added.");
+                }
             }
+            
+
 
             //Retrieve the coach entity
             var specialty = await _specialtyRepository.GetAsync(specialtyId);
             if (specialty == null)
             {
-                throw new Exception("No coach is added.");
+                throw new Exception("No specialty is added.");
             }
 
            
@@ -97,7 +113,11 @@ namespace Core.Services
             {
                 Title = title,
                 Description = description,
+                CourseType = courseType,
+                MaxCapacity = maxCapacity,
+                SessionCount = sessionCount,
                 HourlyCost = hourlyCost,
+                HourlyCost2 = hourlyCost2,
                 IsActive = isActive,
                 Coach = coach,
                 Specialty = specialty,
@@ -122,7 +142,7 @@ namespace Core.Services
 
 
         // Update an existing course
-        public async Task<bool> UpdateAsync(int courseId, string title, string description, decimal hourlyCost, bool isActive, User user/*, int userId, int updatedBy*/)
+        public async Task<bool> UpdateAsync(int courseId, string title, string description, string courseType, int? maxCapatcity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, User user/*, int userId, int updatedBy*/)
         {
             // Validate inputs
             if (string.IsNullOrWhiteSpace(title))
@@ -134,6 +154,14 @@ namespace Core.Services
             {
                 throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost));
             }
+
+            if (hourlyCost2 <= 0)
+            {
+                throw new ArgumentException("Hourly cost2 must be greater than zero.", nameof(hourlyCost));
+            }
+
+            if (courseType == "Private")
+                maxCapatcity = null;
 
             // Fetch the existing course
             var existingCourse = await _courseRepository.GetAsync(courseId);
@@ -153,7 +181,11 @@ namespace Core.Services
             // Update the course properties
             existingCourse.Title = title;
             existingCourse.Description = description;
+            existingCourse.CourseType = courseType;
+            existingCourse.MaxCapacity = maxCapatcity;
+            existingCourse.SessionCount = sessionCount;
             existingCourse.HourlyCost = hourlyCost;
+            existingCourse.HourlyCost2 = hourlyCost2; 
             existingCourse.IsActive = isActive;
            // existingCourse.UserID = userId;
             existingCourse.UpdatedBy = user.Id;
@@ -179,6 +211,13 @@ namespace Core.Services
         public async Task<IEnumerable<Course>> GetActiveCoursesAsync()
         {
             return await _courseRepository.GetActiveCoursesAsync();
+        }
+
+     
+
+        public async Task<IEnumerable<Course>> GetActiveGroupCoursesAsync()
+        {
+            return await _courseRepository.GetActiveGroupCoursesAsync();
         }
 
         public async Task<IEnumerable<Course>> GetActiveCoursesBySpecialtyAsync(int specialtyId)

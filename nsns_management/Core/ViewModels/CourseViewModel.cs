@@ -18,7 +18,15 @@ namespace Core.ViewModels
 
         public string Description { get; set; }
 
+        public string CourseType { get; set; }
+
+        public int? MaxCapacity { get; set; }
+
+        public int? SessionCount { get; set; }
+
         public decimal HourlyCost { get; set; }
+
+        public decimal HourlyCost2 { get; set; }
 
         public int RegisteredChildrenCount { get; set; }
 

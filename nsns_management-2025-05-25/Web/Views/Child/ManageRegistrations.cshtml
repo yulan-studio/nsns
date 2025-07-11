@@ -1,0 +1,222 @@
+﻿
+
+
+<script src="/js/registrations.js"></script>
+@model Core.ViewModels.ManageRegisterationsViewModel
+
+<div>
+    <p><strong>Name:</strong> @Model.Child.Name</p>
+    <p><strong>Birth Date:</strong> @(Model.Child.BirthDate.HasValue ? Model.Child.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")</p>
+    <p><strong>Gender:</strong> @Model.Child.Gender</p>
+    <p><strong>City:</strong> @(Model.Child.City != null ? Model.Child.City.Name : "N/A")</p>
+</div>
+<a href="/Child/List" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to List</a>
+<div style="border-top: 2px solid #ddd; margin: 20px 0;"></div>
+
+<!-- ✅ Table Showing Already Registered Courses -->
+<h3 style="color: 007bff">Registered Courses</h3>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">Course Title</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Specialty</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
+           @*  <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th> *@
+            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Completed</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Schedculed</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CourseEnrollments.Any())
+        {
+
+            foreach (var enrollment in Model.CourseEnrollments)
+
+            {
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SpecialtyName</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
+                    @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours</td> *@
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsActive</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CompletedSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        <form method="post" action="/Child/UnregisterCourse">
+                            <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
+                            <input type="hidden" name="childId" value="@enrollment.ChildID" />
+                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;@(enrollment.CompletedSessions == 0 && enrollment.ScheduledSessions == 0 ? "":"display: none;")">
+                                Remove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" style="text-align: center; padding: 10px;">No courses enrolled.</td>
+            </tr>
+        }
+
+         @if (TempData["SuccessMessage1"] != null)
+        {
+            <tr>
+                <td colspan="9">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage1"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage1"] != null)
+        {
+            <tr>
+                <td colspan="9">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage1"]
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
+
+
+
+<b>Register @Model.Child.Name in Course</b>
+<div style="margin-bottom: 10px;"></div>
+    <form method="post" action="/Child/RegisterCourse">
+    <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+
+    <!-- Select Specialty First -->
+    <label for="specialtyId">Select Specialty:</label>
+    <select id="specialtyId" name="specialtyId" required onchange="fetchCoursesBySpecialty(this.value)">
+        <option value="">-- Select Specialty --</option>
+        @foreach (var specialty in ViewBag.SpecialtyList)
+
+        {
+            <option value="@specialty.Value">@specialty.Text</option>
+        }
+    </select>
+
+    <!-- Select Course Based on Specialty -->
+    <label for="courseId">Select Course:</label>
+    <select id="courseId" name="courseId" required>
+        <option value="">-- Select Course --</option>
+    </select>
+
+    @* <label for="scheduledHours">Scheduled Hours:</label>
+    <input type="number" name="scheduledHours" min="1" value="0" disabled required /> *@
+    <input type="hidden" name="scheduledHours" value="0" />
+
+    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
+</form>
+
+</div>
+@* 
+<div style="border-top: 1px solid #007bff; margin: 40px 0;"></div> *@
+
+
+<!-- ✅ Table Showing Already Enrolled Activities -->
+<h3 style="color: 007bff">Registered Activities</h3>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">Activity Title</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Date</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ActivityEnrollments.Any())
+        {
+            foreach (var enrollment in Model.ActivityEnrollments)
+            {
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Address</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Cost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        <form method="post" action="/Child/UnregisterActivity">
+                            <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
+                            <input type="hidden" name="childId" value="@enrollment.ChildID" />
+                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer; @(enrollment.Status == "Canceled" ?"display: none":"")">
+                                Remove
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 10px;">No activities enrolled.</td>
+            </tr>
+        }
+
+        @if (TempData["SuccessMessage2"] != null)
+        {
+            <tr>
+                <td colspan="6">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage2"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage2"] != null)
+        {
+            <tr>
+                <td colspan="6">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage2"]
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
+
+<!-- ✅ Form to Enroll Child in an Activity -->
+<b>Register @Model.Child.Name in Activity</b>
+<div style="margin-bottom: 10px;"></div>
+
+<form method="post" action="/Child/RegisterActivity">
+    <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+
+    <label for="activityId">Select Activity:</label>
+    <select id="activityId" name="activityId" required>
+        <option value="">-- Select Activity --</option>
+        @foreach (var activity in ViewBag.ActivityList)
+        {
+            <option value="@activity.Value">@activity.Text</option>
+        }
+    </select>
+
+    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
+        <small style="color:darkslategray">   - Open activities are shown here</small>
+</form>
+</div>

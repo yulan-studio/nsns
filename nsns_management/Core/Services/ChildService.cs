@@ -70,7 +70,7 @@ namespace Core.Services
         }
 
 
-        public async Task<bool> AddAsync(string name, DateTime? birthDate, string? gender, int? cityId, string email, string password, User user)
+        public async Task<bool> AddAsync(string name, DateTime? birthDate, string? gender, int? cityId, string email, string password, bool hasOAP, User user)
         {
 
             // Check if a user with the same username or email already exists
@@ -97,7 +97,8 @@ namespace Core.Services
                         BirthDate = birthDate,
                         Gender = gender,
                         User = newUser,
-                        City = city
+                        City = city, 
+                        HasOAP = hasOAP
                     };
 
 
@@ -122,7 +123,7 @@ namespace Core.Services
 
 
 
-        public async Task<bool> UpdateAsync(int childId, string name, DateTime birthDate, string gender, int cityId, string email/*, string password*/)
+        public async Task<bool> UpdateAsync(int childId, string name, DateTime birthDate, string gender, int cityId, string email, bool hasOAP/*, string password*/)
         {
             // Find the coach by ID
             var child = await _childRepository.GetAsync(childId);
@@ -138,6 +139,7 @@ namespace Core.Services
             child.Gender = gender;
            
             child.CityID = cityId;
+            child.HasOAP = hasOAP;
             child.User.UpdatedDate = DateTime.Now;
 
             // Update the password if provided

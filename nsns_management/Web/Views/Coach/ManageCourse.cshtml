@@ -13,7 +13,12 @@
     @foreach (var course in specialty.Courses)
     {
         <div style="margin: 20px 0; padding: 15px; border-radius: 5px; border: 1px solid #ddd; background-color: #fff;">
+
             <div style="margin: 0 0 10px; color: #333;"><strong>Course:</strong> @course.CourseTitle</div>
+            @if(course.SessionCount!=null)
+            {
+                <div style="margin: 0 0 10px; color: #333;"><strong>Session Count:</strong> @course.SessionCount</div>
+            }
 
             <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
                 <thead>
@@ -23,6 +28,9 @@
                         <th style="padding: 10px; border: 1px solid #ddd;">City</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Birthday</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Registration Date</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Scheduled</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Request to Reschedule</th>
+                        <th style="padding: 10px; border: 1px solid #ddd;">Completed</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Schedules</th>
                         <th style="padding: 10px; border: 1px solid #ddd;">Enrollments</th>
                     </tr>
@@ -38,8 +46,12 @@
                                 <td style="padding: 10px; border: 1px solid #ddd;">@child.City</td>
                                 <td style="padding: 10px; border: 1px solid #ddd;">@(child.BirthDate?.ToString("yyyy-MM-dd") ?? "N/A")</td>
                                 <td style="padding: 10px; border: 1px solid #ddd;">@child.RegisteredDate.ToString("yyyy-MM-dd")</td>
+                                <td style="padding: 10px; border: 1px solid #ddd;">@child.Scheduled</td>
+                                <td style="padding: 10px; border: 1px solid #ddd; background-color:@(child.RequestToReschedule > 0 ? "#FFDBF6" : "#f9f9f9")">@child.RequestToReschedule</td>
+                             
+                                <td style="padding: 10px; border: 1px solid #ddd;">@child.Completed</td>
                                 <td style="padding: 10px; border: 1px solid #ddd;">
-                                    <a href="/Coach/ManageSchedules/@child.ChildID?courseId=@course.CourseID">
+                                    <a href="/Coach/ManageSchedules/@child.ChildID?courseId=@course.CourseID&enrollmentId=@child.EnrollmentID">
                                         Manage
                                     </a>
                                 </td>

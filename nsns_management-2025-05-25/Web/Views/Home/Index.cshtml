@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+   
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+       
+}
+
+<iframe src="https://www.nsns.ca/" width="100%" height="1200px"></iframe>

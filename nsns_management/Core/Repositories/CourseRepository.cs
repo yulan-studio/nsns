@@ -49,13 +49,22 @@ namespace Core.Repositories
                 {
                     CourseID = c.CourseID,
                     SpecialtyName = c.Specialty.Title,
-                    CoachName = c.Coach.Name,
+                    //CoachName = c.Coach.Name,
+                    CoachName = c.Coach != null ? c.Coach.Name : "",
                     Title = c.Title,
                     Description = c.Description,
+                    CourseType = c.CourseType,
+                    MaxCapacity = c.MaxCapacity,
+                    SessionCount = c.SessionCount,
+
                     HourlyCost = c.HourlyCost,
+                    HourlyCost2 = c.HourlyCost2,
                     RegisteredChildrenCount = _context.CourseEnrollments.Count(e => e.CourseID == c.CourseID && e.Status == "Registered"), // Count of registered children
                     IsActive = c.IsActive
                 })
+                .OrderBy(c => c.CourseType)
+                .ThenBy(c => c.SpecialtyName)
+                .ThenBy(c => c.CoachName)
                 .ToListAsync();
            
            
@@ -102,7 +111,8 @@ namespace Core.Repositories
             {
                 if (entity == null)
                     throw new ArgumentNullException(nameof(entity));
-                _context.Entry(entity.Coach).State = EntityState.Unchanged;
+                if(entity.Coach !=null)
+                    _context.Entry(entity.Coach).State = EntityState.Unchanged;
                 //_context.ChangeTracker.Clear();  // Clears EF's tracking cache, this prevents EF Core from modifying CoachID unexpectedly
                 await _context.Courses.AddAsync(entity);
                 await _context.SaveChangesAsync();
@@ -159,6 +169,17 @@ namespace Core.Repositories
                 .Include(c => c.Coach)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Course>> GetActiveGroupCoursesAsync()
+        {
+            return await _context.Courses
+                .Where(c => c.IsActive == true && c.CourseType == "Group")
+                .Include(c => c.Coach)
+                .ToListAsync();
+        }
+
+
+        
 
         public async Task<IEnumerable<Course>> GetActiveCoursesBySpecialtyAsync(int specialtyId)
         {

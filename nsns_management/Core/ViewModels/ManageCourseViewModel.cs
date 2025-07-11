@@ -46,16 +46,23 @@ namespace Core.ViewModels
         public int CourseID { get; set; }
         public string CourseTitle { get; set; }
 
+        public int? SessionCount { get; set; }
+
         public List<ChildViewModel> RegisteredChildren { get; set; } = new List<ChildViewModel>();
     }
 
 
     public class ChildViewModel
     {
+        public int EnrollmentID { get; set; }
         public int ChildID { get; set; }
         public string Name { get; set; }
         public string Gender { get; set; }
         public string City { get; set; }
+        public int Scheduled { get; set; }
+        public int Completed { get; set; }
+
+        public int RequestToReschedule { get; set; }
         public DateTime? BirthDate { get; set; }
         public DateTime RegisteredDate { get; set; }
     }
