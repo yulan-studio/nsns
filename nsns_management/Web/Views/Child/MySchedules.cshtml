@@ -57,7 +57,10 @@
                         @for (int i = 0; i < courseSchedules.Schedules.Count; i++)
                         {
                             var schedule = courseSchedules.Schedules[i];
-                            var isWithin24Hours = schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+                            //var isWithin24Hours = schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+                            var now = DateTime.UtcNow;
+                            var scheduledUtc = TimeZoneInfo.ConvertTimeToUtc(schedule.ScheduledAt.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+                            var isWithin24Hours = (scheduledUtc - now).TotalHours < 24;
 
                             <input type="hidden" name="Schedules[@i].EnrollmentID" value=@courseSchedules.Schedules[i].EnrollmentID>
                             <tr>

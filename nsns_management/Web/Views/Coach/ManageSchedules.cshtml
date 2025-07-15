@@ -29,6 +29,12 @@
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
     <strong>Child:</strong> @Model.Child.Name
     <div style="padding-top: 10px"></div>
+    <strong>Gender:</strong> @Model.Child.Gender
+    <div style="padding-top: 10px"></div>
+    <strong>Birthday:</strong> @Model.Child.BirthDate
+    <div style="padding-top: 10px"></div>
+    <strong>City:</strong> @Model.Child.City.Name
+    <div style="padding-top: 10px"></div>
 
     @foreach (var parentChild in Model.Parents)
     {
@@ -80,6 +86,22 @@
 
 
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+
+
 
 
 
@@ -126,7 +148,10 @@
                             <input type="hidden" name="enrollmentId_Ref"  value="@Model.EnrollmentID"   />
                             @{
                                 var now = DateTime.UtcNow;
-                                var isWithin24Hours = @schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+
+                                var scheduledUtc = TimeZoneInfo.ConvertTimeToUtc(schedule.ScheduledAt.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+                                //var isWithin24Hours = @schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+                                var isWithin24Hours = (scheduledUtc - now).TotalHours < 24;
                             }
                        
                             @if (schedule.Status != "Deleted" && !isWithin24Hours)
@@ -148,7 +173,7 @@
                         - If a parent requests to reschedule, the coach is required to remove the existing schedule and create a new one. <br />
                         - Coaches can also reschedule a session at least 24 hours before the scheduled start time. <br />
                         - In the case of the location is not available for the time, please also remove the existing schedule.<br/>
-                        <span style="color:cadetblue">- Kindly ensure the parent is informed of the change via phone or WeChat.</span>
+                        - Kindly ensure the parent is informed of the change via phone or WeChat.
                     </div>
                 </td>
             </tr>
