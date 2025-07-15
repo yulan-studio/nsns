@@ -557,7 +557,18 @@ namespace Web.Controllers.User
 
             else
             { 
-
+                var course = await _courseService.GetAsync(courseId); // Ensure the course exists
+                if (course.SessionCount != null)
+                {
+                    var scheduledCount = (await _courseEnrollmentService.GetSchedulesByCourseChildAsync(courseId, childId)).Count();
+                    var completedCount = (await _courseEnrollmentService.GetCompletesByCourseChildAsync(courseId, childId)).Count();
+                    // Check if the maximum number of sessions has been reached
+                    if (scheduledCount + completedCount >= course.SessionCount)
+                    {
+                        TempData["ErrorMessage"] = "The maximum number of sessions for this course has been reached.";
+                        return RedirectToAction("ManageSchedules", new { childId, courseId = courseId, enrollmentId = enrollmentId_Ref });
+                    }
+                }
                 bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, location, coachId, enrollmentId_Ref);
 
                 if (result)
