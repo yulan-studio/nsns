@@ -88,13 +88,13 @@ namespace Web.Controllers.Setting
                 if (city.CityID == 0)
                 {
                     city.CreatedBy = user.Id;
-                    city.CreatedDate = DateTime.Now; ;
+                    city.CreatedDate = DateTime.UtcNow; ;
                     result = await _cityService.AddAsync(city);
                 }
                 else
                 {
                     city.UpdatedBy = user.Id;
-                    city.UpdatedDate = DateTime.Now;
+                    city.UpdatedDate = DateTime.UtcNow;
                     result = await _cityService.UpdateAsync(city);
                 }
 

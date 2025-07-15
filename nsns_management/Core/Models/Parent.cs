@@ -34,9 +34,9 @@ namespace Core.Models
 
         public int? UpdatedBy { get; set; } // Updated By User ID (nullable)
 
-        public DateTime? CreatedDate { get; set; } = DateTime.Now; // Created Timestamp (nullable)
+        public DateTime? CreatedDate { get; set; } = DateTime.UtcNow; // Created Timestamp (nullable)
 
-        public DateTime? UpdatedDate { get; set; } = DateTime.Now; // Updated Timestamp (nullable)
+        public DateTime? UpdatedDate { get; set; } = DateTime.UtcNow; // Updated Timestamp (nullable)
 
         // Navigation properties
         [ForeignKey("CreatedBy")]

@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Specialty
+
+@* <form id="cityForm">
+    <input type="hidden" asp-for="CityID" />
+    <div class="form-group">
+        <label>City Name:</label>
+        <input type="text" asp-for="Name" class="form-control" required />
+    </div>
+    <button type="button" class="btn btn-success" onclick="saveCity()">Save</button>
+</form> *@
+
+<form id="specialtyForm">
+    <table style="border-collapse: collapse;  text-align: left;">
+        <tr>
+            <td style="padding: 8px; width: 40%"><label for="name">Specialty Name:</label></td>
+            <td style="padding: 8px; width: 60%">
+                <input type="text" name="Title" placeholder="Specialty Name" value="@Model.Title"  style="width: 100%;" required />
+                <input type="hidden" asp-for="SpecialtyID" />
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 8px; width: 40%"><label for="name">Description:</label></td>
+            <td style="padding: 8px; width: 60%">
+                <input type="text" name="Description" placeholder="Description" value="@Model.Description" style="width: 100%; height: 50px" required />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
+                <button onclick="saveSpecialty()" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save</button>
+                <a href="/Specialty/List" style="background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Cancel</a>
+                
+            </td>
+        </tr>
+    </table>
+</form>

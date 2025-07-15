@@ -125,7 +125,7 @@
                             <input type="hidden" name="coachNote" value="@schedule.CoachNote" />
                             <input type="hidden" name="enrollmentId_Ref"  value="@Model.EnrollmentID"   />
                             @{
-                                var now = DateTime.Now;
+                                var now = DateTime.UtcNow;
                                 var isWithin24Hours = @schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
                             }
                        

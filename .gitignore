@@ -106,6 +106,7 @@ nsns_management/.vs/ProjectEvaluation/nsns_management.strings.v9.bin
 /nsns_management/Web/obj/Debug/net8.0/Web.csproj.Up2Date
 /nsns_management/Web/obj/Debug/net8.0/Web.genruntimeconfig.cache
 /nsns_management/Core/obj/Debug/net8.0/Core.csproj.CoreCompileInputs.cache
+<<<<<<< HEAD
 /nsns_management/Web/bin/Debug/net8.0
 /nsns_management/Core/obj/Debug/net8.0/Core.assets.cache
 /nsns_management/Core/obj/Debug/net8.0/Core.csproj.AssemblyReference.cache
@@ -113,11 +114,22 @@ nsns_management/.vs/ProjectEvaluation/nsns_management.strings.v9.bin
 /nsns_management/Core/obj
 /nsns_management/Test/obj/Debug/net8.0/Test.assets.cache
 /nsns_management/Test/obj/Debug/net8.0/Test.csproj.CoreCompileInputs.cache
+=======
+/nsns_management/Core/obj/Debug/net8.0/Core.assets.cache
+/nsns_management/Core/obj/Debug/net8.0/Core.csproj.AssemblyReference.cache
+/nsns_management/Core/obj/Debug/net8.0/Core.GeneratedMSBuildEditorConfig.editorconfig
+/nsns_management/Core/obj/Core.csproj.nuget.dgspec.json
+/nsns_management/Core/obj/Core.csproj.nuget.g.props
+/nsns_management/Core/obj/project.assets.json
+/nsns_management/Core/obj/project.nuget.cache
+/nsns_management/Test/obj/Debug/net8.0/Test.assets.cache
+>>>>>>> dev
 /nsns_management/Test/obj/Debug/net8.0/Test.GeneratedMSBuildEditorConfig.editorconfig
 /nsns_management/Test/obj/project.assets.json
 /nsns_management/Test/obj/project.nuget.cache
 /nsns_management/Test/obj/Test.csproj.nuget.dgspec.json
 /nsns_management/Test/obj/Test.csproj.nuget.g.props
+<<<<<<< HEAD
 /nsns_management/.vs/nsns_management/CopilotIndices/17.14.827.52834/CodeChunks.db
 /nsns_management/.vs/nsns_management/CopilotIndices/17.14.827.52834/CodeChunks.db-shm
 /nsns_management/.vs/nsns_management/CopilotIndices/17.14.827.52834/CodeChunks.db-wal
@@ -128,7 +140,24 @@ nsns_management/.vs/ProjectEvaluation/nsns_management.strings.v9.bin
 /nsns_management/Web/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Web.props
 /nsns_management/Web/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Web.props
 /nsns_management/.vs/nsns_management/copilot-chat/c76ef74f/sessions/fcb2a0b5-b2d8-4c5f-9884-979b73acc11c
+=======
+/nsns_management/Web/obj/Debug/net8.0/Web.assets.cache
+/nsns_management/Web/obj/Debug/net8.0/Web.GeneratedMSBuildEditorConfig.editorconfig
+>>>>>>> dev
 /nsns_management/Web/obj/project.assets.json
 /nsns_management/Web/obj/project.nuget.cache
 /nsns_management/Web/obj/Web.csproj.nuget.dgspec.json
 /nsns_management/Web/obj/Web.csproj.nuget.g.props
+<<<<<<< HEAD
+=======
+/nsns_management/Test/obj/Debug/net8.0/Test.csproj.AssemblyReference.cache
+/nsns_management/Test/obj/Debug/net8.0/Test.csproj.CoreCompileInputs.cache
+/nsns_management/Web/obj/Debug/net8.0/Web.csproj.CoreCompileInputs.cache
+/nsns_management/Web/obj/Debug/net8.0/Web.csproj.FileListAbsolute.txt
+*.json
+/nsns_management/Web/obj/Debug/net8.0/staticwebassets/msbuild.build.Web.props
+/nsns_management/Web/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Web.props
+/nsns_management/Web/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Web.props
+/nsns_management/.vs/nsns_management/copilot-chat/c76ef74f/sessions
+/nsns_management/.vs/nsns_management/CopilotIndices/17.14.827.52834
+>>>>>>> dev
