@@ -277,26 +277,53 @@ namespace Core.Services
         //Get Registered children for a course
         public async Task<IEnumerable<Core.ViewModels.ChildViewModel>> GetRegisterationByCourseAsync(int courseId)
         {
+            //var course_enrollments = await _enrollmentRepository.GetEnrollmentsByCourseAsync(courseId, "Registered");
+
+
+
+            //var childTasks = course_enrollments.Select(async e => new ChildViewModel
+            //{
+            //    EnrollmentID = e.EnrollmentID,
+            //    ChildID = e.Child.ChildID,
+            //    Name = e.Child.Name,
+            //    Gender = e.Child.Gender,
+            //    City = e.Child.City.Name,
+            //    BirthDate = e.Child.BirthDate,
+            //    RegisteredDate = e.CreatedDate, // Ensure CreatedDate maps to RegisteredDate
+            //    Scheduled = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Scheduled")).Count(),
+            //    RequestToReschedule = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "RequestToReschedule")).Count(),
+            //    Completed = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Completed")).Count()
+            //}).ToList();
+
+            //var children = (await Task.WhenAll(childTasks)).ToList();
+
+            //return children;
+
             var course_enrollments = await _enrollmentRepository.GetEnrollmentsByCourseAsync(courseId, "Registered");
 
+            var children = new List<ChildViewModel>();
 
-
-            var childTasks = course_enrollments.Select(async e => new ChildViewModel
+            foreach (var e in course_enrollments)
             {
-                EnrollmentID = e.EnrollmentID,
-                ChildID = e.Child.ChildID,
-                Name = e.Child.Name,
-                Gender = e.Child.Gender,
-                City = e.Child.City.Name,
-                BirthDate = e.Child.BirthDate,
-                RegisteredDate = e.CreatedDate, // Ensure CreatedDate maps to RegisteredDate
-                Scheduled = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Scheduled")).Count(),
-                RequestToReschedule = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "RequestToReschedule")).Count(),
-                Completed = (await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Completed")).Count()
-            }).ToList();
+                var scheduled = await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Scheduled");
+                var requestToReschedule = await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "RequestToReschedule");
+                var completed = await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Completed");
 
-            var children = (await Task.WhenAll(childTasks)).ToList();
-            
+                children.Add(new ChildViewModel
+                {
+                    EnrollmentID = e.EnrollmentID,
+                    ChildID = e.Child.ChildID,
+                    Name = e.Child.Name,
+                    Gender = e.Child.Gender,
+                    City = e.Child.City.Name,
+                    BirthDate = e.Child.BirthDate,
+                    RegisteredDate = e.CreatedDate,
+                    Scheduled = scheduled.Count(),
+                    RequestToReschedule = requestToReschedule.Count(),
+                    Completed = completed.Count()
+                });
+            }
+
             return children;
 
         }
