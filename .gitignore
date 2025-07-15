@@ -130,3 +130,6 @@ nsns_management/.vs/ProjectEvaluation/nsns_management.strings.v9.bin
 /nsns_management/Web/obj/Debug/net8.0/Web.csproj.CoreCompileInputs.cache
 /nsns_management/Web/obj/Debug/net8.0/Web.csproj.FileListAbsolute.txt
 *.json
+/nsns_management/Web/obj/Debug/net8.0/staticwebassets/msbuild.build.Web.props
+/nsns_management/Web/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Web.props
+/nsns_management/Web/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Web.props
