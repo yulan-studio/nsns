@@ -122,7 +122,7 @@ namespace Core.Repositories
                 .Include(e => e.Course)
                 .Include(e => e.Course.Coach)
                 .Include(e => e.Course.Specialty)
-                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && (e.Status != "Registered" && e.Status != "Completed" && e.Status != "Deleted"|| (e.Course.CourseType == "Private" && e.Status == "Deleted"))&& e.ScheduledAt>DateTime.Now )
+                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && (e.Status != "Registered" && e.Status != "Completed" && e.Status != "Deleted"|| (e.Course.CourseType == "Private" && e.Status == "Deleted"))&& e.ScheduledAt>DateTime.UtcNow )
                 .OrderBy(e => e.CourseID)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
@@ -270,7 +270,7 @@ namespace Core.Repositories
         public async Task UpdateChildCompletedSessionsAsync(int courseId)
         {
            
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
 
            //Get all sessions of the course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments
@@ -298,7 +298,7 @@ namespace Core.Repositories
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
 
-            DateTime now = DateTime.Now;
+            DateTime now = DateTime.UtcNow;
 
             //Get all sessions of the group course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments

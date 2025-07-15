@@ -324,7 +324,7 @@ namespace Web.Controllers.User
         //            Email = email,
         //            Wechat = wechat,
         //            CreatedBy = user.Id, // Assume the user ID of admin/creator
-        //            CreatedDate = DateTime.Now
+        //            CreatedDate = DateTime.UtcNow
         //        };
 
         //        // ✅ 2. Save the parent in the database
@@ -411,7 +411,7 @@ namespace Web.Controllers.User
                     Email = email,
                     Wechat = wechat,
                     CreatedBy = user.Id, // Assume the user ID of admin/creator
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.UtcNow
                 };
 
                 // ✅ 2. Save the parent in the database

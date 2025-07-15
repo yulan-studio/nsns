@@ -61,7 +61,7 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<ActivityEnrollment>> UpdateActivityStatusToCompletedAsync()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             var enrollments = await _context.ActivityEnrollments
                 .Include(e => e.Activity)
                 .Where(e => ((DateTime)e.Activity.ScheduledAt).AddDays(1)  <= now && e.Status == "Registered")

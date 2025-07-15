@@ -140,7 +140,7 @@ namespace Core.Services
            
             child.CityID = cityId;
             child.HasOAP = hasOAP;
-            child.User.UpdatedDate = DateTime.Now;
+            child.User.UpdatedDate = DateTime.UtcNow;
 
             // Update the password if provided
             //if (!string.IsNullOrWhiteSpace(password))

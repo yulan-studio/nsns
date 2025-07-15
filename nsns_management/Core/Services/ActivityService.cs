@@ -45,7 +45,7 @@ namespace Core.Services
                 //IsActive = isActive,
                 Status = status,
                 CreatedBy = user.Id,
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.UtcNow
 
 
             };
@@ -92,7 +92,7 @@ namespace Core.Services
             //activity.IsActive = isActive;
             activity.Status = status;
             //activity.UpdatedDate = DateTime.UtcNow;
-            activity.UpdatedDate = DateTime.Now;
+            activity.UpdatedDate = DateTime.UtcNow;
             activity.UpdatedBy = user.Id;
             // Save changes
             return await _activityRepository.UpdateAsync(activity);

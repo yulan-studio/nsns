@@ -3,7 +3,7 @@
 <h2>-- Course Schedules --</h2>
 @if (Model.CoursesSchedules.Any())
 {
-    var now = DateTime.Now;
+    var now = DateTime.UtcNow;
 
     @foreach (var courseSchedules in Model.CoursesSchedules)
     {

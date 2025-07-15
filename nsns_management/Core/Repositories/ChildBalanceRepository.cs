@@ -35,10 +35,10 @@ namespace Core.Repositories
                 PaymentID = paymentId,
                 BalanceChange = amount,
                 Balance = latestBalance + amount,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 CreatedBy = createdBy,
                 UpdatedBy = createdBy,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = DateTime.UtcNow
             };
 
             _context.ChildBalances.Add(newEntry);
@@ -76,10 +76,10 @@ namespace Core.Repositories
                 EnrollmentID = enrollmentId,
                 BalanceChange = costForThisSession*(-1),
                 Balance = latestBalance - costForThisSession,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 CreatedBy = createdBy,
                 UpdatedBy = createdBy,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = DateTime.UtcNow
             };
 
             _context.ChildBalances.Add(newEntry);
@@ -98,10 +98,10 @@ namespace Core.Repositories
                 ActivityID = activityId,
                 BalanceChange = -cost,
                 Balance = latestBalance - cost,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 //CreatedBy = createdBy,
                 //UpdatedBy = createdBy,
-                UpdatedDate = DateTime.Now
+                UpdatedDate = DateTime.UtcNow
             };
 
             _context.ChildBalances.Add(newEntry);

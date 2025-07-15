@@ -550,7 +550,7 @@ namespace Web.Controllers.User
                 throw new ArgumentException("Child not found");
             }
 
-            if (scheduledAt < DateTime.Now)
+            if (scheduledAt < DateTime.UtcNow)
             {
                 TempData["ErrorMessage"] = "Please choose a future time.";
             }
