@@ -28,10 +28,11 @@
              <table  style="border-collapse: collapse; width: 100%; text-align: left;">
                 <thead>
                     <tr style="background-color: #f2f2f2;">
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Scheduled At</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;"  width="12%">Hours</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Date</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="10%">Start Time</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">End Time</th>
                         <th style="padding: 8px; border: 1px solid #ddd;"  width="15%">Location</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;"  width="18%">Status</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="15%">Status</th>
                        
                         
                         @if (courseSchedules.Course.CourseType == "Private")
@@ -64,8 +65,24 @@
 
                             <input type="hidden" name="Schedules[@i].EnrollmentID" value=@courseSchedules.Schedules[i].EnrollmentID>
                             <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd;">@(courseSchedules.Schedules[i].ScheduledAt.HasValue ? courseSchedules.Schedules[i].ScheduledAt.Value.ToString("g") : "")</td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].ScheduledHours</td>
+                        @*         <td style="padding: 8px; border: 1px solid #ddd;">@(courseSchedules.Schedules[i].ScheduledAt.HasValue ? courseSchedules.Schedules[i].ScheduledAt.Value.ToString("g") : "")</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].ScheduledHours</td> *@
+                                @{
+                                    var scheduledAt = courseSchedules.Schedules[i].ScheduledAt;
+                                    var scheduledHours = courseSchedules.Schedules[i].ScheduledHours.HasValue ? (double)courseSchedules.Schedules[i].ScheduledHours.Value : 0;
+                                    DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                                }
+
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
+                                </td>
+
                                 <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].Location</td>
                                 <td style="padding: 8px; border: 1px solid #ddd; background-color:@(courseSchedules.Schedules[i].Status == "Canceled" ? "#FFDBF6" : "white");">
                                     <select name="Schedules[@i].Status" class="form-select" @(courseSchedules.Schedules[i].Status == "Canceled" || courseSchedules.Schedules[i].Status == "Deleted" || courseSchedules.Schedules[i].Status == "OnLeave" || isWithin24Hours ? "disabled" : "")>
@@ -110,14 +127,14 @@
                     else
                     {
                         <tr>
-                            <td colspan="6" style="text-align: center; padding: 10px;">No schedules available.</td>
+                            <td colspan="7" style="text-align: center; padding: 10px;">No schedules available.</td>
                         </tr>
                     }
 
                     @if (TempData["SuccessMessage1"] != null && TempData["CourseID"]?.ToString() == courseSchedules.Course.CourseID.ToString())
             {
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="alert alert-success">
                                     @TempData["SuccessMessage1"]
                                 </div>
@@ -128,7 +145,7 @@
                     @if (TempData["ErrorMessage1"] != null && TempData["CourseID"]?.ToString() == courseSchedules.Course.CourseID.ToString())
                     {
                         <tr>
-                            <td colspan="6">
+                            <td colspan="7">
                                 <div class="alert alert-danger">
                                     @TempData["ErrorMessage1"]
                                 </div>
@@ -203,10 +220,11 @@ else
             <table style="border-collapse: collapse; width: 100%; text-align: left;">
                 <thead>
                     <tr style="background-color: #f2f2f2;">
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Scheduled At</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="12%">Hours</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Date</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Start Time</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">End Time</th>
                         <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Location</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="18%">Status</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Status</th>
                         <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Staff Note</th>
                         <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Parent Note</th>
               
@@ -223,8 +241,26 @@ else
                             var schedule = courseSchedulesToConfirm.Schedules[i];
                             <input type="hidden" name="Schedules[@i].EnrollmentID" value="@schedule.EnrollmentID" />
                             <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
+                               @*  <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td> *@
+
+                                @{
+                                    var scheduledAt = schedule.ScheduledAt;
+                                    var scheduledHours = schedule.ScheduledHours.HasValue ? (double)schedule.ScheduledHours.Value : 0;
+                                    DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                                }
+
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
+                                </td>
+
+
                                 <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@schedule.StaffNote</td>

@@ -19,6 +19,42 @@
         errorSpan.textContent = ""; // clear error if valid
         return true;
     }
+
+
+     function updateMinutesDisplay() {
+        const input = document.getElementById("scheduledHours");
+        const display = document.getElementById("minutesDisplay");
+
+        if (input && display) {
+            const hoursValue = parseFloat(input.value);
+            if (!isNaN(hoursValue)) {
+                const totalMinutes = Math.round(hoursValue * 60);
+                const hours = Math.floor(totalMinutes / 60);
+                const minutes = totalMinutes % 60;
+
+                let message = "(";
+                if (hours > 0) {
+                    message += hours + " hour" + (hours > 1 ? "s" : "");
+                    if (minutes > 0) {
+                        message += " ";
+                    }
+                }
+                if (minutes > 0) {
+                    message += minutes + " minute" + (minutes > 1 ? "s" : "");
+                }
+                message += ")";
+
+                display.textContent = message;
+            } else {
+                display.textContent = "";
+            }
+         }
+    }
+
+    document.getElementById("scheduledHours").addEventListener("input", updateMinutesDisplay);
+
+    // Optional: initialize on page load if there's a preset value
+    window.addEventListener("DOMContentLoaded", updateMinutesDisplay);
 </script>
 
 
@@ -64,8 +100,10 @@
        
         <div style="margin-bottom: 10px;">
             <strong>Scheduled Hours:</strong><br />
-            <input type="number" step="0.5" min="0.5" name="scheduledHours" required style="width: 40%; padding: 5px;" />
+            <input type="number" step="0.25" min="0.5" name="scheduledHours" id="scheduledHours" required onchange="return updateMinutesDisplay()" style="width: 40%; padding: 5px;" />
+            <span id="minutesDisplay" style="margin-left: 10px; font-style: italic;"></span>
         </div>
+
 
         <div style="margin-bottom: 10px;">
             <strong>Location:</strong><br />
@@ -87,12 +125,16 @@
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd; width: 18%">Scheduled At</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Hours</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Location</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Status</th>
+
+
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Date</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Start Time</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">End Time</th>
+
+            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Status</th>
             <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Staff Note</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -101,8 +143,27 @@
             foreach (var s in Model.AllUpcomingSessions)
             {
                 <tr id="row-@s.EnrollmentID">
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td>
+                   @*  <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td> *@
+
+                    @{
+                        var scheduledAt = @s.ScheduledAt;
+                        var scheduledHours = @s.ScheduledHours.HasValue ? (double)@s.ScheduledHours.Value : 0;
+                        DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                    }
+
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
+                    </td>
+
+
+
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.Location</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
@@ -128,7 +189,7 @@
         else
         {
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px;">No sessions scheduled yet.</td>
+                <td colspan="7" style="text-align: center; padding: 10px;">No sessions scheduled yet.</td>
             </tr>
         }
     </tbody>
@@ -173,13 +234,14 @@
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd; width: 18%">Scheduled At</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Hours</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Location</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Date</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Start Time</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">End Time</th>
+
+            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Status</th>
             <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Staff Note</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
-            
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -188,8 +250,24 @@
             foreach (var s in Model.CanceledSessions)
             {
                 <tr id="row-@s.EnrollmentID">
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td>
+                   @*  <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td> *@
+
+                    @{
+                        var scheduledAt = @s.ScheduledAt;
+                        var scheduledHours = @s.ScheduledHours.HasValue ? (double)@s.ScheduledHours.Value : 0;
+                        DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                    }
+
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
+                    </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.Location</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
@@ -201,7 +279,7 @@
         else
         {
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px;">No Canceled sessions.</td>
+                <td colspan="7" style="text-align: center; padding: 10px;">No Canceled sessions.</td>
             </tr>
         }
     </tbody>
@@ -215,12 +293,14 @@
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd; width: 18%">Scheduled At</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Hours</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 30%">Location</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 6%">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Date</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Start Time</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">End Time</th>
+
+            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Status</th>
             <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Staff Note</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 15%">Actions</th>
+            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Actions</th>
 
         </tr>
     </thead>
@@ -230,8 +310,27 @@
             foreach (var s in Model.CompletedSessions)
             {
                 <tr id="row-@s.EnrollmentID">
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td>
+                   
+
+                    @*  <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td> *@
+
+                    @{
+                        var scheduledAt = @s.ScheduledAt;
+                        var scheduledHours = @s.ScheduledHours.HasValue ? (double)@s.ScheduledHours.Value : 0;
+                        DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                    }
+
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
+                    </td>
+
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.Location</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
