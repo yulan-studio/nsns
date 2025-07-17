@@ -159,14 +159,16 @@
             @if (courseSchedules.Course.CourseType == "Group")
             {
                 <div style="padding: 10px 20px 10px 20px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
-                    If you can’t attend the session, select 'Request to Leave' and click 'Save Changes'. A one-time reschedule is available for your first leave request. Please type 'First Leave' in the Parent Note with your request and contact NSNS by email.
+                    If you can’t attend the session, select 'Request to Leave' and click 'Save Changes'. A one-time reschedule is available for your first leave request. Please type 'First Leave' in the Parent Note with your request and contact NSNS by email.<br />
+                    如果您无法参加课程，请选择"Request to Leave(请假申请)"并点击"Save Changes"。首次请假可享有一次改期机会。请在家长备注中输入"首次请假"，并通过电子邮件联系 NSNS。
                 </div>
             }
 
             @if (courseSchedules.Course.CourseType == "Private")
             {
                 <div style="padding: 10px 20px 10px 20px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
-                    You can request a reschedule by clicking 'Request to Reschedule' at least 24 hours before the session begins. It is recommended that you communicate with the coach before making a reschedule request.
+                    You can request a reschedule by clicking 'Request to Reschedule' at least 24 hours before the session begins. It is recommended that you communicate with the coach before making a reschedule request.<br />
+                    您可以在课程开始前至少24小时选择"Request to Reschedule(申请改期)"并点击"Save Changes"来提交改期请求。建议您在提出改期申请前先与教练沟通。
                 </div>
             }
             <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
@@ -309,7 +311,8 @@ else
         </form>
 
         <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;" >
-            Please click 'Confirm' to complete your course registration. If there are any sessions you cannot attend, kindly leave a note and click 'Save Changes' — we will try to adjust the schedule before finalizing your registration.
+            Please click 'Confirm' to complete your course registration. If there are any sessions you cannot attend, kindly leave a note and click 'Save Changes' — we will try to adjust the schedule before finalizing your registration. <br/>
+            请点击"Confirm"以完成课程注册。如果有任何课节您无法参加，请留下备注，点击"Save Changes"，并通过电子邮件联系 NSNS——我们将在最终确认注册前尽量调整课程安排。
         </div>
     }
 }
