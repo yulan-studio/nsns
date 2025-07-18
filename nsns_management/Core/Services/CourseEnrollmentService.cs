@@ -569,6 +569,13 @@ namespace Core.Services
         {
             return await _enrollmentRepository.UpdateCompletedCoursesAsync();
         }
+
+
+        
+        public async Task<List<int?>> GetChildrenWithRequestsOrConcernsAsync()
+        {
+            return await _enrollmentRepository.GetChildrenWithRequestsOrConcernsAsync();
+        }
     }
 
 

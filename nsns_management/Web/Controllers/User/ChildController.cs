@@ -85,6 +85,9 @@ namespace Web.Controllers.User
         // ✅ List all children
         public async Task<IActionResult> List()
         {
+            var childrenWithConcerns = await _courseEnrollmentService.GetChildrenWithRequestsOrConcernsAsync();
+            //ViewBag.RequestConcernChildIds = childrenWithConcerns;
+            ViewData["RequestConcernChildIds"] = childrenWithConcerns;
             var childrenWithDelete = new List<ChildWithDeleteViewModel>();
             var children = await _childService.GetAllAsync();
             foreach (Child c in children)

@@ -5,7 +5,12 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Manage Children";
+
+    //var requestConcernIds = ViewBag.RequestConcernChildIds as List<int> ?? new List<int>();
+    //var requestConcernIds = (ViewData["RequestConcernChildIds"] as IEnumerable<object>)?.Cast<int>().ToList() ?? new List<int>();
+    var requestConcernIds = (ViewData["RequestConcernChildIds"] as IEnumerable<int?>)?.ToList() ?? new List<int?>();
 }
+
 
 @* @model IEnumerable<Child> *@
 @model List<Core.ViewModels.ChildWithDeleteViewModel>
@@ -36,7 +41,7 @@
 
             foreach (var childWithDelete in Model)
             {
-                <tr>
+                <tr style="@(requestConcernIds.Contains(childWithDelete.Child.ChildID) ? "background-color: #F8C3DF;" : "")">
                     <td style="padding: 8px; border: 1px solid #ddd;">@index</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@childWithDelete.Child.Name</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@(childWithDelete.Child.BirthDate.HasValue ? childWithDelete.Child.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")</td>
