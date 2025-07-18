@@ -53,6 +53,12 @@ namespace Core.Interfaces
 
         Task<bool> UpdateCompletedCoursesAsync();
 
+        Task<List<int?>> GetChildrenWithRequestToLeaveAsync();
+
+        Task<List<int?>> GetChildrenWithScheduleConcernsAsync();
+
+        Task<List<int?>> GetChildrenWithRequestsOrConcernsAsync();
+
 
     }
 }
