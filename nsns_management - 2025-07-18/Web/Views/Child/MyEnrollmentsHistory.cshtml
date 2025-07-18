@@ -1,0 +1,99 @@
+﻿@model Core.ViewModels.EnrollmentsHistoryViewModel
+
+<h2>Enrollments History</h2>
+
+
+
+
+<div style="padding-top: 20px; padding-bottom: 20px">
+
+    <h5>Completed Course Sessions</h5>
+
+</div>
+
+
+<table id="CompletedCourses" style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CompletedCourses!= null && Model.CompletedCourses.Any())
+        {
+            foreach (var enrollment in Model.CompletedCourses)
+            {
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Course.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@(enrollment.Course.Coach?.Name ?? "N/A")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Location</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@((enrollment.ScheduledAt.HasValue) ? enrollment.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "") </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ActualHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Course.HourlyCost</td>
+                    
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 10px;">No completed courses.</td>
+            </tr>
+        }
+
+       
+    </tbody>
+</table>
+
+<div style="padding-top: 20px; padding-bottom: 20px">
+
+<h5>Completed Activities</h5>
+
+</div>
+
+<table id="CompletedActivities" style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">Activity</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Cost</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CompletedActivities!=null && Model.CompletedActivities.Any())
+           
+        {
+            foreach (var enrollment in Model.CompletedActivities)
+            {
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Description</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Address</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Cost</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" style="text-align: center; padding: 10px;">No completed activities.</td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+
+

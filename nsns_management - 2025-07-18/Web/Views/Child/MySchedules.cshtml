@@ -1,0 +1,323 @@
+﻿@model Core.ViewModels.ChildSchedulesViewModel
+
+<h2>-- Course Schedules --</h2>
+@if (Model.CoursesSchedules.Any())
+{
+    var now = DateTime.UtcNow;
+
+    @foreach (var courseSchedules in Model.CoursesSchedules)
+    {
+        <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+            <h5>Course: @courseSchedules.Course.Title</h5>
+            <strong>Course Type: </strong>  @courseSchedules.Course.CourseType
+            <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedules.Course.SessionCount
+            <strong> &nbsp; &nbsp;Coach: </strong> @(courseSchedules.Course.Coach?.Name ?? "N/A")
+            @if (courseSchedules.Course.CourseType == "Private")
+            {
+                <strong> &nbsp; &nbsp;Phone#: </strong> @(courseSchedules.Course.Coach?.Phone ?? "N/A")
+                <strong> &nbsp; &nbsp;WeChat: </strong> @(courseSchedules.Course.Coach?.Wechat ?? "N/A")
+            }
+           
+        </div>
+   
+
+        <form method="post" asp-action="UpdateSchedules">
+            <input type="hidden" name="CourseID" value="@courseSchedules.Course.CourseID" />
+
+            @* <table class="table"> *@
+             <table  style="border-collapse: collapse; width: 100%; text-align: left;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Date</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="10%">Start Time</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">End Time</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="15%">Location</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="15%">Status</th>
+                       
+                        
+                        @if (courseSchedules.Course.CourseType == "Private")
+                        {
+                            <th style="padding: 8px; border: 1px solid #ddd;"  width="20%">
+                                Coach Note
+                            </th>
+                        }
+
+                        @if (courseSchedules.Course.CourseType == "Group")
+                        {
+                            <th style="padding: 8px; border: 1px solid #ddd;"  width="20%">
+                                Staff Note
+                            </th>
+                        }
+
+                        <th style="padding: 8px; border: 1px solid #ddd;"  width="20%">Parent Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (courseSchedules.Schedules.Any())
+                    {
+                        @for (int i = 0; i < courseSchedules.Schedules.Count; i++)
+                        {
+                            var schedule = courseSchedules.Schedules[i];
+                            //var isWithin24Hours = schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+                            var now = DateTime.UtcNow;
+                            var scheduledUtc = TimeZoneInfo.ConvertTimeToUtc(schedule.ScheduledAt.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+                            var isWithin24Hours = (scheduledUtc - now).TotalHours < 24;
+
+                            <input type="hidden" name="Schedules[@i].EnrollmentID" value=@courseSchedules.Schedules[i].EnrollmentID>
+                            <tr>
+                        @*         <td style="padding: 8px; border: 1px solid #ddd;">@(courseSchedules.Schedules[i].ScheduledAt.HasValue ? courseSchedules.Schedules[i].ScheduledAt.Value.ToString("g") : "")</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].ScheduledHours</td> *@
+                                @{
+                                    var scheduledAt = courseSchedules.Schedules[i].ScheduledAt;
+                                    var scheduledHours = courseSchedules.Schedules[i].ScheduledHours.HasValue ? (double)courseSchedules.Schedules[i].ScheduledHours.Value : 0;
+                                    DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                                }
+
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
+                                </td>
+
+                                <td style="padding: 8px; border: 1px solid #ddd;">@courseSchedules.Schedules[i].Location</td>
+                                <td style="padding: 8px; border: 1px solid #ddd; background-color:@(courseSchedules.Schedules[i].Status == "Canceled" ? "#FFDBF6" : "white");">
+                                    <select name="Schedules[@i].Status" class="form-select" @(courseSchedules.Schedules[i].Status == "Canceled" || courseSchedules.Schedules[i].Status == "Deleted" || courseSchedules.Schedules[i].Status == "OnLeave" || isWithin24Hours ? "disabled" : "")>
+
+                                        <option value="Scheduled" selected="@(courseSchedules.Schedules[i].Status == "Scheduled")">Scheduled</option>
+                                        @if (courseSchedules.Course.CourseType == "Private")
+                                        {
+                                            <option value="RequestToReschedule"  selected="@(courseSchedules.Schedules[i].Status == "RequestToReschedule")">Request to Reschedule</option>
+                                        }
+                                        @if (courseSchedules.Course.CourseType == "Group")
+                                        {
+                                            <option value="RequestToLeave"  selected="@(courseSchedules.Schedules[i].Status == "RequestToLeave")">Request to Leave</option>
+                                        }
+                                        <option value="OnLeave" disabled selected="@(courseSchedules.Schedules[i].Status == "OnLeave")">On Leave</option>
+                                        <option value="Canceled" disabled selected="@(courseSchedules.Schedules[i].Status == "Canceled")">Canceled</option>
+                                        <option value="Deleted" disabled selected = "@(courseSchedules.Schedules[i].Status == "Deleted")">Deleted</option>
+
+                                    </select>
+                                    <input type="hidden" name="Schedules[@i].ScheduleID" value="@courseSchedules.Schedules[i].EnrollmentID" />
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @if (courseSchedules.Course.CourseType == "Private")
+                                    {
+                                        @courseSchedules.Schedules[i].CoachNote
+                                    
+                                    }
+                                    @if (courseSchedules.Course.CourseType == "Group")
+                                    {
+                                        @courseSchedules.Schedules[i].StaffNote
+                                    }
+                                   
+                              
+                                    
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    <textarea name="Schedules[@i].ParentNote" class="form-control" @(courseSchedules.Schedules[i].Status == "Canceled" || courseSchedules.Schedules[i].Status == "Deleted" ? "disabled" : "")> @courseSchedules.Schedules[i].ParentNote</textarea>
+                                   
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 10px;">No schedules available.</td>
+                        </tr>
+                    }
+
+                    @if (TempData["SuccessMessage1"] != null && TempData["CourseID"]?.ToString() == courseSchedules.Course.CourseID.ToString())
+            {
+                        <tr>
+                            <td colspan="7">
+                                <div class="alert alert-success">
+                                    @TempData["SuccessMessage1"]
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    @if (TempData["ErrorMessage1"] != null && TempData["CourseID"]?.ToString() == courseSchedules.Course.CourseID.ToString())
+                    {
+                        <tr>
+                            <td colspan="7">
+                                <div class="alert alert-danger">
+                                    @TempData["ErrorMessage1"]
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br/>
+           
+            @if (courseSchedules.Course.CourseType == "Group")
+            {
+                <div style="padding: 10px 20px 10px 20px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                    If you can’t attend the session, select 'Request to Leave' and click 'Save Changes'. A one-time reschedule is available for your first leave request. Please type 'First Leave' in the Parent Note with your request and contact NSNS by email.<br />
+                    如果您无法参加课程，请选择"Request to Leave(请假申请)"并点击"Save Changes"。首次请假可享有一次改期机会。请在家长备注中输入"首次请假"，并通过电子邮件联系 NSNS。
+                </div>
+            }
+
+            @if (courseSchedules.Course.CourseType == "Private")
+            {
+                <div style="padding: 10px 20px 10px 20px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                    You can request a reschedule by clicking 'Request to Reschedule' at least 24 hours before the session begins. It is recommended that you communicate with the coach before making a reschedule request.<br />
+                    您可以在课程开始前至少24小时选择"Request to Reschedule(申请改期)"并点击"Save Changes"来提交改期请求。建议您在提出改期申请前先与教练沟通。
+                </div>
+            }
+            <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
+        </form>
+    }
+}
+else
+{
+        <div style="text-align: left; padding-top: 30px;">No schedules available.</div>
+}
+<div style="margin-bottom: 30px;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h2>-- Course Schedules to Confirm --</h2>
+
+
+@if (Model.CoursesSchedulesToConfirm.Any())
+{
+
+    @foreach (var courseSchedulesToConfirm in Model.CoursesSchedulesToConfirm)
+    {
+        <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+            <h5>Course: @courseSchedulesToConfirm.Course.Title</h5>
+            
+        
+
+            <strong>Course Type: </strong>  @courseSchedulesToConfirm.Course.CourseType
+            <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedulesToConfirm.Course.SessionCount
+            <strong> &nbsp; &nbsp;Coach: </strong>   @(courseSchedulesToConfirm.Course.Coach?.Name ?? "N/A")
+
+
+        </div>
+
+
+          <form method="post" asp-action="UpdateSchedulesToConform">
+            <input type="hidden" name="CourseID" value="@courseSchedulesToConfirm.Course.CourseID" />
+          @*   <input type="hidden" name="ChildID" value="@Model.ChildID" /> *@
+         
+
+
+            <table style="border-collapse: collapse; width: 100%; text-align: left;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Date</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Start Time</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">End Time</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Location</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Status</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Staff Note</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Parent Note</th>
+              
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (courseSchedulesToConfirm.Schedules.Any())
+
+                    {
+
+                       // foreach (var schedule in courseSchedulesToConfirm.Schedules)
+                           @for (int i = 0; i < courseSchedulesToConfirm.Schedules.Count; i++)
+                            {
+                            var schedule = courseSchedulesToConfirm.Schedules[i];
+                            <input type="hidden" name="Schedules[@i].EnrollmentID" value="@schedule.EnrollmentID" />
+                            <tr>
+                               @*  <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td> *@
+
+                                @{
+                                    var scheduledAt = schedule.ScheduledAt;
+                                    var scheduledHours = schedule.ScheduledHours.HasValue ? (double)schedule.ScheduledHours.Value : 0;
+                                    DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                                }
+
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
+                                </td>
+
+
+                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.StaffNote</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;"><textarea name="Schedules[@i].ParentNote" class="form-control"> @schedule.ParentNote</textarea></td>
+                            </tr>
+                        }
+
+                    }
+
+                    else
+
+                    {
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding-top: 10px;">There are currently no schedules waiting for your confirmation.</td>
+                        </tr>
+                    }
+
+                   
+                    @if (TempData["SuccessMessage2"] != null)
+                    {
+                        <tr>
+                            <td colspan="6">
+                                <div class="alert alert-success">
+                                    @TempData["SuccessMessage2"]
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    @if (TempData["ErrorMessage2"] != null)
+                    {
+                        <tr>
+                            <td colspan="6">
+                                <div class="alert alert-danger">
+                                    @TempData["ErrorMessage2"]
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+            <button type="submit" name="actionType" value="SaveChanges" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button>
+            &nbsp;<button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
+       
+        </form>
+
+        <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;" >
+            Please click 'Confirm' to complete your course registration. If there are any sessions you cannot attend, kindly leave a note and click 'Save Changes' — we will try to adjust the schedule before finalizing your registration. <br/>
+            请点击"Confirm"以完成课程注册。如果有任何课节您无法参加，请留下备注，点击"Save Changes"，并通过电子邮件联系 NSNS——我们将在最终确认注册前尽量调整课程安排。
+        </div>
+    }
+}
+else
+{
+    <div style="text-align: left; padding-top: 30px;">No to be confirmed schedules available.</div>
+}
+<div style="margin-bottom: 30px;"></div>

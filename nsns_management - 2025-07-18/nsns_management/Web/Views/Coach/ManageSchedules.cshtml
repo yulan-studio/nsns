@@ -1,0 +1,276 @@
+﻿
+
+@* <script src="/js/schedules.js"></script> *@
+
+<script>
+    function validateScheduleTime() {
+        const scheduledAtInput = document.getElementById("scheduledAt");
+        const errorSpan = document.getElementById("scheduledAtError");
+        const scheduledDate = new Date(scheduledAtInput.value);
+        const now = new Date();
+
+        if (!scheduledAtInput.value || scheduledDate <= now) {
+            errorSpan.textContent = "Scheduled time must be in the future.";
+            return false;
+        }
+
+        errorSpan.textContent = ""; // clear error if valid
+        return true;
+    }
+
+
+    function updateMinutesDisplay() {
+        const input = document.getElementById("scheduledHours");
+        const display = document.getElementById("minutesDisplay");
+
+        if (input && display) {
+            const hoursValue = parseFloat(input.value);
+            if (!isNaN(hoursValue)) {
+                const totalMinutes = Math.round(hoursValue * 60);
+                const hours = Math.floor(totalMinutes / 60);
+                const minutes = totalMinutes % 60;
+
+                let message = "(";
+                if (hours > 0) {
+                    message += hours + " hour" + (hours > 1 ? "s" : "");
+                    if (minutes > 0) {
+                        message += " ";
+                    }
+                }
+                if (minutes > 0) {
+                    message += minutes + " minute" + (minutes > 1 ? "s" : "");
+                }
+                message += ")";
+
+                display.textContent = message;
+            } else {
+                display.textContent = "";
+            }
+         }
+    }
+
+    document.getElementById("scheduledHours").addEventListener("input", updateMinutesDisplay);
+
+    // Optional: initialize on page load if there's a preset value
+    window.addEventListener("DOMContentLoaded", updateMinutesDisplay);
+</script>
+
+
+ @model Core.ViewModels.ManageSchedulesViewModel
+
+<h2>Schedule Course</h2>
+
+<a href="/Coach/ManageCourse" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to Courses List</a>
+
+<div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
+    <strong>Child:</strong> @Model.Child.Name
+    <div style="padding-top: 10px"></div>
+    <strong>Gender:</strong> @Model.Child.Gender
+    <div style="padding-top: 10px"></div>
+    <strong>Birthday:</strong> @Model.Child.BirthDate
+    <div style="padding-top: 10px"></div>
+    <strong>City:</strong> @Model.Child.City.Name
+    <div style="padding-top: 10px"></div>
+
+    @foreach (var parentChild in Model.Parents)
+    {
+        <strong>@parentChild.Relationship:</strong> @parentChild.Parent.Name
+
+        <strong>&nbsp; &nbsp;Phone:</strong> @parentChild.Parent.Phone
+
+        <strong>&nbsp; &nbsp;WeChat:</strong> @parentChild.Parent.Wechat
+
+        <div style="padding-top: 10px"></div>
+    }
+</div>
+<!-- Course Scheduling Form -->
+<div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
+
+    <form method="post" action="/Coach/ScheduleCourse" onsubmit="return validateScheduleTime()">
+        <strong>Course:</strong> @Model.Course.Title
+        <div style="padding-top: 10px"></div>
+        <strong> Session Count: </strong>@Model.Course.SessionCount &nbsp;&nbsp;  <strong>Scheduled: </strong>@Model.ScheduledCount &nbsp;&nbsp; <strong>Completed: </strong>@Model.CompletedCount &nbsp;&nbsp;
+    <div style="padding-top: 10px"></div>
+   
+ 
+     
+    <div style="padding-top: 10px"></div>
+
+        <input type="hidden" id="enrollmentId_Ref" name="enrollmentId_Ref" value="@Model.EnrollmentID" />
+        <input type="hidden" id="childId" name="childId" value="@Model.Child.ChildID" />
+        <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
+
+        <strong>Scheduled Date: &nbsp;&nbsp; </strong>
+        <input type="datetime-local" id="scheduledAt" name="scheduledAt" required />  
+        <span id="scheduledAtError" style="color: red; margin-left: 10px;"></span>
+        <div style="padding-top: 10px"></div>
+        <strong>Scheduled Hours:&nbsp;</strong>
+        <input id="scheduledHours" name="scheduledHours" type="number" step="0.25" min="0.5" required onchange="return updateMinutesDisplay()" />
+        <span id="minutesDisplay" style="margin-left: 10px; font-style: italic;"></span>
+        <div style="padding-top: 10px"></div>
+        <strong>Location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+        <input id="location" name="location" required />
+        <div style="padding-top: 15px"></div>
+        <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">Schedule</button>
+    </form>
+
+    
+
+
+  
+    
+</div>
+
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+
+
+
+
+
+<!-- Scheduled Courses List -->
+<h3>Scheduled Courses</h3>
+
+<table id="scheduleTable" style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+     
+            <th style="padding: 8px; border: 1px solid #ddd;">Date</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Start Time</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">End Time</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Location</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Parent Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Coach Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Schedules.Any())
+        {
+            foreach (var schedule in Model.Schedules)
+            {
+                <tr>
+
+                   @*  <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td> *@
+                   
+                    @if (schedule.ScheduledAt.HasValue)  
+                    {  
+                        var start = schedule.ScheduledAt.Value;  
+                        var scheduledHours = schedule.ScheduledHours.HasValue ? (double)schedule.ScheduledHours.Value : 0;  
+                        var end = start.AddHours(scheduledHours);  
+
+                        <td style="padding: 8px; border: 1px solid #ddd;">@start.ToString("yyyy-MM-dd")</td>  
+                        <td style="padding: 8px; border: 1px solid #ddd;">@start.ToString("HH:mm")</td>  
+                        <td style="padding: 8px; border: 1px solid #ddd;">@end.ToString("HH:mm")</td>  
+                    }  
+                    else  
+                    {  
+                        <td style="padding: 8px; border: 1px solid #ddd;"></td>  
+                        <td style="padding: 8px; border: 1px solid #ddd;"></td>  
+                        <td style="padding: 8px; border: 1px solid #ddd;"></td>  
+                    }
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ParentNote</td>
+                    <form method="post" action="/Coach/DeleteSchedule">
+                    <td style="padding: 8px; border: 1px solid #ddd;"><textarea class="form-control" name="coachNote"> @schedule.CoachNote</textarea></td>
+                    
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+
+                       
+                           
+                            <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
+                            <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+
+                            <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
+                            <input type="hidden" name="coachNote" value="@schedule.CoachNote" />
+                            <input type="hidden" name="enrollmentId_Ref"  value="@Model.EnrollmentID"   />
+                            @{
+                                var now = DateTime.UtcNow;
+
+                                var scheduledUtc = TimeZoneInfo.ConvertTimeToUtc(schedule.ScheduledAt.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+                                //var isWithin24Hours = @schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+                                var isWithin24Hours = (scheduledUtc - now).TotalHours < 24;
+                            }
+                       
+                            @if (schedule.Status != "Deleted" && !isWithin24Hours)
+                            {
+                            <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                                    Remove
+                            </button>
+                            }
+                           
+                       
+                    </td>
+                    </form>
+                </tr>
+                
+            }
+            <tr>
+                <td colspan="8" >
+                    <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                        - If a parent requests to reschedule, the coach is required to remove the existing schedule and create a new one. <br />
+                        - Coaches can also reschedule a session at least 24 hours before the scheduled start time. <br />
+                        - In the case of the location is not available for the time, please also remove the existing schedule.<br/>
+                        - Kindly ensure the parent is informed of the change via phone or WeChat.<br />
+                        - 如果家长请求改期，教练需先删除原有的安排，再创建新的课程安排。<br />
+                        - 教练也可以在课程开始前至少24小时进行改期。<br />
+                        - 如果场地在该时间不可用，也请删除原有的安排。<br />
+                        - 请通过电话或微信确保通知家长相关变更。
+                    </div>
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" style="text-align: center; padding: 10px;">No scheduled courses.</td>
+            </tr>
+        }
+
+
+
+       @*  @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="7">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="7">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        } *@
+
+        
+
+       
+    </tbody>
+</table>
+
