@@ -104,7 +104,7 @@
                     <tr>
                         <td>@Model.AllSessions[i].ScheduledAt.ToString("g")</td>
                         <td>@Model.AllSessions[i].ScheduledHours</td>
-                        <td>
+                        <td style="@(Model.AllSessions[i].Status == "RequestToLeave" ? "background-color: #F8C3DF;" : "")">
                             <select name="AllSessions[@i].Status" class="form-select">
 
                                @*  <option value="Registered" selected="@("Registered" == Model.AllSessions[i].Status)">Registered</option>
@@ -143,7 +143,7 @@
                             </select>
                             <input type="hidden" name="AllSessions[@i].EnrollmentID" value="@Model.AllSessions[i].EnrollmentID" />
                         </td>
-                        <td style="@(Model.AllSessions[i].ParentNote != null ? "background-color: #F8C3DF;" : "")">@Model.AllSessions[i].ParentNote</td>
+                        <td style="@((Model.AllSessions[i].ParentNote != null)&&(Model.AllSessions[i].Status=="Registered") ? "background-color: #F8C3DF;" : "")">@Model.AllSessions[i].ParentNote</td>
                         <td>
                             <textarea name="AllSessions[@i].StaffNote" class="form-control">@Model.AllSessions[i].StaffNote</textarea>
                         </td>
