@@ -80,6 +80,8 @@ namespace Core.Interfaces
         Task<bool> UpdateCompletedCoursesAsync();
 
         Task<List<int?>> GetChildrenWithRequestsOrConcernsAsync();
+
+        Task<List<int?>> GetChildrenWithConcernsAsync();
     }
 
 

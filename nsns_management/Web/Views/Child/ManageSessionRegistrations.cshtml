@@ -17,7 +17,7 @@
   
 </div>
 
-<a href="/Child/ManageRegistrations/@Model.Child.ChildID" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to List</a>
+<a href="/Child/ManageRegistrations/@Model.Child.ChildID" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to Child Courses List</a>
 
 <div style="border-top: 2px solid #ddd; margin: 20px 0;"></div>
 
@@ -143,7 +143,7 @@
                             </select>
                             <input type="hidden" name="AllSessions[@i].EnrollmentID" value="@Model.AllSessions[i].EnrollmentID" />
                         </td>
-                        <td>@Model.AllSessions[i].ParentNote</td>
+                        <td style="@(Model.AllSessions[i].ParentNote != null ? "background-color: #F8C3DF;" : "")">@Model.AllSessions[i].ParentNote</td>
                         <td>
                             <textarea name="AllSessions[@i].StaffNote" class="form-control">@Model.AllSessions[i].StaffNote</textarea>
                         </td>

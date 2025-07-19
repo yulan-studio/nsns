@@ -576,6 +576,11 @@ namespace Core.Services
         {
             return await _enrollmentRepository.GetChildrenWithRequestsOrConcernsAsync();
         }
+
+        public async Task<List<int?>> GetChildrenWithConcernsAsync()
+        {
+            return await _enrollmentRepository.GetChildrenWithScheduleConcernsAsync();
+        }
     }
 
 

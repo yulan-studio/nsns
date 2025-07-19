@@ -1,7 +1,15 @@
-﻿
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manage Registrations";
 
+    //var requestConcernIds = ViewBag.RequestConcernChildIds as List<int> ?? new List<int>();
+    //var requestConcernIds = (ViewData["RequestConcernChildIds"] as IEnumerable<object>)?.Cast<int>().ToList() ?? new List<int>();
+    var concernIds = (ViewData["ConcernChildIds"] as IEnumerable<int?>)?.ToList() ?? new List<int?>();
+}
 
 <script src="/js/registrations.js"></script>
+
+
 @model Core.ViewModels.ManageRegisterationsViewModel
 
 <div>
@@ -73,7 +81,7 @@
                             </button>
                         </form>
                     </td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">
+                    <td style="padding: 8px; border: 1px solid #ddd; @(concernIds.Contains(@enrollment.ChildID) ? "background-color: #F8C3DF;" : "")">
                         <a href="/Child/ManageSessionRegistrations?childId=@enrollment.ChildID&courseId=@enrollment.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none; @(enrollment.CourseType == "Group" ?"":"display: none;")">Manage</a>
                         
                        @*  <a asp-controller="Child"

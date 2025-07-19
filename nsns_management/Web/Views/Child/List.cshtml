@@ -41,7 +41,7 @@
 
             foreach (var childWithDelete in Model)
             {
-                <tr style="@(requestConcernIds.Contains(childWithDelete.Child.ChildID) ? "background-color: #F8C3DF;" : "")">
+                <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@index</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@childWithDelete.Child.Name</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@(childWithDelete.Child.BirthDate.HasValue ? childWithDelete.Child.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")</td>
@@ -67,8 +67,8 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <a href="/Child/ManagePayments/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>
                     </td>
-                    
-                    <td style="padding: 8px; border: 1px solid #ddd;">
+
+                    <td style="padding: 8px; border: 1px solid #ddd; @(requestConcernIds.Contains(childWithDelete.Child.ChildID) ? "background-color: #F8C3DF;" : ""))">
                         <a href="/Child/ManageRegistrations/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>
                     </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">

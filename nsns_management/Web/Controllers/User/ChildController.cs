@@ -85,9 +85,9 @@ namespace Web.Controllers.User
         // ✅ List all children
         public async Task<IActionResult> List()
         {
-            var childrenWithConcerns = await _courseEnrollmentService.GetChildrenWithRequestsOrConcernsAsync();
+            var childrenWithRequestOrConcerns = await _courseEnrollmentService.GetChildrenWithRequestsOrConcernsAsync();
             //ViewBag.RequestConcernChildIds = childrenWithConcerns;
-            ViewData["RequestConcernChildIds"] = childrenWithConcerns;
+            ViewData["RequestConcernChildIds"] = childrenWithRequestOrConcerns;
             var childrenWithDelete = new List<ChildWithDeleteViewModel>();
             var children = await _childService.GetAllAsync();
             foreach (Child c in children)
@@ -539,6 +539,11 @@ namespace Web.Controllers.User
         [HttpGet("ManageRegistrations/{childId}")]
         public async Task<IActionResult> ManageRegistrations(int childId)
         {
+            var childrenWithConcerns = await _courseEnrollmentService.GetChildrenWithConcernsAsync();
+            //ViewBag.RequestConcernChildIds = childrenWithConcerns;
+            ViewData["ConcernChildIds"] = childrenWithConcerns;
+
+
             var child = await _childService.GetAsync(childId);
             if (child == null)
             {
