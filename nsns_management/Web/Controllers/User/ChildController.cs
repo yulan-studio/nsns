@@ -593,11 +593,13 @@ namespace Web.Controllers.User
             var courseEnrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
             
 
-            var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
-            var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(child.ChildID);
-            var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
+            //var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
+            //var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(child.ChildID);
+            //var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
 
-           
+            var activityEnrollments = await _activityEnrollmentService.GetAllEnrollmentsByChildAsync(child.ChildID);
+
+
             return View("MyRegistrations", new ManageRegisterationsViewModel
             {
                 Child = child,

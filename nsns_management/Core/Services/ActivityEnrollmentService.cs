@@ -79,8 +79,12 @@ namespace Core.Services
             return await _enrollmentRepository.RemoveAsync(enrollmentId);
         }
 
-      
-        
+
+        public async Task<IEnumerable<ActivityEnrollment>> GetAllEnrollmentsByChildAsync(int childId)
+        {
+            return await _enrollmentRepository.GetAllEnrollmentsByChildAsync(childId);
+        }
+
         public async Task<IEnumerable<ActivityEnrollment>> GetRegisteredEnrollmentsByChildAsync(int childId)
         {
             return await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Registered");

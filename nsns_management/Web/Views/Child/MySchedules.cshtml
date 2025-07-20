@@ -321,3 +321,65 @@ else
     <div style="text-align: left; padding-top: 30px;">No to be confirmed schedules available.</div>
 }
 <div style="margin-bottom: 30px;"></div>
+
+
+
+
+<h2>-- Activity Schedules --</h2>
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">Activity</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ActivitySchedules!=null && Model.ActivitySchedules.Any())
+        {
+            foreach (var enrollment in Model.ActivitySchedules)
+            {
+                <tr>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Description</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Address</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Cost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.Activity.Status == "Canceled" ? "color: red" : "")">@enrollment.Status</td>
+                    @*     <td style="padding: 8px; border: 1px solid #ddd;">
+                        <form method="post" action="/Child/UnregisterActivity">
+                            <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
+                            <input type="hidden" name="childId" value="@enrollment.ChildID" />
+                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                                Remove
+                            </button>
+                        </form>
+                    </td> *@
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 10px;">No activities enrolled.</td>
+            </tr>
+        }
+
+
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
