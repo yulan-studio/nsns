@@ -63,8 +63,8 @@ namespace Core.Models
         //[ForeignKey("UpdatedBy")]
         //public virtual User UpdatedByUser { get; set; } // Navigation property to User (UpdatedBy)
 
-        //public DateTime CreatedDate { get; set; } = DateTime.Now;
+        //public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
-        //public DateTime UpdatedDate { get; set; } = DateTime.Now;
+        //public DateTime UpdatedDate { get; set; } = DateTime.UtcNow;
     }
 }

@@ -38,8 +38,8 @@ namespace Core.Services
         //        CoachID = coachId,
         //        SpecialtyID = specialtyId,
         //        //CreatedBy = createdBy,
-        //        //CreatedDate = DateTime.Now,
-        //        //UpdatedDate = DateTime.Now
+        //        //CreatedDate = DateTime.UtcNow,
+        //        //UpdatedDate = DateTime.UtcNow
         //    };
 
         //    //newRelation.Parent = parent;

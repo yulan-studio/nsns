@@ -74,7 +74,7 @@ namespace Core.Repositories
 
         public async Task UpdateActivityStatusToCompletedAsync()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             var activities = await _context.Activities
                 .Where(a => ((DateTime)a.ScheduledAt).AddDays(1) <= now /*&& a.IsActive == true*/)
                 .ToListAsync();

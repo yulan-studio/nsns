@@ -78,6 +78,10 @@ namespace Core.Interfaces
         Task<bool> CompleteSessionAsync(int enrollmentId, Decimal actualHours);
 
         Task<bool> UpdateCompletedCoursesAsync();
+
+        Task<List<int?>> GetChildrenWithRequestsOrConcernsAsync();
+
+        Task<List<int?>> GetChildrenWithConcernsAsync();
     }
 
 

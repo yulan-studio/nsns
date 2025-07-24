@@ -22,8 +22,8 @@
 
 
 //function loadSchedules(childId, courseId) {
-   
-   
+
+
 
 //    if (!childId) {
 //        document.getElementById("scheduleTable").querySelector("tbody").innerHTML = "";
@@ -63,3 +63,31 @@
 //        })
 //        .catch(error => console.error("Error loading schedules:", error));
 //}
+
+
+
+
+
+
+//function updateMinutesDisplay() {
+//    const input = document.getElementById("scheduledHours");
+//    const display = document.getElementById("minutesDisplay");
+
+//    if (input && display) {
+//        const hours = parseFloat(input.value);
+//        if (!isNaN(hours)) {
+//            const minutes = Math.round(hours * 60);
+//            display.textContent = `(${minutes} minutes)`;
+//        } else {
+//            display.textContent = "";
+//        }
+//    }
+//}
+
+//document.addEventListener("DOMContentLoaded", function () {
+//    const input = document.getElementById("scheduledHours");
+//    if (input) {
+//        input.addEventListener("input", updateMinutesDisplay);
+//        updateMinutesDisplay(); // Initial display
+//    }
+//});

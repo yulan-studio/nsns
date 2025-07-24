@@ -22,6 +22,45 @@ namespace Core.Repositories
             _context = context;
         }
 
+        public async Task<IEnumerable<ActivityEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            return await _context.ActivityEnrollments
+                .Include(e => e.Activity)
+                //.Include(e => e.Child)
+                .Where(e => e.ChildID == childId && e.Activity.ScheduledAt >= torontoNow)
+                .OrderBy(e => e.Activity.ScheduledAt)
+                .ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<ActivityEnrollment>> GetPastEnrollmentsByChildAsync(int childId)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            return await _context.ActivityEnrollments
+                .Include(e => e.Activity)
+                //.Include(e => e.Child)
+                .Where(e => e.ChildID == childId && e.Activity.ScheduledAt < torontoNow)
+                .OrderBy(e => e.Activity.ScheduledAt)
+                .ToListAsync();
+        }
+
+
+
+        public async Task<IEnumerable<ActivityEnrollment>> GetAllEnrollmentsByChildAsync(int childId)
+        {
+            return await _context.ActivityEnrollments
+                .Include(e => e.Activity)
+                //.Include(e => e.Child)
+                .Where(e => e.ChildID == childId)
+                .OrderBy(e => e.Activity.ScheduledAt)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<ActivityEnrollment>> GetEnrollmentsByChildAsync(int childId, string status)
         {
             return await _context.ActivityEnrollments
@@ -61,7 +100,7 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<ActivityEnrollment>> UpdateActivityStatusToCompletedAsync()
         {
-            var now = DateTime.Now;
+            var now = DateTime.UtcNow;
             var enrollments = await _context.ActivityEnrollments
                 .Include(e => e.Activity)
                 .Where(e => ((DateTime)e.Activity.ScheduledAt).AddDays(1)  <= now && e.Status == "Registered")

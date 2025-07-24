@@ -18,6 +18,10 @@ namespace Core.ViewModels
         public List<CourseSchedulesViewModel> CoursesSchedules { get; set; } = new();
 
         public List<CourseSchedulesViewModel> CoursesSchedulesToConfirm { get; set; } = new();
+
+        //public List<ActivitySchedulesViewModel> ActivitiesSchedules { get; set; } = new();
+
+        public IEnumerable<ActivityEnrollment> ActivitySchedules { get; set; }
     }
 
     public class CourseSchedulesViewModel

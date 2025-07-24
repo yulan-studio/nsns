@@ -14,6 +14,12 @@ namespace Core.Interfaces
         Task<bool> RemoveAsync(int enrollmentId);
         //Task<bool> RemoveRegisteredAsync(int enrollmentId);
 
+        Task<IEnumerable<ActivityEnrollment>> GetAllEnrollmentsByChildAsync(int childId);
+
+        Task<IEnumerable<ActivityEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId);
+
+        Task<IEnumerable<ActivityEnrollment>> GetPastEnrollmentsByChildAsync(int childId);
+        
         Task<IEnumerable<ActivityEnrollment>> GetEnrollmentsByChildAsync(int childId, string status);
 
         Task<IEnumerable<ActivityEnrollment>> UpdateActivityStatusToCompletedAsync();

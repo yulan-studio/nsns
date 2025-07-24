@@ -85,6 +85,9 @@ namespace Web.Controllers.User
         // ✅ List all children
         public async Task<IActionResult> List()
         {
+            var childrenWithRequestOrConcerns = await _courseEnrollmentService.GetChildrenWithRequestsOrConcernsAsync();
+            //ViewBag.RequestConcernChildIds = childrenWithConcerns;
+            ViewData["RequestConcernChildIds"] = childrenWithRequestOrConcerns;
             var childrenWithDelete = new List<ChildWithDeleteViewModel>();
             var children = await _childService.GetAllAsync();
             foreach (Child c in children)
@@ -324,7 +327,7 @@ namespace Web.Controllers.User
         //            Email = email,
         //            Wechat = wechat,
         //            CreatedBy = user.Id, // Assume the user ID of admin/creator
-        //            CreatedDate = DateTime.Now
+        //            CreatedDate = DateTime.UtcNow
         //        };
 
         //        // ✅ 2. Save the parent in the database
@@ -411,7 +414,7 @@ namespace Web.Controllers.User
                     Email = email,
                     Wechat = wechat,
                     CreatedBy = user.Id, // Assume the user ID of admin/creator
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.UtcNow
                 };
 
                 // ✅ 2. Save the parent in the database
@@ -536,6 +539,11 @@ namespace Web.Controllers.User
         [HttpGet("ManageRegistrations/{childId}")]
         public async Task<IActionResult> ManageRegistrations(int childId)
         {
+            var childrenWithConcerns = await _courseEnrollmentService.GetChildrenWithConcernsAsync();
+            //ViewBag.RequestConcernChildIds = childrenWithConcerns;
+            ViewData["ConcernChildIds"] = childrenWithConcerns;
+
+
             var child = await _childService.GetAsync(childId);
             if (child == null)
             {
@@ -585,11 +593,13 @@ namespace Web.Controllers.User
             var courseEnrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
             
 
-            var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
-            var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(child.ChildID);
-            var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
+            //var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
+            //var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(child.ChildID);
+            //var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
 
-           
+            var activityEnrollments = await _activityEnrollmentService.GetAllEnrollmentsByChildAsync(child.ChildID);
+
+
             return View("MyRegistrations", new ManageRegisterationsViewModel
             {
                 Child = child,

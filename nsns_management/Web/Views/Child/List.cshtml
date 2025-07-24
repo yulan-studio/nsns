@@ -5,7 +5,12 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Manage Children";
+
+    //var requestConcernIds = ViewBag.RequestConcernChildIds as List<int> ?? new List<int>();
+    //var requestConcernIds = (ViewData["RequestConcernChildIds"] as IEnumerable<object>)?.Cast<int>().ToList() ?? new List<int>();
+    var requestConcernIds = (ViewData["RequestConcernChildIds"] as IEnumerable<int?>)?.ToList() ?? new List<int?>();
 }
+
 
 @* @model IEnumerable<Child> *@
 @model List<Core.ViewModels.ChildWithDeleteViewModel>
@@ -62,8 +67,8 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <a href="/Child/ManagePayments/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>
                     </td>
-                    
-                    <td style="padding: 8px; border: 1px solid #ddd;">
+
+                    <td style="padding: 8px; border: 1px solid #ddd; @(requestConcernIds.Contains(childWithDelete.Child.ChildID) ? "background-color: #F8C3DF;" : ""))">
                         <a href="/Child/ManageRegistrations/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>
                     </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
