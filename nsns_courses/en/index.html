@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Programs</title>
+  <style>
+     body {
+      font-family: Arial, sans-serif;
+      margin: 40px auto;
+      max-width: 1200px;
+      background: #f9f9f9;
+      padding: 20px;
+      color: #1d1d1d;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .language {
+      text-align: center;
+       margin-bottom: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tabs button {
+      flex: 1 1 22%; 
+      padding: 13px 15px;
+      border: none;
+      background-color: #e0e0e0;
+      cursor: pointer;
+      /* border-radius: 5px; */
+      font-weight: bold;
+      font-size: medium;
+      transition: background-color 0.3s;
+      min-width: 140px;
+      text-align: center;
+    }
+
+    .tabs button:hover {
+      background-color: #cccccc;
+    }
+
+    .tabs button.active {
+      background-color: #316386; 
+      /* background-color: #474748; */
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+     
+    }
+
+    .tab-content.active {
+      display: block;
+    } 
+
+   
+
+    /* Responsive layout */
+    @media (max-width: 800px) {
+      .tabs button {
+        flex: 1 1 45%; /* 2 per row */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .tabs button {
+        flex: 1 1 100%; /* 1 per row */
+      }
+    }
+
+     table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      /* background-color: #474748; */
+      /* background-color: #316386; */
+      background-color: #7bb4dc;
+      /* color: white; */
+      color: #0b0b0b;
+      font-weight: normal;
+     
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #eef7fb;
+    }
+
+    a {
+      color: #156082;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .highlight {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>NSNS 2025 Course & Event Schedule</h1>
+<div class="language"><a href="/zh/index.html" target="_self">中文</a> | <a href="/en/index.html" target="_self">English</a></div>
+  <div class="tabs">
+    <button class="tab-btn" data-tab="sports">Sports Program</button>
+    <button class="tab-btn" data-tab="cognitive">Cognitive Program</button>
+    <button class="tab-btn" data-tab="adventure">Adventure Program</button>
+    <button class="tab-btn" data-tab="events">Events</button>
+  </div>
+  </div>
+
+
+  <div id="sports" class="tab-content">
+    
+    
+    <table>
+    <thead>
+      <tr>
+        <th style="width:16%">Course</th>
+        <th style="width:10%">Registration</th>
+        <!-- <th style="width:10%">Schedule</th> -->
+        <th style="width:19%">Class Format</th>
+        <th style="width:12%">Class Duration</th>
+        <th style="width:13%">Class Schedule</th>
+        <th style="width:30%">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+   
+   
+      <tr>
+      <td>Basketball Class1</td><td>
+        <!-- <a href="https://docs.google.com/forms/d/15BbRhPmqGr-QIACF8aSBOghHEoL08TN1fvoPhjBuH8w/viewform"  target="_blank">Register</a> -->
+      </td><td>Group Class (Tuesday)</td><td>60 minutes</td><td>Starting in Fall</td><td>Richmond Hill</td></tr>
+      <tr><td>Basketball Class2</td><td>
+        <!-- <a href="https://docs.google.com/forms/d/1vYWt3mhpgM5lbcd6-BlfMN-c2GVV63Z-QPse9exsXXw/viewform"  target="_blank">Register</a> -->
+      </td><td>Group Class (Friday)</td><td>60 minutes</td><td>Starting in Fall</td><td>Richmond Hill</td></tr>
+      
+      
+      <tr><td>Table Tennis Class</td><td><a href="https://docs.google.com/forms/d/12kbzpmJ5GLfdR5lioQuGtYTZKXr59bR6oCMDMBufkHU/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>60 minutes</td><td></td><td>Markham</td></tr>
+
+
+      <tr><td>Soccer Class</td><td>
+        <a href="https://docs.google.com/forms/d/1r7po6lq-9aQGgoneS8MuGz9zOAMzSRdnKob_PZ_8ztk/viewform"  target="_blank">Register</a> 
+      </td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td>Starting in Fall<br/>Every Tuesday, 6:00 PM - 6:45 PM</td><td>Richmond Hill</td></tr>
+
+
+      <tr><td>Tennis Class</td><td><a href="https://docs.google.com/forms/d/1bDn1U3WaNWEdYm0u8btWeWD17jc-zmP4WPFH6xRkmFU/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td></td></tr>
+
+
+      <tr><td>Badminton Class</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSemwhGB52x143_-ItvlVSeCNNlmwKQEy9en58ZJ_tez4t-CYQ/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td>Every Friday at 7:00 PM</td><td>Richmond Hill</td></tr>
+
+
+
+      <!-- <tr><td>高尔夫课</td><td><a href="https://docs.google.com/forms/d/1rVz71tl5-qVco-TIfhzNVVwXGhOSR6QqhJue6sLwS6g/viewform"  target="_blank">Register</a></td><td></td><td>1 on 1 (20 sessions)</td><td>30 minutes</td><td></td><td></td></tr>
+      <tr><td>高尔夫课</td><td><a href="https://docs.google.com/forms/d/1rVz71tl5-qVco-TIfhzNVVwXGhOSR6QqhJue6sLwS6g/viewform"  target="_blank">Register</a></td><td></td><td>一对二(20 sessions)</td><td>55 minutes</td><td></td><td></td></tr>
+      <tr><td>高尔夫课</td><td><a href="https://docs.google.com/forms/d/1rVz71tl5-qVco-TIfhzNVVwXGhOSR6QqhJue6sLwS6g/viewform"  target="_blank">Register</a></td><td></td><td>一对三(20 sessions)</td><td>60 minutes</td><td></td><td></td></tr> -->
+
+      <tr>
+        <td rowspan="3">高尔夫课</td>
+        <td rowspan="3"><a href="https://docs.google.com/forms/d/1rVz71tl5-qVco-TIfhzNVVwXGhOSR6QqhJue6sLwS6g/viewform"
+            target="_blank">Register</a></td>
+        
+        <td>1 on 1 (20 sessions)</td>
+        <td>30 minutes</td>
+        <td></td>
+        <td rowspan="3">Markham, Richmond Hill, Whitchurch-Stouffville, Oakville</td>
+      </tr>
+      <tr>
+        
+        <td>1 on 2 (20 sessions)</td>
+        <td>55 minutes</td>
+        <td></td>
+       
+      </tr>
+      <tr>
+        
+        <td>1 on 3 (20 sessions)</td>
+        <td>60 minutes</td>
+        <td></td>
+        
+      </tr>
+
+
+
+
+
+      <tr><td>陆地冰球课</td><td><a href="https://docs.google.com/forms/d/16ki6BzTNco-lzlzuG11htkFPKDnAm3_YbORcb0saxg0/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York</td></tr>
+
+
+      <tr><td>击剑课1</td><td><a href="https://docs.google.com/forms/d/1TzfTMcvFOKnr6fbjNq-ivx-zzOU1aTYmwF4qb-Y988g/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>90 minutes</td><td></td><td>Richmond Hill</td></tr>
+
+
+
+      <tr><td>击剑课2</td><td></td><td>Group Class</td><td>60 minutes</td><td>Stay tuned</td><td>Richmond Hill</td></tr>
+
+
+
+
+      <tr><td>Swimming Class</td><td><a href="https://docs.google.com/forms/d/17OUh6xPgldU7CHqBCbou0iV970QX3PMk1Uxt0WX-fcg/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, Mississauga/Oakville, Pickering/Ajax, Aroura/Newmarket</td></tr>
+
+
+      <tr><td>划船课</td><td><a href="https://docs.google.com/forms/d/1ORUu5Fgxwe8tlPAEZgSwPwWFLTOMjyWfg-So5nW2ArU/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>60 minutes</td><td>June - August</td><td>Richmond Hill</td></tr>
+
+
+      <tr><td>Dragon Boat Class</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSfBv6Y5unweLEkyzeVm099yQUqMBdoKV0bHR5ddwW9vYWNpTA/viewform"  target="_blank">Register</a></td><td>Group Class</td><td>90 minutes</td><td>May - August</td><td>Richmond Hill</td></tr>
+    
+      <tr><td>桨板课</td><td><a href="https://docs.google.com/forms/d/1MbiljLz5IOICYbRqNTa4KXcWHaSNCoygiQmqsMgvN1o/viewform"  target="_blank">Register</a></td><td>1 on 1 / 1 to many (10 sessions)</td><td>90 minutes (adjustable based on request)</td><td>June-August</td><td>Based on students' needs</td></tr>
+    
+      <tr><td>滑板课</td><td><a href="https://docs.google.com/forms/d/1oefffLOMHegDGZe8zNBZTRB-wDrEX3Fk__66qa_KfGc/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York</td></tr>
+
+
+      <tr><td>Roller Skating Class</td><td><a href="https://docs.google.com/forms/d/1l1KNHRYHq_9RlkvnponG9ZIJIdzO3un_BackqKPfBJ4/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York, Pickering, Oshawa</td></tr>
+     
+      <tr><td>Ice Skating Class</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSe2R4VGrdyp5hbwsAl3cMKXGPG5CDtjxfxut47TyLQ8ee8dFQ/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York, Mississauga/Oakville, Aroura/Newmarket</td></tr>
+
+
+      <tr><td>Ice Hockey Class</td><td>
+        <!-- <a href="https://docs.google.com/forms/d/1GpNUO_OJbmDc943RwX3Vpj18Yg8G9H1crSmgxfTadY4/viewform"  target="_blank">Register</a> -->
+      </td><td>Group Class, 1 on 1 (20 sessions)</td><td>45 minutes</td><td>Starting in Fall</td><td></td></tr>
+
+
+      <tr><td>Skiing Class</td><td>
+        <!-- <a href="https://docs.google.com/forms/d/1V_1vHKX9TQL8-KQGWn9lwo7g_Ug-u7BK_nHp2rRCpK0/viewform"  target="_blank">Register</a> -->
+      </td><td>1 on 1 / 1 to many</td><td>2-4 Hours</td><td>Starting in Winter</td><td></td></tr>
+      
+    
+     
+      <tr><td>Fitness Training Class</td><td><a href="https://docs.google.com/forms/d/1FZcTQUhvcJojD4k9GwHexXaqTgfjvWzdiphtXJbEwGw/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Mississauga/Oakville</td></tr>
+ 
+
+      <tr><td>Yoga & Gymnastics Class (Planned)</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Volleyball Class (Planned)</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>Shaolin Martial Arts Class (Planned)</td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+   
+  </div>
+
+  <div id="cognitive" class="tab-content">
+   <table>
+    <thead>
+      <tr>
+       <th style="width:12%">Course</th>
+        <th style="width:10%">Registration</th>
+        
+        <th style="width:23%">Class Format</th>
+        <th style="width:12%">Class Duration</th>
+        <th style="width:13%">Class Dates</th>
+        <th style="width:30%">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+
+       <tr>
+        <td>NSNS & HFS® 音智优脑训练 · 免费试训</td>
+        <td><a href="https://docs.google.com/forms/d/e/1FAIpQLScr9h-AZnBQ0stpUVQq3ULzHN9TGlR8z2tMoZWBQOIbO3ZTjw/viewform" target="_blank">Register</a></td>
+        <td>1 on 1 (1 session)</td>
+        <td>60 minutes</td>
+        <td></td>
+        <td>Primarily in-person (some sessions available online)</td>
+      </tr>
+      <tr>
+        <td>Rubik's Cube Class</td>
+        <td><a href="https://docs.google.com/forms/d/1_4OPz4SPI810KEIr5sClK1D9bgi_GAD475g3-fcx18M/viewform" target="_blank">Register</a></td>
+        <td>1 on 1 (20 sessions)</td>
+        <td>45 minutes</td>
+        <td></td>
+        <td>Online Course</td>
+      </tr>
+
+
+
+      <tr>
+        <td>Robotics Class1</td>
+        <td><a href="https://docs.google.com/forms/d/1K_80pZpF4LkO0rET5xVbKIMQHpfWOCWyqWqiPzm0U68/viewform" target="_blank">Register</a></td>
+        <td>1 on 1 (20 sessions)</td>
+        <td>60 minutes</td>
+        <td></td>
+        <td>Richmond Hill</td>
+      </tr>
+
+
+
+      <tr>
+        <td>机器人课2</td>
+        <td>
+          <!-- <a href="https://docs.google.com/forms/d/1E50wzHG-otfWunwX3ALDJjk99uNzIRhWnLC20Z3jSUI/viewform" target="_blank">Register</a> -->
+        </td>
+        <td>Group Class</td>
+        <td>60 minutes</td>
+        <td>Stay Tuned</td>
+        <td>Richmond Hill</td>
+      </tr>
+
+
+      <tr>
+        <td>Robotic Summer Camp</td>
+        <td>
+          <a href="https://www.cognitoforms.com/CodeNinjasRichmondHill/_2025SummerCampEnrollmentFormNSNS" target="_blank">Register</a> 
+        </td>
+        <td>Group Class</td>
+        <td></td>
+        <td>Monday - Friday (Summer Break)</td>
+        <td>Richmond Hill</td>
+      </tr>
+
+
+
+
+      <tr>
+        <td>Math Class</td>
+        <td><a href="https://docs.google.com/forms/d/1TZsM71ch1cRuX62F5wQEhoO93PIvnURYQ-E_UOwJtso/viewform" target="_blank">Register</a></td>
+        <td>1 on 1 (20 sessions)</td>
+        <td>60 minutes</td>
+        <td></td>
+        <td>Flexible, based on student's preferred location.</td>
+      </tr>
+
+
+
+    
+      <tr>
+        <td>国际象棋课</td>
+        <td><a href="https://docs.google.com/forms/d/14tQfrW-aPs8rLP6PVJhs5zB9LnP1IUQbF7xHfh6XD84/viewform" target="_blank">Register</a></td>
+        <td>1 on 1 (20 sessions)</td>
+        <td>60 minutes</td>
+        <td></td>
+        <td></td>
+      </tr>
+
+
+
+      <tr>
+        <td>3D Printing Class</td>
+        <td><a href="https://docs.google.com/forms/d/1Z4RagEQcaCsO9Ey1zOg2qJMMn-padRCE_Tbl0QDiZwo/viewform" target="_blank">Register</a></td>
+        <td>1 on 1 (Session count flexible based on student choice)</td>
+        <td>60 minutes</td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>美术课1</td>
+        <td><a href="https://docs.google.com/forms/d/1LqgrJtEAqblPWK8rG7RFRcHTLui9I_W-6W-V7IGymZw/viewform" target="_blank">Register</a></td>
+        <td>1 on 1 (20 sessions)</td>
+        <td>60 minutes</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>美术课2</td>
+        <td><a href="https://docs.google.com/forms/d/1w490uPBZ3pQFkEl1ffow9AVUWl7ij-W_zjO2W9mNu34/viewform" target="_blank">Register</a></td>
+        <td>Group Class(16 sessions)</td>
+        <td>60 minutes</td>
+        <td>Starting in September</td>
+        <td>Markham</td>
+      </tr>
+      <tr>
+        <td>Polymer Clay Art Class</td>
+       <td><!-- <a href="https://docs.google.com/forms/d/1VNnxFnUPsmZO9sAiZ9d3nONQ6Rza9zPG8NvCDJ66c-Q/viewform" target="_blank">Register</a>--></td> 
+        <td>Group Class(15 sessions)</td>
+        <td>60 minutes</td>
+        <td>May - July</td>
+        <td>Richmond Hill</td>
+      </tr>
+      <!-- <tr>
+        <td>彩陶课2</td>
+        <td><a href="https://docs.google.com/forms/d/1m-nHXMPCBM59CG27TYywMjv5MDYQ1YVBvYapIcsh8EY/viewform" target="_blank">Register</a></td>
+        <td>Group Class(15 sessions)</td>
+        <td>60 minutes</td>
+        <td>结束了，保持关注</td>
+        <td>Richmond Hill</td>
+      </tr> -->
+      <tr>
+        <td>钢琴课</td>
+        <td><a href="https://docs.google.com/forms/d/1GVc6f6CyRpSi4dO-GMrzwtpChFYVzCOi6SJcqNYJfco/viewform" target="_blank">Register</a></td>
+        <td>1 on 1 (20 sessions)</td>
+        <td>45 minutes</td>
+        <td></td>
+        <td></td>
+      </tr>
+
+
+    
+    </tbody>
+  </table>
+  </div>
+
+  <div id="adventure" class="tab-content">
+    
+    <h2>Summer Camp</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:50%">Course</th>
+        <th style="width:25%">Registration</th>
+        <th style="width:25%">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2025 Paddling Summer Camp</td><td><a href="https://docs.google.com/forms/d/1tj_WGCgN_WJ_Ts7VJg_JC7B5eBwoUyku-a0dTRWy7ys/viewform"  target="_blank">Register</a></td><td>	Richmond Hill</td></tr>
+      <tr><td>Sail Canada Sailing Certified 2025 NSNS ABA Summer Camp</td><td><a href="https://docs.google.com/forms/d/183fjk9_prd551HR4xmSlDOe5uniGwjYz_E3zT2Qxi6M/viewform"  target="_blank">Register</a></td><td>Toronto Island Marina, Downtown Toronto - Centre Island</td></tr>
+      <!-- <tr><td>Camp Adlaide 2025 06.27-29 寻觅萤火虫家庭营</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSec02Nz8V6viRRgbE-9x8tUgtsi2K8hSc5MKFKgij30GIWAfg/viewform"  target="_blank">Register</a></td><td>Haliburton</td></tr> -->
+      <tr><td>Camp Adlaide 2025.7.25-27 森林里的游乐场家庭营</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSctoGE446NL627uRcWWhUXHVJQeBzp6P-T1M_fJA3l56G-7hA/viewform"  target="_blank">Register</a></td><td>Haliburton</td></tr>
+      <tr><td>Camp Adlaide 2025.8.29-31 一起来看流星雨家庭营</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLScMAknyUeHIr9veNSY1LmTERS5sFqP7iy0AyQ4hJBScf-468w/viewform"  target="_blank">Register</a></td><td>Haliburton</td></tr>
+      <!-- <tr><td>机器人夏令营</td><td><a href="https://www.cognitoforms.com/CodeNinjasRichmondHill/_2025SummerCampEnrollmentFormNSNS" target="_blank">Register</a></td><td>Richmond Hill</td></tr> -->
+    </tbody>
+  </table>
+
+
+  <div style="padding-top: 30px;"></div>
+
+  <h2>Summer Activity Schedule</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:50%">Course</th>
+        <th style="width:25%">Registration Link</th>
+        <th style="width:25%">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>2025.8.2-4 渥太华河白水漂流</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSejglfOH1OKZDDbjk6OnPTjpWZze8ZwMp2X8GRQPzW1t_Ijqg/viewform" target="_blank">Register</a></td><td>Ottawa</td></tr>
+      <tr><td>2025.8.16-17 尼亚加拉大瀑布旅行+美国布法罗划船公益活动</td><td>Stay Tuned</td><td>Niagara Falls / Buffalo USA</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div id="events" class="tab-content">
+
+ <h2>Free Events</h2>
+ <table>
+    <thead>
+      <tr>
+        <th style="width:50%">Course</th>
+        <th style="width:25%">Registration</th>
+        <th style="width:25%">Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr><td>2025.7.20 公益电影 驯龙高手</td><td><a href="https://docs.google.com/forms/d/1UJ8I1iJNVaLUo8x_iSy0JUgAiKBmZtPSKzJkebsq-_I/viewform" target="_blank">Register</a></td><td>Richmond hill</td></tr> -->
+      <tr><td>2025.7.29 “羽你有约” 家庭羽毛球日</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSfIYl8FYtyS3-f3BqRRRwtXLymgMmKcPIhhYJOnDMJWSbnYjg/viewform" target="_blank">Register</a></td><td>Ottawa</td></tr>
+      <tr><td>2025.8 高尔夫球公益活动</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSdwzZsdkwD0CX-VchLKJbAJL2LeLgDTIRr1KE_N0vDK8_aRtg/viewform" target="_blank">Register</a></td><td>Markham</td></tr>
+      <tr><td>2025.7.25, 2025.7.30 Nutcracker机器人奇妙日</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSfDIMpSG4EMPI3Tp-wNh2WxnmpDWtJY8s5ujG1V0zL0cSgfcw/viewform" target="_blank">Register</a></td><td>Richmond hill</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- <script>
+  function showTabById(tabId) {
+    document.querySelectorAll('.tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    const content = document.getElementById(tabId);
+    const button = document.querySelector(`.tab-btn[onclick*="${tabId}"]`);
+    
+    if (content && button) {
+      content.classList.add('active');
+      button.classList.add('active');
+    }
+  }
+
+  function showTab(event, tabId) {
+    event.preventDefault();
+    history.replaceState(null, '', `#${tabId}`);
+    showTabById(tabId);
+  }
+
+  // Load tab from URL hash
+  window.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      showTabById(hash);
+    }
+  });
+</script> -->
+
+<script>
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    function activateTab(tabId) {
+      // Hide all
+      tabContents.forEach(tab => tab.classList.remove('active'));
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+
+      // Show selected
+      const content = document.getElementById(tabId);
+      const button = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+      if (content && button) {
+        content.classList.add('active');
+        button.classList.add('active');
+      }
+    }
+
+    // On click, update URL hash and show tab
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const tabId = btn.dataset.tab;
+        location.hash = tabId;
+      });
+    });
+
+    // Handle initial load and hash change
+    function handleHashChange() {
+      const tabId = location.hash.substring(1) || 'sports';
+      activateTab(tabId);
+    }
+
+    window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('DOMContentLoaded', handleHashChange);
+  </script>
+
+</body>
+</html>
