@@ -5,18 +5,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Programs</title>
   <style>
+    
+     html {
+        font-size: 16px;
+      }
+
+      @media (max-width: 600px) {
+        html {
+          font-size: 10px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        html {
+          font-size: 8px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        html {
+          font-size: 7px;
+        }
+      }
+
      body {
       font-family: Arial, sans-serif;
-      margin: 40px auto;
+      padding: 1rem;
+      margin: 0 auto;
       max-width: 1200px;
       background: #f9f9f9;
-      padding: 20px;
       color: #1d1d1d;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 10px;
+      font-size: 2rem;
+      margin: 1rem 0;
     }
 
     .language {
@@ -33,17 +57,17 @@
     }
 
     .tabs button {
-      flex: 1 1 22%; ;
-      padding: 10px 15px;
+      flex: 1 1 22%; 
+      padding: 13px 15px;
       border: none;
       background-color: #e0e0e0;
       cursor: pointer;
       /* border-radius: 5px; */
       font-weight: bold;
+      font-size: medium;
       transition: background-color 0.3s;
       min-width: 140px;
       text-align: center;
-      font-size:medium
     }
 
     .tabs button:hover {
@@ -58,6 +82,7 @@
 
     .tab-content {
       display: none;
+      
      
     }
 
@@ -74,10 +99,21 @@
       }
     }
 
+    @media (max-width: 600px) {
+      .tabs button {
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+    }
+
     @media (max-width: 480px) {
       .tabs button {
         flex: 1 1 100%; /* 1 per row */
       }
+    }
+
+    .responsive-table {
+    overflow-x: auto;
     }
 
      table {
@@ -88,7 +124,8 @@
 
     th, td {
       border: 1px solid #ddd;
-      padding: 10px;
+      /* padding: 10px; */
+      padding: 1rem;
       text-align: left;
       vertical-align: middle;
     }
@@ -100,6 +137,7 @@
       /* color: white; */
       color: #0b0b0b;
       font-weight: normal;
+     
     }
 
     tbody tr:nth-child(even) {
@@ -134,7 +172,7 @@
   </div>
 
 
-  <div id="sports" class="tab-content">
+  <div id="sports" class="tab-content responsive-table">
     
     
         <table>
