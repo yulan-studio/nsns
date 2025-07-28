@@ -23,107 +23,7 @@
 </div>
 
 <form asp-action="Login" method="post">
-    @* <table style="border-collapse: collapse; width: 30%; text-align: left;">
-        <tr>
-            <td style="padding: 8px;"><label for="email">Email:</label></td>
-            <td style="padding: 8px;"><input type="email" name="Email" value="@Model.Email" placeholder="Email" style="width: 100%;" /></td>
-        </tr>
-
-        <tr>
-            <td style="padding: 8px;"><label for="password">Password:</label></td>
-            <td style="padding: 8px;"><input type="password" name="Password" value="@Model.Password"  placeholder="Password" style="width: 100%;" /></td>
-        </tr>
-
-        <tr>
-            <td colspan="2" style="padding: 8px;">
-                <input type="checkbox" name="RememberMe" value="@Model.RememberMe" /> Remember Me
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
-                <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Login</button>
-              
-
-            </td>
-        </tr>
-
-        <tr>
-            <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
-                To help you easily understand registration, courses, and activity arrangements, we have launched a management system. All children and coaches participating in NorthStar activities need to register an account. If you don't have an account yet, please contact NorthStar customer service. Thank you for your support!<br/>
-                为方便了解报名、课程和活动安排，我们启用了后台系统。所有参加北极星活动的孩子和教练需注册登录账号。如您没有账号，请联系北极星客服。感谢您的支持！
-            </td>
-        </tr>
-       
-
-        <tr>
-            <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
-                @if (!ViewData.ModelState.IsValid)
-                {
-                    foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                    {
-                        <div class="alert alert-danger">
-                            @error.ErrorMessage
-                        </div>
-                    }
-                }
-            </td>
-        </tr>
-    </table> *@
-
-    @* <table style="width: 100%;">
-        <tr>
-            <!-- Left: Login Form (30% width) -->
-            <td style="width: 30%; vertical-align: top;">
-                <table style="border-collapse: collapse; width: 100%; text-align: left;">
-                    <tr>
-                        <td style="padding: 8px;"><label for="email">Email:</label></td>
-                        <td style="padding: 8px;"><input type="email" name="Email" value="@Model.Email" placeholder="Email" style="width: 100%;" /></td>
-                    </tr>
-
-                    <tr>
-                        <td style="padding: 8px;"><label for="password">Password:</label></td>
-                        <td style="padding: 8px;"><input type="password" name="Password" value="@Model.Password" placeholder="Password" style="width: 100%;" /></td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2" style="padding: 8px;">
-                            <input type="checkbox" name="RememberMe" value="@Model.RememberMe" /> Remember Me
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
-                            <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Login</button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
-                            @if (!ViewData.ModelState.IsValid)
-                            {
-                                foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                                {
-                                    <div class="alert alert-danger">
-                                        @error.ErrorMessage
-                                    </div>
-                                }
-                            }
-                        </td>
-                    </tr>
-                </table>
-            </td>
-
-            <!-- Right: Message (remaining width) -->
-            <td style="padding: 16px; vertical-align: top;">
-                <div style="font-size: 0.95em; line-height: 1.5;">
-                    To help you easily understand registration, courses, and activity arrangements, we have launched a management system. All children and coaches participating in NorthStar activities need to register an account. If you don't have an account yet, please contact NorthStar customer service. Thank you for your support!
-                    <br /><br />
-                    为方便了解报名、课程和活动安排，我们启用了后台系统。所有参加北极星活动的孩子和教练需注册登录账号。如您没有账号，请联系北极星客服。感谢您的支持！
-                </div>
-            </td>
-        </tr>
-    </table> *@
+ 
 
     <table style="border-collapse: collapse; width: 30%; text-align: left; padding-top: 80px;">
         <tr>
@@ -166,9 +66,10 @@
     <!-- Full-width Message at Bottom -->
     <div style="width: 100%; margin-top: 10px; padding: 30px 10px 10px 10px; border-top: 1px solid #ccc;">
         <div style="max-width: 1400px; margin: auto; font-size: 0.9em; line-height: 1.6; text-align: left; color:darkslategray">
-            To help you easily understand registration, courses, and activity arrangements, we have launched a management system. All children and coaches participating in NorthStar activities need to register an account. If you don't have an account yet, please contact NorthStar customer service. Thank you for your support!
+            To make it easier for you to manage registrations, courses, and activities, we're launching a new management system!
+            All children and coaches participating in NorthStar programs will have their own accounts. The system is currently under development and testing—stay tuned!
             <br /><br />
-            为方便了解报名、课程和活动安排，我们启用了后台系统。所有参加北极星活动的孩子和教练需注册登录账号。如您没有账号，请联系北极星客服。感谢您的支持！
+            为方便大家了解报名、课程和活动安排，我们即将启用全新的管理系统。所有参与北极星活动的孩子和教练都将拥有自己的登录账号。目前系统正在开发和测试中，敬请期待，感谢您的支持！
         </div>
     </div>
 </form>
