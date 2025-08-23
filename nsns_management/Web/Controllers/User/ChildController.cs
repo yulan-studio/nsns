@@ -124,7 +124,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(string name, DateTime birthDate, string gender, int cityId, string email, string password, bool hasOAP)
+        public async Task<IActionResult> Add(string memberID, string name, DateTime birthDate, string gender, int cityId, string email, string password, bool hasOAP)
         {
             if (!ModelState.IsValid)
             {
@@ -134,7 +134,7 @@ namespace Web.Controllers.User
             try
             {
                 Core.Models.User user = await _userManager.GetUserAsync(User);
-                var result = await _childService.AddAsync(name, birthDate, gender, cityId, email, password, hasOAP, user);
+                var result = await _childService.AddAsync(memberID, name, birthDate, gender, cityId, email, password, hasOAP, user);
                 if (!result)
                 {
                     ModelState.AddModelError(string.Empty, "Failed in adding the child info.");
@@ -207,13 +207,13 @@ namespace Web.Controllers.User
         [HttpPost("Edit/{childId}")]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Edit(int childId, string name, DateTime birthDate, string gender, int cityId, string email, bool hasOAP/*, string password*/)
+        public async Task<IActionResult> Edit(int childId, string memberID, string name, DateTime birthDate, string gender, int cityId, string email, bool hasOAP/*, string password*/)
         {
 
 
             try
             {
-                var result = await _childService.UpdateAsync(childId, name, birthDate, gender, cityId, email, hasOAP/*, string password*/);
+                var result = await _childService.UpdateAsync(childId, memberID, name, birthDate, gender, cityId, email, hasOAP/*, string password*/);
 
 
                 if (!result)

@@ -23,6 +23,7 @@
     <thead>
         <tr style="background-color: #f2f2f2;">
             <th style="padding: 8px; border: 1px solid #ddd;">#</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Member ID</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Name</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Birth Date</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Gender</th>
@@ -43,6 +44,7 @@
             {
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@index</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@childWithDelete.Child.MemberID</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@childWithDelete.Child.Name</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@(childWithDelete.Child.BirthDate.HasValue ? childWithDelete.Child.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@childWithDelete.Child.Gender</td>
@@ -83,7 +85,7 @@
         @if (TempData["SuccessMessage"] != null)
         {
             <tr>
-                <td colspan="11">
+                <td colspan="12">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -94,7 +96,7 @@
         @if (TempData["ErrorMessage"] != null)
         {
             <tr>
-                <td colspan="11">
+                <td colspan="12">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>

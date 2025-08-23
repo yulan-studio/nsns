@@ -12,6 +12,8 @@ namespace Core.Models
     public class Child
     {
         //[Key]
+
+        public string MemberID { get; set; } = string.Empty; // Unique member ID
         public int ChildID { get; set; } // Primary key
 
         public int UserID { get; set; }

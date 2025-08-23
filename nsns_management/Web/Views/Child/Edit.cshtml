@@ -18,6 +18,14 @@
     <input type="hidden" name="role" value="Child" />
 
     <table style="border-collapse: collapse; width: 50%; text-align: left;">
+
+        <tr>
+            <td style="padding: 8px;"><label for="memberID">Member ID:</label></td>
+            <td style="padding: 8px;">
+                <input type="text" name="memberID" value="@Model.MemberID" placeholder="Enter child's Member ID" style="width: 100%;" />
+            </td>
+        </tr>
+
         <tr>
             <td style="padding: 8px;"><label for="name">Name:</label></td>
             <td style="padding: 8px;"><input type="text" name="name" value="@Model.Name" placeholder="Enter child's name" style="width: 100%;" required /></td>
