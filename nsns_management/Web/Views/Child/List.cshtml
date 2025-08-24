@@ -30,7 +30,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">City</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Has OAP</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Parents</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Additional Info</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Payments</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Registrations</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Enrollments</th>
@@ -63,8 +63,11 @@
                             <a href="/Child/ConfirmDelete/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Delete</a>
                         }
                     </td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">
+                    @* <td style="padding: 8px; border: 1px solid #ddd;">
                         <a href="/Child/ManageParents/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>
+                    </td>*@
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        <a href="/Child/MoreInfo/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>
                     </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <a href="/Child/ManagePayments/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>

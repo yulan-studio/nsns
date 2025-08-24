@@ -312,6 +312,23 @@ namespace Web.Controllers.User
             return View(model);
         }
 
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("MoreInfo/{childId}")]
+        public async Task<IActionResult> MoreInfo(int childId)
+        {
+            var child = await _childService.GetAsync(childId);
+            if (child == null)
+            {
+                TempData["ErrorMessage"] = "Child not found.";
+                return RedirectToAction("List");
+            }
+
+            
+
+            return View(child);
+        }
+
         //[Authorize(Roles = "Staff")]
         //[HttpPost("AddParentToChild")]
         //public async Task<IActionResult> AddParentToChild(int childId, string parentName, string relationship, string phone,string email, string wechat)
