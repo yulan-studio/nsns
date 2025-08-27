@@ -47,7 +47,9 @@ namespace Core.Contexts
         
         public DbSet<Child> Children { get; set; }
 
+       
 
+        public DbSet<EmergencyContact> EmergencyContacts { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{
@@ -71,7 +73,7 @@ namespace Core.Contexts
         //        .WithOne(ch => ch.User)
         //        .HasForeignKey<Child>(ch => ch.UserId);
         //}
-    //}
+        //}
 
 
 
@@ -146,6 +148,9 @@ namespace Core.Contexts
 
             modelBuilder.Entity<Child>()
           .ToTable("children"); // Explicitly map to the table name
+
+            modelBuilder.Entity<EmergencyContact>()
+         .ToTable("emergency_contacts"); // Explicitly map to the table name
 
             modelBuilder.Entity<ChildBalance>()
           .ToTable("child_balance"); // Explicitly map to the table name

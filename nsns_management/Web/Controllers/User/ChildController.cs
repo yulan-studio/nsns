@@ -1,21 +1,21 @@
 ﻿
-using Core.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
+using Core.FormModels;
 using Core.Interfaces;
 using Core.Models;
-using Core.ViewModels;
-
-using System.Diagnostics;
 using Core.Repositories;
+using Core.Services;
+using Core.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using System.Linq;
-using Microsoft.AspNetCore.Http.HttpResults;
+using System.Xml.Linq;
 using static Core.ViewModels.ManageSessionRegistrationsViewModel;
-using Core.FormModels;
 
 
 
@@ -34,6 +34,7 @@ namespace Web.Controllers.User
         private readonly IParentService _parentService;
         private readonly ICityService _cityService;
         private readonly IParentChildService _parentChildService;
+        private readonly IEmergencyContactService _emergencyContactService;
         private readonly ICourseEnrollmentService _courseEnrollmentService;
         private readonly ISpecialtyService _specialtyService;
         private readonly IActivityEnrollmentService _activityEnrollmentService;
@@ -42,7 +43,7 @@ namespace Web.Controllers.User
         private readonly IChildBalanceService _balanceService;
         private readonly UserManager<Core.Models.User> _userManager;
 
-        public ChildController(IChildService childService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IPaymentService paymentService, UserManager<Core.Models.User> userManager)
+        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IPaymentService paymentService, UserManager<Core.Models.User> userManager)
         {
             _childService = childService;
             _balanceService = balanceService;
@@ -56,6 +57,7 @@ namespace Web.Controllers.User
             _activityEnrollmentService = activityEnrollmentService;
             _paymentService = paymentService;
             _userManager = userManager;
+            _emergencyContactService = emergencyContactService;
         }
 
         // ✅ Helper method to get City List
@@ -287,6 +289,100 @@ namespace Web.Controllers.User
 
             return RedirectToAction("List");
         }
+
+        
+
+        [HttpGet("CoreInfo/{childId}")]
+        public async Task<IActionResult> CoreInfo(int childId)
+        {
+            var child = await _childService.GetAsync(childId);
+            return View(child);
+        }
+
+        
+
+        // POST: Create
+        [HttpPost("CoreInfo/{childId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CoreInfo(int childId, string memberID, string address, int OAPAmount, string primaryDiagnosis, bool photoConsent)
+        {
+            var child = await _childService.GetAsync(childId);
+            if (ModelState.IsValid)
+            {
+                
+                await _childService.UpdateAsync(childId, memberID, address, OAPAmount, primaryDiagnosis, photoConsent);
+                
+                //return RedirectToAction(nameof(CoreInfo), new { id = childId });
+                return RedirectToAction("CoreInfo", "Child", new { id = childId });
+            }
+            return View(child);
+        }
+
+
+        [HttpPost("AddEmergencyContact/{childId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEmergencyContact(int childId, string contactName, string relationship, string phone, string email)
+        {  if (ModelState.IsValid)
+            {
+                EmergencyContact contact = new EmergencyContact
+                {
+                    ContactName = contactName,
+                    Relationship = relationship,
+                    Phone = phone,
+                    Email = email
+                };
+                contact.ChildID = childId;
+               
+                await _emergencyContactService.AddAsync(contact);
+                //return RedirectToAction(nameof(CoreInfo), new { id = childId });
+                return RedirectToAction("CoreInfo", "Child", new { id = childId });
+            }
+            //return RedirectToAction(nameof(CoreInfo), new { id = childId });
+            return RedirectToAction("CoreInfo", "Child", new { id = childId });
+        }
+
+        [HttpPost("DeleteEmergencyContact/{contactId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteEmergencyContact(int contactId, int childId)
+        {
+            var contact = await _emergencyContactService.GetAsync(contactId);
+            if (contact != null)
+            {
+                await _emergencyContactService.DeleteAsync(contactId);
+            }
+            //return RedirectToAction(nameof(CoreInfo), new { id = childId });
+            return RedirectToAction("CoreInfo", "Child", new { id = childId });
+        }
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddParent(int childId, int parentId)
+        //{
+        //    var pc = new ParentChild { ChildID = childId, ParentID = parentId };
+        //    _parentChildService.AddParentToChild()
+        //    _context.ParentChildren.Add(pc);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(CoreInfo), new { id = childId });
+        //}
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteParent(int childId, int parentId)
+        //{
+        //    var pc = await _context.ParentChildren
+        //        .FirstOrDefaultAsync(x => x.ChildID == childId && x.ParentID == parentId);
+
+        //    if (pc != null)
+        //    {
+        //        _context.ParentChildren.Remove(pc);
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    return RedirectToAction(nameof(CoreInfo), new { id = childId });
+        //}
+
+
 
 
         [Authorize(Roles = "Staff")]

@@ -35,6 +35,9 @@ namespace Core.Repositories
             return await _context.Children
                 .Include(c => c.City)
                 .Include(c => c.User)
+                //.Include(c => c.EmergencyContacts)
+                .Include(c => c.ParentChild)
+                    .ThenInclude(pc => pc.Parent)
                 .FirstOrDefaultAsync(c => c.ChildID == childId);
         }
 

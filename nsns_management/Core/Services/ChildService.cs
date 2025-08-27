@@ -16,6 +16,7 @@ using System.Numerics;
 using System.Xml.Linq;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Core.Services
 {
@@ -93,7 +94,7 @@ namespace Core.Services
                         city = await _cityRepository.GetAsync((int)cityId);
                     var childUser = new Child
                     {
-                        MemberID = memberID,
+                        //MemberID = memberID,
                         Name = name,
                         BirthDate = birthDate,
                         Gender = gender,
@@ -112,6 +113,10 @@ namespace Core.Services
 
             
         }
+
+
+
+        
 
         public async Task<bool> UpdateAsync(Child child)
         {
@@ -143,6 +148,36 @@ namespace Core.Services
             child.CityID = cityId;
             child.HasOAP = hasOAP;
             child.User.UpdatedDate = DateTime.UtcNow;
+
+            // Update the password if provided
+            //if (!string.IsNullOrWhiteSpace(password))
+            //{
+            //    coach.Password = _passwordHasher.HashPassword(coach, password);
+            //}
+
+            // Save changes
+            return await _childRepository.UpdateAsync(child);
+        }
+
+
+
+        public async Task<bool> UpdateAsync(int childId, string memberID, string address, int OAPAmount,  string primaryDiagnosis, bool photoConsent/*, string password*/)
+        {
+            // Find the coach by ID
+            var child = await _childRepository.GetAsync(childId);
+            if (child == null)
+            {
+                throw new KeyNotFoundException($"Child with ID {childId} not found.");
+            }
+
+            // Update fields
+            child.MemberID = memberID;
+            child.Address = address;
+            child.OAPAmount = OAPAmount;
+            child.PrimaryDiagnosis = primaryDiagnosis;
+            child.PhotoConsent = photoConsent;
+           
+           // child.User.UpdatedDate = DateTime.UtcNow;
 
             // Update the password if provided
             //if (!string.IsNullOrWhiteSpace(password))

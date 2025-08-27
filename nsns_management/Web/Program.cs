@@ -109,6 +109,9 @@ builder.Services.AddScoped<IActivityService, ActivityService>();
 builder.Services.AddScoped<IChildService, ChildService>();
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
 
+builder.Services.AddScoped<IEmergencyContactService, EmergencyContactService>();
+builder.Services.AddScoped<IEmergencyContactRepository, EmergencyContactRepository>();
+
 builder.Services.AddScoped<IParentService, ParentService>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
 
