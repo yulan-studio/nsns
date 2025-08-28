@@ -1,61 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Programs</title>
   <style>
+    html {
+      font-size: 16px;
+    }
 
+    @media (max-width: 600px) {
       html {
-        font-size: 16px;
+        font-size: 10px;
       }
 
-      @media (max-width: 600px) {
-        html {
-          font-size: 10px;
-        }
-        th, td {
-           padding: 1rem 1rem;
-    
-         }
+      th,
+      td {
+        padding: 1rem 1rem;
 
       }
 
-      @media (max-width: 480px) {
-        html {
-          font-size: 9px;
-        }
+    }
 
-        th, td {
-           padding: 1rem 0.5rem;
-    
-         }
-
-         .tabs button {
-     
-          font-size: 10px;
-          
-        }
+    @media (max-width: 480px) {
+      html {
+        font-size: 9px;
       }
 
-      @media (max-width: 400px) {
-        html {
-          font-size: 8px;
-        }
+      th,
+      td {
+        padding: 1rem 0.5rem;
 
-         th, td {
-           padding: 1rem 0.5rem;
-    
-         }
-
-         .tabs button {
-     
-          font-size: 10px;
-          
-        }
       }
 
-     body {
+      .tabs button {
+
+        font-size: 10px;
+
+      }
+    }
+
+    @media (max-width: 400px) {
+      html {
+        font-size: 8px;
+      }
+
+      th,
+      td {
+        padding: 1rem 0.5rem;
+
+      }
+
+      .tabs button {
+
+        font-size: 10px;
+
+      }
+    }
+
+    body {
       font-family: Arial, sans-serif;
       padding: 1rem;
       margin: 0 auto;
@@ -72,7 +76,7 @@
 
     .language {
       text-align: center;
-       margin-bottom: 20px;
+      margin-bottom: 20px;
     }
 
     .tabs {
@@ -84,7 +88,7 @@
     }
 
     .tabs button {
-      flex: 1 1 22%; 
+      flex: 1 1 22%;
       padding: 13px 15px;
       border: none;
       background-color: #e0e0e0;
@@ -102,27 +106,28 @@
     }
 
     .tabs button.active {
-      background-color: #316386; 
+      background-color: #316386;
       /* background-color: #474748; */
       color: white;
     }
 
     .tab-content {
       display: none;
-      
-     
+
+
     }
 
     .tab-content.active {
       display: block;
-    } 
+    }
 
-   
+
 
     /* Responsive layout */
     @media (max-width: 800px) {
       .tabs button {
-        flex: 1 1 45%; /* 2 per row */
+        flex: 1 1 45%;
+        /* 2 per row */
       }
     }
 
@@ -135,21 +140,23 @@
 
     @media (max-width: 480px) {
       .tabs button {
-        flex: 1 1 100%; /* 1 per row */
+        flex: 1 1 100%;
+        /* 1 per row */
       }
     }
 
     .responsive-table {
-    overflow-x: auto;
+      overflow-x: auto;
     }
 
-     table {
+    table {
       width: 100%;
       border-collapse: collapse;
       background-color: white;
     }
 
-    th, td {
+    th,
+    td {
       border: 1px solid #ddd;
       /* padding: 10px; */
       padding: 1rem 0.5rem;
@@ -164,7 +171,7 @@
       /* color: white; */
       color: #0b0b0b;
       font-weight: normal;
-     
+
     }
 
     tbody tr:nth-child(even) {
@@ -185,10 +192,11 @@
     }
   </style>
 </head>
+
 <body>
 
   <h1>NSNS 2025 Course & Event Schedule</h1>
-<div class="language"><a href="/zh/" target="_self">中文</a> | <a href="/en/" target="_self">English</a></div>
+  <div class="language"><a href="/zh/" target="_self">中文</a> | <a href="/en/" target="_self">English</a></div>
   <div class="tabs">
     <button class="tab-btn" data-tab="sports">Sports Program</button>
     <button class="tab-btn" data-tab="cognitive">Cognitive Program</button>
@@ -198,57 +206,148 @@
   </div>
 
 
-  <div id="sports" class="tab-content responsive-table" >
-    
-    
+  <div id="sports" class="tab-content responsive-table">
+
+
     <table>
-    <thead>
-      <tr>
-        <th style="width:16%">Course</th>
-        <th style="width:10%">Registration</th>
-        <!-- <th style="width:10%">Schedule</th> -->
-        <th style="width:19%">Class Type</th>
-        <th style="width:12%">Class Duration</th>
-        <th style="width:13%">Class Schedule</th>
-        <th style="width:30%">Location</th>
-      </tr>
-    </thead>
-    <tbody>
-      
-   
-   
-      <tr>
+      <thead>
+        <tr>
+          <th style="width:16%">Course</th>
+          <th style="width:10%">Registration</th>
+          <!-- <th style="width:10%">Schedule</th> -->
+          <th style="width:19%">Class Type</th>
+          <th style="width:12%">Class Duration</th>
+          <th style="width:13%">Class Schedule</th>
+          <th style="width:30%">Location</th>
+        </tr>
+      </thead>
+      <tbody>
+
+
+
+        <!-- <tr>
       <td>Basketball Class1</td><td>
-        <!-- <a href="https://docs.google.com/forms/d/15BbRhPmqGr-QIACF8aSBOghHEoL08TN1fvoPhjBuH8w/viewform"  target="_blank">Register</a> -->
+       
       </td><td>Group Class (Tuesday)</td><td>60 minutes</td><td>Starting in Fall</td><td>Richmond Hill</td></tr>
       <tr><td>Basketball Class2</td><td>
-        <!-- <a href="https://docs.google.com/forms/d/1vYWt3mhpgM5lbcd6-BlfMN-c2GVV63Z-QPse9exsXXw/viewform"  target="_blank">Register</a> -->
+        
       </td><td>Group Class (Friday)</td><td>60 minutes</td><td>Starting in Fall</td><td>Richmond Hill</td></tr>
       
        <tr><td>Basketball Class3</td><td>
        <a href="https://docs.google.com/forms/d/12VdvC9_TAzsPVMRlHg8rCQ6bnxYCmuNkeejoMZKEnBM/viewform"  target="_blank">Register</a> 
-      </td><td>1 on 1 (20 sessions)</td><td>60 minutes</td><td></td><td></td></tr>
-      
-      <tr><td>Table Tennis Class</td><td><a href="https://docs.google.com/forms/d/12kbzpmJ5GLfdR5lioQuGtYTZKXr59bR6oCMDMBufkHU/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>60 minutes</td><td></td><td>Markham</td></tr>
+      </td><td>1 on 1 (20 sessions)</td><td>60 minutes</td><td></td><td></td></tr> -->
+
+        <tr>
+          <td>Basketball Class 1</td>
+          <td>
+            <a href="https://docs.google.com/forms/d/1OUierShDLC3sjvs1xVACI-_u-ssXfdwJSdtjIqchZSU/viewform"
+              target="_blank">Register</a>
+          </td>
+          <td>Group Class (Tuesday)</td>
+          <td>60 minutes</td>
+          <td>Sept 16, 2025 - Dec 16, 2025, every Tuesday</td>
+          <td>Richmond Hill</td>
+        </tr>
+        <tr>
+          <td>Basketball Class 2</td>
+          <td>
+            <a href="https://docs.google.com/forms/d/1DxOaMsmF9aT0464XWXhOwBmTR2Ylv7FLWk3sEDwBu-o/viewform"
+              target="_blank">Register</a>
+          </td>
+          <td>Group Class (Friday)</td>
+          <td>60 minutes</td>
+          <td>Sept 19, 2025 - Dec 19, 2025, every Friday</td>
+          <td>Richmond Hill</td>
+        </tr>
+
+        <tr>
+          <td>Basketball Class 3</td>
+          <td>
+            <a href="https://docs.google.com/forms/d/1zZSVJ6lLLqsh7CjhQHXj_6-RHe1PAGtbIC67QaDgRMQ/viewform"
+              target="_blank">Register</a>
+          </td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>60 minutes</td>
+          <td>Based on student availability</td>
+          <td>Near the student</td>
+        </tr>
 
 
-      <tr><td>Soccer Class</td><td>
+
+        <!-- <tr><td>Table Tennis Class</td><td><a href="https://docs.google.com/forms/d/12kbzpmJ5GLfdR5lioQuGtYTZKXr59bR6oCMDMBufkHU/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>60 minutes</td><td></td><td>Markham</td></tr> -->
+        <tr>
+          <td>Table Tennis Class</td>
+          <td><a href="https://docs.google.com/forms/d/13P79qosXqhIbVdzDNZ_O2HZZz3987D_Fjidcwm0Hh6U/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>60 minutes</td>
+          <td>Based on student request</td>
+          <td>Markham</td>
+        </tr>
+
+        <!-- <tr><td>Soccer Class</td><td>
         <a href="https://docs.google.com/forms/d/1r7po6lq-9aQGgoneS8MuGz9zOAMzSRdnKob_PZ_8ztk/viewform"  target="_blank">Register</a> 
-      </td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td>Starting in Fall<br/>Every Tuesday, 6:00 PM - 6:45 PM</td><td>Richmond Hill</td></tr>
+      </td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td>Starting in Fall<br/>Every Tuesday, 6:00 PM - 6:45 PM</td><td>Richmond Hill</td></tr> -->
+
+        <tr>
+          <td>Soccer Class 1</td>
+          <td>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSeykPqfEQ9NAhB5EI4rueawJRY8OZObkH8uZ7zXMst7fsHv-A/viewform"
+              target="_blank">Register</a>
+          </td>
+          <td>1-on-1 Private Class</td>
+          <td>60 minutes</td>
+          <td>Based on student availability</td>
+          <td>Near the student</td>
+        </tr>
+
+        <tr>
+          <td>Soccer Class 2</td>
+          <td>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe7RfqaosR53NqoWsanGH6KVHGKllhSWlrWsz6Ws3vuPunYJg/viewform"
+              target="_blank">Register</a>
+          </td>
+          <td>Group Class</td>
+          <td>60 minutes</td>
+          <td>Sept 16, 2025 - Dec 16, 2025, every Tuesday</td>
+          <td>Richmond Hill</td>
+        </tr>
+
+        <!-- <tr><td>Tennis Class</td><td><a href="https://docs.google.com/forms/d/1bDn1U3WaNWEdYm0u8btWeWD17jc-zmP4WPFH6xRkmFU/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td></td></tr> -->
+        <tr>
+          <td>Tennis Class</td>
+          <td><a href="https://docs.google.com/forms/d/16WQiXYOb5J2yHnVH42RC61HW9hBCPrbozjkWS6CVFoA/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <!-- <tr><td>Badminton Class</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSemwhGB52x143_-ItvlVSeCNNlmwKQEy9en58ZJ_tez4t-CYQ/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td>Every Friday at 7:00 PM</td><td>Richmond Hill</td></tr> -->
+
+        <tr>
+          <td>Badminton Class 1</td>
+          <td><a href="https://docs.google.com/forms/d/1myklMPMfdGqwAdc7HA1tyo6GOlcwGXVTR2cTElbXAVk/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td>Tuesday / Friday</td>
+          <td>Richmond Hill</td>
+        </tr>
+
+        <tr>
+          <td>Badminton Class 2</td>
+          <td><a href="https://docs.google.com/forms/d/1bGTAWnkMJ_H9sWAcPn9l-EL6urvn3-cR0IOWxhwKlb8/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class</td>
+          <td>60 minutes</td>
+          <td>Nov 29, 2024 – June 2025, every Friday, mid-term enrollment accepted</td>
+          <td>Richmond Hill</td>
+        </tr>
 
 
-      <tr><td>Tennis Class</td><td><a href="https://docs.google.com/forms/d/1bDn1U3WaNWEdYm0u8btWeWD17jc-zmP4WPFH6xRkmFU/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td></td></tr>
-
-
-      <tr><td>Badminton Class</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSemwhGB52x143_-ItvlVSeCNNlmwKQEy9en58ZJ_tez4t-CYQ/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td>Every Friday at 7:00 PM</td><td>Richmond Hill</td></tr>
-
-
-
-      <!-- <tr><td>高尔夫课</td><td><a href="https://docs.google.com/forms/d/1rVz71tl5-qVco-TIfhzNVVwXGhOSR6QqhJue6sLwS6g/viewform"  target="_blank">Register</a></td><td></td><td>1 on 1 (20 sessions)</td><td>30 minutes</td><td></td><td></td></tr>
-      <tr><td>高尔夫课</td><td><a href="https://docs.google.com/forms/d/1rVz71tl5-qVco-TIfhzNVVwXGhOSR6QqhJue6sLwS6g/viewform"  target="_blank">Register</a></td><td></td><td>一对二(20 sessions)</td><td>55 minutes</td><td></td><td></td></tr>
-      <tr><td>高尔夫课</td><td><a href="https://docs.google.com/forms/d/1rVz71tl5-qVco-TIfhzNVVwXGhOSR6QqhJue6sLwS6g/viewform"  target="_blank">Register</a></td><td></td><td>一对三(20 sessions)</td><td>60 minutes</td><td></td><td></td></tr> -->
-
-      <tr>
+        <!-- <tr>
         <td rowspan="3">Golf Class</td>
         <td rowspan="3"><a href="https://docs.google.com/forms/d/1HqFPA9Vefm-Qlbgdsmvvi2LZ_to4KEZzMafMjnnENac/viewform"
             target="_blank">Register</a></td>
@@ -271,257 +370,602 @@
         <td>60 minutes</td>
         <td></td>
         
-      </tr>
+      </tr> -->
+
+        <tr>
+          <td rowspan="3">Golf Class 1</td>
+          <td rowspan="3"><a
+              href="https://docs.google.com/forms/d/10KvzPEyX7nGwtwFG8_SSFvfhn_BMcgw4l2sjPJ26vTA/viewform"
+              target="_blank">Register</a></td>
+
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>30 minutes</td>
+          <td></td>
+          <td rowspan="3">Markham, Richmond Hill, Whitchurch-Stouffville, Oakville</td>
+        </tr>
+        <tr>
+          <td>1-on-2 (20 sessions)</td>
+          <td>55-60 minutes</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>1-on-3 (20 sessions)</td>
+          <td>60 minutes</td>
+          <td></td>
+        </tr>
+
+
+
+        <!-- <tr><td>Street Hockey</td><td><a href="https://docs.google.com/forms/d/1I7rr_ijzm6OI6EbIOQ0D8JnHxKSuq18DKrw6prbjpRE/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York</td></tr> -->
+        <tr>
+          <td>Street Hockey Class</td>
+          <td><a href="https://docs.google.com/forms/d/16ki6BzTNco-lzlzuG11htkFPKDnAm3_YbORcb0saxg0/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td>Based on student availability</td>
+          <td>Near the student</td>
+        </tr>
+
+        <!-- <tr><td>Fencing Class</td><td><a href="https://docs.google.com/forms/d/1HYoAKTkV3xxtQyaZdVYBC5rG3nKzE3A7oRn9ej_Koe0/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>90 minutes</td><td></td><td>Richmond Hill</td></tr> -->
+
+
+        <tr>
+          <td>Fencing Class 1</td>
+          <td><a href="https://docs.google.com/forms/d/1TzfTMcvFOKnr6fbjNq-ivx-zzOU1aTYmwF4qb-Y988g/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>90 minutes</td>
+          <td></td>
+          <td>Richmond Hill</td>
+        </tr>
+
+        <tr>
+          <td>Fencing Class 2</td>
+          <td><a href="https://docs.google.com/forms/d/1Z0jj7iJ6nud-gZ20dMe87HxDaRgUJJIDioMvStUtmcU/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class</td>
+          <td>60 minutes</td>
+          <td>Sept 9, 2025 - Dec 18, 2025, every Tuesday</td>
+          <td>Richmond Hill</td>
+        </tr>
 
 
 
 
 
-      <tr><td>Street Hockey</td><td><a href="https://docs.google.com/forms/d/1I7rr_ijzm6OI6EbIOQ0D8JnHxKSuq18DKrw6prbjpRE/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York</td></tr>
+        <!-- <tr><td>Swimming Class</td><td><a href="https://docs.google.com/forms/d/17OUh6xPgldU7CHqBCbou0iV970QX3PMk1Uxt0WX-fcg/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, Mississauga/Oakville, Pickering/Ajax, Aroura/Newmarket</td></tr> -->
+        <tr>
+          <td>Swimming Class</td>
+          <td><a href="https://docs.google.com/forms/d/15vAVgBSW3ZnLSlkz2k1NEWzmabTSY0_ejuJ44-1D0Lg/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td>Based on student availability</td>
+          <td>Near the student</td>
+        </tr>
+
+        <!-- <tr><td>Rowing Class</td><td><a href="https://docs.google.com/forms/d/1BGq6ivZJ6E1TU6Ljhj2VNHa_KEqibHPcr4NZgnSFxsc/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>60 minutes</td><td>June - August</td><td>Richmond Hill</td></tr> -->
+        <tr>
+          <td>Rowing Class</td>
+          <td><a href="https://docs.google.com/forms/d/1ORUu5Fgxwe8tlPAEZgSwPwWFLTOMjyWfg-So5nW2ArU/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>60 minutes</td>
+          <td>June-August</td>
+          <td>Richmond Hill</td>
+        </tr>
+
+        <!-- <tr><td>Dragon Boat Class</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSfBv6Y5unweLEkyzeVm099yQUqMBdoKV0bHR5ddwW9vYWNpTA/viewform"  target="_blank">Register</a></td><td>Group Class</td><td>90 minutes</td><td>May - August</td><td>Richmond Hill</td></tr> -->
+        <tr>
+          <td>Dragon Boat Class</td>
+          <td><a href="https://docs.google.com/forms/d/1oZbm72dPTbhiHm1K3Z7dpAZ1Af5KwhkNUCbjpnwJFyU/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class</td>
+          <td>90 minutes</td>
+          <td>May 4, 2025 - August 24, 2025, every Sunday</td>
+          <td>Richmond Hill</td>
+        </tr>
+
+        <!-- <tr><td>Paddleboard Class</td><td><a href="https://docs.google.com/forms/d/1NtDZONO_jXtod7a6QHikIh88-QS2t9yoynrqLe-P4EQ/viewform"  target="_blank">Register</a></td><td>1 on 1 / 1 to many (10 sessions)</td><td>90 minutes (adjustable based on request)</td><td>June-August</td><td>Based on students' needs</td></tr> -->
+        <tr>
+          <td>Paddleboarding Class</td>
+          <td><a href="https://docs.google.com/forms/d/1MbiljLz5IOICYbRqNTa4KXcWHaSNCoygiQmqsMgvN1o/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 / Small Group Private Class (10 sessions)</td>
+          <td>90 minutes or as needed</td>
+          <td>June-August, based on student availability</td>
+          <td>Based on student availability</td>
+        </tr>
+
+        <!-- <tr><td>Skateboarding Class</td><td><a href="https://docs.google.com/forms/d/13O8dnuyXSXX10Hln3Epg4XiHyi75CACGH5xW9_2QhQM/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York</td></tr> -->
+        <tr>
+          <td>Skateboarding Class</td>
+          <td><a href="https://docs.google.com/forms/d/1oefffLOMHegDGZe8zNBZTRB-wDrEX3Fk__66qa_KfGc/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td></td>
+          <td>Markham, Richmond Hill, Scarborough, North York, Pickering, Oshawa</td>
+        </tr>
+
+        <!-- <tr><td>Roller Skating Class</td><td><a href="https://docs.google.com/forms/d/1l1KNHRYHq_9RlkvnponG9ZIJIdzO3un_BackqKPfBJ4/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York, Pickering, Oshawa</td></tr> -->
+        <tr>
+          <td>Roller Skating Class</td>
+          <td><a href="https://docs.google.com/forms/d/1POxCJ7F5x9p-YvpB8q0BJNxOputwXA-t1VyV_X5gq6E/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td>Based on student availability</td>
+          <td>Based on student availability</td>
+        </tr>
+
+        <!-- <tr><td>Ice Skating Class</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSe2R4VGrdyp5hbwsAl3cMKXGPG5CDtjxfxut47TyLQ8ee8dFQ/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York, Mississauga/Oakville, Aroura/Newmarket</td></tr> -->
+        <tr>
+          <td>Ice Skating Class</td>
+          <td><a href="https://docs.google.com/forms/d/1XJwTKzymAfmcqDhrf-tjWb9VD1er1JucP7bksR-Duww/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td></td>
+          <td>Markham, Richmond Hill, Scarborough, North York</td>
+        </tr>
+
+        <tr>
+          <td>Ice Hockey Class</td>
+          <td>
+
+          </td>
+          <td>Group Class, 1 on 1 (20 sessions)</td>
+          <td>45 minutes</td>
+          <td>Starting in Fall</td>
+          <td></td>
+        </tr>
 
 
-      <tr><td>Fencing Class</td><td><a href="https://docs.google.com/forms/d/1HYoAKTkV3xxtQyaZdVYBC5rG3nKzE3A7oRn9ej_Koe0/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>90 minutes</td><td></td><td>Richmond Hill</td></tr>
+        <!-- <tr><td>Skiing Class</td><td>
+       
+      </td><td>1 on 1 / 1 to many</td><td>2-4 Hours</td><td>Starting in Winter</td><td></td></tr> -->
+
+        <tr>
+          <td>Skiing Class</td>
+          <td>
+          </td>
+          <td>1-on-1 / 1-on-2 / Small Group Private Class</td>
+          <td>2-4 hours</td>
+          <td>Starting in winter</td>
+          <td></td>
+        </tr>
 
 
 
-      <!-- <tr><td>击剑课2</td><td></td><td>Group Class</td><td>60 minutes</td><td>Stay tuned</td><td>Richmond Hill</td></tr> -->
+        <!-- <tr><td>Fitness Training Class</td><td><a href="https://docs.google.com/forms/d/1FZcTQUhvcJojD4k9GwHexXaqTgfjvWzdiphtXJbEwGw/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Mississauga/Oakville</td></tr>
+  -->
 
+        <tr>
+          <td>Fitness Class 1</td>
+          <td><a href="https://docs.google.com/forms/d/11zNwnFFY9v_GLTwp11m5ClO563cDpP9kplZoYFLOQPM/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td>Based on student availability</td>
+          <td>Based on student availability</td>
+        </tr>
+        <tr>
+          <td>Fitness Class 2</td>
+          <td><a href="https://docs.google.com/forms/d/1UlX2Ng8kuz6fP_7zg22wuW4ewWHQaZKgsXvG5lzif-A/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class</td>
+          <td>60 minutes</td>
+          <td>Every Monday / Every Thursday</td>
+          <td>Richmond Hill</td>
+        </tr>
 
+        <tr>
+          <td>Yoga & Gymnastics Class (Planned)</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <!-- <tr><td>Volleyball Class (Planned)</td><td></td><td></td><td></td><td></td><td></td></tr> -->
+        <tr>
+          <td>Volleyball Class</td>
+          <td><a href="https://docs.google.com/forms/d/1Nm3oDG_BDkQgsK4XJyqwGpalBU2aYicAN1rerYVRkxU/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class</td>
+          <td>60 minutes</td>
+          <td>Sept 19, 2025 - Dec 19, 2025, every Friday</td>
+          <td>Richmond Hill</td>
+        </tr>
 
+        <tr>
+          <td>Shaolin Martial Arts Class (Planned)</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
 
-      <tr><td>Swimming Class</td><td><a href="https://docs.google.com/forms/d/17OUh6xPgldU7CHqBCbou0iV970QX3PMk1Uxt0WX-fcg/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, Mississauga/Oakville, Pickering/Ajax, Aroura/Newmarket</td></tr>
-
-
-      <tr><td>Rowing Class</td><td><a href="https://docs.google.com/forms/d/1BGq6ivZJ6E1TU6Ljhj2VNHa_KEqibHPcr4NZgnSFxsc/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>60 minutes</td><td>June - August</td><td>Richmond Hill</td></tr>
-
-
-      <tr><td>Dragon Boat Class</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSfBv6Y5unweLEkyzeVm099yQUqMBdoKV0bHR5ddwW9vYWNpTA/viewform"  target="_blank">Register</a></td><td>Group Class</td><td>90 minutes</td><td>May - August</td><td>Richmond Hill</td></tr>
-    
-      <tr><td>Paddleboard Class</td><td><a href="https://docs.google.com/forms/d/1NtDZONO_jXtod7a6QHikIh88-QS2t9yoynrqLe-P4EQ/viewform"  target="_blank">Register</a></td><td>1 on 1 / 1 to many (10 sessions)</td><td>90 minutes (adjustable based on request)</td><td>June-August</td><td>Based on students' needs</td></tr>
-    
-      <tr><td>Skateboarding Class</td><td><a href="https://docs.google.com/forms/d/13O8dnuyXSXX10Hln3Epg4XiHyi75CACGH5xW9_2QhQM/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York</td></tr>
-
-
-      <tr><td>Roller Skating Class</td><td><a href="https://docs.google.com/forms/d/1l1KNHRYHq_9RlkvnponG9ZIJIdzO3un_BackqKPfBJ4/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York, Pickering, Oshawa</td></tr>
-     
-      <tr><td>Ice Skating Class</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSe2R4VGrdyp5hbwsAl3cMKXGPG5CDtjxfxut47TyLQ8ee8dFQ/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Markham, Richmond Hill, Scarborough, North York, Mississauga/Oakville, Aroura/Newmarket</td></tr>
-
-
-      <tr><td>Ice Hockey Class</td><td>
-        <!-- <a href="https://docs.google.com/forms/d/1GpNUO_OJbmDc943RwX3Vpj18Yg8G9H1crSmgxfTadY4/viewform"  target="_blank">Register</a> -->
-      </td><td>Group Class, 1 on 1 (20 sessions)</td><td>45 minutes</td><td>Starting in Fall</td><td></td></tr>
-
-
-      <tr><td>Skiing Class</td><td>
-        <!-- <a href="https://docs.google.com/forms/d/1V_1vHKX9TQL8-KQGWn9lwo7g_Ug-u7BK_nHp2rRCpK0/viewform"  target="_blank">Register</a> -->
-      </td><td>1 on 1 / 1 to many</td><td>2-4 Hours</td><td>Starting in Winter</td><td></td></tr>
-      
-    
-     
-      <tr><td>Fitness Training Class</td><td><a href="https://docs.google.com/forms/d/1FZcTQUhvcJojD4k9GwHexXaqTgfjvWzdiphtXJbEwGw/viewform"  target="_blank">Register</a></td><td>1 on 1 (20 sessions)</td><td>45 minutes</td><td></td><td>Mississauga/Oakville</td></tr>
- 
-
-      <tr><td>Yoga & Gymnastics Class (Planned)</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td>Volleyball Class (Planned)</td><td></td><td></td><td></td><td></td><td></td></tr>
-      <tr><td>Shaolin Martial Arts Class (Planned)</td><td></td><td></td><td></td><td></td><td></td></tr>
-    </tbody>
-  </table>
-   
   </div>
 
   <div id="cognitive" class="tab-content">
-   <table>
-    <thead>
-      <tr>
-      <th style="width:16%">Course</th>
-        <th style="width:10%">Registration</th>
-        <!-- <th style="width:10%">Schedule</th> -->
-        <th style="width:19%">Class Type</th>
-        <th style="width:12%">Class Duration</th>
-        <th style="width:13%">Class Schedule</th>
-        <th style="width:30%">Location</th>
-      </tr>
-    </thead>
-    <tbody>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:16%">Course</th>
+          <th style="width:10%">Registration</th>
+          <!-- <th style="width:10%">Schedule</th> -->
+          <th style="width:19%">Class Type</th>
+          <th style="width:12%">Class Duration</th>
+          <th style="width:13%">Class Schedule</th>
+          <th style="width:30%">Location</th>
+        </tr>
+      </thead>
+      <tbody>
 
-       <tr>
-        <td>NSNS & HFS® 音智优脑训练 · 免费试训</td>
-        <td><a href="https://docs.google.com/forms/d/e/1FAIpQLScr9h-AZnBQ0stpUVQq3ULzHN9TGlR8z2tMoZWBQOIbO3ZTjw/viewform" target="_blank">Register</a></td>
-        <td>1 on 1 (1 session)</td>
-        <td>60 minutes</td>
-        <td></td>
-        <td>Primarily in-person (some sessions available online)</td>
-      </tr>
-      <tr>
-        <td>Rubik's Cube Class</td>
-        <td><a href="https://docs.google.com/forms/d/1_4OPz4SPI810KEIr5sClK1D9bgi_GAD475g3-fcx18M/viewform" target="_blank">Register</a></td>
-        <td>1 on 1 (20 sessions)</td>
-        <td>45 minutes</td>
-        <td></td>
-        <td>Online Course</td>
-      </tr>
+        <tr>
+          <td>NSNS & HFS® 音智优脑训练 · 免费试训</td>
+          <td><a
+              href="https://docs.google.com/forms/d/e/1FAIpQLScr9h-AZnBQ0stpUVQq3ULzHN9TGlR8z2tMoZWBQOIbO3ZTjw/viewform"
+              target="_blank">Register</a></td>
+          <td>1 on 1 (1 session)</td>
+          <td>60 minutes</td>
+          <td></td>
+          <td>Primarily in-person (some sessions available online)</td>
+        </tr>
+        <!-- <tr>
+          <td>Rubik's Cube Class</td>
+          <td><a href="https://docs.google.com/forms/d/1_4OPz4SPI810KEIr5sClK1D9bgi_GAD475g3-fcx18M/viewform"
+              target="_blank">Register</a></td>
+          <td>1 on 1 (20 sessions)</td>
+          <td>45 minutes</td>
+          <td></td>
+          <td>Online Course</td>
+        </tr> -->
 
+        <tr>
+          <td>Rubik's Cube Class</td>
+          <td><a href="https://docs.google.com/forms/d/1YcvHR91fJeujvFb7At4BJZ8jAcMm9Hhheprr8mhwueQ/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td></td>
+          <td>Online Course</td>
+        </tr>
 
-
-      <tr>
-        <td>Robotics Class1</td>
-        <td><a href="https://docs.google.com/forms/d/1K_80pZpF4LkO0rET5xVbKIMQHpfWOCWyqWqiPzm0U68/viewform" target="_blank">Register</a></td>
-        <td>1 on 1 (20 sessions)</td>
-        <td>60 minutes</td>
-        <td></td>
-        <td>Richmond Hill</td>
-      </tr>
-
-
-
-      <tr>
-        <td>Robotics Class2</td>
-        <td>
-          <!-- <a href="https://docs.google.com/forms/d/1h1M-ISAsWBNXWeM8Trw49YEpAoAtdvn8KBvvM5_3lIE/viewform" target="_blank">Register</a> -->
-        </td>
-        <td>Group Class</td>
-        <td>60 minutes</td>
-        <td>Stay Tuned</td>
-        <td>Richmond Hill</td>
-      </tr>
-
-
-      <tr>
-        <td>Robotic Summer Camp</td>
-        <td>
-          <a href="https://www.cognitoforms.com/CodeNinjasRichmondHill/_2025SummerCampEnrollmentFormNSNS" target="_blank">Register</a> 
-        </td>
-        <td>Group Class</td>
-        <td></td>
-        <td>Monday - Friday (Summer Break)</td>
-        <td>Richmond Hill</td>
-      </tr>
+        <!-- <tr>
+          <td>Robotics Class1</td>
+          <td><a href="https://docs.google.com/forms/d/1K_80pZpF4LkO0rET5xVbKIMQHpfWOCWyqWqiPzm0U68/viewform"
+              target="_blank">Register</a></td>
+          <td>1 on 1 (20 sessions)</td>
+          <td>60 minutes</td>
+          <td></td>
+          <td>Richmond Hill</td>
+        </tr>
 
 
 
-
-      <tr>
-        <td>Math Class</td>
-        <td><a href="https://docs.google.com/forms/d/1TZsM71ch1cRuX62F5wQEhoO93PIvnURYQ-E_UOwJtso/viewform" target="_blank">Register</a></td>
-        <td>1 on 1 (20 sessions)</td>
-        <td>60 minutes</td>
-        <td></td>
-        <td>Flexible, based on student's preferred location.</td>
-      </tr>
-
-
-
-    
-      <tr>
-        <td>Chess Class</td>
-        <td><a href="https://docs.google.com/forms/d/1i17KJuzeT62RBplNLfDk3pHXIqcKxtDzvxyKq9tISMI/viewform" target="_blank">Register</a></td>
-        <td>1 on 1 (20 sessions)</td>
-        <td>60 minutes</td>
-        <td></td>
-        <td>Flexible, based on student's needs</td>
-      </tr>
+        <tr>
+          <td>Robotics Class2</td>
+          <td>
+           
+          </td>
+          <td>Group Class</td>
+          <td>60 minutes</td>
+          <td>Stay Tuned</td>
+          <td>Richmond Hill</td>
+        </tr>
 
 
+        <tr>
+          <td>Robotic Summer Camp</td>
+          <td>
+            <a href="https://www.cognitoforms.com/CodeNinjasRichmondHill/_2025SummerCampEnrollmentFormNSNS"
+              target="_blank">Register</a>
+          </td>
+          <td>Group Class</td>
+          <td></td>
+          <td>Monday - Friday (Summer Break)</td>
+          <td>Richmond Hill</td>
+        </tr> -->
 
-      <tr>
-        <td>3D Printing Class</td>
-        <td><a href="https://docs.google.com/forms/d/1Z4RagEQcaCsO9Ey1zOg2qJMMn-padRCE_Tbl0QDiZwo/viewform" target="_blank">Register</a></td>
-        <td>1 on 1 (Session count flexible based on student choice)</td>
-        <td>60 minutes</td>
-        <td></td>
-        <td>Determined collaboratively by the student and instructor</td>
-      </tr>
+        <tr>
+          <td>Robotics Class 1</td>
+          <td><a href="https://docs.google.com/forms/d/14nPh-2peObyvBSfVpVW_O9Q7a4LH8jDTwMmX08D30A8/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>60 minutes</td>
+          <td></td>
+          <td>Richmond Hill</td>
+        </tr>
 
-      <tr>
-        <td>Drawing Class1</td>
-        <td><a href="https://docs.google.com/forms/d/1zxW-jGQdQ1soeXj_NzWBEI2-kmNFf0DjZJzYL-KAhXA/viewform" target="_blank">Register</a></td>
-        <td>1 on 1 (20 sessions)</td>
-        <td>60 minutes</td>
-        <td></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>Drawing Class2</td>
-        <td><a href="https://docs.google.com/forms/d/1G8g3OBqLMhTIjGCwo8bqiOMDYZOsywI64NTWu3bolU0/viewform" target="_blank">Register</a></td>
-        <td>Group Class (16 sessions)</td>
-        <td>60 minutes</td>
-        <td>September 2 to December 16</td>
-        <td>Markham</td>
-      </tr>
-      <tr>
-        <td>Polymer Clay Art Class</td>
-       <td><!-- <a href="https://docs.google.com/forms/d/1VNnxFnUPsmZO9sAiZ9d3nONQ6Rza9zPG8NvCDJ66c-Q/viewform" target="_blank">Register</a>--></td> 
-        <td>Group Class (15 sessions)</td>
-        <td>60 minutes</td>
-        <td>Stay Tuned</td>
-        <td>Richmond Hill</td>
-      </tr>
-      <!-- <tr>
-        <td>彩陶课2</td>
-        <td><a href="https://docs.google.com/forms/d/1m-nHXMPCBM59CG27TYywMjv5MDYQ1YVBvYapIcsh8EY/viewform" target="_blank">Register</a></td>
-        <td>Group Class(15 sessions)</td>
-        <td>60 minutes</td>
-        <td>结束了，保持关注</td>
-        <td>Richmond Hill</td>
-      </tr> -->
-      <tr>
-        <td>Piano Class</td>
-        <td><a href="https://docs.google.com/forms/d/e/1FAIpQLSesOG48hK7q-l6LHoW3CHOsxKh48aDQVVWJdZ83PIkB7TXJTw/viewform" target="_blank">Register</a></td>
-        <td>1 on 1 (20 sessions)</td>
-        <td>45 minutes</td>
-        <td></td>
-        <td></td>
-      </tr>
+        <tr>
+          <td>Robotics Class 2</td>
+          <td><a href="https://docs.google.com/forms/d/1f6zvX2a-Zg0BnkxWu_Wxtlsev0stb4TcbMlT489Cji8/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class</td>
+          <td>60 minutes</td>
+          <td>Sept 13, 2025 - Dec 20, 2025, every Saturday, mid-term enrollment accepted</td>
+          <td>Richmond Hill</td>
+        </tr>
 
 
-    
-    </tbody>
-  </table>
+        <!-- <tr>
+          <td>Math Class</td>
+          <td><a href="https://docs.google.com/forms/d/1TZsM71ch1cRuX62F5wQEhoO93PIvnURYQ-E_UOwJtso/viewform"
+              target="_blank">Register</a></td>
+          <td>1 on 1 (20 sessions)</td>
+          <td>60 minutes</td>
+          <td></td>
+          <td>Flexible, based on student's preferred location.</td>
+        </tr> -->
+
+        <tr>
+          <td>Math Class</td>
+          <td><a href="https://docs.google.com/forms/d/198luAUmUyLfaq6JPTgbIovaYUgqacQnfdElrWIgx0Hk/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>60 minutes</td>
+          <td>Based on student availability</td>
+          <td>Based on student availability, or attend online classes</td>
+        </tr>
+
+
+        <!-- <tr>
+          <td>Chess Class</td>
+          <td><a href="https://docs.google.com/forms/d/1i17KJuzeT62RBplNLfDk3pHXIqcKxtDzvxyKq9tISMI/viewform"
+              target="_blank">Register</a></td>
+          <td>1 on 1 (20 sessions)</td>
+          <td>60 minutes</td>
+          <td></td>
+          <td>Flexible, based on student's needs</td>
+        </tr> -->
+
+        <tr>
+          <td>Chess Class 1</td>
+          <td><a href="https://docs.google.com/forms/d/14tQfrW-aPs8rLP6PVJhs5zB9LnP1IUQbF7xHfh6XD84/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>60 minutes</td>
+          <td>Based on student availability</td>
+          <td>Based on student availability</td>
+        </tr>
+
+        <tr>
+          <td rowspan="2">Chess Class 2</td>
+          <td rowspan="2"><a
+              href="https://docs.google.com/forms/d/1YAx9qrXpPmjMgMAwNfhMvW9GZZR0TjS8Gzm1eur4ksk/viewform"
+              target="_blank">Register</a></td>
+          <td>Small Group Class</td>
+          <td>90 minutes</td>
+          <td>Once a week</td>
+          <td>Online Course</td>
+        </tr>
+        <tr>
+          <td>In-person Course</td>
+          <td>90 minutes</td>
+          <td>Once a week</td>
+          <td>Richmond Hill</td>
+        </tr>
+
+
+
+
+        <!-- <tr>
+          <td>3D Printing Class</td>
+          <td><a href="https://docs.google.com/forms/d/1Z4RagEQcaCsO9Ey1zOg2qJMMn-padRCE_Tbl0QDiZwo/viewform"
+              target="_blank">Register</a></td>
+          <td>1 on 1 (Session count flexible based on student choice)</td>
+          <td>60 minutes</td>
+          <td></td>
+          <td>Determined collaboratively by the student and instructor</td>
+        </tr> -->
+
+        <tr>
+          <td>3D Printing Class</td>
+          <td><a href="https://docs.google.com/forms/d/17-8xaYROzfmR0wRcjVZNZlldqXRvp4rKqhBbdQbngro/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (10 sessions)</td>
+          <td>60 minutes</td>
+          <td></td>
+          <td>To be decided jointly by student and teacher</td>
+        </tr>
+
+        <!-- <tr>
+          <td>Drawing Class1</td>
+          <td><a href="https://docs.google.com/forms/d/1zxW-jGQdQ1soeXj_NzWBEI2-kmNFf0DjZJzYL-KAhXA/viewform"
+              target="_blank">Register</a></td>
+          <td>1 on 1 (20 sessions)</td>
+          <td>60 minutes</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Drawing Class2</td>
+          <td><a href="https://docs.google.com/forms/d/1G8g3OBqLMhTIjGCwo8bqiOMDYZOsywI64NTWu3bolU0/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class (16 sessions)</td>
+          <td>60 minutes</td>
+          <td>September 2 to December 16</td>
+          <td>Markham</td>
+        </tr> -->
+
+        <tr>
+          <td>Art Class 1</td>
+          <td><a href="https://docs.google.com/forms/d/1LqgrJtEAqblPWK8rG7RFRcHTLui9I_W-6W-V7IGymZw/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>60 minutes</td>
+          <td></td>
+          <td>Near Student's Location</td>
+        </tr>
+        <tr>
+          <td>Art Class 2</td>
+          <td><a href="https://docs.google.com/forms/d/1w490uPBZ3pQFkEl1ffow9AVUWl7ij-W_zjO2W9mNu34/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class (15 sessions)</td>
+          <td>60 minutes</td>
+          <td>Sept 9, 2025 - Dec 16, 2025</td>
+          <td>Markham</td>
+        </tr>
+        <tr>
+          <td>Art Class 3</td>
+          <td><a href="https://docs.google.com/forms/d/1Oa8ojdxYsR3Z891Tn6mj-7MIQ26Enry9VsOGaMzVZac/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class (16 sessions)</td>
+          <td>120 minutes</td>
+          <td>Sept 3, 2025 - Dec 17, 2025</td>
+          <td>Ottawa</td>
+        </tr>
+
+
+        <!-- <tr>
+          <td>Polymer Clay Art Class</td>
+          <td>
+           
+          </td>
+          <td>Group Class (15 sessions)</td>
+          <td>60 minutes</td>
+          <td>Stay Tuned</td>
+          <td>Richmond Hill</td>
+        </tr> -->
+
+        <tr>
+          <td>Polymer Clay Class 1</td>
+          <td><a href="https://docs.google.com/forms/d/1F2Iq5J45BsP6JRYPKbmHYPEBqERgG75k4IxVDsejl9c/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 / 1-on-2 / 1-on-3 Private Class (20 sessions)</td>
+          <td>50-60 minutes</td>
+          <td></td>
+          <td>Decided by student, teacher provides in-home lessons</td>
+        </tr>
+        <tr>
+          <td>Polymer Clay Class 2</td>
+          <td><a href="https://docs.google.com/forms/d/1GnjT-T8eVR5yO07KrKk_o58LspnaVkfheIH-m-k1gpA/viewform"
+              target="_blank">Register</a></td>
+          <td>Group Class (15 sessions)</td>
+          <td>60 minutes</td>
+          <td>Sept 12, 2025 - Dec 19, 2025, every Friday, mid-term enrollment accepted</td>
+          <td>Richmond Hill</td>
+        </tr>
+
+        <!-- <tr>
+          <td>Piano Class</td>
+          <td><a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSesOG48hK7q-l6LHoW3CHOsxKh48aDQVVWJdZ83PIkB7TXJTw/viewform"
+              target="_blank">Register</a></td>
+          <td>1 on 1 (20 sessions)</td>
+          <td>45 minutes</td>
+          <td></td>
+          <td></td>
+        </tr> -->
+
+        <tr>
+          <td>Piano Class</td>
+          <td><a href="https://docs.google.com/forms/d/1GVc6f6CyRpSi4dO-GMrzwtpChFYVzCOi6SJcqNYJfco/viewform"
+              target="_blank">Register</a></td>
+          <td>1-on-1 Private Class (20 sessions)</td>
+          <td>45 minutes</td>
+          <td></td>
+          <td>Decided by student and teacher</td>
+        </tr>
+
+      </tbody>
+    </table>
   </div>
 
 
   <div id="adventure" class="tab-content">
-    
-  <table>
-    <thead>
-      <tr>
-        <th style="width:50%">Activity</th>
-        <th style="width:25%">Registration</th>
-        <th style="width:25%">Location</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>2025 Paddling Summer Camp</td><td><a href="https://docs.google.com/forms/d/1tj_WGCgN_WJ_Ts7VJg_JC7B5eBwoUyku-a0dTRWy7ys/viewform"  target="_blank">Register</a></td><td>	Richmond Hill</td></tr>
-      <tr><td>Sail Canada Sailing Certified 2025 NSNS ABA Summer Camp</td><td><a href="https://docs.google.com/forms/d/183fjk9_prd551HR4xmSlDOe5uniGwjYz_E3zT2Qxi6M/viewform"  target="_blank">Register</a></td><td>Toronto Island Marina, Downtown Toronto - Centre Island</td></tr>
-      <!-- <tr><td>Camp Adlaide 2025 06.27-29 寻觅萤火虫家庭营</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSec02Nz8V6viRRgbE-9x8tUgtsi2K8hSc5MKFKgij30GIWAfg/viewform"  target="_blank">Register</a></td><td>Haliburton</td></tr> -->
-      <!-- <tr><td>Camp Adlaide 2025.7.25-27 森林里的游乐场家庭营</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSctoGE446NL627uRcWWhUXHVJQeBzp6P-T1M_fJA3l56G-7hA/viewform"  target="_blank">Register</a></td><td>Haliburton</td></tr> -->
-      <tr><td>Camp Adlaide 2025.8.29-31 一起来看流星雨家庭营</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLScMAknyUeHIr9veNSY1LmTERS5sFqP7iy0AyQ4hJBScf-468w/viewform"  target="_blank">Register</a></td><td>Haliburton</td></tr>
-      <tr><td>2025.8.2-4 渥太华河白水漂流</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSejglfOH1OKZDDbjk6OnPTjpWZze8ZwMp2X8GRQPzW1t_Ijqg/viewform" target="_blank">Register</a></td><td>Ottawa</td></tr>
-      <tr><td>2025.8.16-17 尼亚加拉大瀑布旅行+美国布法罗划船公益活动</td><td>Stay Tuned</td><td>Niagara Falls / Buffalo USA</td></tr>
-      <!-- <tr><td>机器人夏令营</td><td><a href="https://www.cognitoforms.com/CodeNinjasRichmondHill/_2025SummerCampEnrollmentFormNSNS" target="_blank">Register</a></td><td>Richmond Hill</td></tr> -->
-    </tbody>
-  </table>
 
-  
+    <table>
+      <thead>
+        <tr>
+          <th style="width:50%">Activity</th>
+          <th style="width:25%">Registration</th>
+          <th style="width:25%">Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025 Paddling Summer Camp</td>
+          <td><a href="https://docs.google.com/forms/d/1tj_WGCgN_WJ_Ts7VJg_JC7B5eBwoUyku-a0dTRWy7ys/viewform"
+              target="_blank">Finished</a></td>
+          <td> Richmond Hill</td>
+        </tr>
+        <tr>
+          <td>Sail Canada Sailing Certified 2025 NSNS ABA Summer Camp</td>
+          <td><a href="https://docs.google.com/forms/d/183fjk9_prd551HR4xmSlDOe5uniGwjYz_E3zT2Qxi6M/viewform"
+              target="_blank">Finished</a></td>
+          <td>Toronto Island Marina, Downtown Toronto - Centre Island</td>
+        </tr>
+        <!-- <tr><td>Camp Adlaide 2025 06.27-29 寻觅萤火虫家庭营</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSec02Nz8V6viRRgbE-9x8tUgtsi2K8hSc5MKFKgij30GIWAfg/viewform"  target="_blank">Register</a></td><td>Haliburton</td></tr> -->
+        <!-- <tr><td>Camp Adlaide 2025.7.25-27 森林里的游乐场家庭营</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSctoGE446NL627uRcWWhUXHVJQeBzp6P-T1M_fJA3l56G-7hA/viewform"  target="_blank">Register</a></td><td>Haliburton</td></tr> -->
+        <tr>
+          <td>Camp Adlaide 2025.8.29-31 一起来看流星雨家庭营</td>
+          <td><a
+              href="https://docs.google.com/forms/d/e/1FAIpQLScMAknyUeHIr9veNSY1LmTERS5sFqP7iy0AyQ4hJBScf-468w/viewform"
+              target="_blank">Finished</a></td>
+          <td>Haliburton</td>
+        </tr>
+        <tr>
+          <td>2025.8.2-4 渥太华河白水漂流</td>
+          <td><a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSejglfOH1OKZDDbjk6OnPTjpWZze8ZwMp2X8GRQPzW1t_Ijqg/viewform"
+              target="_blank">Finished</a></td>
+          <td>Ottawa</td>
+        </tr>
+        <tr>
+          <td>2025.8.16-17 尼亚加拉大瀑布旅行+美国布法罗划船公益活动</td>
+          <td>Finished</td>
+          <td>Niagara Falls / Buffalo USA</td>
+        </tr>
+        <!-- <tr><td>机器人夏令营</td><td><a href="https://www.cognitoforms.com/CodeNinjasRichmondHill/_2025SummerCampEnrollmentFormNSNS" target="_blank">Register</a></td><td>Richmond Hill</td></tr> -->
+      </tbody>
+    </table>
+
+
   </div>
 
   <div id="events" class="tab-content">
 
- <table>
-    <thead>
-      <tr>
-        <th style="width:50%">Activity</th>
-        <th style="width:25%">Registration</th>
-        <th style="width:25%">Location</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- <tr><td>2025.7.20 公益电影 驯龙高手</td><td><a href="https://docs.google.com/forms/d/1UJ8I1iJNVaLUo8x_iSy0JUgAiKBmZtPSKzJkebsq-_I/viewform" target="_blank">Register</a></td><td>Richmond hill</td></tr> -->
-      <tr><td>2025.7.29 “羽你有约” 家庭羽毛球日</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSfIYl8FYtyS3-f3BqRRRwtXLymgMmKcPIhhYJOnDMJWSbnYjg/viewform" target="_blank">Register</a></td><td>Ottawa</td></tr>
-      <tr><td>2025.8 高尔夫球公益活动</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSdwzZsdkwD0CX-VchLKJbAJL2LeLgDTIRr1KE_N0vDK8_aRtg/viewform" target="_blank">Register</a></td><td>Markham</td></tr>
-      <tr><td>2025.7.25, 2025.7.30 Nutcracker机器人奇妙日</td><td><a href="https://docs.google.com/forms/d/e/1FAIpQLSfDIMpSG4EMPI3Tp-wNh2WxnmpDWtJY8s5ujG1V0zL0cSgfcw/viewform" target="_blank">Register</a></td><td>Richmond hill</td></tr>
-    </tbody>
-  </table>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:50%">Activity</th>
+          <th style="width:25%">Registration</th>
+          <th style="width:25%">Location</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- <tr><td>2025.7.20 公益电影 驯龙高手</td><td><a href="https://docs.google.com/forms/d/1UJ8I1iJNVaLUo8x_iSy0JUgAiKBmZtPSKzJkebsq-_I/viewform" target="_blank">Register</a></td><td>Richmond hill</td></tr> -->
+        <tr>
+          <td>2025.7.29 “羽你有约” 家庭羽毛球日</td>
+          <td><a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfIYl8FYtyS3-f3BqRRRwtXLymgMmKcPIhhYJOnDMJWSbnYjg/viewform"
+              target="_blank">Finished</a></td>
+          <td>Ottawa</td>
+        </tr>
+        <tr>
+          <td>2025.8 高尔夫球公益活动</td>
+          <td><a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdwzZsdkwD0CX-VchLKJbAJL2LeLgDTIRr1KE_N0vDK8_aRtg/viewform"
+              target="_blank">Finished</a></td>
+          <td>Markham</td>
+        </tr>
+        <tr>
+          <td>2025.7.25, 2025.7.30 Nutcracker机器人奇妙日</td>
+          <td><a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSfDIMpSG4EMPI3Tp-wNh2WxnmpDWtJY8s5ujG1V0zL0cSgfcw/viewform"
+              target="_blank">Finished</a></td>
+          <td>Richmond hill</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- <script>
@@ -557,7 +1001,7 @@
   });
 </script> -->
 
-<script>
+  <script>
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -594,4 +1038,5 @@
   </script>
 
 </body>
+
 </html>
