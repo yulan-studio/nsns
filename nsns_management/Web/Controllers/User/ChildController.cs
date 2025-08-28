@@ -313,7 +313,8 @@ namespace Web.Controllers.User
                 await _childService.UpdateAsync(childId, memberID, address, OAPAmount, primaryDiagnosis, photoConsent);
                 
                 //return RedirectToAction(nameof(CoreInfo), new { id = childId });
-                return RedirectToAction("CoreInfo", "Child", new { id = childId });
+                //return RedirectToAction("CoreInfo", "Child", new { id = childId });
+                return RedirectToAction("CoreInfo", new { childId });
             }
             return View(child);
         }

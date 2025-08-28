@@ -41,12 +41,12 @@ namespace Core.Models
         public bool PhotoConsent { get; set; }
 
         //public List<EmergencyContact> EmergencyContacts { get; set; }
-        public ICollection<EmergencyContact> EmergencyContacts { get; set; } = new List<EmergencyContact>();
+        public ICollection<EmergencyContact>? EmergencyContacts { get; set; } = new List<EmergencyContact>();
 
 
 
         // ✅ New: List of related parents
-        public virtual ICollection<ParentChild> ParentChild { get; set; } = new List<ParentChild>();
+        public virtual ICollection<ParentChild>? ParentChild { get; set; } = new List<ParentChild>();
 
         //if child has OAP funding
         public bool HasOAP { get; set; }
