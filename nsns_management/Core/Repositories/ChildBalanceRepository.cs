@@ -1,13 +1,14 @@
-﻿using Core.Interfaces;
+﻿using Core.Contexts;
+using Core.Interfaces;
 using Core.Models;
-using Core.Contexts;
+using Core.ViewModels;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Core.ViewModels;
 
 
 
@@ -44,6 +45,15 @@ namespace Core.Repositories
             _context.ChildBalances.Add(newEntry);
             return await _context.SaveChangesAsync() > 0;
         }
+
+       
+        public async Task<bool> RemovePaymentToBalanceAsync(int childId, int paymentId, int createdBy)
+        {
+           
+            _context.ChildBalances.RemoveRange(_context.ChildBalances.Where(cb => cb.ChildID == childId && cb.PaymentID == paymentId));
+            return await _context.SaveChangesAsync() > 0;
+        }
+
 
 
         public async Task<bool> DeductCourseSessionCostAsync(int enrollmentId,  int createdBy)

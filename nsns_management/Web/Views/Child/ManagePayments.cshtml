@@ -7,7 +7,7 @@
 
 <div>
     <p><strong>Name:</strong> @Model.Child.Name</p>
-    <p><strong>Birth Date:</strong> @(Model.Child.BirthDate.HasValue ? Model.Child.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")</p>
+    <p><strong>Birth Date:</strong> @(Model.Child.BirthDate.HasValue? Model.Child.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")</p>
     <p><strong>Gender:</strong> @Model.Child.Gender</p>
     <p><strong>City:</strong> @(Model.Child.City != null ? Model.Child.City.Name : "N/A")</p>
 </div>
@@ -26,7 +26,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Amount</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Payment Date</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Receipt</th>
-            
+
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
         </tr>
     </thead>
@@ -59,10 +59,6 @@
                         }
                     </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
-                       @*  <a href="/Payment/Edit/@payment.PaymentID" style="margin-right: 10px; color: #007bff; text-decoration: none;">Edit</a>
-                        <a href="/Payment/ConfirmDelete/@payment.PaymentID" style="color: red; text-decoration: none;">Delete</a>
- *@
-
                         <form method="post" action="/Child/RemovePayment">
                             <input type="hidden" name="paymentId" value="@payment.PaymentID" />
                             <input type="hidden" name="childId" value="@payment.Child.ChildID" />
@@ -129,7 +125,7 @@
 
         <div style="padding-top: 5px"></div>
 
-        <label for="packageId">Select Payment Package:</label>
+        @*  <label for="packageId">Select Payment Package:</label>
         <select id="packageId" name="packageId" required onchange="fetchPackageAmount(this.value)">
             <option value="">-- Select Package --</option>
             @foreach (var package in ViewBag.PaymentPackages)
@@ -139,7 +135,40 @@
         </select>
 
         <label for="amount">Amount:</label>
-        <input name="amount"  required readonly />
+        <input name="amount"  required readonly /> *@
+
+        <!-- Payment Type -->
+        <label>Payment Type:</label><br />
+        <input type="radio" id="packagePayment" name="paymentType" value="package" checked onchange="toggleAmountField()">
+        <label for="packagePayment">Payment with Package</label>
+        <input type="radio" id="manualPayment" name="paymentType" value="manual" onchange="toggleAmountField()">
+        <label for="manualPayment">Payment without Package</label>
+
+        <div style="padding-top: 5px"></div>
+
+        <!-- Package selection -->
+        <div id="packageDiv">
+            <label for="packageId">Select Payment Package:</label>
+            <select id="packageId" name="packageId" onchange="fetchPackageAmount(this.value)">
+                <option value="">-- Select Package --</option>
+                @foreach (var package in ViewBag.PaymentPackages)
+                {
+                    <option value="@package.Value">@package.Text</option>
+                }
+            </select>
+        </div>
+
+        <!-- Manual amount -->
+        <div id="manualDiv" style="display:none; padding-top: 5px;">
+            <label for="manualAmount">Enter Amount:</label>
+            <input type="number" id="manualAmount" name="manualAmount" min="0" step="1" />
+        </div>
+
+        <div style="padding-top: 5px"></div>
+
+        <!-- Amount field (readonly if package) -->
+        <label for="amount">Amount:</label>
+        <input id="amount" name="amount" required readonly />
 
         <div style="padding-top: 5px"></div>
 
@@ -156,3 +185,58 @@
         <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Add Payment</button>
     </form>
 </div>
+
+
+@section Scripts {
+    <script>
+        function toggleAmountField() {
+            var isPackage = document.getElementById('packagePayment').checked;
+            document.getElementById('packageDiv').style.display = isPackage ? 'block' : 'none';
+            document.getElementById('manualDiv').style.display = isPackage ? 'none' : 'block';
+            document.getElementById('amount').readOnly = isPackage;
+            if (!isPackage) {
+                document.getElementById('amount').value = document.getElementById('manualAmount').value || '';
+            }
+        }
+
+        // Update amount when manual amount changes
+        document.getElementById('manualAmount').addEventListener('input', function () {
+            document.getElementById('amount').value = this.value;
+        });
+
+        // Fetch package amount (existing function)
+        //function fetchPackageAmount(packageId) {
+            // Your existing logic to get package amount, e.g., via AJAX
+            // Example:
+            // document.getElementById('amount').value = fetchedAmount;
+        //}
+
+
+            function fetchPackageAmount(packageId) {
+            if (!packageId) {
+                document.querySelector("input[name='amount']").value = "";
+                return;
+            }
+
+            fetch(`/PaymentPackage/GetPackageAmount?packageId=${packageId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const amountInput = document.querySelector("input[name='amount']");
+                    if (data.success) {
+                        amountInput.value = data.amount;
+                    } else {
+                        amountInput.value = "";
+                        alert("Failed to retrieve package amount.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching package amount:", error);
+                    document.querySelector("input[name='amount']").value = "";
+                });
+        }
+
+
+        // Initialize on page load
+        toggleAmountField();
+    </script>
+}

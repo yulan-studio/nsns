@@ -13,6 +13,8 @@ namespace Core.Interfaces
     {
         Task<bool> AddPaymentToBalanceAsync(int childId, int paymentId, decimal amount, int createdBy);
 
+        Task<bool> RemovePaymentToBalanceAsync(int childId, int paymentId, int createdBy);
+
         Task<bool> DeductCourseSessionCostAsync(int enrollmentId, int createdBy);
 
         Task<bool> DeductActivityCostAsync(int childId, int activityId, decimal cost, int createdBy);

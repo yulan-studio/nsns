@@ -786,8 +786,10 @@ namespace Web.Controllers.User
         {
             try
             {
-                var result = await _paymentService.RemoveAsync(paymentID);
-                if (result)
+                Core.Models.User user = await _userManager.GetUserAsync(User);
+                var result1 = await _balanceService.RemovePaymentToBalanceAsync(childId, paymentID, user.Id);
+                var result2 = await _paymentService.RemoveAsync(paymentID);
+                if (result1 && result2)
                 {
                     TempData["SuccessMessage"] = "Payment info has been deleted.";
                     return RedirectToAction("ManagePayments", new { childId });

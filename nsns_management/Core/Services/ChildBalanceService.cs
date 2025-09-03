@@ -40,6 +40,22 @@ namespace Core.Services
             }
         }
 
+       
+
+        public async Task<bool> RemovePaymentToBalanceAsync(int childId, int paymentId, int createdBy)
+        {
+            try
+            {
+                bool result = await _balanceRepository.RemovePaymentToBalanceAsync(childId, paymentId, createdBy);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+
 
         //After a child finishes a course session
         public async Task<bool> DeductCourseSessionCostAsync(int enrollmentId,int createdBy)
