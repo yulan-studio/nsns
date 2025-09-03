@@ -734,7 +734,7 @@ namespace Web.Controllers.User
         [Authorize(Roles = "Staff")]
         [HttpPost("AddPayment")]
 
-        public async Task<IActionResult> AddPayment(int childId, int parentId, int packageId, decimal amount, DateTime? paymentDate, IFormFile receiptFile)
+        public async Task<IActionResult> AddPayment(int childId, int parentId, int? packageId, decimal amount, DateTime? paymentDate, IFormFile receiptFile)
         {
 
             try
@@ -759,6 +759,10 @@ namespace Web.Controllers.User
                 }
 
                 Core.Models.User user = await _userManager.GetUserAsync(User);
+                //if(packageId == null)
+                //{
+                //    packageId = 0; // Default to 0 if no package is selected
+                //}
                 var paymentId = await _paymentService.AddAndReturnIdAsync(childId, parentId, packageId, amount, paymentDate, receiptPath, user);
                 var result = await _balanceService.AddPaymentToBalanceAsync(childId, paymentId, amount, user.Id);
                 if (result)

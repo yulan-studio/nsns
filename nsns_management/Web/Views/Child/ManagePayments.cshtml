@@ -40,10 +40,10 @@
             {
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@payment.Parent.Name</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@payment.PaymentPackage.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;"> @(payment.PaymentPackage != null ? payment.PaymentPackage.Title : "Custom Payment")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">$@payment.Amount</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@(payment.PaymentDate.HasValue? payment.PaymentDate.Value.ToString("yyyy-MM-dd") : "")</td>
-                    <td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
                         @if (!string.IsNullOrEmpty(payment.Receipt))
 
                         {
@@ -111,7 +111,7 @@
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
     <b>Add Payment for @Model.Child.Name</b>
     <div style="margin-bottom: 10px;"></div>
-    <form method="post" action="/Child/AddPayment" enctype="multipart/form-data">
+  @*   <form method="post" action="/Child/AddPayment" enctype="multipart/form-data">
         <input type="hidden" name="childId" value="@Model.Child.ChildID" />
 
         <label for="parentId">Select Parent:</label>
@@ -123,31 +123,21 @@
             }
         </select>
 
-        <div style="padding-top: 5px"></div>
+        <div style="padding-top: 5px"></div> *@
 
-        @*  <label for="packageId">Select Payment Package:</label>
-        <select id="packageId" name="packageId" required onchange="fetchPackageAmount(this.value)">
-            <option value="">-- Select Package --</option>
-            @foreach (var package in ViewBag.PaymentPackages)
-            {
-                <option value="@package.Value">@package.Text</option>
-            }
-        </select>
 
-        <label for="amount">Amount:</label>
-        <input name="amount"  required readonly /> *@
 
         <!-- Payment Type -->
-        <label>Payment Type:</label><br />
+@*         <label>Payment Type:</label><br />
         <input type="radio" id="packagePayment" name="paymentType" value="package" checked onchange="toggleAmountField()">
         <label for="packagePayment">Payment with Package</label>
         <input type="radio" id="manualPayment" name="paymentType" value="manual" onchange="toggleAmountField()">
         <label for="manualPayment">Payment without Package</label>
 
-        <div style="padding-top: 5px"></div>
+        <div style="padding-top: 5px"></div> *@
 
         <!-- Package selection -->
-        <div id="packageDiv">
+     @*    <div id="packageDiv">
             <label for="packageId">Select Payment Package:</label>
             <select id="packageId" name="packageId" onchange="fetchPackageAmount(this.value)">
                 <option value="">-- Select Package --</option>
@@ -158,16 +148,12 @@
             </select>
         </div>
 
-        <!-- Manual amount -->
-        <div id="manualDiv" style="display:none; padding-top: 5px;">
-            <label for="manualAmount">Enter Amount:</label>
-            <input type="number" id="manualAmount" name="manualAmount" min="0" step="1" />
-        </div>
+       
 
-        <div style="padding-top: 5px"></div>
+        <div style="padding-top: 5px"></div> *@
 
         <!-- Amount field (readonly if package) -->
-        <label for="amount">Amount:</label>
+   @*      <label for="amount">Amount:</label>
         <input id="amount" name="amount" required readonly />
 
         <div style="padding-top: 5px"></div>
@@ -183,36 +169,107 @@
         <div style="padding-top: 5px"></div>
 
         <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Add Payment</button>
+    </form> *@
+
+    <form method="post" action="/Child/AddPayment" enctype="multipart/form-data">
+        <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td style="padding: 8px; width: 200px;"><label for="parentId">Select Parent:</label></td>
+                <td>
+                    <select id="parentId" name="parentId" required style="width: 20%;">
+                        <option value="">-- Select Parent --</option>
+                        @foreach (var parent in ViewBag.ParentList)
+                        {
+                            <option value="@parent.Value">@parent.Text</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="padding: 8px;"><label>Payment Type:</label></td>
+                <td>
+                    <input type="radio" id="packagePayment" name="paymentType" value="package" checked onchange="toggleAmountField()">
+                    <label for="packagePayment">Payment with Package</label>
+                    &nbsp;&nbsp;
+                    <input type="radio" id="manualPayment" name="paymentType" value="manual" onchange="toggleAmountField()">
+                    <label for="manualPayment">Payment without Package</label>
+                </td>
+            </tr>
+
+            <tr id="packageRow">
+                <td style="padding: 8px;"><label for="packageId">Select Package:</label></td>
+                <td>
+                    <select id="packageId" name="packageId" onchange="fetchPackageAmount(this.value)" style="width: 20%;">
+                        <option value="">-- Select Package --</option>
+                        @foreach (var package in ViewBag.PaymentPackages)
+                        {
+                            <option value="@package.Value">@package.Text</option>
+                        }
+                    </select>
+                </td>
+            </tr>
+
+           @*  <tr id="manualRow" style="display:none;">
+                <td style="padding: 8px;"><label for="manualAmount">Enter Amount:</label></td>
+                <td><input type="number" id="manualAmount" name="manualAmount" min="0" step="1" style="width: 20%;" /></td>
+            </tr> *@
+
+            <tr>
+                <td style="padding: 8px;"><label for="amount">Amount:</label></td>
+                <td><input id="amount" name="amount" required readonly style="width: 20%;" /></td>
+            </tr>
+
+            <tr>
+                <td style="padding: 8px;"><label for="receiptFile">Upload Receipt:</label></td>
+                <td><input type="file" name="receiptFile" accept="image/*" required style="width: 20%;" /></td>
+            </tr>
+
+            <tr>
+                <td style="padding: 8px;"><label for="paymentDate">Payment Date:</label></td>
+                <td><input type="date" name="paymentDate" required style="width: 20%;" /></td>
+            </tr>
+
+            <tr>
+                <td style="padding: 8px;">
+                    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 5px;">
+                        Add Payment
+                    </button>
+                </td>
+                <td>
+                   
+                </td>
+            </tr>
+        </table>
     </form>
+
+
 </div>
 
 
 @section Scripts {
     <script>
         function toggleAmountField() {
+           //alert("toggleAmountField called");
             var isPackage = document.getElementById('packagePayment').checked;
-            document.getElementById('packageDiv').style.display = isPackage ? 'block' : 'none';
-            document.getElementById('manualDiv').style.display = isPackage ? 'none' : 'block';
+
+            //document.getElementById('packageDiv').style.display = isPackage ? 'block' : 'none';
+            // Toggle the <tr> rows
+            document.getElementById('packageRow').style.display = isPackage ? 'table-row' : 'none';
             document.getElementById('amount').readOnly = isPackage;
+
             if (!isPackage) {
-                document.getElementById('amount').value = document.getElementById('manualAmount').value || '';
+                document.getElementById('amount').value = ''; // clear for manual entry
             }
         }
 
-        // Update amount when manual amount changes
-        document.getElementById('manualAmount').addEventListener('input', function () {
-            document.getElementById('amount').value = this.value;
-        });
-
         // Fetch package amount (existing function)
-        //function fetchPackageAmount(packageId) {
-            // Your existing logic to get package amount, e.g., via AJAX
-            // Example:
-            // document.getElementById('amount').value = fetchedAmount;
-        //}
 
 
             function fetchPackageAmount(packageId) {
+
             if (!packageId) {
                 document.querySelector("input[name='amount']").value = "";
                 return;

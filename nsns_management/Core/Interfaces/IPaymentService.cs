@@ -22,7 +22,7 @@ namespace Core.Interfaces
 
         Task<IEnumerable<PaymentPackage>> GetAllActivePackagesAsync();
         //Task<bool> AddAsync(int childId, int parentId, int packageId, decimal amount, DateTime? paymentDate, string receiptPath, User user);
-        Task<int> AddAndReturnIdAsync(int childId, int parentId, int packageId, decimal amount, DateTime? paymentDate, string receiptPath, User user);
+        Task<int> AddAndReturnIdAsync(int childId, int parentId, int? packageId, decimal amount, DateTime? paymentDate, string receiptPath, User user);
         Task<bool> UpdateAsync(Payment payment);
         Task<bool> RemoveAsync(int paymentId);
     }

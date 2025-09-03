@@ -74,7 +74,7 @@ namespace Core.Services
         }
 
         // 🔹 Add a new payment
-        public async Task<int> AddAndReturnIdAsync(int childId, int parentId, int packageId, decimal amount, DateTime? paymentDate, string receiptPath, User user)
+        public async Task<int> AddAndReturnIdAsync(int childId, int parentId, int? packageId, decimal amount, DateTime? paymentDate, string receiptPath, User user)
         {
             
             var createdBy = 1;
