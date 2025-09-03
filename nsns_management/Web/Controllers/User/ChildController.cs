@@ -126,7 +126,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(string memberID, string name, DateTime birthDate, string gender, int cityId, string email, string password, bool hasOAP)
+        public async Task<IActionResult> Add (string name, DateTime birthDate, string gender, int cityId, string email, string password, bool hasOAP)
         {
             if (!ModelState.IsValid)
             {
@@ -136,7 +136,7 @@ namespace Web.Controllers.User
             try
             {
                 Core.Models.User user = await _userManager.GetUserAsync(User);
-                var result = await _childService.AddAsync(memberID, name, birthDate, gender, cityId, email, password, hasOAP, user);
+                var result = await _childService.AddAsync( name, birthDate, gender, cityId, email, password, hasOAP, user);
                 if (!result)
                 {
                     ModelState.AddModelError(string.Empty, "Failed in adding the child info.");
@@ -299,27 +299,28 @@ namespace Web.Controllers.User
             return View(child);
         }
 
-        
 
-        // POST: Create
+
+        [Authorize(Roles = "Staff")]
         [HttpPost("CoreInfo/{childId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CoreInfo(int childId, string memberID, string address, int OAPAmount, string primaryDiagnosis, bool photoConsent)
+        public async Task<IActionResult> CoreInfo(int childId, string memberID, string address, /*int OAPAmount, */string primaryDiagnosis, bool photoConsent)
         {
             var child = await _childService.GetAsync(childId);
             if (ModelState.IsValid)
             {
                 
-                await _childService.UpdateAsync(childId, memberID, address, OAPAmount, primaryDiagnosis, photoConsent);
+                await _childService.UpdateAsync(childId, memberID, address, /*OAPAmount,*/ primaryDiagnosis, photoConsent);
                 
                 //return RedirectToAction(nameof(CoreInfo), new { id = childId });
                 //return RedirectToAction("CoreInfo", "Child", new { id = childId });
-                return RedirectToAction("CoreInfo", new { childId });
+                return RedirectToAction("MoreInfo", new { childId });
             }
-            return View(child);
+            else
+                return View(child);
         }
 
-
+        [Authorize(Roles = "Staff")]
         [HttpPost("AddEmergencyContact/{childId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddEmergencyContact(int childId, string contactName, string relationship, string phone, string email)
@@ -336,12 +337,15 @@ namespace Web.Controllers.User
                
                 await _emergencyContactService.AddAsync(contact);
                 //return RedirectToAction(nameof(CoreInfo), new { id = childId });
-                return RedirectToAction("CoreInfo", "Child", new { id = childId });
+                //return RedirectToAction("CoreInfo", "Child", new { id = childId });
+                return RedirectToAction("MoreInfo", new { childId });
             }
             //return RedirectToAction(nameof(CoreInfo), new { id = childId });
-            return RedirectToAction("CoreInfo", "Child", new { id = childId });
+            //return RedirectToAction("CoreInfo", "Child", new { id = childId });
+            return RedirectToAction("MoreInfo", new { childId });
         }
 
+        [Authorize(Roles = "Staff")]
         [HttpPost("DeleteEmergencyContact/{contactId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteEmergencyContact(int contactId, int childId)
@@ -352,7 +356,8 @@ namespace Web.Controllers.User
                 await _emergencyContactService.DeleteAsync(contactId);
             }
             //return RedirectToAction(nameof(CoreInfo), new { id = childId });
-            return RedirectToAction("CoreInfo", "Child", new { id = childId });
+            //return RedirectToAction("CoreInfo", "Child", new { id = childId });
+            return RedirectToAction("MoreInfo", new { childId });
         }
 
 
@@ -386,9 +391,57 @@ namespace Web.Controllers.User
 
 
 
+        //[Authorize(Roles = "Staff")]
+        //[HttpGet("ManageParents/{childId}")]
+        //public async Task<IActionResult> ManageParents(int childId)
+        //{
+        //    var child = await _childService.GetAsync(childId);
+        //    if (child == null)
+        //    {
+        //        TempData["ErrorMessage"] = "Child not found.";
+        //        return RedirectToAction("List");
+        //    }
+
+        //    var parents = await _parentChildService.GetParentsByChildIdAsync(childId);
+
+
+        //    var model = new ManageParentsViewModel
+        //    {
+        //        Child = child,
+        //        Parents = parents
+        //    };
+
+        //    return View(model);
+        //}
+
+
+        //[Authorize(Roles = "Staff")]
+        //[HttpGet("Parents/{childId}")]
+        //public async Task<IActionResult> Parents(int childId)
+        //{
+        //    var child = await _childService.GetAsync(childId);
+        //    if (child == null)
+        //    {
+        //        TempData["ErrorMessage"] = "Child not found.";
+        //        return RedirectToAction("List");
+        //    }
+
+        //    var parents = await _parentChildService.GetParentsByChildIdAsync(childId);
+
+
+        //    var model = new ManageParentsViewModel
+        //    {
+        //        Child = child,
+        //        Parents = parents
+        //    };
+
+        //    return View(model);
+        //}
+
+
         [Authorize(Roles = "Staff")]
-        [HttpGet("ManageParents/{childId}")]
-        public async Task<IActionResult> ManageParents(int childId)
+        [HttpGet("Parents/{childId}")]
+        public async Task<IActionResult> Parents(int childId, int? editParentId = null)
         {
             var child = await _childService.GetAsync(childId);
             if (child == null)
@@ -406,23 +459,30 @@ namespace Web.Controllers.User
                 Parents = parents
             };
 
+            ViewBag.EditParentId = editParentId; // tells view which row is in edit mode
+
             return View(model);
-        }
-
-
-        [Authorize(Roles = "Staff")]
-        [HttpGet("MoreInfo/{childId}")]
-        public async Task<IActionResult> MoreInfo(int childId)
-        {
-            var child = await _childService.GetAsync(childId);
-            if (child == null)
-            {
-                TempData["ErrorMessage"] = "Child not found.";
-                return RedirectToAction("List");
-            }
 
             
 
+            
+
+            
+        }
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("MoreInfo/{childId}")]
+        public async Task<IActionResult> MoreInfo(int childId, string tab = "CoreInfo", int? editParentId = null)
+        {
+            var child = await _childService.GetAsync(childId);
+            //if (child == null)
+            //{
+            //    TempData["ErrorMessage"] = "Child not found.";
+            //    return RedirectToAction("List");
+            //}
+
+            ViewBag.ActiveTab = tab;
+            ViewBag.EditParentId = editParentId; // pass to view
             return View(child);
         }
 
@@ -500,13 +560,13 @@ namespace Web.Controllers.User
         //}
 
 
-        [Authorize(Roles = "Staff")]
-        [HttpGet("AddParent")]
-        public async Task<IActionResult> AddParent(int childId)
-        {
-            ViewBag.ChildId = childId;
-            return View();
-        }
+        //[Authorize(Roles = "Staff")]
+        //[HttpGet("AddParent")]
+        //public async Task<IActionResult> AddParent(int childId)
+        //{
+        //    ViewBag.ChildId = childId;
+        //    return View();
+        //}
 
 
 
@@ -515,7 +575,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("AddParent")]
-        public async Task<IActionResult> AddParent(int childId, string parentName, string relationship, string phone, string email, string wechat)
+        public async Task<IActionResult> AddParent(int childId, string Name, string Email, string Phone, string Wechat, string Relationship)
         {
             try
             {
@@ -523,10 +583,10 @@ namespace Web.Controllers.User
                 var user = await _userManager.GetUserAsync(User);
                 var newParent = new Parent
                 {
-                    Name = parentName,
-                    Phone = phone,
-                    Email = email,
-                    Wechat = wechat,
+                    Name = Name,
+                    Phone = Phone,
+                    Email = Email,
+                    Wechat = Wechat,
                     CreatedBy = user.Id, // Assume the user ID of admin/creator
                     CreatedDate = DateTime.UtcNow
                 };
@@ -536,11 +596,11 @@ namespace Web.Controllers.User
                 if (parentId == 0)
                 {
                     TempData["ErrorMessage"] = "Failed to add parent.";
-                    return RedirectToAction("ManageParents", new { childId });
+                    //return RedirectToAction("ManageParents", new { childId });
                 }
 
 
-                var success = await _parentChildService.AddParentToChild(parentId, newParent, childId, relationship, user.Id); // Assuming CreatedBy = 1
+                var success = await _parentChildService.AddParentToChild(parentId, newParent, childId, Relationship, user.Id); // Assuming CreatedBy = 1
                 if (!success)
                 {
                     TempData["ErrorMessage"] = "Failed to add parent to child.";
@@ -555,75 +615,105 @@ namespace Web.Controllers.User
                 TempData["ErrorMessage"] = $"{ex.Message}";
             }
 
-            return RedirectToAction("ManageParents", new { childId });
+            //return RedirectToAction("Parents", new { childId });
+
+            //return RedirectToAction("MoreInfo", new { childId });
+
+            return RedirectToAction("MoreInfo", new { childId, tab = "Parents" });
         }
+
+        //[Authorize(Roles = "Staff")]
+        //[HttpGet("EditParent /{parentId}")]
+        //public async Task<IActionResult> EditParent(int childId, int parentId/*, string parentName, string relationship, string phone, string email, string wechat*/)
+        //{
+        //    ViewBag.ChildId = childId;
+        //    Parent parent = await _parentService.GetParentByIdAsync(parentId);
+        //    return View(parent);
+        //}
+
+
+        //[Authorize(Roles = "Staff")]
+        //[HttpPost("EditParent")]
+
+        //public async Task<IActionResult> EditParent(Parent parent)
+        //{
+
+        //    var childId = ViewBag.ChildId;
+
+        //    try
+        //    {
+        //        var result = await _parentService.UpdateAsync(parent);
+        //        if (result == true)
+        //        {
+        //            TempData["SuccessMessage"] = "Parent info updated";
+        //        }
+        //        else
+        //        {
+        //            TempData["ErrorMessage"] = "Parent info not updated";
+        //        }
+        //        //return RedirectToAction("ManageParents");
+        //        return RedirectToAction("ManageParents", new { childId });
+        //    }
+
+        //    catch (Exception ex)
+        //    {
+        //        TempData["ErrorMessage"] = ex.Message;
+        //        return RedirectToAction("ManageParents", new { childId });
+        //    }
+        //}
 
         [Authorize(Roles = "Staff")]
-        [HttpGet("EditParent /{parentId}")]
-        public async Task<IActionResult> EditParent(int childId, int parentId/*, string parentName, string relationship, string phone, string email, string wechat*/)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateParent(int ParentChildID, int ChildID, string Name, string Email, string Phone, string Wechat, string Relationship)
         {
-            ViewBag.ChildId = childId;
-            Parent parent = await _parentService.GetParentByIdAsync(parentId);
-            return View(parent);
+           
+
+            var parentChild = await _parentChildService.GetParentByParentChildIdAsync(ParentChildID);
+            if (parentChild != null)
+            {
+                var parent = parentChild.Parent;
+                parent.Name = Name;
+                parent.Email = Email;
+                parent.Phone = Phone;
+                parent.Wechat = Wechat;
+                //parent.Relationship = Relationship;
+
+                await _parentService.UpdateAsync(parent);
+                TempData["SuccessMessage"] = "Parent updated successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Parent not found.";
+            }
+
+            //return RedirectToAction("MoreInfo", new { childId = ChildID });
+            return RedirectToAction("MoreInfo", new { ChildID, tab = "Parents" });
         }
 
+        //[Authorize(Roles = "Staff")]
+        //[HttpGet("ConfirmDeleteParent/{parentId}")]
+        //public async Task<IActionResult> ConfirmDeleteParent(int parentChildId, int childId, int parentId)
+        //{
+        //    try
+        //    {
+        //        ViewBag.ChildId = childId;
+        //        ViewBag.ParentChildId = parentChildId;
 
-        [Authorize(Roles = "Staff")]
-        [HttpPost("EditParent")]
-        //public async Task<IActionResult> EditParent(int parentId, string parentName, string relationship, string phone, string email, string wechat)
-        public async Task<IActionResult> EditParent(Parent parent)
-        {
-            //ViewBag.ParentId = parentId;
-            var childId = ViewBag.ChildId;
-            //Parent parent = await _parentService.GetParentByIdAsync(parentId);
-            try
-            {
-                var result = await _parentService.UpdateAsync(parent);
-                if (result == true)
-                {
-                    TempData["SuccessMessage"] = "Parent info updated";
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = "Parent info not updated";
-                }
-                //return RedirectToAction("ManageParents");
-                return RedirectToAction("ManageParents", new { childId });
-            }
-
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;
-                return RedirectToAction("ManageParents", new { childId });
-            }
-        }
-            
-       
-
-
-        [Authorize(Roles = "Staff")]
-        [HttpGet("ConfirmDeleteParent/{parentId}")]
-        public async Task<IActionResult> ConfirmDeleteParent(int parentChildId, int childId, int parentId)
-        {
-            try
-            {
-                ViewBag.ChildId = childId;
-                ViewBag.ParentChildId = parentChildId;
-
-                var parent = await _parentService.GetParentByIdAsync(parentId);
-                return View(parent);
-            }
-            catch (Exception ex)
-            {
-                TempData["ErrorMessage"] = $"{ex.Message}";
-                return RedirectToAction("ManageParents", new { childId });
-            }
-        }
+        //        var parent = await _parentService.GetParentByIdAsync(parentId);
+        //        return View(parent);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        TempData["ErrorMessage"] = $"{ex.Message}";
+        //        return RedirectToAction("ManageParents", new { childId });
+        //    }
+        //}
 
 
         [Authorize(Roles = "Staff")]
         [HttpPost("DeleteParentConfirmed")]
-        public async Task<IActionResult> DeleteParentConfirmed(int parentChildId, int childId, int parentId)
+        public async Task<IActionResult> DeleteParent(int parentChildId, int childId, int parentId)
         {
             try
             {
@@ -638,13 +728,13 @@ namespace Web.Controllers.User
                 {
                     TempData["SuccessMessage"] = "Parent removed successfully.";
                 }
-                return RedirectToAction("ManageParents", new { childId });
-
+                return RedirectToAction("MoreInfo", new { childId, tab = "Parents" });
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"{ex.Message}";
-                return RedirectToAction("ManageParents", new { childId });
+                //return RedirectToAction("MoreInfo", new { childId });
+                return RedirectToAction("MoreInfo", new { childId, tab = "Parents" });
             }
 
         }

@@ -13,7 +13,7 @@
 <h2>Core Information</h2>
 
 <form asp-action="CoreInfo" method="post">
- 
+
 
     <table style="border-collapse: collapse; width: 50%; text-align: left;">
 
@@ -43,12 +43,12 @@
                 <input asp-for="Address" class="form-control" />
             </td>
         </tr>
-        <tr>
+     @*    <tr>
             <td style="padding: 8px;"><label asp-for="OAPAmount"></label></td>
             <td style="padding: 8px;">
                 <input asp-for="OAPAmount" type="number" class="form-control" />
             </td>
-        </tr>
+        </tr> *@
         <tr>
             <td style="padding: 8px;"><label asp-for="PhotoConsent"></label></td>
             <td style="padding: 8px;">
@@ -57,10 +57,10 @@
         </tr>
     </table>
 
-   
+
 
     <br /><br />
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save</button>
 </form>
 
 
@@ -68,62 +68,58 @@
 
 <h4>Emergency Contacts</h4>
 
-@* <form asp-action="EmergencyContacts" method="post">
-<table class="table">
+
+
+
+
+
+
+
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
-        <tr>
-            <th>Name</th>
-            <th>Relationship</th>
-            <th>Phone</th>
-            <th>Email</th>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">Name</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Relationship</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Phone</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Email</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Action</th>
         </tr>
     </thead>
-    <tbody id="contact-rows">
-        <tr>
-            <td><input name="EmergencyContacts[0].Name" class="form-control" /></td>
-            <td><input name="EmergencyContacts[0].Relationship" class="form-control" /></td>
-            <td><input name="EmergencyContacts[0].Phone" class="form-control" /></td>
-            <td><input name="EmergencyContacts[0].Email" class="form-control" /></td>
-        </tr>
+
+    <tbody>
+        @foreach (var ec in Model.EmergencyContacts)
+        {
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ddd;">@ec.ContactName</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">@ec.Relationship</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">@ec.Phone</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">@ec.Email</td>
+                <td style="padding: 8px; border: 1px solid #ddd;">
+                    <form asp-action="DeleteEmergencyContact" asp-route-contactId="@ec.EmergencyContactID" method="post">
+                        @Html.AntiForgeryToken()
+                        @* <input type="hidden" name="contactId" value="@ec.EmergencyContactID" /> *@
+                        <input type="hidden" name="childId" value="@Model.ChildID" />
+                        <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-    <button type="button" class="btn btn-primary" onclick="addRow()">Add Contact</button>
 
-</form>
- *@
+<div style="margin-bottom: 50px;"></div>
 
-
-
-<table>
-    @foreach (var ec in Model.EmergencyContacts)
-    {
-        <tr>
-            <td>@ec.ContactName</td>
-            <td>@ec.Relationship</td>
-            <td>@ec.Phone</td>
-            <td>@ec.Email</td>
-            <td>
-                <form asp-action="DeleteEmergencyContact" method="post">
-                    @Html.AntiForgeryToken()
-                    <input type="hidden" name="contactId" value="@ec.EmergencyContactID" />
-                    <input type="hidden" name="childId" value="@Model.ChildID" />
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-    }
-</table>
-
-<form asp-action="AddEmergencyContact" asp-controller="Child" asp-route-childId="@Model.ChildID"  method="post">
+<form asp-action="AddEmergencyContact" asp-controller="Child" asp-route-childId="@Model.ChildID" method="post">
     @Html.AntiForgeryToken()
-  @*   <input type="hidden" name="childId" value="@Model.ChildID" /> *@
+    @*   <input type="hidden" name="childId" value="@Model.ChildID" /> *@
     <input name="contactName" placeholder="ContactName" />
     <input name="relationship" placeholder="Relationship" />
     <input name="phone" placeholder="Phone" />
     <input name="email" placeholder="Email" />
-    <button type="submit">Add Contact</button>
+    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Add Contact</button>
 </form>
 
+<div style="margin-bottom: 50px;"></div>
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

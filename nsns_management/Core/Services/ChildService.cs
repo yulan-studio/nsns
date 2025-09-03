@@ -71,7 +71,7 @@ namespace Core.Services
         }
 
 
-        public async Task<bool> AddAsync(string memberID, string name, DateTime? birthDate, string? gender, int? cityId, string email, string password, bool hasOAP, User user)
+        public async Task<bool> AddAsync(string name, DateTime? birthDate, string? gender, int? cityId, string email, string password, bool hasOAP, User user)
         {
 
             // Check if a user with the same username or email already exists
@@ -161,7 +161,7 @@ namespace Core.Services
 
 
 
-        public async Task<bool> UpdateAsync(int childId, string memberID, string address, int OAPAmount,  string primaryDiagnosis, bool photoConsent/*, string password*/)
+        public async Task<bool> UpdateAsync(int childId, string memberID, string address, /*int OAPAmount,*/  string primaryDiagnosis, bool photoConsent/*, string password*/)
         {
             // Find the coach by ID
             var child = await _childRepository.GetAsync(childId);
@@ -173,7 +173,7 @@ namespace Core.Services
             // Update fields
             child.MemberID = memberID;
             child.Address = address;
-            child.OAPAmount = OAPAmount;
+            //child.OAPAmount = OAPAmount;
             child.PrimaryDiagnosis = primaryDiagnosis;
             child.PhotoConsent = photoConsent;
            
