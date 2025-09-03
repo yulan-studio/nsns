@@ -104,12 +104,6 @@ namespace Web.Controllers.User
             return View(childrenWithDelete);
 
 
-            //var children = await _childService.GetAllAsync();
-            //ViewBag.ParentList = (await _parentService.GetAllParentsAsync())
-            //    .Select(p => new SelectListItem { Value = p.ParentID.ToString(), Text = p.Name })
-            //    .ToList();
-
-            //return View(children);
 
         }
 
@@ -157,35 +151,6 @@ namespace Web.Controllers.User
 
             }
 
-
-            //City city = cityId.HasValue ? await _cityService.GetAsync(cityId) : null;
-            ////child.City = city;
-            ////child.Role = "Child";
-            //try
-            //{
-            //    var result = await _childService.AddAsync(child);
-            //    if (!result)
-            //    {
-            //        ModelState.AddModelError(string.Empty, "Failed in adding the coach info.");
-
-
-            //        // Repopulate CityList for the dropdown if validation fails
-
-            //        ViewBag.CityList = await GetCityList();
-            //        return View();
-            //    }
-            //    TempData["SuccessMessage"] = "Child info has been added successfully.";
-            //    return RedirectToAction("List"); // Redirect to the child list page
-
-            //}
-
-            //catch (Exception ex)
-            //{
-            //    ModelState.AddModelError(String.Empty, $"Error: {ex.Message}");
-            //    // Repopulate CityList for the dropdown if validation fails
-            //    ViewBag.CityList = await GetCityList();
-            //    return View();
-            //}
         }
 
         [Authorize(Roles = "Staff")]
@@ -311,9 +276,7 @@ namespace Web.Controllers.User
             {
                 
                 await _childService.UpdateAsync(childId, memberID, address, /*OAPAmount,*/ primaryDiagnosis, photoConsent);
-                
-                //return RedirectToAction(nameof(CoreInfo), new { id = childId });
-                //return RedirectToAction("CoreInfo", "Child", new { id = childId });
+
                 return RedirectToAction("MoreInfo", new { childId });
             }
             else
@@ -336,12 +299,10 @@ namespace Web.Controllers.User
                 contact.ChildID = childId;
                
                 await _emergencyContactService.AddAsync(contact);
-                //return RedirectToAction(nameof(CoreInfo), new { id = childId });
-                //return RedirectToAction("CoreInfo", "Child", new { id = childId });
+
                 return RedirectToAction("MoreInfo", new { childId });
             }
-            //return RedirectToAction(nameof(CoreInfo), new { id = childId });
-            //return RedirectToAction("CoreInfo", "Child", new { id = childId });
+
             return RedirectToAction("MoreInfo", new { childId });
         }
 
@@ -355,88 +316,12 @@ namespace Web.Controllers.User
             {
                 await _emergencyContactService.DeleteAsync(contactId);
             }
-            //return RedirectToAction(nameof(CoreInfo), new { id = childId });
-            //return RedirectToAction("CoreInfo", "Child", new { id = childId });
+
             return RedirectToAction("MoreInfo", new { childId });
         }
 
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> AddParent(int childId, int parentId)
-        //{
-        //    var pc = new ParentChild { ChildID = childId, ParentID = parentId };
-        //    _parentChildService.AddParentToChild()
-        //    _context.ParentChildren.Add(pc);
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(CoreInfo), new { id = childId });
-        //}
 
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteParent(int childId, int parentId)
-        //{
-        //    var pc = await _context.ParentChildren
-        //        .FirstOrDefaultAsync(x => x.ChildID == childId && x.ParentID == parentId);
-
-        //    if (pc != null)
-        //    {
-        //        _context.ParentChildren.Remove(pc);
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    return RedirectToAction(nameof(CoreInfo), new { id = childId });
-        //}
-
-
-
-
-        //[Authorize(Roles = "Staff")]
-        //[HttpGet("ManageParents/{childId}")]
-        //public async Task<IActionResult> ManageParents(int childId)
-        //{
-        //    var child = await _childService.GetAsync(childId);
-        //    if (child == null)
-        //    {
-        //        TempData["ErrorMessage"] = "Child not found.";
-        //        return RedirectToAction("List");
-        //    }
-
-        //    var parents = await _parentChildService.GetParentsByChildIdAsync(childId);
-
-
-        //    var model = new ManageParentsViewModel
-        //    {
-        //        Child = child,
-        //        Parents = parents
-        //    };
-
-        //    return View(model);
-        //}
-
-
-        //[Authorize(Roles = "Staff")]
-        //[HttpGet("Parents/{childId}")]
-        //public async Task<IActionResult> Parents(int childId)
-        //{
-        //    var child = await _childService.GetAsync(childId);
-        //    if (child == null)
-        //    {
-        //        TempData["ErrorMessage"] = "Child not found.";
-        //        return RedirectToAction("List");
-        //    }
-
-        //    var parents = await _parentChildService.GetParentsByChildIdAsync(childId);
-
-
-        //    var model = new ManageParentsViewModel
-        //    {
-        //        Child = child,
-        //        Parents = parents
-        //    };
-
-        //    return View(model);
-        //}
 
 
         [Authorize(Roles = "Staff")]
@@ -486,90 +371,6 @@ namespace Web.Controllers.User
             return View(child);
         }
 
-        //[Authorize(Roles = "Staff")]
-        //[HttpPost("AddParentToChild")]
-        //public async Task<IActionResult> AddParentToChild(int childId, string parentName, string relationship, string phone,string email, string wechat)
-        //{
-        //    try
-        //    {
-        //        // ✅ 1. Create a new Parent object
-        //        var user = await _userManager.GetUserAsync(User);
-        //        var newParent = new Parent
-        //        {
-        //            Name = parentName,
-        //            Phone = phone,
-        //            Email = email,
-        //            Wechat = wechat,
-        //            CreatedBy = user.Id, // Assume the user ID of admin/creator
-        //            CreatedDate = DateTime.UtcNow
-        //        };
-
-        //        // ✅ 2. Save the parent in the database
-        //        var parentId = await _parentService.AddAndReturnIdAsync(newParent);
-        //        if (parentId == 0)
-        //        {
-        //            TempData["ErrorMessage"] = "Failed to add parent.";
-        //            return RedirectToAction("ManageParents", new { childId });
-        //        }
-
-
-        //        var success = await _parentChildService.AddParentToChild(parentId, newParent, childId, relationship, user.Id); // Assuming CreatedBy = 1
-        //        if (!success)
-        //        {
-        //            TempData["ErrorMessage"] = "Failed to add parent to child.";
-        //        }
-        //        else
-        //        {
-        //            TempData["SuccessMessage"] = "Parent added to child successfully.";
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["ErrorMessage"] = $"{ex.Message}";
-        //    }
-
-        //    return RedirectToAction("ManageParents", new { childId });
-        //}
-
-        //[Authorize(Roles = "Staff")]
-        //[HttpPost("RemoveParentFromChild")]
-        //public async Task<IActionResult> RemoveParentFromChild(int parentChildId, int childId, int parentId)
-        //{
-        //    try
-        //    {
-
-        //        var success = await _parentChildService.RemoveParentFromChild(parentChildId);
-        //        success = await _parentService.DeleteAsync(parentId);
-        //        if (!success)
-        //        {
-        //            TempData["ErrorMessage"] = "Failed to remove parent.";
-        //        }
-        //        else
-        //        {
-        //            TempData["SuccessMessage"] = "Parent removed successfully.";
-        //        }
-
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        TempData["ErrorMessage"] = $"{ex.Message}";
-        //    }
-
-        //    return RedirectToAction("ManageParents", new { childId });
-        //}
-
-
-        //[Authorize(Roles = "Staff")]
-        //[HttpGet("AddParent")]
-        //public async Task<IActionResult> AddParent(int childId)
-        //{
-        //    ViewBag.ChildId = childId;
-        //    return View();
-        //}
-
-
-
 
 
 
@@ -615,52 +416,11 @@ namespace Web.Controllers.User
                 TempData["ErrorMessage"] = $"{ex.Message}";
             }
 
-            //return RedirectToAction("Parents", new { childId });
-
-            //return RedirectToAction("MoreInfo", new { childId });
 
             return RedirectToAction("MoreInfo", new { childId, tab = "Parents" });
         }
 
-        //[Authorize(Roles = "Staff")]
-        //[HttpGet("EditParent /{parentId}")]
-        //public async Task<IActionResult> EditParent(int childId, int parentId/*, string parentName, string relationship, string phone, string email, string wechat*/)
-        //{
-        //    ViewBag.ChildId = childId;
-        //    Parent parent = await _parentService.GetParentByIdAsync(parentId);
-        //    return View(parent);
-        //}
-
-
-        //[Authorize(Roles = "Staff")]
-        //[HttpPost("EditParent")]
-
-        //public async Task<IActionResult> EditParent(Parent parent)
-        //{
-
-        //    var childId = ViewBag.ChildId;
-
-        //    try
-        //    {
-        //        var result = await _parentService.UpdateAsync(parent);
-        //        if (result == true)
-        //        {
-        //            TempData["SuccessMessage"] = "Parent info updated";
-        //        }
-        //        else
-        //        {
-        //            TempData["ErrorMessage"] = "Parent info not updated";
-        //        }
-        //        //return RedirectToAction("ManageParents");
-        //        return RedirectToAction("ManageParents", new { childId });
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        TempData["ErrorMessage"] = ex.Message;
-        //        return RedirectToAction("ManageParents", new { childId });
-        //    }
-        //}
+      
 
         [Authorize(Roles = "Staff")]
         [HttpPost]
