@@ -871,14 +871,15 @@ namespace Web.Controllers.User
                     Schedules = group.ToList()
                 }).ToList();
 
-
+            var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsByChildAsync(child.ChildID);
 
             var viewModel = new ChildSchedulesViewModel
             {
                 Child = child,
                 ChildID = child.ChildID,
                 CoursesSchedules = courseSchedulesList,
-                CoursesSchedulesToConfirm = courseSchedulesToConfirmList
+                CoursesSchedulesToConfirm = courseSchedulesToConfirmList,
+                ActivitySchedules = activityEnrollments
             };
 
             return View("MySchedules", viewModel);
