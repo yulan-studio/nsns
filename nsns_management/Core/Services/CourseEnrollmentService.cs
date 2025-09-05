@@ -581,6 +581,11 @@ namespace Core.Services
         {
             return await _enrollmentRepository.GetChildrenWithScheduleConcernsAsync();
         }
+
+        public async Task<List<int>> GeEnrollmentsWithScheduleConcernsAsync()
+        {
+            return await _enrollmentRepository.GetEnrollmentsWithScheduleConcernsAsync();
+        }
     }
 
 

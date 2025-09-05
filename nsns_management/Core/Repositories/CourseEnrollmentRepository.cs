@@ -285,6 +285,9 @@ namespace Core.Repositories
         }
 
 
+       
+
+
         //Here's how you can create a method to return a list of children who:
         //Have a group course session(EnrollmentID_Ref != null)
         //Status is "Registered"
@@ -297,6 +300,23 @@ namespace Core.Repositories
                     e.Status == "Registered" &&
                     !string.IsNullOrEmpty(e.ParentNote))
                 .Select(e => e.ChildID)
+                .Distinct()
+                .ToListAsync();
+        }
+
+
+        public async Task<List<int>> GetEnrollmentsWithScheduleConcernsAsync()
+        {
+           
+            return await _context.CourseEnrollments
+                .Where(e => e.ScheduledAt == null &&
+                    _context.CourseEnrollments.Any(f =>
+                        f.EnrollmentID_Ref != null &&
+                        f.Status == "Registered" &&
+                        !string.IsNullOrEmpty(f.ParentNote) &&
+                        f.CourseID == e.CourseID &&
+                        f.ChildID == e.ChildID))
+                .Select(e => e.EnrollmentID)
                 .Distinct()
                 .ToListAsync();
         }

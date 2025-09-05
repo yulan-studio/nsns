@@ -82,6 +82,8 @@ namespace Core.Interfaces
         Task<List<int?>> GetChildrenWithRequestsOrConcernsAsync();
 
         Task<List<int?>> GetChildrenWithConcernsAsync();
+
+        Task<List<int>> GeEnrollmentsWithScheduleConcernsAsync();
     }
 
 

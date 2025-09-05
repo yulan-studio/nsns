@@ -503,9 +503,9 @@ namespace Web.Controllers.User
         [HttpGet("ManageRegistrations/{childId}")]
         public async Task<IActionResult> ManageRegistrations(int childId)
         {
-            var childrenWithConcerns = await _courseEnrollmentService.GetChildrenWithConcernsAsync();
+            var enrollmentsWithConcerns = await _courseEnrollmentService.GeEnrollmentsWithScheduleConcernsAsync();
             //ViewBag.RequestConcernChildIds = childrenWithConcerns;
-            ViewData["ConcernChildIds"] = childrenWithConcerns;
+            ViewData["ConcernEnrollmentIds"] = enrollmentsWithConcerns;
 
 
             var child = await _childService.GetAsync(childId);

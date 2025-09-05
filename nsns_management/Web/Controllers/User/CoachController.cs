@@ -654,11 +654,11 @@ namespace Web.Controllers.User
             try
             {
                 bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, actualHours);
-                //bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
-                //bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id);
+                bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
+                bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id);
 
-                //if (result1 && result2 && result3)
-                if (result1)
+                if (result1 && result2 && result3)
+                //if (result1)
                 {
                     TempData["SuccessMessage"] = "Course Completed successfully.";
                 }
