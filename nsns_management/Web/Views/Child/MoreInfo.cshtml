@@ -12,6 +12,7 @@
 <ul class="nav nav-tabs mb-3">
     <li class="nav-item"><a class ="nav-link @(ViewBag.ActiveTab == "CoreInfo" ? "active" : "")" href="#" data-url="/Child/CoreInfo/@Model.ChildID">Core Member Information</a></li>
     <li class="nav-item"><a class="nav-link @(ViewBag.ActiveTab == "Parents" ? "active" : "")" href="#" data-url="/Child/Parents/@Model.ChildID">Parents</a></li>
+    <li class="nav-item"><a class="nav-link @(ViewBag.ActiveTab == "ManagePayments" ? "active" : "")" href="#" data-url="/Child/ManagePayments/@Model.ChildID">Manage Payments</a></li>
     @* <li class="nav-item"><a class="nav-link" href="#" data-url="/Child/ManageRegistrations/@Model.ChildID">Manage Registration</a></li> *@
     @*<li class="nav-item"><a class="nav-link" href="#" data-url="/Course/List?childId=@Model.Id">Courses</a></li> *@
 </ul>

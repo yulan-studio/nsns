@@ -769,18 +769,21 @@ namespace Web.Controllers.User
                 {
                     TempData["SuccessMessage"] = "Payment info has been added successfully.";
                     //return RedirectToAction("ManagePayments");
-                    return RedirectToAction("ManagePayments", new { childId });
+                    //return RedirectToAction("ManagePayments", new { childId });
+                    return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
                 }
                 else
                 {
                     TempData["ErrorMessage"] = "Payment info was not added.";
-                    return RedirectToAction("ManagePayments", new { childId });
+                    //return RedirectToAction("ManagePayments", new { childId });
+                    return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
                 }
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"{ex.Message}";
-                return RedirectToAction("ManagePayments", new { childId });
+                //return RedirectToAction("ManagePayments", new { childId });
+                return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
             }
         }
 
@@ -796,18 +799,21 @@ namespace Web.Controllers.User
                 if (result1 && result2)
                 {
                     TempData["SuccessMessage"] = "Payment info has been deleted.";
-                    return RedirectToAction("ManagePayments", new { childId });
+                    //return RedirectToAction("ManagePayments", new { childId });
+                    return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
                 }
                 else
                 {
                     TempData["ErrorMessage"] = "Payment info is not deleted.";
-                    return RedirectToAction("ManagePayments", new { childId });
+                    //return RedirectToAction("ManagePayments", new { childId });
+                    return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
                 }
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"{ex.Message}";
-                return RedirectToAction("ManagePayments", new { childId });
+                //return RedirectToAction("ManagePayments", new { childId });
+                return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
             }
 
 

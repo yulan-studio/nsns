@@ -122,10 +122,12 @@
 <div style="margin-bottom: 50px;"></div>
 
 @section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   @*  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        
         let rowIndex = 1;
         function addRow() {
+             alert("addRow called");
             let newRow = `
                 <tr>
                     <td><input name="EmergencyContacts[${rowIndex}].Name" class="form-control" /></td>
@@ -136,5 +138,5 @@
             document.getElementById("contact-rows").insertAdjacentHTML("beforeend", newRow);
             rowIndex++;
         }
-    </script>
+    </script> *@
 }
