@@ -33,7 +33,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Additional Info</th>
         @*     <th style="padding: 8px; border: 1px solid #ddd;">Payments</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Registrations</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Enrollments</th>
+            @*  <th style="padding: 8px; border: 1px solid #ddd;">Enrollments</th> *@
         </tr>
     </thead>
     <tbody>
@@ -76,9 +76,9 @@
                     <td style="padding: 8px; border: 1px solid #ddd; @(requestConcernIds.Contains(childWithDelete.Child.ChildID) ? "background-color: #F8C3DF;" : ""))">
                         <a href="/Child/ManageRegistrations/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>
                     </td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">
+                     @*<td style="padding: 8px; border: 1px solid #ddd;">
                         <a href="/Child/EnrollmentsHistory/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">View</a>
-                    </td>
+                    </td>*@
                    
                 </tr>
                 index++;
@@ -88,7 +88,7 @@
         @if (TempData["SuccessMessage"] != null)
         {
             <tr>
-                <td colspan="11">
+                <td colspan="10">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -99,7 +99,7 @@
         @if (TempData["ErrorMessage"] != null)
         {
             <tr>
-                <td colspan="11">
+                <td colspan="10">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>
