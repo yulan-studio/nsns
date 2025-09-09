@@ -1141,6 +1141,12 @@ namespace Web.Controllers.User
                                 existing.ParentNote = schedule.ParentNote;
                             }
 
+                            else if (existing.Status != "Canceled" && existing.Status != "Deleted" && schedule.Status == null)  //schedule.Status is null means Status dropdown list is enabled
+                            {
+                                //existing.Status = schedule.Status;
+                                existing.ParentNote = schedule.ParentNote;
+                            }
+
                             await _courseEnrollmentService.UpdateSessionAsync(existing);
                         }
                     }
