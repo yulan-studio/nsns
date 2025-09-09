@@ -549,8 +549,10 @@ namespace Web.Controllers.User
             {
                 throw new ArgumentException("Child not found");
             }
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var nowToronto = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
 
-            if (scheduledAt < DateTime.UtcNow)
+            if (scheduledAt < nowToronto)
             {
                 TempData["ErrorMessage"] = "Please choose a future time.";
             }
