@@ -84,6 +84,8 @@ namespace Core.Interfaces
         Task<List<int?>> GetChildrenWithConcernsAsync();
 
         Task<List<int>> GeEnrollmentsWithScheduleConcernsAsync();
+
+        Task<IEnumerable<CourseEnrollment>> GetWaitToCompleteByCourseChildAsync(int courseId, int childId);
     }
 
 

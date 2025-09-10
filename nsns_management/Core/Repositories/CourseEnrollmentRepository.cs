@@ -187,6 +187,22 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+
+        public async Task<IEnumerable<CourseEnrollment>> GetOverduedEnrollmentsByCourseChildAsync(int courseId, int childId, string status)
+        {
+            return await _context.CourseEnrollments
+                .Include(e => e.Child)
+                .Include(e => e.Course)
+                .Where(e => e.CourseID == courseId && 
+                            e.ChildID == childId && 
+                            e.Status == status && 
+                            e.EnrollmentID_Ref != null 
+                            && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) < DateTime.UtcNow 
+                      )
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
         //Include Registered/Scheduled/Canceled/Completed/RequestToReschedule/RequestToCancel (not include Deleted)
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId)
         {

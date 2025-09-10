@@ -499,6 +499,16 @@ namespace Core.Services
             return await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(courseId, childId, "Scheduled");
         }
 
+
+        public async Task<IEnumerable<CourseEnrollment>> GetWaitToCompleteByCourseChildAsync(int courseId, int childId)
+        {
+            Child? child = await _childRepository.GetAsync(childId);
+            if (child == null)
+                throw new ArgumentException("Invalid child.");
+            //return await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(courseId, childId, "Scheduled");
+            return await _enrollmentRepository.GetOverduedEnrollmentsByCourseChildAsync(courseId, childId, "Scheduled");
+        }
+
         public async Task<IEnumerable<CourseEnrollment>> GetCompletesByCourseChildAsync(int courseId, int childId)
         {
             Child? child = await _childRepository.GetAsync(childId);
