@@ -89,5 +89,27 @@
                 </a>
             </td>
         </tr>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="2">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="2">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
     </table>
 </form>

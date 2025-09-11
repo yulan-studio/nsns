@@ -145,7 +145,8 @@ namespace Web.Controllers.User
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(String.Empty, $"{ex.Message}");
+                //ModelState.AddModelError(String.Empty, $"{ex.Message}");
+                TempData["ErrorMessage"] = ex.Message;
                 ViewBag.CityList = await GetCityList();
                 return View();
 

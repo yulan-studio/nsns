@@ -78,7 +78,8 @@ namespace Core.Services
             var existingUser = await _userManager.FindByEmailAsync(email);
             if (existingUser != null)
             {
-                throw new Exception("A user with the same username or email already exists.");
+                throw new Exception("A child with the same email already exists.");
+                
             }
 
             var result = await _userRegistrationService.RegisterUserAsync(email, password, "Child", user);
