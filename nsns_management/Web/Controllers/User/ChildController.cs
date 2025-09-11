@@ -174,13 +174,13 @@ namespace Web.Controllers.User
         [HttpPost("Edit/{childId}")]
         [ValidateAntiForgeryToken]
 
-        public async Task<IActionResult> Edit(int childId, string memberID, string name, DateTime birthDate, string gender, int cityId, string email, bool hasOAP/*, string password*/)
+        public async Task<IActionResult> Edit(int childId, string name, DateTime birthDate, string gender, int cityId, string email, bool hasOAP/*, string password*/)
         {
 
 
             try
             {
-                var result = await _childService.UpdateAsync(childId, memberID, name, birthDate, gender, cityId, email, hasOAP/*, string password*/);
+                var result = await _childService.UpdateAsync(childId, name, birthDate, gender, cityId, email, hasOAP/*, string password*/);
 
 
                 if (!result)

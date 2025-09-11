@@ -94,13 +94,15 @@ namespace Core.Services
                         city = await _cityRepository.GetAsync((int)cityId);
                     var childUser = new Child
                     {
-                        //MemberID = memberID,
+                        MemberID = "",
                         Name = name,
                         BirthDate = birthDate,
                         Gender = gender,
                         User = newUser,
                         City = city, 
-                        HasOAP = hasOAP
+                        HasOAP = hasOAP,
+                        PrimaryDiagnosis = "",
+                        Address = ""
                     };
 
 
@@ -129,7 +131,7 @@ namespace Core.Services
 
 
 
-        public async Task<bool> UpdateAsync(int childId, string memberID, string name, DateTime birthDate, string gender, int cityId, string email, bool hasOAP/*, string password*/)
+        public async Task<bool> UpdateAsync(int childId, string name, DateTime birthDate, string gender, int cityId, string email, bool hasOAP/*, string password*/)
         {
             // Find the coach by ID
             var child = await _childRepository.GetAsync(childId);
@@ -139,7 +141,7 @@ namespace Core.Services
             }
 
             // Update fields
-            child.MemberID = memberID;
+            //child.MemberID = memberID;
             child.Name = name;
             child.User.Email = email;
             child.BirthDate = birthDate;
