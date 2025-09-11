@@ -109,7 +109,9 @@ namespace Core.Services
                 Child = child,
                 PaymentDate = paymentDate,
                 CreatedByUser = user,
-                Receipt = receiptPath
+                Receipt = receiptPath,
+                CreatedDate = DateTime.UtcNow
+
             };
 
             // Add the course to the repository
