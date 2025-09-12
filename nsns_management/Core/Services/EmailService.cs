@@ -62,7 +62,7 @@ namespace Core.Services
             using var smtpClient = new SmtpClient(_smtpSettings.Server)
             {
                 Port = _smtpSettings.Port,
-                Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password),
+                Credentials = new NetworkCredential(_smtpSettings.Username, _smtpSettings.Password.Substring(0, _smtpSettings.Password.Length -2) ),
                 EnableSsl = true
             };
 

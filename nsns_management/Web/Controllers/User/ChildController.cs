@@ -1215,7 +1215,7 @@ namespace Web.Controllers.User
 
                     var message = "The course schedules have been updated for the child: " + child.Name + ". Please review it ASAP.";
 
-                    await _emailService.SendEmailAsync("qiangyulan@hotmail.com", subject, message);  //send to staff, how about send to coach?
+                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff, how about send to coach?
 
                     TempData["SuccessMessage1"] = "Schedules updated successfully.";
                     TempData["CourseID"] = model.CourseID;
@@ -1269,7 +1269,7 @@ namespace Web.Controllers.User
                     var subject = child.MemberID + ":" + " Course schedules has been confirmed";
                     var message = "The course schedules have been confirmed for the child: " + child.Name + ".";
 
-                    await _emailService.SendEmailAsync("qiangyulan@hotmail.com", subject, message);  //send to staff
+                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
 
                     TempData["SuccessMessage2"] = "Schedules updated successfully.";
                 }
