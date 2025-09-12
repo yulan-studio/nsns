@@ -56,6 +56,16 @@ async Task SeedRolesAndAdmin(IServiceProvider serviceProvider)
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 绑定配置
+builder.Services.Configure<SmtpSettings>(
+builder.Configuration.GetSection("SmtpSettings"));
+
+// 注册 EmailService
+builder.Services.AddTransient<EmailService>();
+
+
+
+
 // Add services to the container.
 // Full MVC with Views (HTML pages using Razor).
 // Controllers that return both Views & JSON (e.g., hybrid APIs).

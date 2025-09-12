@@ -41,9 +41,10 @@ namespace Web.Controllers.User
         private readonly IActivityService _activityService;
         private readonly IPaymentService _paymentService;
         private readonly IChildBalanceService _balanceService;
+        private readonly EmailService _emailService;
         private readonly UserManager<Core.Models.User> _userManager;
 
-        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IPaymentService paymentService, UserManager<Core.Models.User> userManager)
+        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IPaymentService paymentService, EmailService emailService, UserManager<Core.Models.User> userManager)
         {
             _childService = childService;
             _balanceService = balanceService;
@@ -58,6 +59,7 @@ namespace Web.Controllers.User
             _paymentService = paymentService;
             _userManager = userManager;
             _emergencyContactService = emergencyContactService;
+            _emailService = emailService;
         }
 
         // ✅ Helper method to get City List
@@ -1102,6 +1104,14 @@ namespace Web.Controllers.User
         [HttpPost("UpdateAllSessions")]
         public async Task<IActionResult> UpdateAllSessions(UpdateAllSessionsFormModel formModel)
         {
+            Core.Models.User user = await _userManager.GetUserAsync(User);
+            var child = await _childService.GetByIdAsync(user.Id);
+
+            var course = await _courseService.GetAsync(formModel.CourseID);
+
+            if (child == null)
+                return NotFound("Child not found.");
+
             if (formModel.AllSessions == null || !formModel.AllSessions.Any())
             {
                 TempData["ErrorMessage"] = "No sessions submitted.";
@@ -1122,8 +1132,15 @@ namespace Web.Controllers.User
                 
             }
 
-            
+
             //_dbContext.SaveChanges();
+
+            var subject = "Please confirm your child's course schedule";
+
+            var message = $"Course schedules have been added for your child {child.Name} in the course \"{course.Title}\". " +
+              "Please log in to https://me.nsns.ca/Child/MySchedules to review and confirm them in order to complete the registration.";
+
+            await _emailService.SendEmailAsync(child.User.Email, subject, message);
 
             TempData["SuccessMessage"] = "Session updates saved successfully.";
             return RedirectToAction("ManageSessionRegistrations", new { childId = formModel.ChildID, courseId = formModel.CourseID});
@@ -1158,6 +1175,11 @@ namespace Web.Controllers.User
         [HttpPost("UpdateSchedules")]
         public async Task<IActionResult> UpdateSchedules(UpdateSchedulesFormModel model)
         {
+            Core.Models.User user = await _userManager.GetUserAsync(User);
+            var child = await _childService.GetByIdAsync(user.Id);
+
+            if(child == null)
+                return NotFound("Child not found.");
             if (model?.Schedules != null && model.Schedules.Any())
             {
                 try
@@ -1185,6 +1207,16 @@ namespace Web.Controllers.User
                         }
                     }
 
+
+                    
+
+
+                    var subject = child.MemberID + ":" + " Course schedules has been updated";
+
+                    var message = "The course schedules have been updated for the child: " + child.Name + ". Please review it ASAP.";
+
+                    await _emailService.SendEmailAsync("qiangyulan@hotmail.com", subject, message);  //send to staff, how about send to coach?
+
                     TempData["SuccessMessage1"] = "Schedules updated successfully.";
                     TempData["CourseID"] = model.CourseID;
                 }
@@ -1210,7 +1242,13 @@ namespace Web.Controllers.User
        
          public async Task<IActionResult> UpdateSchedulesToConform(UpdateSchedulesToConfirmFormModel model, string actionType)
         {
-            if(actionType == "SaveChanges")
+            Core.Models.User user = await _userManager.GetUserAsync(User);
+            var child = await _childService.GetByIdAsync(user.Id);
+
+            if (child == null)
+                return NotFound("Child not found.");
+
+            if (actionType == "SaveChanges")
             {
                 if (model?.Schedules != null && model.Schedules.Any())
                 {
@@ -1227,6 +1265,11 @@ namespace Web.Controllers.User
                             await _courseEnrollmentService.UpdateSessionAsync(existing);
                         }
                     }
+
+                    var subject = child.MemberID + ":" + " Course schedules has been confirmed";
+                    var message = "The course schedules have been confirmed for the child: " + child.Name + ".";
+
+                    await _emailService.SendEmailAsync("qiangyulan@hotmail.com", subject, message);  //send to staff
 
                     TempData["SuccessMessage2"] = "Schedules updated successfully.";
                 }
@@ -1255,6 +1298,7 @@ namespace Web.Controllers.User
                         }
                     }
 
+                    await _emailService.SendEmailAsync("qiangyulan@hotmail.com", "Course schedules has been confirmed by " + child.MemberID, "The course schedules have been confirmed by the child: " + child.MemberID + ".");
                     TempData["SuccessMessage2"] = "Course schedules confirmed successfully.";
                 }
             }
