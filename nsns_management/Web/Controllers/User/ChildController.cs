@@ -1180,6 +1180,12 @@ namespace Web.Controllers.User
 
             if(child == null)
                 return NotFound("Child not found.");
+
+
+            //model?.S.Course.CourseType
+
+
+
             if (model?.Schedules != null && model.Schedules.Any())
             {
                 try
@@ -1191,13 +1197,13 @@ namespace Web.Controllers.User
                         var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
                         if (existing != null)
                         {
-                            if (existing.Status != "Canceled" && existing.Status != "Deleted" && schedule.Status != null)  //schedule.Status is null means Status dropdown list is enabled
+                            if (existing.Status != "Canceled" && existing.Status != "Deleted" && schedule.Status != null)  //schedule.Status is not null means Status dropdown list is enabled
                             {
                                 existing.Status = schedule.Status;
                                 existing.ParentNote = schedule.ParentNote;
                             }
 
-                            else if (existing.Status != "Canceled" && existing.Status != "Deleted" && schedule.Status == null)  //schedule.Status is null means Status dropdown list is enabled
+                            else if (existing.Status != "Canceled" && existing.Status != "Deleted" && schedule.Status == null)  //schedule.Status is null means Status dropdown list is disabled
                             {
                                 //existing.Status = schedule.Status;
                                 existing.ParentNote = schedule.ParentNote;
@@ -1208,12 +1214,23 @@ namespace Web.Controllers.User
                     }
 
 
-                    
+
+                    var course = await _courseService.GetAsync(model.CourseID);
+                    var sendTo = "";
+                    if (course != null && course.CourseType == "Group")
+                    {
+                        sendTo = "customer.nsns@gmail.com";
+                    }
+
+                    else if (course != null && course.CourseType == "Private")
+                    {
+                        sendTo = course.Coach.User.Email;
+                    }
 
 
-                    var subject = child.MemberID + ":" + " Course schedules has been updated";
+                    var subject = child.MemberID + ":" + " Course schedules change has been requested";
 
-                    var message = "The course schedules have been updated for the child: " + child.Name + ". Please review it ASAP.";
+                    var message = "The course schedules change has been requested for the child: " + child.Name + ". Please review it ASAP.";
 
                     await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff, how about send to coach?
 
@@ -1266,8 +1283,8 @@ namespace Web.Controllers.User
                         }
                     }
 
-                    var subject = child.MemberID + ":" + " Course schedules has been confirmed";
-                    var message = "The course schedules have been confirmed for the child: " + child.Name + ".";
+                    var subject = child.MemberID + ":" + " Course schedules change has been requested";
+                    var message = "The course schedules change has been requested for the child: " + child.Name + ".";
 
                     await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
 
@@ -1298,7 +1315,15 @@ namespace Web.Controllers.User
                         }
                     }
 
-                    await _emailService.SendEmailAsync("qiangyulan@hotmail.com", "Course schedules has been confirmed by " + child.MemberID, "The course schedules have been confirmed by the child: " + child.MemberID + ".");
+                    var course = await _courseService.GetAsync(model.CourseID);
+                    var subject = child.MemberID + ":" + " Course schedules has been confirmed";
+                    var message = "The course schedules have been confirmed for the child: " + child.Name + ":\n" +
+                                 "Course: " + course.Title;
+
+                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
+
+
+                    //await _emailService.SendEmailAsync("customer.nsns@gmail.com", child.MemberID + ": Course schedules has been confirmed  " + , "The course schedules have been confirmed by the child: " + child.MemberID + ".");
                     TempData["SuccessMessage2"] = "Course schedules confirmed successfully.";
                 }
             }

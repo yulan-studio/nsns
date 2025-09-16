@@ -35,9 +35,11 @@ namespace Web.Controllers.User
         private readonly ICourseService _courseService;
         private readonly IChildService _childService;
         private readonly IParentChildService _parentChildService;
+
+        private readonly EmailService _emailService;
         private readonly UserManager<Core.Models.User> _userManager;
         
-        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, UserManager<Core.Models.User> userManager)
+        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, EmailService emailService, UserManager<Core.Models.User> userManager)
         {
             _coachService = coachService;
             _incomeService = incomeService;
@@ -50,6 +52,7 @@ namespace Web.Controllers.User
             _courseService = courseService;
             _childService = childService;
             _parentChildService = parentChildService;
+            _emailService = emailService;
             _userManager = userManager;
             
         }
@@ -575,6 +578,18 @@ namespace Web.Controllers.User
 
                 if (result)
                 {
+
+
+                    var subject = "A Course schedule has been added";
+
+                    var message = "A course schedule has been added for the child: " + child.Name + ":\n" +
+                        "Course: " + course.Title + "\n" +
+                        "Coach: " + coach.Name + "\n" +
+                        "Scheduled At: " + scheduledAt.ToString("yyyy - MM - dd HH: mm") + "\n" +
+                        "Scheduled Hours: " + scheduledHours;
+
+                    await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child, how about send to coach?
+
                     TempData["SuccessMessage"] = "Course scheduled successfully.";
                 }
                 else
@@ -591,10 +606,29 @@ namespace Web.Controllers.User
         [HttpPost("DeleteSchedule")]
         public async Task<IActionResult> DeleteSchedule(int enrollmentId, int childId, int courseId, string coachNote, int enrollmentId_Ref)
         {
+
+            var child = await _childService.GetAsync(childId);
+            var course = await _courseService.GetAsync(courseId);
+            var user = await _userManager.GetUserAsync(User);
+            var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
+
+            var enrollment = await _courseEnrollmentService.GetAsync(enrollmentId);
+
             bool result = await _courseEnrollmentService.RemoveScheduleAsync(enrollmentId, coachNote);
+            
 
             if (result)
             {
+                var subject = "A Course schedule has been deleted";
+
+                var message = "A course schedule has been deleted for the child: " + child.Name + ":\n" +
+                    "Course: " + course.Title + "\n" +
+                    "Coach: " + coach.Name + "\n" +
+                    "Scheduled At: " + enrollment.ScheduledAt?.ToString("yyyy - MM - dd HH: mm") + "\n" +
+                    "Scheduled Hours: " + enrollment.ScheduledHours;
+
+                await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
+
                 TempData["SuccessMessage"] = "Schedule deleted successfully.";
             }
             else
@@ -656,16 +690,32 @@ namespace Web.Controllers.User
                 throw new ArgumentException("Child not found");
             }
 
+            var course = await _courseService.GetAsync(courseId); // Ensure the course exists
+            var courseEnrollment = await _courseEnrollmentService.GetAsync(enrollmentId);
+
             try
             {
                 bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, actualHours);
                 bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
-                bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id);
+                bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id); // Deduct private course cost from child's balance
 
                 if (result1 && result2 && result3)
                 //if (result1)
                 {
                     TempData["SuccessMessage"] = "Course Completed successfully.";
+
+
+                    var subject = "Course Session Completed successfully.";
+
+                    var message = "The follow course session has been completed for " + child.Name + ":\n" +
+                                  "Course: " + course.Title + "\n" +
+                                  "Scheduled At: " + (courseEnrollment.ScheduledAt?.ToString("yyyy-MM-dd HH:mm") ?? "N/A") + "\n" +
+                                  "Actual Hours: " + actualHours;
+
+                    await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
+
+
+
                 }
                 else
                 {
