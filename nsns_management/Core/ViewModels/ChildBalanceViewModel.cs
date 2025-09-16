@@ -14,5 +14,9 @@ namespace Core.ViewModels
         public string? ActivityName { get; set; }
         public decimal BalanceChange { get; set; }
         public decimal Balance { get; set; }
+
+        // fields for course sessions
+        public DateTime? ScheduledAt { get; set; }
+        public Decimal? ActualHours { get; set; }
     }
 }
