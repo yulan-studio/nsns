@@ -142,7 +142,7 @@
                                 @if (Model.AllSessions[i].Status == "Registered")
                                 {
                                     <option value="Registered" selected>Registered</option>
-                                    <option value="Deleted">Deleted</option>
+                                   @*  <option value="Deleted">Deleted</option> *@
                                 }
                                 else if (Model.AllSessions[i].Status == "Scheduled")
                                 {
