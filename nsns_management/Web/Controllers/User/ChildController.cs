@@ -1268,38 +1268,36 @@ namespace Web.Controllers.User
             if (child == null)
                 return NotFound("Child not found.");
 
-            if (actionType == "SaveChanges")
-            {
-                if (model?.Schedules != null && model.Schedules.Any())
-                {
-                    foreach (var schedule in model.Schedules)
-                    {
-                        var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
-                        if (existing != null)
-                        {
-                            if (existing.Status != "Deleted")
-                            {
-                                existing.ParentNote = schedule.ParentNote;
-                            }
+            //if (actionType == "SaveChanges")
+            //{
+            //    if (model?.Schedules != null && model.Schedules.Any())
+            //    {
+            //        foreach (var schedule in model.Schedules)
+            //        {
+            //            var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
+            //            if (existing != null)
+            //            {
+            //                if (existing.Status != "Deleted")
+            //                {
+            //                    existing.ParentNote = schedule.ParentNote;
+            //                }
 
-                            await _courseEnrollmentService.UpdateSessionAsync(existing);
-                        }
-                    }
+            //                await _courseEnrollmentService.UpdateSessionAsync(existing);
+            //            }
+            //        }
 
-                    var subject = child.MemberID + ":" + " Course schedules change has been requested";
-                    var message = "The course schedules change has been requested for the child: " + child.Name + ".";
+            //        var subject = child.MemberID + ":" + " Course schedules change has been requested";
+            //        var message = "The course schedules change has been requested for the child: " + child.Name + ".";
 
-                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
+            //        await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
 
-                    TempData["SuccessMessage2"] = "Schedules updated successfully.";
-                }
-                //else
-                //{
-                //    TempData["ErrorMessage2"] = "No schedules to update.";   //This seems to be strange
-                //}
-            }
+            //        TempData["SuccessMessage2"] = "Schedules updated successfully.";
+            //    }
 
-            else if (actionType == "Confirm")
+            //}
+
+            //else if (actionType == "Confirm")
+            if (actionType == "Confirm")
             {
                 // Handle Confirm logic
                 if (model?.Schedules != null && model.Schedules.Any())

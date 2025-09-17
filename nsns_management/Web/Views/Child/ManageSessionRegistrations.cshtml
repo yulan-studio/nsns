@@ -99,7 +99,7 @@
 
         <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Add Sessions</button>
         <p style="margin-top: 20px">
-            <small style="color:darkslategray"> - After sessions are added to the child, their status will be set to Registered. Click Save Changes to send an email reminding the parent to log in and review the sessions on the Schedules page. Once the parent confirms, the status will change to Scheduled. </small>
+            <small style="color:darkslategray"> - After sessions are added to the child, their status will be set to Registered. Click 'Save Changes', an email will be sent to remind the parent to confirm the sessions. Once the parent confirms, the status will change to 'Scheduled'. </small>
         </p>
 
     </form>
@@ -142,7 +142,7 @@
                                 @if (Model.AllSessions[i].Status == "Registered")
                                 {
                                     <option value="Registered" selected>Registered</option>
-                                   @*  <option value="Deleted">Deleted</option> *@
+                                    <option value="Deleted">Deleted</option> 
                                 }
                                 else if (Model.AllSessions[i].Status == "Scheduled")
                                 {
@@ -215,7 +215,7 @@
         </tbody>
     </table>
 
-    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button> <small style="color:darkslategray"> - Click Save Changes to send an email to the child and to update the Status or Staff Note.</small>
+    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button> <small style="color:darkslategray"> - Click 'Save Changes' to send an email to the child about the changes.</small>
 </form>
 
 
