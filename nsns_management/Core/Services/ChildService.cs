@@ -164,7 +164,7 @@ namespace Core.Services
 
 
 
-        public async Task<bool> UpdateAsync(int childId, string memberID, string address, /*int OAPAmount,*/  string primaryDiagnosis, bool photoConsent/*, string password*/)
+        public async Task<bool> UpdateAsync(int childId, string? memberID, string? address, /*int OAPAmount,*/  string? primaryDiagnosis, bool photoConsent/*, string password*/)
         {
             // Find the coach by ID
             var child = await _childRepository.GetAsync(childId);

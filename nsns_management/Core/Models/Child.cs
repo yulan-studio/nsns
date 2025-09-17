@@ -13,7 +13,7 @@ namespace Core.Models
     {
         //[Key]
 
-        public string MemberID { get; set; } = string.Empty; // Unique member ID
+        public string? MemberID { get; set; } = string.Empty; // Unique member ID
         public int ChildID { get; set; } // Primary key
 
         public int UserID { get; set; }
@@ -35,8 +35,8 @@ namespace Core.Models
         [ForeignKey("CityID")]
         public virtual required City City { get; set; } // Navigation property to Speical table (SpecialID)
 
-        public string PrimaryDiagnosis { get; set; }
-        public string Address { get; set; }
+        public string? PrimaryDiagnosis { get; set; }
+        public string? Address { get; set; }
         public int? OAPAmount { get; set; }
         public bool PhotoConsent { get; set; }
 

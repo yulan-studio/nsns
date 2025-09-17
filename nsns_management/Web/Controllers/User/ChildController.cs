@@ -272,7 +272,7 @@ namespace Web.Controllers.User
         [Authorize(Roles = "Staff")]
         [HttpPost("CoreInfo/{childId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CoreInfo(int childId, string memberID, string address, /*int OAPAmount, */string primaryDiagnosis, bool photoConsent)
+        public async Task<IActionResult> CoreInfo(int childId, string? memberID, string? address, /*int OAPAmount, */string? primaryDiagnosis, bool photoConsent)
         {
             var child = await _childService.GetAsync(childId);
             if (ModelState.IsValid)
@@ -283,7 +283,8 @@ namespace Web.Controllers.User
                 return RedirectToAction("MoreInfo", new { childId });
             }
             else
-                return View(child);
+                //return View(child);
+                return RedirectToAction("MoreInfo", new { childId });
         }
 
         [Authorize(Roles = "Staff")]
