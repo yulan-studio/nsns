@@ -57,11 +57,11 @@ namespace Core.Services
 
         public async Task<Child?> GetByIdAsync(int userId)
         {
-            var user = await _userRepository.GetAsync(userId);
-            if (user == null)
-            {
-                throw new KeyNotFoundException($"Child not found.");
-            }
+            //var user = await _userRepository.GetAsync(userId);
+            //if (user == null)
+            //{
+            //    throw new KeyNotFoundException($"Child not found.");
+            //}
             var child = await _childRepository.GetByIdAsync(userId);
             if (child == null)
             {

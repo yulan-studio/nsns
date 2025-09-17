@@ -1105,12 +1105,13 @@ namespace Web.Controllers.User
         public async Task<IActionResult> UpdateAllSessions(UpdateAllSessionsFormModel formModel)
         {
             Core.Models.User user = await _userManager.GetUserAsync(User);
-            var child = await _childService.GetByIdAsync(user.Id);
+            //var child = await _childService.GetByIdAsync(user.Id);
 
             var course = await _courseService.GetAsync(formModel.CourseID);
+            var child = await _childService.GetAsync(formModel.ChildID);
 
-            if (child == null)
-                return NotFound("Child not found.");
+            //if (child == null)
+            //    return NotFound("Child not found.");
 
             if (formModel.AllSessions == null || !formModel.AllSessions.Any())
             {
@@ -1128,6 +1129,8 @@ namespace Web.Controllers.User
                     existingSession.Status = session.Status;
                     existingSession.StaffNote = session.StaffNote;
                     var result = await _courseEnrollmentService.UpdateSessionAsync(existingSession);
+
+
                 }
                 
             }
@@ -1135,10 +1138,10 @@ namespace Web.Controllers.User
 
             //_dbContext.SaveChanges();
 
-            var subject = "Please confirm your child's course schedule";
+            var subject = "Please review/confirm your child's course schedule";
 
-            var message = $"Course schedules have been added for your child {child.Name} in the course \"{course.Title}\". " +
-              "Please log in to https://me.nsns.ca/Child/MySchedules to review and confirm them in order to complete the registration.";
+            var message = $"We've updated the course schedule for your child {child.Name} in \"{course.Title}\". " +
+              "Please log in to https://me.nsns.ca/Child/MySchedules to review the changes or confirm if this is a new registration to complete the process.";
 
             await _emailService.SendEmailAsync(child.User.Email, subject, message);
 
