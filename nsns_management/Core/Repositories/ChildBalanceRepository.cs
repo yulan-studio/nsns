@@ -68,16 +68,18 @@ namespace Core.Repositories
             {
                 latestBalance = await GetFinalBalanceAsync((int)enrollment.ChildID);
             }
-            
-
-            
-
-            // Calculate income (replace with your logic — hardcoded here as example)
-            decimal costForThisSession = enrollment.Course.HourlyCost * (decimal)enrollment.ActualHours;
 
 
             if (enrollment == null || enrollment.Status != "Completed")
                 return false;
+
+            // Calculate cost for this session only for private courses
+            decimal costForThisSession = 0;
+            if (enrollment.Course.HourlyCost != null && enrollment.ActualHours!= null)
+                costForThisSession = (decimal)enrollment.Course.HourlyCost * (decimal)enrollment.ActualHours;
+
+
+            
 
             var newEntry = new ChildBalance
             {

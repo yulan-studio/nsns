@@ -31,16 +31,16 @@ namespace Core.Models
         public int? SessionCount { get; set; } // SessionCount For Group class  
 
 
-        [Required]
+        //[Required]
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a valid hourly cost.")]
         [Column(TypeName = "decimal(10,2)")]
-        public decimal HourlyCost { get; set; } = 0; // Hourly cost of the course
+        public decimal? HourlyCost { get; set; } = 0; // Hourly cost of the course
 
 
-        [Required]
+        //[Required]
         [Range(0, double.MaxValue, ErrorMessage = "Please enter a valid hourly cost for child without OAP funding.")]
         [Column(TypeName = "decimal(10,2)")]
-        public decimal HourlyCost2 { get; set; } = 0; // Hourly cost of the course for child without OAP funding
+        public decimal? HourlyCost2 { get; set; } = 0; // Hourly cost of the course for child without OAP funding
 
 
         [Required]

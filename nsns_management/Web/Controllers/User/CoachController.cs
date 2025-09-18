@@ -696,12 +696,15 @@ namespace Web.Controllers.User
             try
             {
                 bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, actualHours);
-                bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
+                
+                //We don't calculate income for Coachs because this will be done by accounting manually
+                //bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
                 bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id); // Deduct private course cost from child's balance
 
-                if (result1 && result2 && result3)
-                //if (result1)
-                {
+                //if (result1 && result2 && result3)
+                if (result1 && result3)
+                    //if (result1)
+                    {
                     TempData["SuccessMessage"] = "Course Completed successfully.";
 
 
@@ -731,39 +734,36 @@ namespace Web.Controllers.User
             return RedirectToAction("ManageEnrollments", new { childId, courseId = courseId});
         }
 
-        [Authorize(Roles = "Coach")]
-        [HttpGet("Income")]
-        public async Task<IActionResult> Income()
-        {
-            // Get current coach based on User ID
-            var user = await _userManager.GetUserAsync(User);
-            var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
-            //int coachId = coach.CoachID;
+        //[Authorize(Roles = "Coach")]
+        //[HttpGet("Income")]
+        //public async Task<IActionResult> Income()
+        //{
+        //    // Get current coach based on User ID
+        //    var user = await _userManager.GetUserAsync(User);
+        //    var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
+           
 
-            //var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            //var coach = await _context.Coaches.FirstOrDefaultAsync(c => c.UserID == userId);
+        //    if (coach == null)
+        //        return NotFound("Coach profile not found.");
 
-            if (coach == null)
-                return NotFound("Coach profile not found.");
+        //    // Get income records
+        //    var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
 
-            // Get income records
-            var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
+        //    var viewModel = incomeRecords.Select(i => new CoachIncomeViewModel
+        //    {
+        //        EnrollmentID = i.EnrollmentID ?? 0,
+        //        CourseName = i.Course?.Title ?? "N/A",
+        //        ChildName = i.Enrollment?.Child.Name ?? "N/A",
+        //        SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
+        //        SessionHours = i.Enrollment?.ActualHours ?? 0,
+        //        IncomeChange = i.IncomeChange ?? 0,
+        //        TotalIncomeSoFar = i.Income ?? 0
+        //    }).ToList();
 
-            var viewModel = incomeRecords.Select(i => new CoachIncomeViewModel
-            {
-                EnrollmentID = i.EnrollmentID ?? 0,
-                CourseName = i.Course?.Title ?? "N/A",
-                ChildName = i.Enrollment?.Child.Name ?? "N/A",
-                SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
-                SessionHours = i.Enrollment?.ActualHours ?? 0,
-                IncomeChange = i.IncomeChange ?? 0,
-                TotalIncomeSoFar = i.Income ?? 0
-            }).ToList();
+        //    ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
 
-            ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
-
-            return View(viewModel);
-        }
+        //    return View(viewModel);
+        //}
     }
 }
 
