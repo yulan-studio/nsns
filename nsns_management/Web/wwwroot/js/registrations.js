@@ -15,9 +15,56 @@ function fetchCoursesBySpecialty(specialtyId) {
                     const option = document.createElement('option');
                     option.value = course.courseID;
                     option.text = course.title;
+                    option.setAttribute("data-course-type", course.courseType);
                     courseDropdown.add(option);
                 });
             });
+}
+
+
+let isGroupClass = false;
+
+function checkIfGroupClass(courseId) {
+    const courseDropdown = document.getElementById("courseId");
+    const selectedOption = courseDropdown.options[courseDropdown.selectedIndex];
+    const courseType = selectedOption.getAttribute("data-course-type");
+
+    if (courseType === "Group") {
+        isGroupClass = true;
+    } else {
+        isGroupClass = false;
     }
+
+    toggleFeeInput();
+}
+
+function toggleFeeInput() {
+    const paymentModel = document.getElementById("paymentModel").value;
+    const feeSection = document.getElementById("feeSection");
+
+    if (paymentModel === "Direct") {
+        feeSection.style.display = "block";
+        document.getElementById("totalCost").setAttribute("required", "required");
+    }
+    else if (paymentModel === "Token") {
+        if (isGroupClass) {
+            feeSection.style.display = "block";
+            document.getElementById("totalCost").setAttribute("required", "required");
+            
+
+            
+        }
+        else {
+            feeSection.style.display = "none";
+            document.getElementById("totalCost").removeAttribute("required");
+        }
+    }
+    else {
+        feeSection.style.display = "none";
+        document.getElementById("totalCost").removeAttribute("required");
+    }
+
+    
+}
 
 

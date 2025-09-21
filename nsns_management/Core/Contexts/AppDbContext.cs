@@ -101,6 +101,9 @@ namespace Core.Contexts
 
         public DbSet<ChildBalance> ChildBalances { get; set; }
 
+        public DbSet<Fee> Fees { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -155,6 +158,9 @@ namespace Core.Contexts
             modelBuilder.Entity<ChildBalance>()
           .ToTable("child_balance"); // Explicitly map to the table name
 
+            modelBuilder.Entity<Fee>()
+         .ToTable("fees"); // Explicitly map to the table name
+
             modelBuilder.Entity<Coach>()
           .ToTable("coaches"); // Explicitly map to the table name
 
@@ -176,6 +182,9 @@ namespace Core.Contexts
 
             modelBuilder.Entity<ParentChild>()
          .ToTable("parent_child"); // Explicitly map to the table name
+
+            modelBuilder.Entity<Fee>()
+         .ToTable("fees"); // Explicitly map to the table name
 
             modelBuilder.Entity<Payment>()
          .ToTable("payments"); // Explicitly map to the table name
@@ -206,10 +215,7 @@ namespace Core.Contexts
                 .WithMany(c => c.CoachSpecialties)
                 .HasForeignKey(cs => cs.CoachID);
 
-            modelBuilder.Entity<CoachSpecialty>()
-                .HasOne(cs => cs.Specialty)
-                .WithMany(s => s.CoachSpecialties)
-                .HasForeignKey(cs => cs.SpecialtyID);
+           
 
 
             //modelBuilder.Entity<CoachSpecialty>()

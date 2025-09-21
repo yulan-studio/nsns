@@ -6,7 +6,7 @@
     
 }
 
-<script src="/js/registrations.js"></script>
+<script src="/js/registrations.js" asp-append-version="true"></script>
 
 
 @model Core.ViewModels.ManageRegisterationsViewModel
@@ -166,31 +166,48 @@
 <b>Register @Model.Child.Name in a Course</b>
 <div style="margin-bottom: 10px;"></div>
     <form method="post" action="/Child/RegisterCourse">
-    <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+        <input type="hidden" name="childId" value="@Model.Child.ChildID" />
 
-    <!-- Select Specialty First -->
-    <label for="specialtyId">Select Specialty:</label>
-    <select id="specialtyId" name="specialtyId" required onchange="fetchCoursesBySpecialty(this.value)">
-        <option value="">-- Select Specialty --</option>
-        @foreach (var specialty in ViewBag.SpecialtyList)
+        <!-- Select Specialty First -->
+        <label for="specialtyId">Select Specialty:</label>
+        <select id="specialtyId" name="specialtyId" required onchange="fetchCoursesBySpecialty(this.value)">
+            <option value="">-- Select Specialty --</option>
+            @foreach (var specialty in ViewBag.SpecialtyList)
 
-        {
-            <option value="@specialty.Value">@specialty.Text</option>
-        }
-    </select>
+            {
+                <option value="@specialty.Value">@specialty.Text</option>
+            }
+        </select>
 
-    <!-- Select Course Based on Specialty -->
-    <label for="courseId">Select Course:</label>
-    <select id="courseId" name="courseId" required>
-        <option value="">-- Select Course --</option>
-    </select>
+        <!-- Select Course Based on Specialty -->
+        <label for="courseId">Select Course:</label>
+        <select id="courseId" name="courseId" required onchange="checkIfGroupClass(this.value)">
+            <option value="">-- Select Course --</option>
+        </select>
 
-    @* <label for="scheduledHours">Scheduled Hours:</label>
-    <input type="number" name="scheduledHours" min="1" value="0" disabled required /> *@
-    <input type="hidden" name="scheduledHours" value="0" />
+        <input type="hidden" name="scheduledHours" value="0" />
 
-    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
-</form>
+        <!-- Select Payment Model -->
+        <label for="paymentModel">Payment Model:</label>
+        <select id="paymentModel" name="paymentModel" required onchange="toggleFeeInput()">
+            <option value="">-- Select Payment Model --</option>
+            <option value="Direct">Direct</option>
+            <option value="Token">Token</option>
+        </select>
+
+        <!-- Fee Input (visible conditionally) -->
+        <div id="feeSection" style="display:none; margin-top:10px;">
+            <label for="totalCost">Fee:</label>
+            <input type="number" step="1" min="0" id="totalCost" name="totalCost" />
+
+            <!-- Description Textarea -->
+            <label for="description" style="margin-top:8px; display:block;">Description:</label>
+            <textarea id="description" name="description" rows="3" cols="40"
+                      placeholder="Enter fee details here..."></textarea>
+        </div>
+
+        <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
+    </form>
 
 </div>
 @* 

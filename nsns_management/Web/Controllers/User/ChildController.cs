@@ -39,12 +39,13 @@ namespace Web.Controllers.User
         private readonly ISpecialtyService _specialtyService;
         private readonly IActivityEnrollmentService _activityEnrollmentService;
         private readonly IActivityService _activityService;
+        private readonly IFeeService _feeService;
         private readonly IPaymentService _paymentService;
         private readonly IChildBalanceService _balanceService;
         private readonly EmailService _emailService;
         private readonly UserManager<Core.Models.User> _userManager;
 
-        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IPaymentService paymentService, EmailService emailService, UserManager<Core.Models.User> userManager)
+        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IFeeService feeService, IPaymentService paymentService, EmailService emailService, UserManager<Core.Models.User> userManager)
         {
             _childService = childService;
             _balanceService = balanceService;
@@ -56,6 +57,7 @@ namespace Web.Controllers.User
             _courseEnrollmentService = courseEnrollmentService;
             _activityService = activityService;
             _activityEnrollmentService = activityEnrollmentService;
+            _feeService = feeService;
             _paymentService = paymentService;
             _userManager = userManager;
             _emergencyContactService = emergencyContactService;
@@ -613,20 +615,22 @@ namespace Web.Controllers.User
 
 
         [HttpGet("GetCoursesBySpecialty")]
-        public async Task<IActionResult> GetActivePrivateCoursesBySpecialty(int specialtyId)
+        public async Task<IActionResult> GetActiveCoursesBySpecialty(int specialtyId)
         {
             var courses = await _courseService.GetActiveCoursesBySpecialtyAsync(specialtyId);
-            return Json(courses.Select(c => new { c.CourseID, c.Title }));
+            return Json(courses.Select(c => new { c.CourseID, c.Title, c.CourseType }));
         }
 
         [Authorize(Roles = "Staff")]
         [HttpPost("RegisterCourse")]
-        public async Task<IActionResult> RegisterCourse(int childId, int courseId, decimal scheduledHours)
+        public async Task<IActionResult> RegisterCourse(int childId, int courseId, decimal scheduledHours, string paymentModel, decimal totalCost, string description)
         {
             try
             {
                 var user = await _userManager.GetUserAsync(User);
-                var success = await _courseEnrollmentService.AddRegisteredEnrollmentAsync(childId, courseId, scheduledHours, "Registered", user);
+                int enrollmentId = await _courseEnrollmentService.AddRegisteredEnrollmentAsync(childId, courseId, scheduledHours, "Registered", user);
+                bool success = await _feeService.AddCourseFeeAsync(enrollmentId, paymentModel, totalCost, description, user);
+
 
                 if (!success)
                 {

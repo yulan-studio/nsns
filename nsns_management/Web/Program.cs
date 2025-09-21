@@ -140,6 +140,9 @@ builder.Services.AddScoped<IPaymentPackageService, PaymentPackageService>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
+builder.Services.AddScoped<IFeeRepository, FeeRepository>();
+builder.Services.AddScoped<IFeeService, FeeService>();
+
 // Add UserService
 
 
