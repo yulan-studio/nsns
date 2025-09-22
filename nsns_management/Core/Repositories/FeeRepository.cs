@@ -57,6 +57,37 @@ namespace Core.Repositories
             }
         }
 
+
+
+
+        // Remove a Specialty
+        public async Task<bool> DeleteCourseFeeAsync(int enrollmentId)
+        {
+            // Find all fees linked to this course enrollment
+            var fees = await _context.Fees
+                .Where(f => f.CourseEnrollmentID == enrollmentId)
+                .ToListAsync();
+
+            if (fees == null || !fees.Any())
+                return false; // nothing to delete
+
+            _context.Fees.RemoveRange(fees);
+
+            // Save changes
+            var rows = await _context.SaveChangesAsync();
+
+            return rows > 0;
+        }
+
+
+
+     
+
+
+
+
+
+
         // Update a Specialty
         public async Task<bool> UpdateAsync(Fee entity)
         {

@@ -168,7 +168,8 @@ try
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
     Console.WriteLine($"Connection string: {connectionString}");
     //builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 39))));
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)), ServiceLifetime.Scoped);
+
 
 }
 catch (Exception ex)

@@ -15,6 +15,8 @@ namespace Core.Interfaces
 
         Task<bool> AddCourseFeeAsync(int enrollmentId, string paymentModel, decimal totalCost, string description, User user);
 
+        Task<bool> DeleteCourseFeeAsync(int enrollmentId);
+
         Task<bool> AddAcitvityFeeAsync(int enrollmentId, string paymentModel, decimal totalCost, string description, User user);
 
         Task<bool> UpdateAsync(Fee fee);

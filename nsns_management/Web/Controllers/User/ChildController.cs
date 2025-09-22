@@ -1,4 +1,5 @@
 ﻿
+using Core.Contexts;
 using Core.FormModels;
 using Core.Interfaces;
 using Core.Models;
@@ -44,8 +45,10 @@ namespace Web.Controllers.User
         private readonly IChildBalanceService _balanceService;
         private readonly EmailService _emailService;
         private readonly UserManager<Core.Models.User> _userManager;
+        //private readonly AppDbContext _context;
 
-        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IFeeService feeService, IPaymentService paymentService, EmailService emailService, UserManager<Core.Models.User> userManager)
+
+        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IFeeService feeService, IPaymentService paymentService, EmailService emailService, UserManager<Core.Models.User> userManager/*, AppDbContext context*/)
         {
             _childService = childService;
             _balanceService = balanceService;
@@ -62,6 +65,7 @@ namespace Web.Controllers.User
             _userManager = userManager;
             _emergencyContactService = emergencyContactService;
             _emailService = emailService;
+            //_context = context;   // For transaction
         }
 
         // ✅ Helper method to get City List
@@ -124,7 +128,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("Add")]
-        public async Task<IActionResult> Add (string name, DateTime birthDate, string gender, int cityId, string email, string password, bool hasOAP)
+        public async Task<IActionResult> Add(string name, DateTime birthDate, string gender, int cityId, string email, string password, bool hasOAP)
         {
             if (!ModelState.IsValid)
             {
@@ -134,7 +138,7 @@ namespace Web.Controllers.User
             try
             {
                 Core.Models.User user = await _userManager.GetUserAsync(User);
-                var result = await _childService.AddAsync( name, birthDate, gender, cityId, email, password, hasOAP, user);
+                var result = await _childService.AddAsync(name, birthDate, gender, cityId, email, password, hasOAP, user);
                 if (!result)
                 {
                     ModelState.AddModelError(string.Empty, "Failed in adding the child info.");
@@ -260,7 +264,7 @@ namespace Web.Controllers.User
             return RedirectToAction("List");
         }
 
-        
+
 
         [HttpGet("CoreInfo/{childId}")]
         public async Task<IActionResult> CoreInfo(int childId)
@@ -279,7 +283,7 @@ namespace Web.Controllers.User
             var child = await _childService.GetAsync(childId);
             if (ModelState.IsValid)
             {
-                
+
                 await _childService.UpdateAsync(childId, memberID, address, /*OAPAmount,*/ primaryDiagnosis, photoConsent);
 
                 return RedirectToAction("MoreInfo", new { childId });
@@ -293,7 +297,8 @@ namespace Web.Controllers.User
         [HttpPost("AddEmergencyContact/{childId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddEmergencyContact(int childId, string contactName, string relationship, string phone, string email)
-        {  if (ModelState.IsValid)
+        {
+            if (ModelState.IsValid)
             {
                 EmergencyContact contact = new EmergencyContact
                 {
@@ -303,7 +308,7 @@ namespace Web.Controllers.User
                     Email = email
                 };
                 contact.ChildID = childId;
-               
+
                 await _emergencyContactService.AddAsync(contact);
 
                 return RedirectToAction("MoreInfo", new { childId });
@@ -354,11 +359,11 @@ namespace Web.Controllers.User
 
             return View(model);
 
-            
 
-            
 
-            
+
+
+
         }
 
         [Authorize(Roles = "Staff")]
@@ -426,14 +431,14 @@ namespace Web.Controllers.User
             return RedirectToAction("MoreInfo", new { childId, tab = "Parents" });
         }
 
-      
+
 
         [Authorize(Roles = "Staff")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateParent(int ParentChildID, int ChildID, string Name, string Email, string Phone, string Wechat, string Relationship)
         {
-           
+
 
             var parentChild = await _parentChildService.GetParentByParentChildIdAsync(ParentChildID);
             if (parentChild != null)
@@ -531,8 +536,8 @@ namespace Web.Controllers.User
                 Text = s.Title
             }).ToList();
 
-            var activityRegisteredEnrollments =  await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(childId);
-            var activityCanceledEnrollments =  await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(childId);
+            var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(childId);
+            var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(childId);
             var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
             var activities = await _activityService.GetAllActiveOpenAsync();
 
@@ -594,7 +599,7 @@ namespace Web.Controllers.User
 
             //Get Registered and Completed Courses
             var courseEnrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
-            
+
 
             //var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(child.ChildID);
             //var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(child.ChildID);
@@ -625,28 +630,38 @@ namespace Web.Controllers.User
         [HttpPost("RegisterCourse")]
         public async Task<IActionResult> RegisterCourse(int childId, int courseId, decimal scheduledHours, string paymentModel, decimal totalCost, string description)
         {
+
+            var user = await _userManager.GetUserAsync(User);
+
+
+            //using var transaction = await _context.Database.BeginTransactionAsync();
+
             try
             {
-                var user = await _userManager.GetUserAsync(User);
-                int enrollmentId = await _courseEnrollmentService.AddRegisteredEnrollmentAsync(childId, courseId, scheduledHours, "Registered", user);
-                bool success = await _feeService.AddCourseFeeAsync(enrollmentId, paymentModel, totalCost, description, user);
+                int newEnrollmentId = await _courseEnrollmentService.AddRegisteredEnrollmentAsync(childId, courseId, scheduledHours, "Registered", user);
 
 
+
+                bool success = await _feeService.AddCourseFeeAsync(newEnrollmentId, paymentModel, totalCost, description, user);
                 if (!success)
                 {
-                    TempData["ErrorMessage1"] = "Enrollment failed.";
+                    throw new Exception("Adding course fee failed.");
                 }
-                else
-                {
-                    TempData["SuccessMessage1"] = "Child enrolled successfully!";
-                }
+
+                //await transaction.CommitAsync();
+
+                TempData["SuccessMessage1"] = "Child enrolled successfully!";
             }
             catch (Exception ex)
             {
+                //await transaction.RollbackAsync();
                 TempData["ErrorMessage1"] = $"{ex.Message}";
+                //Send email to Yulan
             }
 
             return RedirectToAction("ManageRegistrations", new { childId });
+
+
         }
 
         [Authorize(Roles = "Staff")]
@@ -655,15 +670,17 @@ namespace Web.Controllers.User
         {
             try
             {
-                var success = await _courseEnrollmentService.RemoveRegisteredEnrollmentAsync(enrollmentId);
+                var success1 = await _feeService.DeleteCourseFeeAsync(enrollmentId);
+                var success2 = await _courseEnrollmentService.RemoveRegisteredEnrollmentAsync(enrollmentId);
+                
 
-                if (!success)
+                if (success1&&success2)
                 {
-                    TempData["ErrorMessage1"] = "Failed to remove enrollment.";
+                    TempData["SuccessMessage1"] = "Enrollment removed successfully.";
                 }
                 else
                 {
-                    TempData["SuccessMessage1"] = "Enrollment removed successfully.";
+                    TempData["ErrorMessage1"] = "Failed to remove enrollment.";
                 }
             }
             catch (Exception ex)
@@ -943,7 +960,7 @@ namespace Web.Controllers.User
             Core.Models.User user = await _userManager.GetUserAsync(User);
             var child = await _childService.GetByIdAsync(user.Id);
 
-            
+
             var completedCourses = await _courseEnrollmentService.GetCompletedEnrollmentsByChildAsync(child.ChildID);
             var completedActivities = await _activityEnrollmentService.GetCompletedEnrollmentsByChildAsync(child.ChildID);
 
@@ -992,7 +1009,8 @@ namespace Web.Controllers.User
             var allEnrolledSessions = await _courseEnrollmentService.GetEnrollmentsByCourseChildAsync(courseId, childId);
             if (sessions != null)
             {
-                foreach (var session in sessions) {
+                foreach (var session in sessions)
+                {
 
                     if (allEnrolledSessions.Any(e => e.ScheduledAt == session.ScheduledAt))
                     {
@@ -1000,7 +1018,8 @@ namespace Web.Controllers.User
                     }
 
                     var sessionOption = new ManageSessionRegistrationsViewModel.SessionOption
-                    { EnrollmentID = session.EnrollmentID,
+                    {
+                        EnrollmentID = session.EnrollmentID,
                         ScheduledAt = session.ScheduledAt ?? DateTime.MinValue,
                         ScheduledHours = session.ScheduledHours ?? 0,
                         IsSelected = false
@@ -1064,7 +1083,7 @@ namespace Web.Controllers.User
             {
                 Core.Models.User user = await _userManager.GetUserAsync(User);
                 var selectedSessions = model.AvailableSessions.Where(s => s.IsSelected).ToList();
-                
+
 
                 if (selectedSessions.Count + model.EnrolledSessionsCount > model.CourseSessionsCount)
                 {
@@ -1072,7 +1091,7 @@ namespace Web.Controllers.User
                     return RedirectToAction("ManageSessionRegistrations", new { childId = model.ChildID, courseId = model.CourseID });
 
                 }
-                    
+
 
                 foreach (var session in selectedSessions)
                 {
@@ -1137,7 +1156,7 @@ namespace Web.Controllers.User
 
 
                 }
-                
+
             }
 
 
@@ -1151,7 +1170,7 @@ namespace Web.Controllers.User
             await _emailService.SendEmailAsync(child.User.Email, subject, message);
 
             TempData["SuccessMessage"] = "Session updates saved successfully.";
-            return RedirectToAction("ManageSessionRegistrations", new { childId = formModel.ChildID, courseId = formModel.CourseID});
+            return RedirectToAction("ManageSessionRegistrations", new { childId = formModel.ChildID, courseId = formModel.CourseID });
 
             //try
             //{
@@ -1186,7 +1205,7 @@ namespace Web.Controllers.User
             Core.Models.User user = await _userManager.GetUserAsync(User);
             var child = await _childService.GetByIdAsync(user.Id);
 
-            if(child == null)
+            if (child == null)
                 return NotFound("Child not found.");
 
 
@@ -1198,7 +1217,7 @@ namespace Web.Controllers.User
             {
                 try
                 {
-                    
+
 
                     foreach (var schedule in model.Schedules)
                     {
@@ -1253,7 +1272,7 @@ namespace Web.Controllers.User
                 }
 
             }
-           
+
 
             return RedirectToAction("MySchedules");
         }
@@ -1264,8 +1283,8 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Child")]
         [HttpPost("UpdateSchedulesToConform")]
-       
-         public async Task<IActionResult> UpdateSchedulesToConform(UpdateSchedulesToConfirmFormModel model, string actionType)
+
+        public async Task<IActionResult> UpdateSchedulesToConform(UpdateSchedulesToConfirmFormModel model, string actionType)
         {
             Core.Models.User user = await _userManager.GetUserAsync(User);
             var child = await _childService.GetByIdAsync(user.Id);

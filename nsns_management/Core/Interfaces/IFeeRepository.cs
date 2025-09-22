@@ -16,7 +16,9 @@ namespace Core.Interfaces
 
         // Remove a Specialty
         Task<bool> RemoveAsync(Fee entity);
-        
+
+        Task<bool> DeleteCourseFeeAsync(int enrollmentId);
+
 
         // Update a Specialty
         Task<bool> UpdateAsync(Fee entity);
