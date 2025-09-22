@@ -628,7 +628,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("RegisterCourse")]
-        public async Task<IActionResult> RegisterCourse(int childId, int courseId, decimal scheduledHours, string paymentModel, decimal totalCost, string description)
+        public async Task<IActionResult> RegisterCourse(int childId, int courseId, decimal scheduledHours, string paymentModel, decimal? totalCost, string? description)
         {
 
             var user = await _userManager.GetUserAsync(User);
@@ -640,14 +640,21 @@ namespace Web.Controllers.User
             {
                 int newEnrollmentId = await _courseEnrollmentService.AddRegisteredEnrollmentAsync(childId, courseId, scheduledHours, "Registered", user);
 
+                if (totalCost == null)
+                {
+                    totalCost = 0;
+                    description ??= "To be charged in sessions"; // Ensure description is not null
+                }
 
 
-                bool success = await _feeService.AddCourseFeeAsync(newEnrollmentId, paymentModel, totalCost, description, user);
+                bool success = await _feeService.AddCourseFeeAsync(newEnrollmentId, paymentModel, (decimal)totalCost, description, user);
                 if (!success)
                 {
                     throw new Exception("Adding course fee failed.");
                 }
+               
 
+                
                 //await transaction.CommitAsync();
 
                 TempData["SuccessMessage1"] = "Child enrolled successfully!";
