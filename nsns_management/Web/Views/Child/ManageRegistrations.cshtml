@@ -74,6 +74,8 @@
            @*  <th style="padding: 8px; border: 1px solid #ddd;">Request To Reschedule</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Request To Leave</th>
             <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Fee</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Is Paid</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Group Sessions</th>
         </tr>
@@ -102,7 +104,8 @@
                   @*   <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; color:@((enrollment.RequestToRescheduleSessions > 0) && enrollment.CourseType == "Group"? "red" : "black");" >@enrollment.RequestToRescheduleSessions</td> *@
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; background-color:@(enrollment.RequestToLeaveSessions > 0 ? "#FFDBF6" : "#EDFDFC");">@enrollment.RequestToLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.OnLeaveSessions</td>
-
+                    <td style="padding: 8px; border: 1px solid #ddd;">Fee</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsPaid</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Child/UnregisterCourse">
                             <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
@@ -131,14 +134,14 @@
         else
         {
             <tr>
-                <td colspan="16" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
+                <td colspan="18" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
             </tr>
         }
 
          @if (TempData["SuccessMessage1"] != null)
         {
             <tr>
-                <td colspan="16">
+                <td colspan="18">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage1"]
                     </div>
@@ -149,7 +152,7 @@
         @if (TempData["ErrorMessage1"] != null)
         {
             <tr>
-                <td colspan="16">
+                <td colspan="18">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage1"]
                     </div>

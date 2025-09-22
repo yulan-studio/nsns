@@ -139,6 +139,7 @@ namespace Core.Repositories
            .Include(e => e.Course)
            .Include(e => e.Course.Coach)
            .Include(e => e.Course.Specialty)
+           
            .Where(e => e.ChildID == childId && ((e.Status == "Registered" || e.Status == "Completed" ) && e.EnrollmentID_Ref == null))  //Not included those registered to session
            .OrderBy(e => e.CreatedDate)
            .Select(e => new CourseEnrollmentViewModel
@@ -162,7 +163,12 @@ namespace Core.Repositories
                CanceledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Canceled" && c.EnrollmentID_Ref != null), // Count all canceled sessions
                OnLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "OnLeave" && c.EnrollmentID_Ref != null), // Count all on leave sessions
                RequestToLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToLeave" && c.EnrollmentID_Ref != null), // Count all requested to leave sessions,
-               RequestToRescheduleSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToReschedule" && c.EnrollmentID_Ref != null) // Count all requested to leave sessions
+               RequestToRescheduleSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToReschedule" && c.EnrollmentID_Ref != null), // Count all requested to leave sessions
+                                                                                                                                                                                                           // NEW: get IsPaid from Fees
+               IsPaid = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.IsPaid)
+                        .FirstOrDefault()
            })
            .OrderBy(e => e.CourseID)
            .ToListAsync();

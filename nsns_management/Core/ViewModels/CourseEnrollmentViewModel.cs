@@ -15,6 +15,8 @@ namespace Core.ViewModels
 
         public bool IsActive { get; set; }
 
+        public bool IsPaid { get; set; }
+
         public int EnrollmentID { get; set; }  //this is the EnrollmentID for each course which status is 'registered' for the child
         public string Title { get; set; }
 
