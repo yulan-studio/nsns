@@ -19,11 +19,15 @@ namespace Core.Interfaces
 
         Task<bool> AddAcitvityFeeAsync(int enrollmentId, string paymentModel, decimal totalCost, string description, User user);
 
-        Task<bool> UpdateAsync(Fee fee);
-        
+        //Task<bool> UpdateAsync(Fee fee);
+
+        Task<bool> UpdateFeeAsync(Fee fee, string description, decimal totalCost, int userId);
+
         Task<bool> DeleteAsync(int feeId);
        
         Task<Fee> GetAsync(int feeId);
+
+        Task<Fee?> GetFeeForCourseEnrollmentAsync(int courseEnrollmentId);
 
         Task<IEnumerable<Fee>> GetAllAsync();
        

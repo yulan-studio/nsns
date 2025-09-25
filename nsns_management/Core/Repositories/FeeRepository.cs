@@ -80,8 +80,15 @@ namespace Core.Repositories
         }
 
 
+        public async Task<Fee?> GetByCourseEnrollmentIdAsync(int courseEnrollmentId)
+        {
+            return await _context.Fees
+                .Include(f => f.CourseEnrollment)
+                .FirstOrDefaultAsync(f => f.CourseEnrollmentID == courseEnrollmentId);
+        }
 
-     
+       
+
 
 
 

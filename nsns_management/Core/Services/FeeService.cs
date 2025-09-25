@@ -81,21 +81,44 @@ namespace Core.Services
             }
         }
 
-        // ✅ Update a City
-        public async Task<bool> UpdateAsync(Fee fee)
+
+        
+        public async Task<Fee?> GetFeeForCourseEnrollmentAsync(int courseEnrollmentId)
         {
-            var existingFee = await _feeRepository.GetAsync(fee.FeeID);
-            if (existingFee == null)
-                throw new KeyNotFoundException("Fee not found.");
-
-            existingFee.Description = fee.Description; // Update fields
-            existingFee.TotalCost = fee.TotalCost;
-            existingFee.CreatedAt = fee.CreatedAt;
-            existingFee.IsPaid = fee.IsPaid;
-            existingFee.PaidAt = fee.PaidAt;
-
-            return await _feeRepository.UpdateAsync(fee);
+            return await _feeRepository.GetByCourseEnrollmentIdAsync(courseEnrollmentId);
         }
+
+        public async Task<bool> UpdateFeeAsync(Fee fee, string description, decimal totalCost, int userId)
+        {
+            if (fee == null || fee.IsPaid)
+                return false;
+
+            fee.Description = description;
+            fee.TotalCost = totalCost;
+            fee.UpdatedAt = DateTime.UtcNow;
+            fee.UpdatedBy = userId;
+
+            await _feeRepository.UpdateAsync(fee);
+            return true;
+        }
+
+
+
+        // ✅ Update a City
+        //public async Task<bool> UpdateAsync(Fee fee)
+        //{
+        //    var existingFee = await _feeRepository.GetAsync(fee.FeeID);
+        //    if (existingFee == null)
+        //        throw new KeyNotFoundException("Fee not found.");
+
+        //    existingFee.Description = fee.Description; // Update fields
+        //    existingFee.TotalCost = fee.TotalCost;
+        //    existingFee.CreatedAt = fee.CreatedAt;
+        //    existingFee.IsPaid = fee.IsPaid;
+        //    existingFee.PaidAt = fee.PaidAt;
+
+        //    return await _feeRepository.UpdateAsync(fee);
+        //}
 
         // ✅ Delete a City
         public async Task<bool> DeleteAsync(int feeId)
