@@ -1,4 +1,5 @@
 ﻿using Core.Interfaces;
+using Core.Models;
 using Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace Web.Controllers.Fee
             _feeService = feeService;
         }
 
-        // GET: Fees/Edit/{courseEnrollmentId}
+        // GET: Fee/Edit/{courseEnrollmentId}
         [HttpGet]
         public async Task<IActionResult> Edit(int courseEnrollmentId)
         {
@@ -27,6 +28,7 @@ namespace Web.Controllers.Fee
 
             var model = new FeeEditViewModel
             {
+                ChildID = fee.CourseEnrollment.Child.ChildID,
                 CourseEnrollmentID = fee.CourseEnrollmentID,
                 FeeID = fee.FeeID,
                 Description = fee.Description,
@@ -54,7 +56,8 @@ namespace Web.Controllers.Fee
                 if (fee == null)
                     return NotFound();
 
-                int userId = 1; // TODO: replace with HttpContext.User info
+                //int userId = 1; // TODO: replace with HttpContext.User info
+                int userId = user.Id;
 
                 var success = await _feeService.UpdateFeeAsync(fee, model.Description, model.TotalCost, userId);
 
@@ -64,7 +67,8 @@ namespace Web.Controllers.Fee
                     return View(model);
                 }
 
-                return RedirectToAction("Details", "CourseEnrollments", new { id = model.CourseEnrollmentID });
+                //return RedirectToAction("Child", "ManageRegistrations", new { id = model. });
+                return RedirectToAction("Child", "ManageRegistrations", new { model.ChildID });
             }
             else
             {

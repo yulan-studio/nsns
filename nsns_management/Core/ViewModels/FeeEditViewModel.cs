@@ -11,13 +11,15 @@ namespace Core.ViewModels
     {
         public int FeeID { get; set; }
 
+        public int? ChildID { get; set; }
+
         public int? CourseEnrollmentID { get; set; }
 
         public int? ActivityEnrollmentID { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         [Range(0, 999999.99)]

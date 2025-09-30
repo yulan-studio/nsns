@@ -18,7 +18,7 @@ namespace Core.Models
 
         public int? ActivityEnrollmentID { get; set; }
 
-        public required string Description { get; set; }
+        public required string? Description { get; set; }
 
         public required decimal? TotalCost { get; set; }
 

@@ -105,7 +105,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; background-color:@(enrollment.RequestToLeaveSessions > 0 ? "#FFDBF6" : "#EDFDFC");">@enrollment.RequestToLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.OnLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.TotalCost</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsPaid</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;"><a asp-controller="Fees" asp-action="Edit" asp-route-courseEnrollmentId="@enrollment.EnrollmentID">@enrollment.IsPaid</a></td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Child/UnregisterCourse">
                             <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />

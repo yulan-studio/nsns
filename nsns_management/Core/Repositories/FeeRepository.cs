@@ -84,6 +84,7 @@ namespace Core.Repositories
         {
             return await _context.Fees
                 .Include(f => f.CourseEnrollment)
+                .ThenInclude(e => e.Child)
                 .FirstOrDefaultAsync(f => f.CourseEnrollmentID == courseEnrollmentId);
         }
 
