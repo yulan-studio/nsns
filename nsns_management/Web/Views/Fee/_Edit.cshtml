@@ -20,7 +20,7 @@
         <dd class="col-sm-10">@Model.TotalCost</dd>
     </dl>
 
-    <a asp-controller="Child" asp-action="ManageRegistrations" asp-route-id="@Model.ChildID" class="btn btn-secondary">Back</a>
+    <a href="/Child/ManageRegistrations/@Model.ChildID" style="background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back</a>
 }
 
  else if (Model.TotalCost == null)
@@ -37,13 +37,15 @@
         <dd class="col-sm-10">@Model.TotalCost</dd>
     </dl>
 
-    <a asp-controller="Child" asp-action="ManageRegistrations" asp-route-id="@Model.ChildID" class="btn btn-secondary">Back</a>
+
+    <a href="/Child/ManageRegistrations/@Model.ChildID" style="background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back</a>
 } 
 else
 {
-    <form asp-action="Edit" method="post">
+    <form asp-action="EditCourseFee" method="post">
         <input type="hidden" asp-for="CourseEnrollmentID" />
         <input type="hidden" asp-for="FeeID" />
+        <input type="hidden" asp-for="ChildID" />
 
         <div class="form-group">
             <label asp-for="Description" class="control-label"></label>
@@ -58,6 +60,6 @@ else
         </div>
 
         <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;">Save</button>
-        <a asp-controller="Child" asp-action="ManageRegistrations" asp-route-id="@Model.ChildID" style="background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Cancel</a>
+        <a href="/Child/ManageRegistrations/@Model.ChildID" style="background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Cancel</a>
     </form>
 }

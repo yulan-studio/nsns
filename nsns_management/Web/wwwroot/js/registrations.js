@@ -68,3 +68,10 @@ function toggleFeeInput() {
 }
 
 
+function loadEditCourseFeeForm(courseEnrollmentId) {
+    $.get("/Fee/Edit/" + courseEnrollmentId, function (data) {
+        $("#modalContent").html(data);
+        $("#courseFeeModal").modal("show");
+    });
+}
+

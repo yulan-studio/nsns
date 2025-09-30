@@ -1,24 +1,28 @@
 ﻿using Core.Interfaces;
 using Core.Models;
+using Core.Services;
 using Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 
 namespace Web.Controllers.Fee
 {
     [Route("Fee")]
-    public class FeesController : Controller
+    public class FeeController : Controller
     {
         private readonly IFeeService _feeService;
         private readonly UserManager<Core.Models.User> _userManager;
 
-        public FeesController(IFeeService feeService, UserManager<Core.Models.User> userManager)
+        public FeeController(IFeeService feeService, UserManager<Core.Models.User> userManager)
         {
             _feeService = feeService;
+            _userManager = userManager;
         }
 
         // GET: Fee/Edit/{courseEnrollmentId}
-        [HttpGet]
+        
+        [HttpGet("Edit/{courseEnrollmentId}")]
         public async Task<IActionResult> Edit(int courseEnrollmentId)
         {
             var fee = await _feeService.GetFeeForCourseEnrollmentAsync(courseEnrollmentId);
@@ -26,7 +30,7 @@ namespace Web.Controllers.Fee
             if (fee == null)
                 return NotFound();
 
-            var model = new FeeEditViewModel
+            var feeModel = new FeeEditViewModel
             {
                 ChildID = fee.CourseEnrollment.Child.ChildID,
                 CourseEnrollmentID = fee.CourseEnrollmentID,
@@ -36,8 +40,14 @@ namespace Web.Controllers.Fee
                 IsPaid = fee.IsPaid
             };
 
-            return View(model);
+            //return View(model);
+            return PartialView("_Edit", feeModel);
         }
+
+
+        
+
+
 
         // POST: Fees/Edit
         [HttpPost]
@@ -45,7 +55,7 @@ namespace Web.Controllers.Fee
         public async Task<IActionResult> EditCourseFee(FeeEditViewModel model)
         {
             if (!ModelState.IsValid)
-                return View(model);
+                return PartialView("_Edit", model);
 
             var user = await _userManager.GetUserAsync(User);
 
@@ -64,11 +74,11 @@ namespace Web.Controllers.Fee
                 if (!success)
                 {
                     ModelState.AddModelError("", "Cannot update a paid fee.");
-                    return View(model);
+                    return PartialView("_Edit", model);
                 }
 
                 //return RedirectToAction("Child", "ManageRegistrations", new { id = model. });
-                return RedirectToAction("Child", "ManageRegistrations", new { model.ChildID });
+                return RedirectToAction("ManageRegistrations", "Child", new { childId = model.ChildID });
             }
             else
             {

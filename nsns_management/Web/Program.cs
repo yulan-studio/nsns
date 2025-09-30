@@ -295,6 +295,11 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}");
 
 
+app.MapControllerRoute(
+    name: "childRoute",
+    pattern: "{controller=Child}/{action=ManageRegistrations}/{childId?}");
+
+
 
 
 app.Run();

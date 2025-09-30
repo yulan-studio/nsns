@@ -17,7 +17,7 @@ namespace Core.ViewModels
 
         public int? ActivityEnrollmentID { get; set; }
 
-        [Required]
+        
         [StringLength(255)]
         public string? Description { get; set; }
 

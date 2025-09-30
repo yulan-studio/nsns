@@ -510,7 +510,9 @@ namespace Web.Controllers.User
 
         }
 
+        
         [Authorize(Roles = "Staff")]
+        [Route("Child/ManageRegistrations/{childId}")]
         [HttpGet("ManageRegistrations/{childId}")]
         public async Task<IActionResult> ManageRegistrations(int childId)
         {
