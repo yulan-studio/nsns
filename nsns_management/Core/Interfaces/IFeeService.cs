@@ -13,7 +13,7 @@ namespace Core.Interfaces
     {
         Task<bool> AddAsync(Fee fee);
 
-        Task<bool> AddCourseFeeAsync(int enrollmentId, string paymentModel, decimal totalCost, string description, User user);
+        Task<bool> AddCourseFeeAsync(int enrollmentId, string paymentModel, decimal? totalCost, string description, User user);
 
         Task<bool> DeleteCourseFeeAsync(int enrollmentId);
 
@@ -21,7 +21,7 @@ namespace Core.Interfaces
 
         //Task<bool> UpdateAsync(Fee fee);
 
-        Task<bool> UpdateFeeAsync(Fee fee, string description, decimal totalCost, int userId);
+        Task<bool> UpdateFeeAsync(Fee fee, string description, decimal? totalCost, int userId);
 
         Task<bool> DeleteAsync(int feeId);
        

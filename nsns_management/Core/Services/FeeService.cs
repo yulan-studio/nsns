@@ -34,7 +34,7 @@ namespace Core.Services
         
 
 
-        public async Task<bool> AddCourseFeeAsync(int enrollmentId, string paymentModel, decimal totalCost, string description, User user)
+        public async Task<bool> AddCourseFeeAsync(int enrollmentId, string paymentModel, decimal? totalCost, string description, User user)
         {
             var fee = new Fee
             {
@@ -88,7 +88,7 @@ namespace Core.Services
             return await _feeRepository.GetByCourseEnrollmentIdAsync(courseEnrollmentId);
         }
 
-        public async Task<bool> UpdateFeeAsync(Fee fee, string description, decimal totalCost, int userId)
+        public async Task<bool> UpdateFeeAsync(Fee fee, string description, decimal? totalCost, int userId)
         {
             if (fee == null || fee.IsPaid)
                 return false;

@@ -642,12 +642,12 @@ namespace Web.Controllers.User
 
                 if (totalCost == null)
                 {
-                    totalCost = 0;
+                    //totalCost = 0;
                     description ??= "To be charged in sessions"; // Ensure description is not null
                 }
 
 
-                bool success = await _feeService.AddCourseFeeAsync(newEnrollmentId, paymentModel, (decimal)totalCost, description, user);
+                bool success = await _feeService.AddCourseFeeAsync(newEnrollmentId, paymentModel, totalCost, description, user);
                 if (!success)
                 {
                     throw new Exception("Adding course fee failed.");

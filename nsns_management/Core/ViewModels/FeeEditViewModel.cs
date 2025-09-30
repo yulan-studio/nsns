@@ -21,7 +21,7 @@ namespace Core.ViewModels
 
         [Required]
         [Range(0, 999999.99)]
-        public decimal TotalCost { get; set; }
+        public decimal? TotalCost { get; set; }
 
         public bool IsPaid { get; set; }
     }

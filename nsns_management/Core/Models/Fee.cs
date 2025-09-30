@@ -20,9 +20,9 @@ namespace Core.Models
 
         public required string Description { get; set; }
 
-        public required decimal TotalCost { get; set; }
+        public required decimal? TotalCost { get; set; }
 
-        public string PaymentModel { get; set; }
+        public required string PaymentModel { get; set; }
 
         public bool IsPaid { get; set; }
 
