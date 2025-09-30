@@ -109,18 +109,13 @@
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.OnLeaveSessions</td>
                    
                     <td style="padding: 8px; border: 1px solid #ddd;">
-                        @if (!enrollment.IsPaid)
-                        {
+                       
                             <a href="#"
                                onclick="loadEditCourseFeeForm(@enrollment.EnrollmentID)"
                                style="margin-left: 10px; color: #007bff; text-decoration: none;">
                                 @enrollment.TotalCost
                             </a>
-                        }
-                        else
-                        {
-                            @enrollment.TotalCost
-                        }
+                      
                     </td>
                    
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsPaid</td>
@@ -188,7 +183,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Specialty</h5>
+                <h5 class="modal-title">Fee</h5>
                 <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body" id="modalContent">
