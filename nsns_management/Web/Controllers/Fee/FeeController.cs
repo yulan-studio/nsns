@@ -22,8 +22,8 @@ namespace Web.Controllers.Fee
 
         // GET: Fee/Edit/{courseEnrollmentId}
         
-        [HttpGet("Edit/{courseEnrollmentId}")]
-        public async Task<IActionResult> Edit(int courseEnrollmentId)
+        [HttpGet("EditCourseFee/{courseEnrollmentId}")]
+        public async Task<IActionResult> EditCourseFee(int courseEnrollmentId)
         {
             var fee = await _feeService.GetFeeForCourseEnrollmentAsync(courseEnrollmentId);
 
@@ -35,27 +35,52 @@ namespace Web.Controllers.Fee
                 ChildID = fee.CourseEnrollment.Child.ChildID,
                 CourseEnrollmentID = fee.CourseEnrollmentID,
                 FeeID = fee.FeeID,
+                PaymentModel = fee.PaymentModel,
                 Description = fee.Description,
                 TotalCost = fee.TotalCost,
                 IsPaid = fee.IsPaid
             };
 
             //return View(model);
-            return PartialView("_Edit", feeModel);
+            return PartialView("_EditCourse", feeModel);
         }
 
 
-        
+        [HttpGet("EditActivityFee/{activityEnrollmentId}")]
+        public async Task<IActionResult> EditActivityFee(int activityEnrollmentId)
+        {
+            var fee = await _feeService.GetFeeForActivityEnrollmentAsync(activityEnrollmentId);
+
+            if (fee == null)
+                return NotFound();
+
+            var feeModel = new FeeEditViewModel
+            {
+                ChildID = fee.ActivityEnrollment.Child.ChildID,
+                ActivityEnrollmentID = fee.ActivityEnrollmentID,
+                FeeID = fee.FeeID,
+                PaymentModel = fee.PaymentModel,
+                Description = fee.Description,
+                TotalCost = fee.TotalCost,
+                IsPaid = fee.IsPaid
+            };
+
+            //return View(model);
+            return PartialView("_EditActivity", feeModel);
+        }
 
 
 
-        // POST: Fees/Edit
-        [HttpPost]
+
+
+
+        // POST: Fee/EditCourseFee
+        [HttpPost("EditCourseFee/{courseEnrollmentId}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditCourseFee(FeeEditViewModel model)
         {
             if (!ModelState.IsValid)
-                return PartialView("_Edit", model);
+                return PartialView("_EditCourse", model);
 
             var user = await _userManager.GetUserAsync(User);
 
@@ -74,7 +99,7 @@ namespace Web.Controllers.Fee
                 if (!success)
                 {
                     ModelState.AddModelError("", "Cannot update a paid fee.");
-                    return PartialView("_Edit", model);
+                    return PartialView("_EditCourse", model);
                 }
 
                 //return RedirectToAction("Child", "ManageRegistrations", new { id = model. });
@@ -85,6 +110,46 @@ namespace Web.Controllers.Fee
                 return BadRequest("Invalid fee type.");
             }
                 
+        }
+
+
+        [HttpPost("EditActivityFee/{activityEnrollmentId}")]
+        // POST: Fee/EditActivityFee
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditActivityFee(FeeEditViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return PartialView("_EditActivity", model);
+
+            var user = await _userManager.GetUserAsync(User);
+
+            if (model.ActivityEnrollmentID != null)
+            { // Ensure it's a course fee
+                var fee = await _feeService.GetFeeForActivityEnrollmentAsync((int)model.ActivityEnrollmentID);
+
+                if (fee == null)
+                    return NotFound();
+
+                //int userId = 1; // TODO: replace with HttpContext.User info
+                int userId = user.Id;
+
+                var success = await _feeService.UpdateFeeAsync(fee, model.Description, model.TotalCost, userId);
+
+                if (!success)
+                {
+                    ModelState.AddModelError("", "Cannot update a paid fee.");
+                    return PartialView("_EditActivity", model);
+                }
+
+                //return RedirectToAction("Child", "ManageRegistrations", new { id = model. });
+                return RedirectToAction("ManageRegistrations", "Child", new { childId = model.ChildID });
+            }
+            else
+            {
+                return BadRequest("Invalid fee type.");
+            }
+
         }
     }
 

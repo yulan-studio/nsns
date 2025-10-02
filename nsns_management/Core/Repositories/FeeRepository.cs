@@ -88,7 +88,16 @@ namespace Core.Repositories
                 .FirstOrDefaultAsync(f => f.CourseEnrollmentID == courseEnrollmentId);
         }
 
-       
+
+        public async Task<Fee?> GetByActivityEnrollmentIdAsync(int activityEnrollmentId)
+        {
+            return await _context.Fees
+                .Include(f => f.ActivityEnrollment)
+                .ThenInclude(e => e.Child)
+                .FirstOrDefaultAsync(f => f.ActivityEnrollmentID == activityEnrollmentId);
+        }
+
+
 
 
 

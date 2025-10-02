@@ -183,10 +183,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Fee</h5>
+                <h5 class="modal-title">Course Fee</h5>
                 <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body" id="modalContent">
+            <div class="modal-body" id="courseModalContent">
                 <!-- The Edit form will be loaded here dynamically -->
             </div>
         </div>
@@ -253,7 +253,7 @@
 <div style="margin-bottom: 50px;"></div>
 
 <!-- ✅ Table Showing Already Enrolled Activities -->
-<h3 style="margin-bottom:20px;">Registered Activities | Canceled Activities</h3>
+<h3 style="margin-bottom:20px;"> Registered Upcoming Activities </h3>
 
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
@@ -261,7 +261,8 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Activity Title</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Date</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Total Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Is Paid</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
         </tr>
@@ -272,10 +273,22 @@
             foreach (var enrollment in Model.ActivityEnrollments)
             {
                 <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Title</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Address</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Cost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Address</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledAt.ToString("yyyy-MM-dd")</td>
+                   @*  <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Cost</td> *@
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+
+                        <a href="#"
+                           onclick="loadEditActivityFeeForm(@enrollment.EnrollmentID)"
+                           style="margin-left: 10px; color: #007bff; text-decoration: none;">
+                            @enrollment.TotalCost
+                        </a>
+
+                    </td>
+
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsPaid</td>
+
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Child/UnregisterActivity">
@@ -292,14 +305,14 @@
         else
         {
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px;">No activities enrolled.</td>
+                <td colspan="7" style="text-align: center; padding: 10px;">No activities enrolled.</td>
             </tr>
         }
 
         @if (TempData["SuccessMessage2"] != null)
         {
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage2"]
                     </div>
@@ -310,7 +323,7 @@
         @if (TempData["ErrorMessage2"] != null)
         {
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage2"]
                     </div>
@@ -319,6 +332,22 @@
         }
     </tbody>
 </table>
+
+
+
+<div id="activityFeeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Activity Fee</h5>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="activityModalContent">
+                <!-- The Edit form will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+</div>
 
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
 
@@ -338,7 +367,26 @@
         }
     </select>
 
+        <!-- Select Payment Model -->
+        <label for="PaymentModel">Payment Model:</label>
+        <select id="PaymentModel" name="PaymentModel" required onchange="toggleActivityFeeInput()">
+            <option value="">-- Select Payment Model --</option>
+            <option value="Direct">Direct</option>
+            <option value="Token">Token</option>
+        </select>
+
+        <!-- Fee Input (visible conditionally) -->
+        <div id="activityFeeSection" style="display:block; margin-top:10px;">
+            <label for="totalCost">Fee:</label>
+            <input type="number" step="1" min="0" id="totalCost" name="totalCost" />
+
+            <!-- Description Textarea -->
+            <label for="description" style="margin-top:8px; display:block;">Description:</label>
+            <textarea id="description" name="description" rows="3" cols="40"
+                      placeholder="Enter fee details here..."></textarea>
+        </div>
+
     <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
-        <small style="color:darkslategray">   - Open activities are shown here</small>
+        @* <small style="color:darkslategray">   - Open activities are shown here</small> *@
 </form>
 </div>

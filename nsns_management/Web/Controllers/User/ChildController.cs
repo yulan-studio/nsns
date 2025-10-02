@@ -538,9 +538,11 @@ namespace Web.Controllers.User
                 Text = s.Title
             }).ToList();
 
-            var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(childId);
-            var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(childId);
-            var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
+            //var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(childId);
+            //var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(childId);
+            //var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
+
+            var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsViewByChildAsync(childId);
             var activities = await _activityService.GetAllActiveOpenAsync();
 
             ViewBag.ActivityList = activities.Select(a => new SelectListItem
@@ -579,7 +581,7 @@ namespace Web.Controllers.User
             //var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(childId);
             //var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(childId);
             //var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
-            var activityEnrollments = await _activityEnrollmentService.GetAllEnrollmentsByChildAsync(child.ChildID);
+            var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsViewByChildAsync(child.ChildID);
 
 
             return View("Registrations", new ManageRegisterationsViewModel
@@ -607,7 +609,7 @@ namespace Web.Controllers.User
             //var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(child.ChildID);
             //var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
 
-            var activityEnrollments = await _activityEnrollmentService.GetAllEnrollmentsByChildAsync(child.ChildID);
+            var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsViewByChildAsync(child.ChildID);
 
 
             return View("MyRegistrations", new ManageRegisterationsViewModel
@@ -703,14 +705,19 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("RegisterActivity")]
-        public async Task<IActionResult> RegisterActivity(int childId, int activityId)
+        public async Task<IActionResult> RegisterActivity(int childId, int activityId, string paymentModel, decimal totalCost, string? description)
         {
             try
             {
                 var user = await _userManager.GetUserAsync(User);
                 var success1 = false;
                 var success2 = false;
-                success1 = await _activityEnrollmentService.AddRegisteredEnrollmentAsync(childId, activityId, "Registered", user);
+                
+                int newEnrollmentId = await _activityEnrollmentService.AddRegisteredEnrollmentAsync(childId, activityId, "Registered", user);
+
+                success1 = await _feeService.AddActivityFeeAsync(newEnrollmentId, paymentModel, totalCost, description, user);
+
+
                 success2 = await _activityEnrollmentService.UpdateActivityStatusToClosedAsync(activityId);
                 if (!success1 || !success2)
                 {

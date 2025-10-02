@@ -124,12 +124,12 @@
             foreach (var enrollment in Model.ActivityEnrollments)
             {
                 <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Title</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Description</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Address</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Cost</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.Activity.Status == "Canceled" ?"color: red":"")">@enrollment.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Description</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Address</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@* @enrollment.Activity.Cost *@</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.Status == "Canceled" ?"color: red":"")">@enrollment.Status</td>
                 @*     <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Child/UnregisterActivity">
                             <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />

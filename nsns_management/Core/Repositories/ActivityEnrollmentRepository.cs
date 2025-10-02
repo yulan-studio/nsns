@@ -1,12 +1,13 @@
-﻿using Core.Interfaces;
+﻿using Core.Contexts;
+using Core.Interfaces;
 using Core.Models;
-using Core.Contexts;
+using Core.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 
 
@@ -69,6 +70,48 @@ namespace Core.Repositories
                 .Where(e => e.ChildID == childId && e.Status == status)
                 .OrderBy(e => e.Activity.ScheduledAt)
                 .ToListAsync();
+        }
+
+
+        public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetUpcomingEnrollmentsViewByChildAsync(int childId)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            return await _context.ActivityEnrollments
+           .Include(e => e.Activity)
+           
+
+
+           .Where(e => e.ChildID == childId 
+                      && (e.Status == "Registered" || e.Status == "Canceled") 
+                      && e.Activity.ScheduledAt > torontoNow )  
+           .OrderBy(e => e.CreatedDate)
+           .Select(e => new ActivityEnrollmentViewModel
+           {
+
+               ActivityID = e.ActivityID,
+            
+               ChildID = e.ChildID,
+               EnrollmentID = e.EnrollmentID,
+
+               Title = e.Activity.Title,
+               Address = e.Activity.Address,
+               ScheduledAt = e.Activity.ScheduledAt,
+               Description = e.Activity.Description,
+               Status = e.Status,
+                                                                                                                                                                                                                          // NEW: get IsPaid from Fees
+               IsPaid = _context.Fees
+                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.IsPaid)
+                        .FirstOrDefault(),
+               TotalCost = _context.Fees
+                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.TotalCost)
+                        .FirstOrDefault()
+           })
+           .OrderBy(e => e.ActivityID)
+           .ToListAsync();
         }
 
         public async Task<bool> AddAsync(ActivityEnrollment enrollment)

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Core.Models;
+using Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Models;
 
 namespace Core.Interfaces
 {
@@ -15,6 +16,8 @@ namespace Core.Interfaces
         //Task<bool> RemoveRegisteredAsync(int enrollmentId);
 
         Task<IEnumerable<ActivityEnrollment>> GetAllEnrollmentsByChildAsync(int childId);
+
+        Task<IEnumerable<ActivityEnrollmentViewModel>> GetUpcomingEnrollmentsViewByChildAsync(int childId);
 
         Task<IEnumerable<ActivityEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId);
 

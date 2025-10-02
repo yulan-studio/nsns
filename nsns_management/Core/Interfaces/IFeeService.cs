@@ -17,7 +17,7 @@ namespace Core.Interfaces
 
         Task<bool> DeleteCourseFeeAsync(int enrollmentId);
 
-        Task<bool> AddAcitvityFeeAsync(int enrollmentId, string paymentModel, decimal totalCost, string description, User user);
+        Task<bool> AddActivityFeeAsync(int enrollmentId, string paymentModel, decimal totalCost, string description, User user);
 
         //Task<bool> UpdateAsync(Fee fee);
 
@@ -28,6 +28,8 @@ namespace Core.Interfaces
         Task<Fee> GetAsync(int feeId);
 
         Task<Fee?> GetFeeForCourseEnrollmentAsync(int courseEnrollmentId);
+
+        Task<Fee?> GetFeeForActivityEnrollmentAsync(int courseEnrollmentId);
 
         Task<IEnumerable<Fee>> GetAllAsync();
        

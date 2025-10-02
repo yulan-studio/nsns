@@ -21,6 +21,9 @@ namespace Core.Interfaces
 
         Task<Fee?> GetByCourseEnrollmentIdAsync(int courseEnrollmentId);
 
+
+        Task<Fee?> GetByActivityEnrollmentIdAsync(int activityEnrollmentId);
+
         // Update a Specialty
         Task<bool> UpdateAsync(Fee entity);
 

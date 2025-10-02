@@ -128,7 +128,7 @@ namespace Core.Repositories
                             Description = a.Description,
                             Address = a.Address,
                             ScheduledAt = a.ScheduledAt,
-                            Cost = a.Cost,
+                            //Cost = a.Cost,
                             MaxCapacity = a.MaxCapacity,
                             Status = a.Status,
                             RegisteredChildrenCount = _context.ActivityEnrollments

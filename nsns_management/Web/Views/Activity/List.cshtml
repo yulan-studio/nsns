@@ -24,7 +24,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Max Capacity</th>
             <th style="padding: 8px; border: 1px solid #ddd;"># of Registrations</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Cost</th>
+            @* <th style="padding: 8px; border: 1px solid #ddd;">Cost</th> *@
           @*   <th style="padding: 8px; border: 1px solid #ddd;">Contact</th> *@
         @*     <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
@@ -41,7 +41,7 @@
                 <td style="padding: 8px; border: 1px solid #ddd;">@activity.MaxCapacity</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">@activity.RegisteredChildrenCount</td>
                 <td style="padding: 8px; border: 1px solid #ddd;">@(activity.ScheduledAt.ToString("yyyy-MM-dd HH:mm"))</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">@(activity.Cost.ToString("C"))</td>
+              @*   <td style="padding: 8px; border: 1px solid #ddd;">@(activity.Cost.ToString("C"))</td> *@
             @*     <td style="padding: 8px; border: 1px solid #ddd;">@activity.IsActive</td> *@
                 <td style="padding: 8px; border: 1px solid #ddd;">@activity.Status</td>
               @*   <td style="padding: 8px; border: 1px solid #ddd;">@activity.Contact</td> *@
@@ -55,7 +55,7 @@
         @if (TempData["SuccessMessage"] != null)
         {
             <tr>
-                <td colspan="9">
+                <td colspan="8">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -66,7 +66,7 @@
         @if (TempData["ErrorMessage"] != null)
         {
             <tr>
-                <td colspan="9">
+                <td colspan="8">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>

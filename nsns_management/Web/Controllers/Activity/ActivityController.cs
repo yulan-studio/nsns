@@ -114,7 +114,7 @@ namespace Web.Controllers.Activity
 
         [Authorize(Roles = "Staff")]
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(string title, string description, string address, int maxCapacity, DateTime scheduledAt, Decimal cost, /*bool isActive,*/ string status)
+        public async Task<IActionResult> Add(string title, string description, string address, int maxCapacity, DateTime scheduledAt, /*Decimal cost,*/ /*bool isActive,*/ string status)
         {
             //createdBy = 1; //temparary set
 
@@ -127,7 +127,7 @@ namespace Web.Controllers.Activity
             try
             {
                 var user = await _userManager.GetUserAsync(User);
-                var result = await _activityService.AddAsync( title,  description,  address,  maxCapacity,  scheduledAt,  cost,  status, user);
+                var result = await _activityService.AddAsync( title,  description,  address,  maxCapacity,  scheduledAt,  /*cost,*/  status, user);
 
                 if (!result)
                 {
@@ -176,12 +176,12 @@ namespace Web.Controllers.Activity
         [Authorize(Roles = "Staff")]
         [HttpPost("Edit/{activityId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int activityId, string title, string description, string address, int maxCapacity, DateTime scheduledAt, decimal cost, /*bool isActive,*/ string status)
+        public async Task<IActionResult> Edit(int activityId, string title, string description, string address, int maxCapacity, DateTime scheduledAt, /*decimal cost,*/ /*bool isActive,*/ string status)
         {
             try
             {
                 var user = await _userManager.GetUserAsync(User);
-                var result = await _activityService.UpdateAsync(activityId,  title,  description,  address,  maxCapacity,  scheduledAt,  cost, /*isActive, */status, user);
+                var result = await _activityService.UpdateAsync(activityId,  title,  description,  address,  maxCapacity,  scheduledAt, /* cost,*/ /*isActive, */status, user);
 
                 if (!result)
                 {

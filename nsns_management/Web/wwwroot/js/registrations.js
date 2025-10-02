@@ -69,9 +69,39 @@ function toggleFeeInput() {
 
 
 function loadEditCourseFeeForm(courseEnrollmentId) {
-    $.get("/Fee/Edit/" + courseEnrollmentId, function (data) {
-        $("#modalContent").html(data);
+    $.get("/Fee/EditCourseFee/" + courseEnrollmentId, function (data) {
+        $("#courseModalContent").html(data);
         $("#courseFeeModal").modal("show");
     });
 }
+
+function loadEditActivityFeeForm(activityEnrollmentId) {
+    $.get("/Fee/EditActivityFee/" + activityEnrollmentId, function (data) {
+        $("#activityModalContent").html(data);
+        $("#activityFeeModal").modal("show");
+    });
+}
+
+
+
+function toggleActivityFeeInput() {
+    const paymentModel = document.getElementById("PaymentModel").value;
+    const feeSection = document.getElementById("activityFeeSection");
+
+    if (paymentModel === "Direct") {
+        feeSection.style.display = "block";
+        document.getElementById("totalCost").setAttribute("required", "required");
+    }
+    else if (paymentModel === "Token") {
+       
+            feeSection.style.display = "block";
+            document.getElementById("totalCost").setAttribute("required", "required");
+    }
+    else {
+            feeSection.style.display = "none";
+            document.getElementById("totalCost").removeAttribute("required");
+    }
+}
+   
+
 

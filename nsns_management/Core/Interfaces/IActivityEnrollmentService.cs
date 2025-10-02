@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using Core.Repositories;
+using Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -11,23 +12,13 @@ namespace Core.Interfaces
 {
     public interface IActivityEnrollmentService
     {
-
-
-
-
-
-
-
-
-
-
-
-
-        Task<bool> AddRegisteredEnrollmentAsync(int childId, int activityId, string status, User user);
+        Task<int> AddRegisteredEnrollmentAsync(int childId, int activityId, string status, User user);
 
         Task<bool> RemoveRegisteredEnrollmentAsync(int enrollmentId);
 
         Task<IEnumerable<ActivityEnrollment>> GetAllEnrollmentsByChildAsync(int childId);
+
+        Task<IEnumerable<ActivityEnrollmentViewModel>> GetUpcomingEnrollmentsViewByChildAsync(int childId);
 
        Task<IEnumerable<ActivityEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId);
 

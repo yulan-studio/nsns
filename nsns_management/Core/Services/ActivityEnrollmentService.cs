@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Core.Interfaces;
+using Core.Models;
+using Core.Repositories;
+using Core.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
-using Core.Models;
-using Core.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.Extensions.Options;
-using Core.Repositories;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
 namespace Core.Services
 {
@@ -37,7 +38,7 @@ namespace Core.Services
             return enrollments.Any(e => e.ActivityID == activityId);
         }
 
-        public async Task<bool> AddRegisteredEnrollmentAsync(int userId, int activityId, string status, User user)
+        public async Task<int> AddRegisteredEnrollmentAsync(int userId, int activityId, string status, User user)
         {
             if (userId <= 0 || activityId <= 0)
                 throw new ArgumentException("Invalid child or activity.");
@@ -47,17 +48,26 @@ namespace Core.Services
             if (await IsChildEnrolledInActivity(userId, activityId))
                 throw new ArgumentException("This activity has already been registered.");
 
-            var enrollment = new ActivityEnrollment
+            try
             {
-                //ChildID = childId,
-                ActivityID = activityId,
-                Child = child,
-                Status = status,
-                CreatedBy = user.Id, // Temporary user ID
-                CreatedDate = DateTime.UtcNow
-            };
+                var enrollment = new ActivityEnrollment
+                {
+                    //ChildID = childId,
+                    ActivityID = activityId,
+                    Child = child,
+                    Status = status,
+                    CreatedBy = user.Id, // Temporary user ID
+                    CreatedDate = DateTime.UtcNow
+                };
 
-            return await _enrollmentRepository.AddAsync(enrollment);
+                await _enrollmentRepository.AddAsync(enrollment);
+
+                return enrollment.EnrollmentID;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex.InnerException);
+            }
         }
 
         public async Task<bool> RemoveRegisteredEnrollmentAsync(int enrollmentId)
@@ -85,6 +95,10 @@ namespace Core.Services
             return await _enrollmentRepository.GetAllEnrollmentsByChildAsync(childId);
         }
 
+        public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetUpcomingEnrollmentsViewByChildAsync(int childId)
+        {
+            return await _enrollmentRepository.GetUpcomingEnrollmentsViewByChildAsync(childId);
+        }
         public async Task<IEnumerable<ActivityEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId)
         {
             return await _enrollmentRepository.GetUpcomingEnrollmentsByChildAsync(childId);
