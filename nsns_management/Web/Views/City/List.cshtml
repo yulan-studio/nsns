@@ -77,6 +77,28 @@
             index++;
         }
         }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
