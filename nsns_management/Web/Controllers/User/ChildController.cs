@@ -383,6 +383,24 @@ namespace Web.Controllers.User
         }
 
 
+        [Authorize(Roles = "Staff")]
+        [HttpGet("Participation/{childId}")]
+        //public async Task<IActionResult> Participation(int childId, string tab = "ManageRegistrations"/*, int? editParentId = null*/)
+        public async Task<IActionResult> Participation(int childId, string tab = "ManageRegistrations"/*, int? editParentId = null*/)
+        {
+            var child = await _childService.GetAsync(childId);
+            //if (child == null)
+            //{
+            //    TempData["ErrorMessage"] = "Child not found.";
+            //    return RedirectToAction("List");
+            //}
+
+            ViewBag.ActiveTab = tab;
+            //ViewBag.EditParentId = editParentId; // pass to view
+            return View(child);
+        }
+
+
 
 
         [Authorize(Roles = "Staff")]
@@ -512,7 +530,7 @@ namespace Web.Controllers.User
 
         
         [Authorize(Roles = "Staff")]
-        [Route("Child/ManageRegistrations/{childId}")]
+        //[Route("Child/ManageRegistrations/{childId}")]
         [HttpGet("ManageRegistrations/{childId}")]
         public async Task<IActionResult> ManageRegistrations(int childId)
         {
@@ -670,7 +688,8 @@ namespace Web.Controllers.User
                 //Send email to Yulan
             }
 
-            return RedirectToAction("ManageRegistrations", new { childId });
+            //return RedirectToAction("ManageRegistrations", new { childId });
+            return RedirectToAction("Participation", new { childId, tab = "ManageRegistrations" });
 
 
         }
@@ -687,11 +706,11 @@ namespace Web.Controllers.User
 
                 if (success1&&success2)
                 {
-                    TempData["SuccessMessage1"] = "Enrollment removed successfully.";
+                    TempData["SuccessMessage1"] = "Registration removed successfully.";
                 }
                 else
                 {
-                    TempData["ErrorMessage1"] = "Failed to remove enrollment.";
+                    TempData["ErrorMessage1"] = "Failed to remove registration.";
                 }
             }
             catch (Exception ex)
@@ -699,7 +718,8 @@ namespace Web.Controllers.User
                 TempData["ErrorMessage1"] = $"{ex.Message}";
             }
 
-            return RedirectToAction("ManageRegistrations", new { childId });
+            //return RedirectToAction("ManageRegistrations", new { childId });
+            return RedirectToAction("Participation", new { childId, tab = "ManageRegistrations" });
         }
 
 
@@ -733,7 +753,8 @@ namespace Web.Controllers.User
                 TempData["ErrorMessage2"] = $"{ex.Message}";
             }
 
-            return RedirectToAction("ManageRegistrations", new { childId });
+            //return RedirectToAction("ManageRegistrations", new { childId });
+            return RedirectToAction("Participation", new { childId, tab = "ManageRegistrations" });
         }
 
         [Authorize(Roles = "Staff")]
@@ -742,23 +763,27 @@ namespace Web.Controllers.User
         {
             try
             {
-                var success = await _activityEnrollmentService.RemoveRegisteredEnrollmentAsync(enrollmentId);
+                var success1 = await _feeService.DeleteActivityFeeAsync(enrollmentId);
+                var success2 = await _activityEnrollmentService.RemoveRegisteredEnrollmentAsync(enrollmentId);
 
-                if (!success)
+                if (success1 && success2)
                 {
-                    TempData["ErrorMessage2"] = "Failed to remove enrollment.";
+                    TempData["SuccessMessage2"] = "Registration removed successfully.";
                 }
                 else
                 {
-                    TempData["SuccessMessage2"] = "Enrollment removed successfully.";
+                    TempData["ErrorMessage2"] = "Failed to remove registration.";
                 }
+
+               
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage2"] = $"{ex.Message}";
             }
 
-            return RedirectToAction("ManageRegistrations", new { childId });
+            //return RedirectToAction("ManageRegistrations", new { childId });
+            return RedirectToAction("Participation", new { childId, tab = "ManageRegistrations" });
         }
 
 
@@ -844,20 +869,20 @@ namespace Web.Controllers.User
                     TempData["SuccessMessage"] = "Payment info has been added successfully.";
                     //return RedirectToAction("ManagePayments");
                     //return RedirectToAction("ManagePayments", new { childId });
-                    return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
+                    return RedirectToAction("Participation", new { childId, tab = "ManagePayments" });
                 }
                 else
                 {
                     TempData["ErrorMessage"] = "Payment info was not added.";
                     //return RedirectToAction("ManagePayments", new { childId });
-                    return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
+                    return RedirectToAction("Participation", new { childId, tab = "ManagePayments" });
                 }
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"{ex.Message}";
                 //return RedirectToAction("ManagePayments", new { childId });
-                return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
+                return RedirectToAction("Participation", new { childId, tab = "ManagePayments" });
             }
         }
 

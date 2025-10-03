@@ -80,6 +80,24 @@ namespace Core.Repositories
         }
 
 
+        public async Task<bool> DeleteActivityFeeAsync(int enrollmentId)
+        {
+            // Find all fees linked to this course enrollment
+            var fees = await _context.Fees
+                .Where(f => f.ActivityEnrollmentID == enrollmentId)
+                .ToListAsync();
+
+            if (fees == null || !fees.Any())
+                return false; // nothing to delete
+
+            _context.Fees.RemoveRange(fees);
+
+            // Save changes
+            var rows = await _context.SaveChangesAsync();
+
+            return rows > 0;
+        }
+
         public async Task<Fee?> GetByCourseEnrollmentIdAsync(int courseEnrollmentId)
         {
             return await _context.Fees

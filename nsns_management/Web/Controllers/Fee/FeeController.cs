@@ -103,7 +103,10 @@ namespace Web.Controllers.Fee
                 }
 
                 //return RedirectToAction("Child", "ManageRegistrations", new { id = model. });
-                return RedirectToAction("ManageRegistrations", "Child", new { childId = model.ChildID });
+                //return RedirectToAction("ManageRegistrations", "Child", new { childId = model.ChildID });
+                //return RedirectToAction("Participation", new { model.ChildID, tab = "ManageRegistrations" });
+                return RedirectToAction("Participation", "Child", new { model.ChildID, tab = "ManageRegistrations" });
+
             }
             else
             {
@@ -143,7 +146,9 @@ namespace Web.Controllers.Fee
                 }
 
                 //return RedirectToAction("Child", "ManageRegistrations", new { id = model. });
-                return RedirectToAction("ManageRegistrations", "Child", new { childId = model.ChildID });
+                //return RedirectToAction("ManageRegistrations", "Child", new { childId = model.ChildID });
+                //return RedirectToAction("Participation", new { model.ChildID, tab = "ManageRegistrations" });
+                return RedirectToAction("Participation", "Child", new { model.ChildID, tab = "ManageRegistrations" });
             }
             else
             {

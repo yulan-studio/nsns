@@ -81,8 +81,23 @@ namespace Core.Services
             }
         }
 
-
         
+        public async Task<bool> DeleteActivityFeeAsync(int enrollmentId)
+        {
+            if (enrollmentId <= 0)
+                throw new ArgumentException("Invalid enrollment ID.");
+
+            try
+            {
+                return await _feeRepository.DeleteActivityFeeAsync(enrollmentId);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error deleting course fee: {ex.Message}", ex);
+            }
+        }
+
         public async Task<Fee?> GetFeeForCourseEnrollmentAsync(int courseEnrollmentId)
         {
             return await _feeRepository.GetByCourseEnrollmentIdAsync(courseEnrollmentId);
