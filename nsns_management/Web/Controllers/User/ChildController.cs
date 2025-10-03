@@ -580,36 +580,6 @@ namespace Web.Controllers.User
 
 
 
-        [Authorize(Roles = "Staff")]
-        [HttpGet("Registrations/{childId}")]
-        public async Task<IActionResult> Registrations(int childId)
-        {
-
-            var child = await _childService.GetAsync(childId);
-            if (child == null)
-            {
-                TempData["ErrorMessage"] = "Child not found.";
-                return RedirectToAction("List"); // Redirect to child list page if not found
-            }
-
-            //Get Registered and Completed Courses
-            var courseEnrollments = await _courseEnrollmentService.GetRegisteredEnrollmentsByChildAsync(childId);
-
-
-            //var activityRegisteredEnrollments = await _activityEnrollmentService.GetRegisteredEnrollmentsByChildAsync(childId);
-            //var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(childId);
-            //var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
-            var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsViewByChildAsync(child.ChildID);
-
-
-            return View("Registrations", new ManageRegisterationsViewModel
-            {
-                Child = child,
-                CourseEnrollments = courseEnrollments,
-                ActivityEnrollments = activityEnrollments
-            });
-        }
-
 
 
         [Authorize(Roles = "Child")]

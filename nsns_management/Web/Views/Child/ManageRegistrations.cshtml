@@ -373,7 +373,7 @@
     </select>
 
         <!-- Select Payment Model -->
-        <label for="PaymentModel">Payment Model:</label>
+        <label @* for="PaymentModel2" *@>Payment Model:</label>
         <select id="PaymentModel" name="PaymentModel" required onchange="toggleActivityFeeInput()">
             <option value="">-- Select Payment Model --</option>
             <option value="Direct">Direct</option>
@@ -381,7 +381,7 @@
         </select>
 
         <!-- Fee Input (visible conditionally) -->
-        <div id="activityFeeSection" style="display:block; margin-top:10px;">
+        <div id="activityFeeSection" style="display:none; margin-top:10px;">
             <label for="totalCost">Fee:</label>
             <input type="number" step="1" min="0" id="totalCost" name="totalCost" />
 

@@ -16,10 +16,10 @@
         <table style="border-collapse: collapse; text-align: left; width: 100%;">
             <tr>
                 <td style="padding: 8px; width: 20%">
-                    <label for="PaymentModel">PaymentModel:</label>
+                    <label>PaymentModel:</label>
                 </td>
                 <td style="padding: 8px; width: 50%">
-                   <label for="PaymentModel">@Model.PaymentModel</label> 
+                   @Model.PaymentModel 
                   
                 </td>
             </tr>
@@ -112,7 +112,7 @@ else
                                        padding: 5px 10px; cursor: pointer;">
                         Save
                     </button>
-                    <a href="/Child/ManageRegistrations/@Model.ChildID"
+                    <a href="/Child/Participation/@Model.ChildID?tab=ManageRegistrations"
                        style="background-color: #ddd; color: black; text-decoration: none;
                                   padding: 5px 10px; border: 1px solid #ccc;">Cancel</a>
                 </td>
