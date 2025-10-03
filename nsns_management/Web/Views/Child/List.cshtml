@@ -33,7 +33,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">More Profile</th>
         @*     <th style="padding: 8px; border: 1px solid #ddd;">Payments</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Participation</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Registrations</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Has Request</th>
             @*  <th style="padding: 8px; border: 1px solid #ddd;">Enrollments</th> *@
         </tr>
     </thead>
@@ -80,7 +80,7 @@
 
 
                     <td style="padding: 8px; border: 1px solid #ddd; @(requestConcernIds.Contains(childWithDelete.Child.ChildID) ? "background-color: #F8C3DF;" : ""))">
-                        <a href="/Child/ManageRegistrations/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>
+                        @(requestConcernIds.Contains(childWithDelete.Child.ChildID) ? "Yes" : "")
                     </td>
                      @*<td style="padding: 8px; border: 1px solid #ddd;">
                         <a href="/Child/EnrollmentsHistory/@childWithDelete.Child.ChildID" style="margin-left: 10px; color: #007bff; text-decoration: none;">View</a>
