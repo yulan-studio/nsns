@@ -44,7 +44,7 @@ function loadEditForm(specialtyId) {
     //        $("#errorMessage").text("An unexpected error occurred.").show();
     //        alert("An error occurred while saving.");
     //    });
-}
+//}
 
 // Delete City
 function loadDeleteSpecialtyConfirm(specialtyId) {
