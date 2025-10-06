@@ -228,24 +228,25 @@
         </select>
 
         <input type="hidden" name="scheduledHours" value="0" />
-
+        <div style="margin-top: 20px; margin-bottom:20px;">
         <!-- Select Payment Model -->
         <label for="paymentModel">Payment Model:</label>
-        <select id="paymentModel" name="paymentModel" required onchange="toggleCourseFeeInput()">
+            <select id="paymentModel" name="paymentModel" required onchange="toggleCourseFeeInput(this);updateDescription(this);">
             <option value="">-- Select Payment Model --</option>
             <option value="Direct">Direct</option>
             <option value="Token">Token</option>
         </select>
 
         <!-- Fee Input (visible conditionally) -->
-        <div id="feeSection" style="display:none; margin-top:10px;">
+        <span id="feeSection" style="display:none; margin-top:10px;">
             <label for="totalCost">Fee:</label>
-            <input type="number" step="1" min="0" id="totalCost" name="totalCost" />
+                <input type="number" step="1" min="0" id="totalCost" name="totalCost" oninput="updateDescription(this)" />
 
             <!-- Description Textarea -->
             <label for="description" style="margin-top:8px; display:block;">Description:</label>
             <textarea id="description" name="description" rows="3" cols="40"
                       placeholder="Enter fee details here..."></textarea>
+        </span>
         </div>
 
         <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
@@ -371,25 +372,26 @@
             <option value="@activity.Value">@activity.Text</option>
         }
     </select>
-
+        <div style="margin-top: 10px; margin-bottom:20px;">
         <!-- Select Payment Model -->
         <label @* for="PaymentModel2" *@>Payment Model:</label>
-        <select id="PaymentModel" name="PaymentModel" required onchange="toggleActivityFeeInput()">
+            <select id="paymentModel" name="paymentModel" required onchange="toggleActivityFeeInput(this);updateDescription(this);">
             <option value="">-- Select Payment Model --</option>
             <option value="Direct">Direct</option>
             <option value="Token">Token</option>
         </select>
 
         <!-- Fee Input (visible conditionally) -->
-        <div id="activityFeeSection" style="display:none; margin-top:10px;">
+        <span id="activityFeeSection" style="display:none; margin-top:10px;">
             <label for="totalCost">Fee:</label>
-            <input type="number" step="1" min="0" id="totalCost" name="totalCost" />
+                <input type="number" step="1" min="0" id="totalCost" name="totalCost" oninput="updateDescription(this)" />
 
             <!-- Description Textarea -->
             <label for="description" style="margin-top:8px; display:block;">Description:</label>
             <textarea id="description" name="description" rows="3" cols="40"
                       placeholder="Enter fee details here..."></textarea>
-        </div>
+        </span>
+     </div>
 
     <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
         @* <small style="color:darkslategray">   - Open activities are shown here</small> *@
@@ -438,8 +440,10 @@
         toggleCourseFeeInput();
     }
 
-    function toggleCourseFeeInput() {
-        const paymentModel = document.getElementById("paymentModel").value;
+    function toggleCourseFeeInput(element) {
+        const parentDiv = element.closest("div"); // Find nearest div section
+        const paymentModelDropdown = parentDiv.querySelector("[name='paymentModel']");
+        const paymentModel = paymentModelDropdown.value;
         const feeSection = document.getElementById("feeSection");
 
         if (paymentModel === "Direct") {
@@ -486,8 +490,11 @@
 
 
 
-    function toggleActivityFeeInput() {
-        const paymentModel = document.getElementById("PaymentModel").value;
+    function toggleActivityFeeInput(element) {
+        const parentDiv = element.closest("div"); // Find nearest div section
+        const paymentModelDropdown = parentDiv.querySelector("[name='paymentModel']");
+        //const paymentModel = document.getElementById("paymentModel").value;
+        const paymentModel = paymentModelDropdown.value;
         const feeSection = document.getElementById("activityFeeSection");
 
         if (paymentModel === "Direct") {
@@ -504,4 +511,25 @@
                 document.getElementById("totalCost").removeAttribute("required");
         }
     }
+
+
+
+        function updateDescription(element) {
+        const parentDiv = element.closest("div"); // Find nearest div section
+        const paymentModelDropdown = parentDiv.querySelector("[name='paymentModel']");
+        const totalCostInput = parentDiv.querySelector("[name='totalCost']");
+        const descriptionInput = parentDiv.querySelector("[name='description']");
+
+        const paymentModel = paymentModelDropdown.value;
+        const totalCost = totalCostInput.value.trim();
+
+        if (paymentModel === "Token" && totalCost && totalCost !== "0") {
+            descriptionInput.value = `Use Token: $${totalCost} will be deducted from balance`;
+        } else if (paymentModel === "Direct" && totalCost && totalCost !== "0") {
+            descriptionInput.value = `Please email transfer $${totalCost} to accounting@ncoatoronto.ca, and send screenshot to Benny.`;
+        } else {
+            descriptionInput.value = "Free";
+        }
+    }
+
 </script>
