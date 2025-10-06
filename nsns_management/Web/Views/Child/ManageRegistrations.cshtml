@@ -231,7 +231,7 @@
 
         <!-- Select Payment Model -->
         <label for="paymentModel">Payment Model:</label>
-        <select id="paymentModel" name="paymentModel" required onchange="toggleFeeInput()">
+        <select id="paymentModel" name="paymentModel" required onchange="toggleCourseFeeInput()">
             <option value="">-- Select Payment Model --</option>
             <option value="Direct">Direct</option>
             <option value="Token">Token</option>
@@ -435,10 +435,10 @@
             isGroupClass = false;
         }
 
-        toggleFeeInput();
+        toggleCourseFeeInput();
     }
 
-    function toggleFeeInput() {
+    function toggleCourseFeeInput() {
         const paymentModel = document.getElementById("paymentModel").value;
         const feeSection = document.getElementById("feeSection");
 
