@@ -10,13 +10,13 @@
         const errorSpan = document.getElementById("scheduledAtError");
         const scheduledDate = new Date(scheduledAtInput.value);
         const now = new Date();
+        //temparary removed this validation
+        // if (!scheduledAtInput.value || scheduledDate <= now) {
+        //     errorSpan.textContent = "Scheduled time must be in the future.";
+        //     return false;
+        // }
 
-        if (!scheduledAtInput.value || scheduledDate <= now) {
-            errorSpan.textContent = "Scheduled time must be in the future.";
-            return false;
-        }
-
-        errorSpan.textContent = ""; // clear error if valid
+        // errorSpan.textContent = ""; // clear error if valid
         return true;
     }
 
