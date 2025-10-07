@@ -454,7 +454,8 @@ namespace Core.Repositories
                 .Where(e =>
                     e.Status == "Registered" &&
                     e.EnrollmentID_Ref == null &&
-                    e.ScheduledAt == null)
+                    e.ScheduledAt == null &&
+                    e.Course.SessionCount != null)
                 .ToListAsync();
             //Step 2: Get all Completed sessions for all root course, check completed count
             foreach (var root in rootEnrollments)
