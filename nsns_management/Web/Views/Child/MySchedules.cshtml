@@ -215,6 +215,8 @@ else
 
           <form method="post" asp-action="UpdateSchedulesToConform">
             <input type="hidden" name="CourseID" value="@courseSchedulesToConfirm.Course.CourseID" />
+            <input type="hidden" name="Fee.PaymentModel" value="@courseSchedulesToConfirm.Fee.PaymentModel" />
+            <input type="hidden" name="Fee.TotalCost" value="@courseSchedulesToConfirm.Fee.TotalCost" />
           @*   <input type="hidden" name="ChildID" value="@Model.ChildID" /> *@
          
 

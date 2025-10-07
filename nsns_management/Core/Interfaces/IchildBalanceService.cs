@@ -18,6 +18,8 @@ namespace Core.Interfaces
         //This is for private courses where cost is calculated per session
         Task<bool> DeductCourseSessionCostAsync(int enrollmentId, int createdBy);
         Task<bool> DeductActivityCostAsync(int childId, int activityId, decimal cost, int createdBy);
+
+        Task<bool> DeductGroupCourseCostAsync(int childId, int courseId, decimal cost, int createdBy);
         Task<IEnumerable<ChildBalanceViewModel>> GetBalanceHistoryAsync(int childId);
         Task<decimal> GetFinalBalanceAsync(int childId);
     }

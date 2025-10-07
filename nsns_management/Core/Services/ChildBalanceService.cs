@@ -85,6 +85,18 @@ namespace Core.Services
             }
         }
 
+        public async Task<bool> DeductGroupCourseCostAsync(int childId, int courseId, decimal cost, int createdBy)
+        {
+            try
+            {
+                bool result = await _balanceRepository.DeductGroupCourseCostAsync(childId, courseId, cost, createdBy);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
 
         public async Task<IEnumerable<ChildBalanceViewModel>> GetBalanceHistoryAsync(int childId)
         {
@@ -99,6 +111,8 @@ namespace Core.Services
             }
             
         }
+
+
 
 
         public async Task<decimal> GetFinalBalanceAsync(int childId)

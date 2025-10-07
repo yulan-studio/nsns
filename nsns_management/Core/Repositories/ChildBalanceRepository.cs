@@ -36,6 +36,7 @@ namespace Core.Repositories
                 PaymentID = paymentId,
                 BalanceChange = amount,
                 Balance = latestBalance + amount,
+                TransactionType = "Payment",
                 CreatedDate = DateTime.UtcNow,
                 CreatedBy = createdBy,
                 UpdatedBy = createdBy,
@@ -88,6 +89,7 @@ namespace Core.Repositories
                 EnrollmentID = enrollmentId,
                 BalanceChange = costForThisSession*(-1),
                 Balance = latestBalance - costForThisSession,
+                TransactionType = "Private Course Session",
                 CreatedDate = DateTime.UtcNow,
                 CreatedBy = createdBy,
                 UpdatedBy = createdBy,
@@ -110,6 +112,7 @@ namespace Core.Repositories
                 ActivityID = activityId,
                 BalanceChange = -cost,
                 Balance = latestBalance - cost,
+                TransactionType = "Activity",
                 CreatedDate = DateTime.UtcNow,
                 //CreatedBy = createdBy,
                 //UpdatedBy = createdBy,
@@ -121,7 +124,29 @@ namespace Core.Repositories
         }
 
 
-       
+        public async Task<bool> DeductGroupCourseCostAsync(int childId, int courseId, decimal cost, int createdBy)
+        {
+            decimal latestBalance = await GetFinalBalanceAsync(childId);
+
+            var newEntry = new ChildBalance
+            {
+                ChildID = childId,
+                CourseID = courseId,
+                BalanceChange = -cost,
+                Balance = latestBalance - cost,
+                CreatedDate = DateTime.UtcNow,
+                TransactionType = "Group Course",
+                //CreatedBy = createdBy,
+                //UpdatedBy = createdBy,
+                UpdatedDate = DateTime.UtcNow
+            };
+
+            _context.ChildBalances.Add(newEntry);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+
+
 
 
         public async Task<List<ChildBalanceViewModel>> GetBalanceHistoryAsync(int childId)
@@ -133,7 +158,8 @@ namespace Core.Repositories
                 {
                     CreatedDate = cb.CreatedDate,
                     Type = cb.PaymentID != null ? "Payment" :
-                           cb.CourseID != null ? "Course Session" :
+                           cb.CourseID != null && cb.EnrollmentID == null ? "Group Course" :
+                           cb.CourseID != null && cb.EnrollmentID != null ? "Private Course Session" :
                            cb.ActivityID != null ? "Activity" : "Other",
                     CourseName = cb.CourseID != null ? cb.Course.Title : null,
                     ActivityName = cb.ActivityID != null ? cb.Activity.Title : null,

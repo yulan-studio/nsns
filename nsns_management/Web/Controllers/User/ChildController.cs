@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 using System.Linq;
@@ -65,6 +66,7 @@ namespace Web.Controllers.User
             _userManager = userManager;
             _emergencyContactService = emergencyContactService;
             _emailService = emailService;
+            
             //_context = context;   // For transaction
         }
 
@@ -1349,6 +1351,11 @@ namespace Web.Controllers.User
             if (actionType == "Confirm")
             {
                 // Handle Confirm logic
+
+                if(model.Fee.PaymentModel == "Token")
+                    _balanceService.DeductGroupCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.Fee.TotalCost, user.Id);
+
+               
                 if (model?.Schedules != null && model.Schedules.Any())
                 {
                     foreach (var schedule in model.Schedules)
