@@ -1351,6 +1351,13 @@ namespace Web.Controllers.User
                         }
                     }
 
+
+
+
+
+
+
+
                     var course = await _courseService.GetAsync(model.CourseID);
                     var subject = child.MemberID + ":" + " Course schedules has been confirmed";
                     var message = "The course schedules have been confirmed for the child: " + child.Name + ":\n" +
