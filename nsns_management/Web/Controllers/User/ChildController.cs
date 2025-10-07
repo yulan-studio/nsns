@@ -937,14 +937,28 @@ namespace Web.Controllers.User
 
             var scheduledCoursesToConfirm = await _courseEnrollmentService.GetScheduledSessionsToConfirmByChildAsync(child.ChildID);
 
-            var courseSchedulesToConfirmList = scheduledCoursesToConfirm
-                .GroupBy(e => e.Course)
-                .Select(group => new CourseSchedulesViewModel
-                {
-                    Course = group.Key,
-                    CourseID = group.Key.CourseID,
-                    Schedules = group.ToList()
-                }).ToList();
+            //var courseSchedulesToConfirmList = scheduledCoursesToConfirm
+            //    .GroupBy(e => e.Course)
+            //    .Select(async group => new CourseSchedulesViewModel
+            //    {
+            //        Course = group.Key,
+            //        CourseID = group.Key.CourseID,
+            //        Schedules = group.ToList(),
+            //        Fee = await _feeService.GetByChildIdCourseIdAsync(child.ChildID, group.Key.CourseID)
+
+            //    }).ToList();
+
+             var courseSchedulesTasks = scheduledCoursesToConfirm
+            .GroupBy(e => e.Course)
+            .Select(async group => new CourseSchedulesViewModel
+            {
+                Course = group.Key,
+                CourseID = group.Key.CourseID,
+                Schedules = group.ToList(),
+                Fee = await _feeService.GetByChildIdCourseIdAsync(child.ChildID, group.Key.CourseID)
+            });
+
+            var courseSchedulesToConfirmList = (await Task.WhenAll(courseSchedulesTasks)).ToList();
 
             var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsByChildAsync(child.ChildID);
 

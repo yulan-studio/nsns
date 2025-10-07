@@ -31,7 +31,11 @@ namespace Core.Interfaces
 
         Task<Fee?> GetFeeForCourseEnrollmentAsync(int courseEnrollmentId);
 
+        Task<Fee?> GetByChildIdCourseIdAsync(int childId, int courseId);
+
         Task<Fee?> GetFeeForActivityEnrollmentAsync(int courseEnrollmentId);
+
+        Task<Fee?> GetByChildIdActivityIdAsync(int childId, int activityId);
 
         Task<IEnumerable<Fee>> GetAllAsync();
        

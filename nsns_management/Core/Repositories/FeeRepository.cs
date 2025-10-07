@@ -107,12 +107,42 @@ namespace Core.Repositories
         }
 
 
+        public async Task<Fee?> GetByChildIdCourseIdAsync(int childId, int courseId)
+        {
+
+            return await _context.Fees
+                .Include(f => f.CourseEnrollment)
+                    //.ThenInclude(e => e.Course)
+                .Where(f => f.CourseEnrollment.ChildID == childId &&
+                            f.CourseEnrollment.CourseID == courseId &&
+                            f.CourseEnrollment.EnrollmentID_Ref == null &&
+                            f.CourseEnrollment.Status == "Registered"
+                            )
+                .FirstOrDefaultAsync();
+
+        }
+
+
         public async Task<Fee?> GetByActivityEnrollmentIdAsync(int activityEnrollmentId)
         {
             return await _context.Fees
                 .Include(f => f.ActivityEnrollment)
                 .ThenInclude(e => e.Child)
                 .FirstOrDefaultAsync(f => f.ActivityEnrollmentID == activityEnrollmentId);
+        }
+
+        public async Task<Fee?> GetByChildIdActivityIdAsync(int childId, int activityId)
+        {
+
+            return await _context.Fees
+                .Include(f => f.ActivityEnrollment)
+                //.ThenInclude(e => e.Course)
+                .Where(f => f.ActivityEnrollment.ChildID == childId &&
+                            f.ActivityEnrollment.ActivityID == activityId &&
+                            f.ActivityEnrollment.Status == "Registered"
+                            )
+                .FirstOrDefaultAsync();
+
         }
 
 

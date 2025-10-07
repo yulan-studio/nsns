@@ -117,10 +117,10 @@
                               
                                     
                                 </td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                 <td style="padding: 8px; border: 1px solid #ddd;">
                                     <textarea name="Schedules[@i].ParentNote" class="form-control" @(courseSchedules.Schedules[i].Status == "Canceled" || courseSchedules.Schedules[i].Status == "Deleted" ? "disabled" : "")> @courseSchedules.Schedules[i].ParentNote</textarea>
                                    
-                                </td>
+                                </td> 
                             </tr>
                         }
                     }
@@ -132,7 +132,7 @@
                     }
 
                     @if (TempData["SuccessMessage1"] != null && TempData["CourseID"]?.ToString() == courseSchedules.Course.CourseID.ToString())
-            {
+                    {
                         <tr>
                             <td colspan="7">
                                 <div class="alert alert-success">
@@ -306,14 +306,27 @@ else
             </table>
             <br />
           @*   <button type="submit" name="actionType" value="SaveChanges" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button> *@
-            &nbsp;<button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
+           
        
-        </form>
 
-        <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;" >
-            Please click 'Confirm' to complete your course registration.<br />
-            请点击"Confirm"以完成课程注册。
+        <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+          
+                Total Cost: @courseSchedulesToConfirm.Fee.TotalCost<br />
+                Status: @(courseSchedulesToConfirm.Fee.IsPaid ? "Paid" : "Pending")<br />
+                Description: @(courseSchedulesToConfirm.Fee.IsPaid ? "Your payment has been received." : courseSchedulesToConfirm.Fee.Description )<br />
+
         </div>
+
+        
+
+        <div @* class="alert alert-danger" *@  style="padding: 20px 20px 20px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;" >
+            Please click 'Confirm' to complete your course registration.<br />
+                请点击"Confirm"以完成课程注册。<br /><br />
+            <button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
+           
+        </div>
+
+        </form>
     }
 }
 else

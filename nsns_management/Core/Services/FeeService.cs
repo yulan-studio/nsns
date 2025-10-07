@@ -103,10 +103,19 @@ namespace Core.Services
             return await _feeRepository.GetByCourseEnrollmentIdAsync(courseEnrollmentId);
         }
 
+        public async Task<Fee?> GetByChildIdCourseIdAsync(int childId, int courseId)
+        {
+             return await _feeRepository.GetByChildIdCourseIdAsync(childId, courseId);
+        }
 
         public async Task<Fee?> GetFeeForActivityEnrollmentAsync(int courseEnrollmentId)
         {
             return await _feeRepository.GetByActivityEnrollmentIdAsync(courseEnrollmentId);
+        }
+
+        public async Task<Fee?> GetByChildIdActivityIdAsync(int childId, int activityId)
+        {
+            return await _feeRepository.GetByChildIdActivityIdAsync(childId, activityId);
         }
 
 
