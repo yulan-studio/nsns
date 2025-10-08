@@ -950,19 +950,38 @@ namespace Web.Controllers.User
 
             //    }).ToList();
 
-             var courseSchedulesTasks = scheduledCoursesToConfirm
-            .GroupBy(e => e.Course)
-            .Select(async group => new CourseSchedulesViewModel
-            {
-                Course = group.Key,
-                CourseID = group.Key.CourseID,
-                Schedules = group.ToList(),
-                Fee = await _feeService.GetByChildIdCourseIdAsync(child.ChildID, group.Key.CourseID)
-            });
+            //---------------------------------------------------------------------------------------------------
+            // var courseSchedulesTasks = scheduledCoursesToConfirm
+            //.GroupBy(e => e.Course)
+            //.Select(async group => new CourseSchedulesViewModel
+            //{
+            //    Course = group.Key,
+            //    CourseID = group.Key.CourseID,
+            //    Schedules = group.ToList(),
+            //    Fee = await _feeService.GetByChildIdCourseIdAsync(child.ChildID, group.Key.CourseID)
+            //});
 
-            var courseSchedulesToConfirmList = (await Task.WhenAll(courseSchedulesTasks)).ToList();
+            //var courseSchedulesToConfirmList = (await Task.WhenAll(courseSchedulesTasks)).ToList();
+            //---------------------------------------------------------------------------------------------------
+
+            var courseSchedulesToConfirmList = new List<CourseSchedulesViewModel>();
+
+            foreach (var group in scheduledCoursesToConfirm.GroupBy(e => e.Course))
+            {
+                var fee = await _feeService.GetByChildIdCourseIdAsync(child.ChildID, group.Key.CourseID);
+
+                courseSchedulesToConfirmList.Add(new CourseSchedulesViewModel
+                {
+                    Course = group.Key,
+                    CourseID = group.Key.CourseID,
+                    Schedules = group.ToList(),
+                    Fee = fee
+                });
+            }
 
             var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsByChildAsync(child.ChildID);
+
+            //---------------------------------------------------------------------------------------------------
 
             var viewModel = new ChildSchedulesViewModel
             {
