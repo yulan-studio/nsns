@@ -1399,12 +1399,12 @@ namespace Web.Controllers.User
 
 
                     //await _emailService.SendEmailAsync("customer.nsns@gmail.com", child.MemberID + ": Course schedules has been confirmed  " + , "The course schedules have been confirmed by the child: " + child.MemberID + ".");
-                    TempData["SuccessMessage2"] = "Course schedules confirmed successfully.";
+                    TempData["SuccessMessage2"] = "Course schedules confirmed successfully. Please check the schedules in https://me.nsns.ca/Child/MySchedules";
                 }
             }
 
 
-            return RedirectToAction("MySchedules");
+            return RedirectToAction("MyConfirmations");
         }
 
 

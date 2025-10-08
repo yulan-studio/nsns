@@ -4,29 +4,27 @@
 <h2 style="color:brown;">-- Course Schedules to Confirm --</h2>
 
 
-@if (Model.CoursesSchedulesToConfirm.Any())
-{
-    @* if (TempData["SuccessMessage2"] != null)
+ @if (TempData["SuccessMessage2"] != null)
     {
-        <tr>
-            <td colspan="5">
+       
                 <div class="alert alert-success">
                     @TempData["SuccessMessage2"]
                 </div>
-            </td>
-        </tr>
+           
     }
 
-    if (TempData["ErrorMessage2"] != null)
+    @if (TempData["ErrorMessage2"] != null)
     {
-        <tr>
-            <td colspan="5">
+      
                 <div class="alert alert-danger">
                     @TempData["ErrorMessage2"]
                 </div>
-            </td>
-        </tr>
-    }  *@
+           
+    }  
+
+@if (Model.CoursesSchedulesToConfirm.Any())
+{
+   
 
     @foreach (var courseSchedulesToConfirm in Model.CoursesSchedulesToConfirm)
     {
@@ -163,7 +161,7 @@
 }
 else
 {
-    <div style="text-align: left; padding-top: 30px;">No to be confirmed schedules available.</div>
+    <div style="text-align: left; padding-top: 30px;">No schedules available for confirmation.</div>
 }
 <div style="margin-bottom: 30px;"></div>
 
