@@ -197,6 +197,27 @@ else
 
 @if (Model.CoursesSchedulesToConfirm.Any())
 {
+    if (TempData["SuccessMessage2"] != null)
+    {
+        <tr>
+            <td colspan="5">
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage2"]
+                </div>
+            </td>
+        </tr>
+    }
+
+    if (TempData["ErrorMessage2"] != null)
+    {
+        <tr>
+            <td colspan="5">
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage2"]
+                </div>
+            </td>
+        </tr>
+    } 
 
     @foreach (var courseSchedulesToConfirm in Model.CoursesSchedulesToConfirm)
     {
@@ -282,7 +303,7 @@ else
                         </tr>
                     }
 
-                   
+                  @*  
                     @if (TempData["SuccessMessage2"] != null)
                     {
                         <tr>
@@ -303,7 +324,7 @@ else
                                 </div>
                             </td>
                         </tr>
-                    }
+                    } *@
                 </tbody>
             </table>
             <br />
