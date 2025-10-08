@@ -420,7 +420,7 @@ namespace Core.Repositories
 
 
         //Set all registration related to a enrollmentId to be Cancled.
-        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId)
+        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId, string staffNote)
         {
 
 
@@ -437,6 +437,7 @@ namespace Core.Repositories
             foreach (var session in sessionsToUpdate)
             {
                 session.Status = "Canceled";
+                session.StaffNote = staffNote;
             }
 
             await _context.SaveChangesAsync();

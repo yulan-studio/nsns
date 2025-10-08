@@ -391,7 +391,7 @@ namespace Web.Controllers.Courses
                 if (result)
                 {
                    
-                        await _courseEnrollmentService.UpdateChildCanceledSessionsAsync(session.EnrollmentID);
+                        await _courseEnrollmentService.UpdateChildCanceledSessionsAsync(session.EnrollmentID, staffNote);
                         return Json(new { success = true });
                   
                 }

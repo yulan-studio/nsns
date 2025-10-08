@@ -425,9 +425,9 @@ namespace Core.Services
         }
 
         //Set Session status of children registration to be canceled 
-        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId)
+        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId, string staffNote)
         {
-            await _enrollmentRepository.UpdateChildCanceledSessionsAsync(enrollmentId);
+            await _enrollmentRepository.UpdateChildCanceledSessionsAsync(enrollmentId, staffNote);
         }
 
 

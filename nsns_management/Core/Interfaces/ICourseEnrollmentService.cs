@@ -60,7 +60,7 @@ namespace Core.Interfaces
 
         Task UpdateCompletedSessionsAsync(int courseId);
 
-        Task UpdateChildCanceledSessionsAsync(int courseId);
+        Task UpdateChildCanceledSessionsAsync(int courseId, string staffNote);
 
         Task<bool> RemoveScheduleAsync(int enrollmentId, string coachNote);
 
