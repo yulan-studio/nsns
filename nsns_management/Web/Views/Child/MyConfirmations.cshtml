@@ -1,0 +1,177 @@
+﻿@model Core.ViewModels.ChildSchedulesToConfirmViewModel
+
+
+<h2 style="color:brown;">-- Course Schedules to Confirm --</h2>
+
+
+@if (Model.CoursesSchedulesToConfirm.Any())
+{
+    @* if (TempData["SuccessMessage2"] != null)
+    {
+        <tr>
+            <td colspan="5">
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage2"]
+                </div>
+            </td>
+        </tr>
+    }
+
+    if (TempData["ErrorMessage2"] != null)
+    {
+        <tr>
+            <td colspan="5">
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage2"]
+                </div>
+            </td>
+        </tr>
+    }  *@
+
+    @foreach (var courseSchedulesToConfirm in Model.CoursesSchedulesToConfirm)
+    {
+        <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+            <h5>Course: @courseSchedulesToConfirm.Course.Title</h5>
+            
+        
+
+            <strong>Course Type: </strong>  @courseSchedulesToConfirm.Course.CourseType
+            <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedulesToConfirm.Course.SessionCount
+            <strong> &nbsp; &nbsp;Coach: </strong>   @(courseSchedulesToConfirm.Course.Coach?.Name ?? "N/A")
+
+
+        </div>
+
+
+          <form method="post" asp-action="UpdateSchedulesToConform">
+            <input type="hidden" name="CourseID" value="@courseSchedulesToConfirm.Course.CourseID" />
+            <input type="hidden" name="Fee.PaymentModel" value="@courseSchedulesToConfirm.Fee.PaymentModel" />
+            <input type="hidden" name="Fee.TotalCost" value="@courseSchedulesToConfirm.Fee.TotalCost" />
+          @*   <input type="hidden" name="ChildID" value="@Model.ChildID" /> *@
+         
+
+
+            <table style="border-collapse: collapse; width: 100%; text-align: left;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Date</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Start Time</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">End Time</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Location</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Status</th>
+                       @*  <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Staff Note</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Parent Note</th> *@
+              
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (courseSchedulesToConfirm.Schedules.Any())
+
+                    {
+
+                       // foreach (var schedule in courseSchedulesToConfirm.Schedules)
+                           @for (int i = 0; i < courseSchedulesToConfirm.Schedules.Count; i++)
+                            {
+                            var schedule = courseSchedulesToConfirm.Schedules[i];
+                            <input type="hidden" name="Schedules[@i].EnrollmentID" value="@schedule.EnrollmentID" />
+                            <tr>
+                               @*  <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td> *@
+
+                                @{
+                                    var scheduledAt = schedule.ScheduledAt;
+                                    var scheduledHours = schedule.ScheduledHours.HasValue ? (double)schedule.ScheduledHours.Value : 0;
+                                    DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                                }
+
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
+                                </td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">
+                                    @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
+                                </td>
+
+
+                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
+                               @*  <td style="padding: 8px; border: 1px solid #ddd;">@schedule.StaffNote</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;"><textarea name="Schedules[@i].ParentNote" class="form-control"> @schedule.ParentNote</textarea></td> *@
+                            </tr>
+                        }
+
+                    }
+
+                    else
+
+                    {
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding-top: 10px;">There are currently no schedules waiting for your confirmation.</td>
+                        </tr>
+                    }
+
+                  @*  
+                    @if (TempData["SuccessMessage2"] != null)
+                    {
+                        <tr>
+                            <td colspan="5">
+                                <div class="alert alert-success">
+                                    @TempData["SuccessMessage2"]
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    @if (TempData["ErrorMessage2"] != null)
+                    {
+                        <tr>
+                            <td colspan="5">
+                                <div class="alert alert-danger">
+                                    @TempData["ErrorMessage2"]
+                                </div>
+                            </td>
+                        </tr>
+                    } *@
+                </tbody>
+            </table>
+            <br />
+          @*   <button type="submit" name="actionType" value="SaveChanges" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button> *@
+           
+       
+
+        <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+          
+                Total Cost: @courseSchedulesToConfirm.Fee.TotalCost<br />
+                Status: @(courseSchedulesToConfirm.Fee.IsPaid ? "Paid" : "Pending")<br />
+                Description: @(courseSchedulesToConfirm.Fee.IsPaid ? "Your payment has been received." : courseSchedulesToConfirm.Fee.Description )<br />
+
+        </div>
+
+        
+
+        <div @* class="alert alert-danger" *@  style="padding: 20px 20px 20px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;" >
+            Please click 'Confirm' to complete your course registration.<br />
+                请点击"Confirm"以完成课程注册。<br /><br />
+            <button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
+           
+        </div>
+
+        </form>
+    }
+}
+else
+{
+    <div style="text-align: left; padding-top: 30px;">No to be confirmed schedules available.</div>
+}
+<div style="margin-bottom: 30px;"></div>
+
+
+
+
+
+
+
+
+

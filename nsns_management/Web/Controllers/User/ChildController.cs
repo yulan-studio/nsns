@@ -914,6 +914,42 @@ namespace Web.Controllers.User
         }
 
 
+        [Authorize(Roles = "Child")]
+        [HttpGet("MyConfirmations")]
+        public async Task<IActionResult> MyConfirmations()
+        {
+            // Get the currently logged-in user
+            Core.Models.User user = await _userManager.GetUserAsync(User);
+            var child = await _childService.GetByIdAsync(user.Id);
+
+            var scheduledCoursesToConfirm = await _courseEnrollmentService.GetScheduledSessionsToConfirmByChildAsync(child.ChildID);
+
+            var courseSchedulesToConfirmList = new List<CourseSchedulesViewModel>();
+
+            foreach (var group in scheduledCoursesToConfirm.GroupBy(e => e.Course))
+            {
+                var fee = await _feeService.GetByChildIdCourseIdAsync(child.ChildID, group.Key.CourseID);
+
+                courseSchedulesToConfirmList.Add(new CourseSchedulesViewModel
+                {
+                    Course = group.Key,
+                    CourseID = group.Key.CourseID,
+                    Schedules = group.ToList(),
+                    Fee = fee
+                });
+            }
+
+
+            var viewModel = new ChildSchedulesToConfirmViewModel
+            {
+                Child = child,
+                ChildID = child.ChildID,
+                CoursesSchedulesToConfirm = courseSchedulesToConfirmList,
+            };
+
+            return View("MyConfirmations", viewModel);
+        }
+
 
         [Authorize(Roles = "Child")]
         [HttpGet("MySchedules")]
@@ -937,58 +973,14 @@ namespace Web.Controllers.User
                 }).ToList();
 
 
-            var scheduledCoursesToConfirm = await _courseEnrollmentService.GetScheduledSessionsToConfirmByChildAsync(child.ChildID);
-
-            //var courseSchedulesToConfirmList = scheduledCoursesToConfirm
-            //    .GroupBy(e => e.Course)
-            //    .Select(async group => new CourseSchedulesViewModel
-            //    {
-            //        Course = group.Key,
-            //        CourseID = group.Key.CourseID,
-            //        Schedules = group.ToList(),
-            //        Fee = await _feeService.GetByChildIdCourseIdAsync(child.ChildID, group.Key.CourseID)
-
-            //    }).ToList();
-
-            //---------------------------------------------------------------------------------------------------
-            // var courseSchedulesTasks = scheduledCoursesToConfirm
-            //.GroupBy(e => e.Course)
-            //.Select(async group => new CourseSchedulesViewModel
-            //{
-            //    Course = group.Key,
-            //    CourseID = group.Key.CourseID,
-            //    Schedules = group.ToList(),
-            //    Fee = await _feeService.GetByChildIdCourseIdAsync(child.ChildID, group.Key.CourseID)
-            //});
-
-            //var courseSchedulesToConfirmList = (await Task.WhenAll(courseSchedulesTasks)).ToList();
-            //---------------------------------------------------------------------------------------------------
-
-            var courseSchedulesToConfirmList = new List<CourseSchedulesViewModel>();
-
-            foreach (var group in scheduledCoursesToConfirm.GroupBy(e => e.Course))
-            {
-                var fee = await _feeService.GetByChildIdCourseIdAsync(child.ChildID, group.Key.CourseID);
-
-                courseSchedulesToConfirmList.Add(new CourseSchedulesViewModel
-                {
-                    Course = group.Key,
-                    CourseID = group.Key.CourseID,
-                    Schedules = group.ToList(),
-                    Fee = fee
-                });
-            }
-
             var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsByChildAsync(child.ChildID);
 
-            //---------------------------------------------------------------------------------------------------
 
             var viewModel = new ChildSchedulesViewModel
             {
                 Child = child,
                 ChildID = child.ChildID,
                 CoursesSchedules = courseSchedulesList,
-                CoursesSchedulesToConfirm = courseSchedulesToConfirmList,
                 ActivitySchedules = activityEnrollments
             };
 

@@ -10,16 +10,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Core.ViewModels
 {
-    public class ChildSchedulesViewModel
+    public class ChildSchedulesToConfirmViewModel
     {
         public Child Child { get; set; }
 
         public int ChildID { get; set; }
-        public List<CourseSchedulesViewModel> CoursesSchedules { get; set; } = new();
 
-        //public List<ActivitySchedulesViewModel> ActivitiesSchedules { get; set; } = new();
+        public List<CourseSchedulesViewModel> CoursesSchedulesToConfirm { get; set; } = new();
 
-        public IEnumerable<ActivityEnrollment> ActivitySchedules { get; set; } 
+      
     }
 
     //public class CourseSchedulesViewModel
@@ -30,7 +29,7 @@ namespace Core.ViewModels
     //    public List<CourseEnrollment> Schedules { get; set; } = new();
 
     //    public Fee Fee { get; set; }
-
+        
     //}
 
 
