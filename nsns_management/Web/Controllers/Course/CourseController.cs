@@ -388,12 +388,20 @@ namespace Web.Controllers.Courses
 
                 //This also include if update the session Status to 'Canceled', all children's registration to the session need to be canceled. 
                 result = await _courseEnrollmentService.UpdateSessionAsync(session);
+
+
                 if (result)
                 {
-                   
+                    if (status == "Canceled")
+                    { 
                         await _courseEnrollmentService.UpdateChildCanceledSessionsAsync(session.EnrollmentID, staffNote);
-                        return Json(new { success = true });
-                  
+
+                        //Send email to all enrolled children
+
+                    }
+
+                    return Json(new { success = true });
+
                 }
                 else
                 {
