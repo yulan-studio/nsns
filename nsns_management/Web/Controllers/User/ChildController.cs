@@ -1363,8 +1363,8 @@ namespace Web.Controllers.User
             {
                 // Handle Confirm logic
 
-                if(model.Fee.PaymentModel == "Token")
-                    await _balanceService.DeductGroupCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.Fee.TotalCost, user.Id);
+                //if(model.Fee.PaymentModel == "Token")
+                await _balanceService.DeductGroupCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.Fee.TotalCost, user.Id);
 
                
                 if (model?.Schedules != null && model.Schedules.Any())
