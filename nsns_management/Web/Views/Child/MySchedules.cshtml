@@ -2,7 +2,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
-<h2>Upcoming Course Schedules</h2>
+<h2>Upcoming Schedules</h2>
+
+<div style="padding-top: 20px; padding-bottom: 20px">
+    <h4 style="color:steelblue">- Courses -</h4>
+</div>
+
 @if (Model.CoursesSchedules.Any())
 {
     var now = DateTime.UtcNow;
@@ -217,7 +222,9 @@ else
 
 
 
-<h2>Upcoming Activity Schedules</h2>
+<div style="padding-top: 20px; padding-bottom: 20px">
+    <h4 style="color:steelblue">- Activities -</h4>
+</div>
 
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
