@@ -31,8 +31,8 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Specialty</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
             
-            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No Funding)</th>
+          @*   <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No Funding)</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Session Count</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Completed</th>
@@ -59,8 +59,8 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SpecialtyName</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
                     
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td>
+                 @*    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td> *@
                     
                     
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SessionCount</td>
@@ -80,7 +80,7 @@
         else
         {
             <tr>
-                <td colspan="15" style="text-align: center; padding: 10px;">No courses enrolled.</td>
+                <td colspan="13" style="text-align: center; padding: 10px;">No courses enrolled.</td>
             </tr>
         }
 
@@ -113,7 +113,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Cost</th>
+           @*  <th style="padding: 8px; border: 1px solid #ddd;">Cost</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
            @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
         </tr>
@@ -128,7 +128,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Description</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Address</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@* @enrollment.Activity.Cost *@</td>
+                    @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.TotalCost</td> *@
                     <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.Status == "Canceled" ?"color: red":"")">@enrollment.Status</td>
                 @*     <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Child/UnregisterActivity">
@@ -145,7 +145,7 @@
         else
         {
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px;">No activities enrolled.</td>
+                <td colspan="5" style="text-align: center; padding: 10px;">No activities enrolled.</td>
             </tr>
         }
 

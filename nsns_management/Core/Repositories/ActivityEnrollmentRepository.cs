@@ -31,7 +31,7 @@ namespace Core.Repositories
             return await _context.ActivityEnrollments
                 .Include(e => e.Activity)
                 //.Include(e => e.Child)
-                .Where(e => e.ChildID == childId && e.Activity.ScheduledAt >= torontoNow)
+                .Where(e => e.ChildID == childId && e.Activity.ScheduledAt >= torontoNow && e.Status == "Scheduled")
                 .OrderBy(e => e.Activity.ScheduledAt)
                 .ToListAsync();
         }
@@ -57,23 +57,10 @@ namespace Core.Repositories
        
         public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetAllEnrollmentsViewByChildAsync(int childId)
         {
-            //return await _context.ActivityEnrollments
-            //    .Include(e => e.Activity)
-            //    //.Include(e => e.Child)
-            //    .Where(e => e.ChildID == childId)
-            //    .OrderBy(e => e.Activity.ScheduledAt)
-            //    .ToListAsync();
-
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
-
+           
             return await _context.ActivityEnrollments
            .Include(e => e.Activity)
-
-
-
            .Where(e => e.ChildID == childId)
-           
            .Select(e => new ActivityEnrollmentViewModel
            {
 
