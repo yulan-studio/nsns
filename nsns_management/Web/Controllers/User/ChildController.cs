@@ -897,7 +897,7 @@ namespace Web.Controllers.User
         {
 
             var child = await _childService.GetAsync(childId);
-            var completedCourses = await _courseEnrollmentService.GetCompletedEnrollmentsByChildAsync(childId);
+            var completedCourses = await _courseEnrollmentService.GetFinishedEnrollmentsByChildAsync(childId);
             var completedActivities = await _activityEnrollmentService.GetCompletedEnrollmentsByChildAsync(childId);
 
             if (child == null)
@@ -999,7 +999,7 @@ namespace Web.Controllers.User
             var child = await _childService.GetByIdAsync(user.Id);
 
 
-            var completedCourses = await _courseEnrollmentService.GetCompletedEnrollmentsByChildAsync(child.ChildID);
+            var completedCourses = await _courseEnrollmentService.GetFinishedEnrollmentsByChildAsync(child.ChildID);
             var completedActivities = await _activityEnrollmentService.GetCompletedEnrollmentsByChildAsync(child.ChildID);
 
 

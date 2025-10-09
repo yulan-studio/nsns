@@ -20,6 +20,8 @@ namespace Core.Interfaces
         Task<bool> UpdateAsync(CourseEnrollment entity);
         Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId, string status);
 
+        Task<IEnumerable<CourseEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId);
+
         Task<IEnumerable<CourseEnrollment>> GetRootEnrollmentsByChildAsync(int childId, string status);
 
         Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByChildAsync(int childId);

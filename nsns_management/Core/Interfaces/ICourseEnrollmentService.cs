@@ -27,7 +27,7 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId);
 
-        Task<IEnumerable<CourseEnrollment>> GetCompletedEnrollmentsByChildAsync(int childId);
+        Task<IEnumerable<CourseEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetScheduledEnrollmentsByCourseAsync(int courseId);
 

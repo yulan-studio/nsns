@@ -21,6 +21,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
            @*  <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th> *@
             
         </tr>
@@ -37,6 +38,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@((enrollment.ScheduledAt.HasValue) ? enrollment.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "") </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ActualHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
                @*      <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Course.HourlyCost</td> *@
                     
                 </tr>
@@ -45,7 +47,7 @@
         else
         {
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px;">No completed courses.</td>
+                <td colspan="7" style="text-align: center; padding: 10px;">No completed courses.</td>
             </tr>
         }
 

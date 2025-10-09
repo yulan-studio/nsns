@@ -218,9 +218,9 @@ namespace Core.Services
 
 
 
-        public async Task<IEnumerable<CourseEnrollment>> GetCompletedEnrollmentsByChildAsync(int childId)
+        public async Task<IEnumerable<CourseEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId)
         {
-            return await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Completed");
+            return await _enrollmentRepository.GetFinishedEnrollmentsByChildAsync(childId);
         }
 
         //public async Task<IEnumerable<Child>> GetRegisteredChildrenByCoachAsync(int coachId)

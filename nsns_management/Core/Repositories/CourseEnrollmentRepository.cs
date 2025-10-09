@@ -76,6 +76,22 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+
+        public async Task<IEnumerable<CourseEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            return await _context.CourseEnrollments
+                .Include(e => e.Course)
+                .Include(e => e.Course.Coach)
+                .Include(e => e.Course.Specialty)
+                .Where(e => e.ChildID != null && e.ChildID == childId && (e.Status == "Completed" || e.Status == "Canceled" || e.Status == "OnLeave") && e.EnrollmentID_Ref != null && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) <= torontoNow)
+                .OrderBy(e => e.CourseID)
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
         //Get Registered/Completed records of root course registration
         public async Task<IEnumerable<CourseEnrollment>> GetRootEnrollmentsByChildAsync(int childId, string status)
         {
@@ -396,7 +412,9 @@ namespace Core.Repositories
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
 
-            DateTime now = DateTime.UtcNow;
+            //DateTime now = DateTime.UtcNow;
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
 
             //Get all sessions of the group course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments
@@ -406,7 +424,7 @@ namespace Core.Repositories
                             && (e.Status == "Open" || e.Status == "Closed")
                             && e.ScheduledAt != null
                             && e.ScheduledHours != null
-                            && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) <= now)
+                            && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) <= torontoNow)
                 .ToListAsync();
 
             // Update Status
