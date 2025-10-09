@@ -38,7 +38,7 @@ namespace Web.Controllers.Fee
                 PaymentModel = fee.PaymentModel,
                 Description = fee.Description,
                 TotalCost = fee.TotalCost,
-                IsPaid = fee.IsPaid
+                //IsPaid = fee.IsPaid
             };
 
             //return View(model);
@@ -62,7 +62,7 @@ namespace Web.Controllers.Fee
                 PaymentModel = fee.PaymentModel,
                 Description = fee.Description,
                 TotalCost = fee.TotalCost,
-                IsPaid = fee.IsPaid
+                //IsPaid = fee.IsPaid
             };
 
             //return View(model);

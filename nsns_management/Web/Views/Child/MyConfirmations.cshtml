@@ -142,8 +142,7 @@
         <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
           
                 Total Cost: @courseSchedulesToConfirm.Fee.TotalCost<br />
-                Status: @(courseSchedulesToConfirm.Fee.IsPaid ? "Paid" : "Pending")<br />
-                Description: @(courseSchedulesToConfirm.Fee.IsPaid ? "Your payment has been received." : courseSchedulesToConfirm.Fee.Description )<br />
+                Description: @(courseSchedulesToConfirm.Fee.Description )<br />
 
         </div>
 

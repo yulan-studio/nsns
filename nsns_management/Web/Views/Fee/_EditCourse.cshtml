@@ -6,7 +6,7 @@
 
 @* <h2>Edit Fee</h2> *@
 
-@if (Model.IsPaid)
+@* @if (Model.IsPaid)
 {
     <div class="alert alert-info">
         <strong>This fee has already been paid and cannot be edited.</strong>
@@ -39,8 +39,9 @@
             </tr>
         </table>
     </form>
-}
-else if (Model.TotalCost == null)
+} 
+else if (Model.TotalCost == null)*@
+@if (Model.TotalCost == null)
 {
     <div class="alert alert-info">
         <strong>This fee will be deducted from token in each session.</strong>

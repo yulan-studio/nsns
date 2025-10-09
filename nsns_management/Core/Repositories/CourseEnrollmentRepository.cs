@@ -182,10 +182,10 @@ namespace Core.Repositories
                RequestToLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToLeave" && c.EnrollmentID_Ref != null), // Count all requested to leave sessions,
                RequestToRescheduleSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToReschedule" && c.EnrollmentID_Ref != null), // Count all requested to leave sessions
                                                                                                                                                                                                            // NEW: get IsPaid from Fees
-               IsPaid = _context.Fees
-                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
-                        .Select(f => f.IsPaid)
-                        .FirstOrDefault(),
+               //IsPaid = _context.Fees
+               //         .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+               //         .Select(f => f.IsPaid)
+               //         .FirstOrDefault(),
                TotalCost = _context.Fees
                         .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
                         .Select(f => f.TotalCost)

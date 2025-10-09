@@ -44,7 +44,7 @@ namespace Core.Services
                 Description = description,
                 CreatedBy = user.Id,
                 CreatedAt = DateTime.UtcNow,
-                IsPaid = false
+               //IsPaid = false
             };
             return await _feeRepository.AddAsync(fee);
         }
@@ -60,7 +60,7 @@ namespace Core.Services
                 Description = description,
                 CreatedBy = user.Id,
                 CreatedAt = DateTime.UtcNow,
-                IsPaid = false
+                //IsPaid = false
             };
             return await _feeRepository.AddAsync(fee);
         }
@@ -121,7 +121,7 @@ namespace Core.Services
 
         public async Task<bool> UpdateFeeAsync(Fee fee, string description, decimal? totalCost, int userId)
         {
-            if (fee == null || fee.IsPaid)
+            if (fee == null)
                 return false;
 
             fee.Description = description;

@@ -101,10 +101,10 @@ namespace Core.Repositories
                Description = e.Activity.Description,
                Status = e.Status,
                                                                                                                                                                                                                           // NEW: get IsPaid from Fees
-               IsPaid = _context.Fees
-                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
-                        .Select(f => f.IsPaid)
-                        .FirstOrDefault(),
+               //IsPaid = _context.Fees
+               //         .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+               //         .Select(f => f.IsPaid)
+               //         .FirstOrDefault(),
                TotalCost = _context.Fees
                         .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
                         .Select(f => f.TotalCost)
