@@ -37,6 +37,9 @@ namespace Core.Repositories
         }
 
 
+       
+
+
         public async Task<IEnumerable<ActivityEnrollment>> GetPastEnrollmentsByChildAsync(int childId)
         {
             var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
@@ -51,15 +54,50 @@ namespace Core.Repositories
         }
 
 
-
-        public async Task<IEnumerable<ActivityEnrollment>> GetAllEnrollmentsByChildAsync(int childId)
+       
+        public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetAllEnrollmentsViewByChildAsync(int childId)
         {
+            //return await _context.ActivityEnrollments
+            //    .Include(e => e.Activity)
+            //    //.Include(e => e.Child)
+            //    .Where(e => e.ChildID == childId)
+            //    .OrderBy(e => e.Activity.ScheduledAt)
+            //    .ToListAsync();
+
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
             return await _context.ActivityEnrollments
-                .Include(e => e.Activity)
-                //.Include(e => e.Child)
-                .Where(e => e.ChildID == childId)
-                .OrderBy(e => e.Activity.ScheduledAt)
-                .ToListAsync();
+           .Include(e => e.Activity)
+
+
+
+           .Where(e => e.ChildID == childId)
+           
+           .Select(e => new ActivityEnrollmentViewModel
+           {
+
+               ActivityID = e.ActivityID,
+
+               ChildID = e.ChildID,
+               EnrollmentID = e.EnrollmentID,
+
+               Title = e.Activity.Title,
+               Address = e.Activity.Address,
+               ScheduledAt = e.Activity.ScheduledAt,
+               Description = e.Activity.Description,
+               Status = e.Status,
+             
+               TotalCost = _context.Fees
+                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.TotalCost)
+                        .FirstOrDefault()
+           })
+           .OrderBy(e => e.ScheduledAt)
+           .ToListAsync();
+
+
+
         }
 
         public async Task<IEnumerable<ActivityEnrollment>> GetEnrollmentsByChildAsync(int childId, string status)
@@ -72,6 +110,25 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+
+        public async Task<IEnumerable<ActivityEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            return await _context.ActivityEnrollments
+           .Include(e => e.Activity)
+
+
+
+           .Where(e => e.ChildID == childId
+                      && (e.Status == "Completed" || e.Status == "Canceled")
+                      && e.Activity.ScheduledAt < torontoNow)
+           
+          
+           .OrderBy(e => e.Activity.ScheduledAt)
+           .ToListAsync();
+        }
 
         public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetUpcomingEnrollmentsViewByChildAsync(int childId)
         {
@@ -112,6 +169,19 @@ namespace Core.Repositories
            })
            .OrderBy(e => e.ActivityID)
            .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ActivityEnrollment>> GetRegisteredEnrollmentsByChildAsync(int childId)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            return await _context.ActivityEnrollments
+                .Include(e => e.Activity)
+                //.Include(e => e.Child)
+                .Where(e => e.ChildID == childId && e.Activity.ScheduledAt >= torontoNow && e.Status == "Registered")
+                .OrderBy(e => e.Activity.ScheduledAt)
+                .ToListAsync();
         }
 
         public async Task<bool> AddAsync(ActivityEnrollment enrollment)

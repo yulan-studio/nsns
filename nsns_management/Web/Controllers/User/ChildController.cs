@@ -599,7 +599,7 @@ namespace Web.Controllers.User
             //var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(child.ChildID);
             //var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
 
-            var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsViewByChildAsync(child.ChildID);
+            var activityEnrollments = await _activityEnrollmentService.GetAllEnrollmentsViewByChildAsync(child.ChildID);
 
 
             return View("MyRegistrations", new ManageRegisterationsViewModel
@@ -898,7 +898,7 @@ namespace Web.Controllers.User
 
             var child = await _childService.GetAsync(childId);
             var completedCourses = await _courseEnrollmentService.GetFinishedEnrollmentsByChildAsync(childId);
-            var completedActivities = await _activityEnrollmentService.GetCompletedEnrollmentsByChildAsync(childId);
+            var completedActivities = await _activityEnrollmentService.GetFinishedEnrollmentsByChildAsync(childId);
 
             if (child == null)
                 throw new Exception("The child can't be found");
@@ -1000,7 +1000,7 @@ namespace Web.Controllers.User
 
 
             var completedCourses = await _courseEnrollmentService.GetFinishedEnrollmentsByChildAsync(child.ChildID);
-            var completedActivities = await _activityEnrollmentService.GetCompletedEnrollmentsByChildAsync(child.ChildID);
+            var completedActivities = await _activityEnrollmentService.GetFinishedEnrollmentsByChildAsync(child.ChildID);
 
 
             EnrollmentsHistoryViewModel enrollmentHistory = new EnrollmentsHistoryViewModel

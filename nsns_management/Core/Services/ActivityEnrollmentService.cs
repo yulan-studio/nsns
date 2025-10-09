@@ -90,9 +90,9 @@ namespace Core.Services
         }
 
 
-        public async Task<IEnumerable<ActivityEnrollment>> GetAllEnrollmentsByChildAsync(int childId)
+        public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetAllEnrollmentsViewByChildAsync(int childId)
         {
-            return await _enrollmentRepository.GetAllEnrollmentsByChildAsync(childId);
+            return await _enrollmentRepository.GetAllEnrollmentsViewByChildAsync(childId);
         }
 
         public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetUpcomingEnrollmentsViewByChildAsync(int childId)
@@ -115,9 +115,9 @@ namespace Core.Services
         }
 
 
-        public async Task<IEnumerable<ActivityEnrollment>> GetCompletedEnrollmentsByChildAsync(int childId)
+        public async Task<IEnumerable<ActivityEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId)
         {
-            return await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Completed");
+            return await _enrollmentRepository.GetFinishedEnrollmentsByChildAsync(childId);
         }
 
 
