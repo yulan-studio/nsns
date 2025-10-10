@@ -172,12 +172,34 @@ else
     <h4 style="color:steelblue">- Activities -</h4>
 </div>
 
+@if (TempData["SuccessMessage3"] != null)
+{
 
+    <div class="alert alert-success">
+        @TempData["SuccessMessage3"]
+    </div>
+
+}
+
+@if (TempData["ErrorMessage3"] != null)
+{
+
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage3"]
+    </div>
+
+}
 @if (Model.ActivitiesToConfirm != null && Model.ActivitiesToConfirm.Any())
 {
 
     @foreach (var enrollment in Model.ActivitiesToConfirm)
     {
+
+
+           <form method="post" asp-action="UpdateActivityToConform">
+            <input type="hidden" name="ActivityID" value="@enrollment.ActivityID" />
+            <input type="hidden" name="EnrollmentID" value="@enrollment.EnrollmentID" /> 
+            <input type="hidden" name="TotalCost" value="@enrollment.TotalCost" />
         <table style="border-collapse: collapse; width: 100%; text-align: left;">
             <thead>
                 <tr style="background-color: #f2f2f2;">
@@ -219,6 +241,7 @@ else
             <button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
 
         </div>
+        </form>
 
 
     }

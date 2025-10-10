@@ -240,7 +240,7 @@ namespace Core.Repositories
             var now = DateTime.UtcNow;
             var enrollments = await _context.ActivityEnrollments
                 .Include(e => e.Activity)
-                .Where(e => ((DateTime)e.Activity.ScheduledAt).AddDays(1)  <= now && e.Status == "Registered")
+                .Where(e => ((DateTime)e.Activity.ScheduledAt).AddDays(1)  <= now && e.Status == "Scheduled")
                 .ToListAsync();
 
             foreach (var enrollment in enrollments)
@@ -257,7 +257,7 @@ namespace Core.Repositories
         {
 
             var enrollments = await _context.ActivityEnrollments
-                .Where(e => e.Status == "Registered" && e.Activity.ActivityID == activityId)
+                .Where(e => e.Status == "Scheduled" && e.Activity.ActivityID == activityId)
                 .ToListAsync();
 
             foreach (var enrollment in enrollments)
@@ -270,6 +270,33 @@ namespace Core.Repositories
         }
 
 
+
+        public async Task<bool> UpdateActivityStatusToScheduledAsync(int enrollmentID)
+        {
+
+            // Find the activity enrollment record by ID
+            var enrollment = await _context.ActivityEnrollments
+                .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentID);
+
+            if (enrollment == null)
+            {
+                return false; // Enrollment not found
+            }
+
+            // Update status to "Scheduled"
+            enrollment.Status = "Scheduled";
+
+            // Update the record in the database
+            _context.ActivityEnrollments.Update(enrollment);
+
+            // Save changes
+            var result = await _context.SaveChangesAsync();
+
+            // Return true if at least one record was affected
+            return result > 0;
+        }
+
+
         public async Task<bool> UpdateActivityStatusToClosedAsync(int activityId)
         {
             var activity = await _context.Activities.FindAsync(activityId);
@@ -278,7 +305,7 @@ namespace Core.Repositories
             
 
             var enrollments = await _context.ActivityEnrollments
-                .Where(e => e.Status == "Registered" && e.Activity.ActivityID == activityId)
+                .Where(e => e.Status == "Scheduled" && e.Activity.ActivityID == activityId)
                 .ToListAsync();
 
             if (enrollments.Count == activity.MaxCapacity)

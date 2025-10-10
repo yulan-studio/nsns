@@ -37,6 +37,8 @@ namespace Core.Interfaces
 
         Task<bool> UpdateActivityStatusToClosedAsync(int activityId);
 
+        Task<bool> UpdateActivityStatusToScheduledAsync(int activityId);
+
 
     }
 

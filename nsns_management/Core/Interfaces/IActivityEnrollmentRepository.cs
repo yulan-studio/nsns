@@ -38,6 +38,8 @@ namespace Core.Interfaces
 
         Task<bool> UpdateActivityStatusToCanceledAsync(int activityId);
 
+        Task<bool> UpdateActivityStatusToScheduledAsync(int enrollmentId);
+
 
         Task<bool> UpdateActivityStatusToClosedAsync(int activityId);
 

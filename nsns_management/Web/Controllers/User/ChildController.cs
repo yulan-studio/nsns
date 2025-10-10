@@ -1412,6 +1412,63 @@ namespace Web.Controllers.User
 
 
 
+
+
+
+
+        [Authorize(Roles = "Child")]
+        [HttpPost("UpdateActivityToConform")]
+
+        public async Task<IActionResult> UpdateActivityToConform(ActivityEnrollmentViewModel model, string actionType)
+        {
+            Core.Models.User user = await _userManager.GetUserAsync(User);
+            var child = await _childService.GetByIdAsync(user.Id);
+
+            if (child == null)
+                return NotFound("Child not found.");
+
+            //if (actionType == "SaveChanges")
+            //{
+          
+
+            //}
+
+            //else if (actionType == "Confirm")
+            if (actionType == "Confirm")
+            {
+                // Handle Confirm logic
+
+                //Upon confirmation, deduct the cost from child's balance
+                //if(model.Fee.PaymentModel == "Token")
+                bool result1 = await _balanceService.DeductActivityCostAsync(child.ChildID, model.ActivityID, (decimal)model.TotalCost, user.Id);
+
+                bool result2 = await _activityEnrollmentService.UpdateActivityStatusToScheduledAsync(model.EnrollmentID);
+
+                if (result1 && result2)
+                {
+                    TempData["SuccessMessage3"] = "Activity schedules confirmed successfully. Please check the schedules in https://me.nsns.ca/Child/MySchedules";
+                    
+                    var activity = await _activityService.GetAsync(model.ActivityID);
+                    var subject = child.MemberID + ":" + " Activity has been confirmed";
+                    var message = "The activity have been confirmed for the child: " + child.Name + ":\n" +
+                                    "Activity: " + activity.Title;
+
+                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
+                }
+
+                
+
+
+                    //await _emailService.SendEmailAsync("customer.nsns@gmail.com", child.MemberID + ": Course schedules has been confirmed  " + , "The course schedules have been confirmed by the child: " + child.MemberID + ".");
+               
+                    
+            }
+
+            return RedirectToAction("MyConfirmations");
+        }
+
+
+
         //[Authorize(Roles = "Staff")]
         //[HttpPost]
         //public async Task<IActionResult> UpdateScheduledSessions(ManageSessionRegistrationsViewModel model)
