@@ -562,7 +562,7 @@ namespace Web.Controllers.User
             //var activityCanceledEnrollments = await _activityEnrollmentService.GetCanceledEnrollmentsByChildAsync(childId);
             //var activityEnrollments = activityRegisteredEnrollments.Concat(activityCanceledEnrollments);
 
-            var activityEnrollments = await _activityEnrollmentService.GetUpcomingEnrollmentsViewByChildAsync(childId);
+            var activityEnrollments = await _activityEnrollmentService.GetAllEnrollmentsViewByChildAsync(childId);
             var activities = await _activityService.GetAllActiveOpenAsync();
 
             ViewBag.ActivityList = activities.Select(a => new SelectListItem
