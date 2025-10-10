@@ -95,6 +95,11 @@ namespace Core.Services
             return await _enrollmentRepository.GetAllEnrollmentsViewByChildAsync(childId);
         }
 
+        public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetEnrollmentsViewByChildAsync(int childId, String status)
+        {
+            return await _enrollmentRepository.GetEnrollmentsViewByChildAsync(childId, status);
+        }
+
         public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetUpcomingEnrollmentsViewByChildAsync(int childId)
         {
             return await _enrollmentRepository.GetUpcomingEnrollmentsViewByChildAsync(childId);

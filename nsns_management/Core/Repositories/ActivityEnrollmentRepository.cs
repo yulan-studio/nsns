@@ -83,9 +83,46 @@ namespace Core.Repositories
            .OrderBy(e => e.ScheduledAt)
            .ToListAsync();
 
+        }
+
+
+        public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetEnrollmentsViewByChildAsync(int childId, String status)
+        {
+
+            return await _context.ActivityEnrollments
+           .Include(e => e.Activity)
+           .Where(e => e.ChildID == childId && e.Status == status)
+           .Select(e => new ActivityEnrollmentViewModel
+           {
+
+               ActivityID = e.ActivityID,
+
+               ChildID = e.ChildID,
+               EnrollmentID = e.EnrollmentID,
+
+               Title = e.Activity.Title,
+               Address = e.Activity.Address,
+               ScheduledAt = e.Activity.ScheduledAt,
+               Description = e.Activity.Description,
+               Status = e.Status,
+
+               TotalCost = _context.Fees
+                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.TotalCost)
+                        .FirstOrDefault(),
+               PaymentDescription = _context.Fees
+                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.Description)
+                        .FirstOrDefault(),
+           })
+           .OrderBy(e => e.ScheduledAt)
+           .ToListAsync();
+
 
 
         }
+
+
 
         public async Task<IEnumerable<ActivityEnrollment>> GetEnrollmentsByChildAsync(int childId, string status)
         {

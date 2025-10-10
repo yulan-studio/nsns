@@ -939,12 +939,15 @@ namespace Web.Controllers.User
                 });
             }
 
+            var activities = await _activityEnrollmentService.GetEnrollmentsViewByChildAsync(child.ChildID, "Registered");
+
 
             var viewModel = new ChildSchedulesToConfirmViewModel
             {
                 Child = child,
                 ChildID = child.ChildID,
                 CoursesSchedulesToConfirm = courseSchedulesToConfirmList,
+                ActivitiesToConfirm = activities.ToList()
             };
 
             return View("MyConfirmations", viewModel);

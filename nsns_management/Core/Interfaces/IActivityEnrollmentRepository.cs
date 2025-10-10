@@ -30,7 +30,10 @@ namespace Core.Interfaces
         Task<IEnumerable<ActivityEnrollment>> GetRegisteredEnrollmentsByChildAsync(int childId);
 
         Task<IEnumerable<ActivityEnrollmentViewModel>> GetAllEnrollmentsViewByChildAsync(int childId);
-        
+
+       Task<IEnumerable<ActivityEnrollmentViewModel>> GetEnrollmentsViewByChildAsync(int childId, String status);
+
+
         Task<IEnumerable<ActivityEnrollment>> UpdateActivityStatusToCompletedAsync();
 
         Task<bool> UpdateActivityStatusToCanceledAsync(int activityId);
