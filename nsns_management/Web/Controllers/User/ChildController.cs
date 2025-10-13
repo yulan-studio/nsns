@@ -1031,6 +1031,18 @@ namespace Web.Controllers.User
         }
 
 
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("Balance/{childId}")]
+        public async Task<IActionResult> Balance(int childId)
+        {
+            var balances = await _balanceService.GetBalanceHistoryAsync(childId);
+            var finalBalance = await _balanceService.GetFinalBalanceAsync(childId);
+            ViewBag.FinalBalance = finalBalance;
+            return View(balances);
+        }
+
+
         //Add course sessions to a child who has registered to a group course 
         [Authorize(Roles = "Staff")]
         [HttpGet("ManageSessionRegistrations")]
