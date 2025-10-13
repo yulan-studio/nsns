@@ -8,48 +8,48 @@
     <h4 style="color:steelblue">- Courses -</h4>
 </div>
 
- @if (TempData["SuccessMessage2"] != null)
-    {
-       
-                <div class="alert alert-success">
-                   @Html.Raw(@TempData["SuccessMessage2"]);
-                </div>
-           
-    }
+@if (TempData["SuccessMessage2"] != null)
+{
 
-    @if (TempData["ErrorMessage2"] != null)
-    {
-      
-                <div class="alert alert-danger">
-                    @TempData["ErrorMessage2"]
-                </div>
-           
-    }  
+    <div class="alert alert-success">
+        @Html.Raw(@TempData["SuccessMessage2"]);
+    </div>
+
+}
+
+@if (TempData["ErrorMessage2"] != null)
+{
+
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage2"]
+    </div>
+
+}
 
 @if (Model.CoursesSchedulesToConfirm.Any())
 {
-   
+
 
     @foreach (var courseSchedulesToConfirm in Model.CoursesSchedulesToConfirm)
     {
-        <div  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+        <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
             <h5>Course: @courseSchedulesToConfirm.Course.Title</h5>
-            
-        
+
+
 
             <strong>Course Type: </strong>  @courseSchedulesToConfirm.Course.CourseType
             <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedulesToConfirm.Course.SessionCount
             <strong> &nbsp; &nbsp;Coach: </strong>   @(courseSchedulesToConfirm.Course.Coach?.Name ?? "N/A")
 
-            
+
         </div>
 
 
-     
+
 
         <div class="mb-3">
 
-            
+
 
             <button class="btn btn-schedule" type="button"
                     data-bs-toggle="collapse"
@@ -58,105 +58,105 @@
                 Toggle Schedules
             </button>
 
-        <div id="collapseCourse_@courseSchedulesToConfirm.Course.CourseID" class="collapse mt-2">
-            <div class="card card-body">
-                <form method="post" asp-action="UpdateSchedulesToConform">
-            <input type="hidden" name="CourseID" value="@courseSchedulesToConfirm.Course.CourseID" />
-            <input type="hidden" name="Fee.PaymentModel" value="@courseSchedulesToConfirm.Fee.PaymentModel" />
-            <input type="hidden" name="Fee.TotalCost" value="@courseSchedulesToConfirm.Fee.TotalCost" />
-            <input type="hidden" name="Fee.CourseEnrollmentID" value="@courseSchedulesToConfirm.Fee.CourseEnrollmentID" />
-          @*   <input type="hidden" name="ChildID" value="@Model.ChildID" /> *@
-         
+            <div id="collapseCourse_@courseSchedulesToConfirm.Course.CourseID" class="collapse mt-2">
+                <div class="card card-body">
+                    <form method="post" asp-action="UpdateSchedulesToConform">
+                        <input type="hidden" name="CourseID" value="@courseSchedulesToConfirm.Course.CourseID" />
+                        <input type="hidden" name="Fee.PaymentModel" value="@courseSchedulesToConfirm.Fee.PaymentModel" />
+                        <input type="hidden" name="Fee.TotalCost" value="@courseSchedulesToConfirm.Fee.TotalCost" />
+                        <input type="hidden" name="Fee.CourseEnrollmentID" value="@courseSchedulesToConfirm.Fee.CourseEnrollmentID" />
+                        @*   <input type="hidden" name="ChildID" value="@Model.ChildID" /> *@
 
 
-            <table style="border-collapse: collapse; width: 100%; text-align: left;">
-                <thead>
-                    <tr style="background-color: #f2f2f2;">
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Date</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Start Time</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="10%">End Time</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Location</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Status</th>
-                       @*  <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Staff Note</th>
+
+                        <table style="border-collapse: collapse; width: 100%; text-align: left;">
+                            <thead>
+                                <tr style="background-color: #f2f2f2;">
+                                    <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Date</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;" width="10%">Start Time</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;" width="10%">End Time</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Location</th>
+                                    <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Status</th>
+                                    @*  <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Staff Note</th>
                         <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Parent Note</th> *@
-              
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (courseSchedulesToConfirm.Schedules.Any())
 
-                    {
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (courseSchedulesToConfirm.Schedules.Any())
 
-                       // foreach (var schedule in courseSchedulesToConfirm.Schedules)
-                           @for (int i = 0; i < courseSchedulesToConfirm.Schedules.Count; i++)
-                            {
-                            var schedule = courseSchedulesToConfirm.Schedules[i];
-                            <input type="hidden" name="Schedules[@i].EnrollmentID" value="@schedule.EnrollmentID" />
-                            <tr>
-                               @*  <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                                {
+
+                                    // foreach (var schedule in courseSchedulesToConfirm.Schedules)
+                                    @for (int i = 0; i < courseSchedulesToConfirm.Schedules.Count; i++)
+                                    {
+                                        var schedule = courseSchedulesToConfirm.Schedules[i];
+                                        <input type="hidden" name="Schedules[@i].EnrollmentID" value="@schedule.EnrollmentID" />
+                                        <tr>
+                                            @*  <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                                 <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td> *@
 
-                                @{
-                                    var scheduledAt = schedule.ScheduledAt;
-                                    var scheduledHours = schedule.ScheduledHours.HasValue ? (double)schedule.ScheduledHours.Value : 0;
-                                    DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                                            @{
+                                                var scheduledAt = schedule.ScheduledAt;
+                                                var scheduledHours = schedule.ScheduledHours.HasValue ? (double)schedule.ScheduledHours.Value : 0;
+                                                DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+                                            }
+
+                                            <td style="padding: 8px; border: 1px solid #ddd;">
+                                                @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
+                                            </td>
+                                            <td style="padding: 8px; border: 1px solid #ddd;">
+                                                @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
+                                            </td>
+                                            <td style="padding: 8px; border: 1px solid #ddd;">
+                                                @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
+                                            </td>
+
+
+                                            <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
+                                            <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
+                                            @*  <td style="padding: 8px; border: 1px solid #ddd;">@schedule.StaffNote</td>
+                                <td style="padding: 8px; border: 1px solid #ddd;"><textarea name="Schedules[@i].ParentNote" class="form-control"> @schedule.ParentNote</textarea></td> *@
+                                        </tr>
+                                    }
+
                                 }
 
-                                <td style="padding: 8px; border: 1px solid #ddd;">
-                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
-                                </td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">
-                                    @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
-                                </td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">
-                                    @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
-                                </td>
+                                else
+
+                                {
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; padding-top: 10px;">There are currently no schedules waiting for your confirmation.</td>
+                                    </tr>
+                                }
 
 
-                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
-                               @*  <td style="padding: 8px; border: 1px solid #ddd;">@schedule.StaffNote</td>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><textarea name="Schedules[@i].ParentNote" class="form-control"> @schedule.ParentNote</textarea></td> *@
-                            </tr>
-                        }
+                            </tbody>
+                        </table>
+                        <br />
+                        @*   <button type="submit" name="actionType" value="SaveChanges" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button> *@
 
-                    }
 
-                    else
 
-                    {
-                        <tr>
-                            <td colspan="5" style="text-align: center; padding-top: 10px;">There are currently no schedules waiting for your confirmation.</td>
-                        </tr>
-                    }
+                        <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
 
-                 
-                </tbody>
-            </table>
-            <br />
-          @*   <button type="submit" name="actionType" value="SaveChanges" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button> *@
-           
-       
+                            Total Cost: @courseSchedulesToConfirm.Fee.TotalCost<br />
+                            Description: @(courseSchedulesToConfirm.Fee.Description)<br />
 
-        <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
-          
-                Total Cost: @courseSchedulesToConfirm.Fee.TotalCost<br />
-                Description: @(courseSchedulesToConfirm.Fee.Description )<br />
+                        </div>
 
-        </div>
 
-        
 
-        <div @* class="alert alert-danger" *@  style="padding: 20px 20px 20px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;" >
-            Please click 'Confirm' to complete your course registration.<br />
-                请点击"Confirm"以完成课程注册。<br /><br />
-            <button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
-           
-        </div>
+                        <div @* class="alert alert-danger" *@  style="padding: 20px 20px 20px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                            Please click 'Confirm' to complete your course registration.<br />
+                            请点击"Confirm"以完成课程注册。<br /><br />
+                            <button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
 
-        </form>
+                        </div>
+
+                    </form>
+                </div>
             </div>
-        </div>
 
         </div>
     }
@@ -187,7 +187,7 @@ else
 
     <div class="alert alert-danger">
         @* @TempData["ErrorMessage3"] *@
-        
+
     </div>
 
 }
@@ -198,52 +198,52 @@ else
     {
 
 
-           <form method="post" asp-action="UpdateActivityToConform">
+        <form method="post" asp-action="UpdateActivityToConform">
             <input type="hidden" name="ActivityID" value="@enrollment.ActivityID" />
-            <input type="hidden" name="EnrollmentID" value="@enrollment.EnrollmentID" /> 
+            <input type="hidden" name="EnrollmentID" value="@enrollment.EnrollmentID" />
             <input type="hidden" name="TotalCost" value="@enrollment.TotalCost" />
             <input type="hidden" name="PaymentModel" value="@enrollment.PaymentModel" />
-        <table style="border-collapse: collapse; width: 100%; text-align: left;">
-            <thead>
-                <tr style="background-color: #f2f2f2;">
-                    <th style="padding: 8px; border: 1px solid #ddd;">Activity</th>
-                    <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
-                    <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
-                    <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
-                    @*  <th style="padding: 8px; border: 1px solid #ddd;">Cost</th> *@
-                    <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-                    @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Description</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Address</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
-                    @*  <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.TotalCost</td> *@
-                    <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.Status == "Canceled" ? "color: red" : "")">@enrollment.Status</td>
+            <table style="border-collapse: collapse; width: 100%; text-align: left;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 8px; border: 1px solid #ddd;">Activity</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+                        @*  <th style="padding: 8px; border: 1px solid #ddd;">Cost</th> *@
+                        <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+                        @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Description</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Address</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
+                        @*  <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.TotalCost</td> *@
+                        <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.Status == "Canceled" ? "color: red" : "")">@enrollment.Status</td>
 
-                </tr>
-            </tbody>
-        </table>
-        <br />
+                    </tr>
+                </tbody>
+            </table>
+            <br />
 
-        <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+            <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
 
-            Total Cost: @enrollment.TotalCost<br />
-            Description: @(enrollment.PaymentDescription)<br />
+                Total Cost: @enrollment.TotalCost<br />
+                Description: @(enrollment.PaymentDescription)<br />
 
-        </div>
+            </div>
 
 
 
-        <div @* class="alert alert-danger" *@  style="padding: 20px 20px 20px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
-            Please click 'Confirm' to complete your activity registration.<br />
-            请点击"Confirm"以完成活动注册。<br /><br />
-            <button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
+            <div @* class="alert alert-danger" *@  style="padding: 20px 20px 20px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                Please click 'Confirm' to complete your activity registration.<br />
+                请点击"Confirm"以完成活动注册。<br /><br />
+                <button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
 
-        </div>
+            </div>
         </form>
 
 
