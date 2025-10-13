@@ -44,18 +44,15 @@
 
         </div>
 
-
-
-
         <div class="mb-3">
-
-
-
-            <button class="btn btn-schedule" type="button"
+            <button id="toggleBtn_@courseSchedulesToConfirm.Course.CourseID"
+                    class="btn btn-schedule"
+                    type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#collapseCourse_@courseSchedulesToConfirm.Course.CourseID">
-
-                Toggle Schedules
+                    data-bs-target="#collapseCourse_@courseSchedulesToConfirm.Course.CourseID"
+                    aria-expanded="false"
+                    aria-controls="collapseCourse_@courseSchedulesToConfirm.Course.CourseID">
+                Show Schedules to confirm
             </button>
 
             <div id="collapseCourse_@courseSchedulesToConfirm.Course.CourseID" class="collapse mt-2">
@@ -65,9 +62,6 @@
                         <input type="hidden" name="Fee.PaymentModel" value="@courseSchedulesToConfirm.Fee.PaymentModel" />
                         <input type="hidden" name="Fee.TotalCost" value="@courseSchedulesToConfirm.Fee.TotalCost" />
                         <input type="hidden" name="Fee.CourseEnrollmentID" value="@courseSchedulesToConfirm.Fee.CourseEnrollmentID" />
-                        @*   <input type="hidden" name="ChildID" value="@Model.ChildID" /> *@
-
-
 
                         <table style="border-collapse: collapse; width: 100%; text-align: left;">
                             <thead>
@@ -77,31 +71,20 @@
                                     <th style="padding: 8px; border: 1px solid #ddd;" width="10%">End Time</th>
                                     <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Location</th>
                                     <th style="padding: 8px; border: 1px solid #ddd;" width="15%">Status</th>
-                                    @*  <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Staff Note</th>
-                        <th style="padding: 8px; border: 1px solid #ddd;" width="20%">Parent Note</th> *@
-
                                 </tr>
                             </thead>
                             <tbody>
                                 @if (courseSchedulesToConfirm.Schedules.Any())
-
                                 {
-
-                                    // foreach (var schedule in courseSchedulesToConfirm.Schedules)
                                     @for (int i = 0; i < courseSchedulesToConfirm.Schedules.Count; i++)
                                     {
                                         var schedule = courseSchedulesToConfirm.Schedules[i];
+                                        var scheduledAt = schedule.ScheduledAt;
+                                        var scheduledHours = schedule.ScheduledHours.HasValue ? (double)schedule.ScheduledHours.Value : 0;
+                                        DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
+
                                         <input type="hidden" name="Schedules[@i].EnrollmentID" value="@schedule.EnrollmentID" />
                                         <tr>
-                                            @*  <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td> *@
-
-                                            @{
-                                                var scheduledAt = schedule.ScheduledAt;
-                                                var scheduledHours = schedule.ScheduledHours.HasValue ? (double)schedule.ScheduledHours.Value : 0;
-                                                DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
-                                            }
-
                                             <td style="padding: 8px; border: 1px solid #ddd;">
                                                 @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
                                             </td>
@@ -111,54 +94,66 @@
                                             <td style="padding: 8px; border: 1px solid #ddd;">
                                                 @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
                                             </td>
-
-
                                             <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
                                             <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
-                                            @*  <td style="padding: 8px; border: 1px solid #ddd;">@schedule.StaffNote</td>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><textarea name="Schedules[@i].ParentNote" class="form-control"> @schedule.ParentNote</textarea></td> *@
                                         </tr>
                                     }
-
                                 }
-
                                 else
-
                                 {
                                     <tr>
-                                        <td colspan="5" style="text-align: center; padding-top: 10px;">There are currently no schedules waiting for your confirmation.</td>
+                                        <td colspan="5" style="text-align: center; padding-top: 10px;">
+                                            There are currently no schedules waiting for your confirmation.
+                                        </td>
                                     </tr>
                                 }
-
-
                             </tbody>
                         </table>
+
                         <br />
-                        @*   <button type="submit" name="actionType" value="SaveChanges" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Save Changes</button> *@
 
-
-
-                        <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
-
+                        <div style="padding: 10px 20px; margin: 20px 0; border: 1px solid #ddd; background-color: #f8f9fa;">
                             Total Cost: @courseSchedulesToConfirm.Fee.TotalCost<br />
                             Description: @(courseSchedulesToConfirm.Fee.Description)<br />
-
                         </div>
 
-
-
-                        <div @* class="alert alert-danger" *@  style="padding: 20px 20px 20px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                        <div style="padding: 20px; margin: 20px 0; border: 1px solid #ddd; background-color: #f8f9fa;">
                             Please click 'Confirm' to complete your course registration.<br />
                             请点击"Confirm"以完成课程注册。<br /><br />
-                            <button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
-
+                            <button type="submit" name="actionType" value="Confirm"
+                                    style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">
+                                Confirm
+                            </button>
                         </div>
-
                     </form>
                 </div>
             </div>
-
         </div>
+
+
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const collapseId = 'collapseCourse_@courseSchedulesToConfirm.Course.CourseID';
+                const buttonId = 'toggleBtn_@courseSchedulesToConfirm.Course.CourseID';
+
+                const collapseElement = document.getElementById(collapseId);
+                const buttonElement = document.getElementById(buttonId);
+
+                collapseElement.addEventListener('show.bs.collapse', function () {
+                    buttonElement.textContent = 'Hide Schedules';
+                });
+
+                collapseElement.addEventListener('hide.bs.collapse', function () {
+                    buttonElement.textContent = 'Show Schedules to confirm';
+                });
+            });
+        </script>
+
+
+
+     
     }
 }
 else
@@ -258,6 +253,8 @@ else
 
 
 }
+
+
 
 
 
