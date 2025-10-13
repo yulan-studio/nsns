@@ -1063,10 +1063,11 @@ namespace Web.Controllers.User
                         EnrollmentID = session.EnrollmentID,
                         ScheduledAt = session.ScheduledAt ?? DateTime.MinValue,
                         ScheduledHours = session.ScheduledHours ?? 0,
+                        Location = session.Location ?? string.Empty,
                         IsSelected = false
                     };
                     sessionOptions.Add(sessionOption);
-
+                    
                 }
             }
 
@@ -1143,7 +1144,7 @@ namespace Web.Controllers.User
 
 
 
-                    var success = await _courseEnrollmentService.AddSessionRegisteredEnrollmentAsync(model.ChildID, model.CourseID, sessionRef.ScheduledAt, sessionRef.ScheduledHours, sessionRef.EnrollmentID, "Registered", user);
+                    var success = await _courseEnrollmentService.AddSessionRegisteredEnrollmentAsync(model.ChildID, model.CourseID, sessionRef.ScheduledAt, sessionRef.ScheduledHours, sessionRef.Location, sessionRef.EnrollmentID, "Registered", user);
 
                     if (!success)
                     {
@@ -1367,42 +1368,49 @@ namespace Web.Controllers.User
                 // Handle Confirm logic
 
                 //if(model.Fee.PaymentModel == "Token")
-                await _balanceService.DeductGroupCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.Fee.TotalCost, user.Id);
+               bool result1 = await _balanceService.DeductGroupCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.Fee.TotalCost, user.Id);
 
-               
-                if (model?.Schedules != null && model.Schedules.Any())
+                bool result2 = true;
+
+                
+
+
+                if (model.Fee.PaymentModel == "Token")
                 {
-                    foreach (var schedule in model.Schedules)
+                    result2 = await _feeService.UpdateCourseIsPaidAsync((int)model.Fee.CourseEnrollmentID, user.Id);
+                }
+
+                if (result1 == true && result2 == true)
+                {
+                    if (model?.Schedules != null && model.Schedules.Any())
                     {
-                        var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
-                        if (existing != null)
+                        foreach (var schedule in model.Schedules)
                         {
-                            if (existing.Status == "Registered")
+                            var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
+                            if (existing != null)
                             {
-                                existing.Status = "Scheduled";
+                                if (existing.Status == "Registered")
+                                {
+                                    existing.Status = "Scheduled";
+                                }
+
+                                await _courseEnrollmentService.UpdateSessionAsync(existing);
                             }
-
-                            await _courseEnrollmentService.UpdateSessionAsync(existing);
                         }
+
+
+
+                        var course = await _courseService.GetAsync(model.CourseID);
+                        var subject = child.MemberID + ":" + " Course schedules has been confirmed";
+                        var message = "The course schedules have been confirmed for the child: " + child.Name + ":\n" +
+                                     "Course: " + course.Title;
+
+                        await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
+
+
+                        //await _emailService.SendEmailAsync("customer.nsns@gmail.com", child.MemberID + ": Course schedules has been confirmed  " + , "The course schedules have been confirmed by the child: " + child.MemberID + ".");
+                        TempData["SuccessMessage2"] = "The course schedules have been confirmed successfully. Please check your <a href=\"/Child/MySchedules\">schedules</a>.";
                     }
-
-
-
-
-
-
-
-
-                    var course = await _courseService.GetAsync(model.CourseID);
-                    var subject = child.MemberID + ":" + " Course schedules has been confirmed";
-                    var message = "The course schedules have been confirmed for the child: " + child.Name + ":\n" +
-                                 "Course: " + course.Title;
-
-                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
-
-
-                    //await _emailService.SendEmailAsync("customer.nsns@gmail.com", child.MemberID + ": Course schedules has been confirmed  " + , "The course schedules have been confirmed by the child: " + child.MemberID + ".");
-                    TempData["SuccessMessage2"] = "Course schedules confirmed successfully. Please check the schedules in https://me.nsns.ca/Child/MySchedules";
                 }
             }
 
@@ -1444,10 +1452,19 @@ namespace Web.Controllers.User
 
                 bool result2 = await _activityEnrollmentService.UpdateActivityStatusToScheduledAsync(model.EnrollmentID);
 
-                if (result1 && result2)
+                bool result3 = true;
+
+
+                if (model.PaymentModel == "Token")
                 {
-                    TempData["SuccessMessage3"] = "Activity schedules confirmed successfully. Please check the schedules in https://me.nsns.ca/Child/MySchedules";
-                    
+                    result3 = await _feeService.UpdateActivityIsPaidAsync(model.EnrollmentID, user.Id);
+                }
+
+                if (result1 && result2 && result3)
+                {
+                   // TempData["SuccessMessage3"] = "Activity schedules confirmed successfully. Please check the schedules in " + <a href=\"/Child/MySchedules\">Schedules</a>;
+                    TempData["SuccessMessage3"] = "The activity has been confirmed successfully. Please check your <a href=\"/Child/MySchedules\">schedules</a>.";
+
                     var activity = await _activityService.GetAsync(model.ActivityID);
                     var subject = child.MemberID + ":" + " Activity has been confirmed";
                     var message = "The activity have been confirmed for the child: " + child.Name + ":\n" +

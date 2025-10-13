@@ -151,7 +151,7 @@ namespace Core.Services
 
         //Register grouop course session to child
 
-        public async Task<bool> AddSessionRegisteredEnrollmentAsync(int childId, int courseId, DateTime? scheduledAt, decimal? scheduledHours, int enrollmentId_Ref, string status, User user)
+        public async Task<bool> AddSessionRegisteredEnrollmentAsync(int childId, int courseId, DateTime? scheduledAt, decimal? scheduledHours, string? location, int enrollmentId_Ref, string status, User user)
         {
             //if (userId <= 0 || courseId <= 0 || scheduledHours < 0)
             //    throw new ArgumentException("Invalid child, course, or hours.");
@@ -178,6 +178,7 @@ namespace Core.Services
                     Child = child,
                     Course = course,
                     ScheduledAt = scheduledAt,
+                    Location = location,
                     EnrollmentID_Ref = enrollmentId_Ref,
                     CreatedBy = user.Id,
                     CreatedDate = DateTime.UtcNow,

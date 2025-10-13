@@ -78,6 +78,11 @@ namespace Core.Repositories
                TotalCost = _context.Fees
                         .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
                         .Select(f => f.TotalCost)
+                        .FirstOrDefault(),
+
+               PaymentModel = _context.Fees
+                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.PaymentModel)
                         .FirstOrDefault()
            })
            .OrderBy(e => e.ScheduledAt)
@@ -114,6 +119,10 @@ namespace Core.Repositories
                         .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
                         .Select(f => f.Description)
                         .FirstOrDefault(),
+               PaymentModel = _context.Fees
+                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.PaymentModel)
+                        .FirstOrDefault()
            })
            .OrderBy(e => e.ScheduledAt)
            .ToListAsync();
@@ -189,6 +198,10 @@ namespace Core.Repositories
                TotalCost = _context.Fees
                         .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
                         .Select(f => f.TotalCost)
+                        .FirstOrDefault(),
+               PaymentModel = _context.Fees
+                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.PaymentModel)
                         .FirstOrDefault()
            })
            .OrderBy(e => e.ActivityID)

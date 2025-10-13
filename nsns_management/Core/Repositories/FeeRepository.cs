@@ -185,6 +185,64 @@ namespace Core.Repositories
         }
 
 
+        public async Task<bool> UpdateActivityIsPaidAsync(int activityEnrollmentID, int userId)
+        {
+            try
+            {
+                var fee = await _context.Fees
+                    .FirstOrDefaultAsync(e => e.ActivityEnrollmentID == activityEnrollmentID);
+
+                if (fee == null)
+                    return false;
+
+                fee.IsPaid = true;
+
+                // Optional tracking fields (only include if your table has these)
+                fee.UpdatedBy = userId;
+                fee.UpdatedAt = DateTime.UtcNow;
+
+                _context.Fees.Update(fee);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                // You can log the exception here if needed
+                return false;
+            }
+        }
+
+
+        public async Task<bool> UpdateCourseIsPaidAsync(int courseEnrollmentID, int userId)
+        {
+            try
+            {
+                var fee = await _context.Fees
+                    .FirstOrDefaultAsync(e => e.CourseEnrollmentID == courseEnrollmentID);
+
+                if (fee == null)
+                    return false;
+
+                fee.IsPaid = true;
+
+                // Optional tracking fields (only include if your table has these)
+                fee.UpdatedBy = userId;
+                fee.UpdatedAt = DateTime.UtcNow;
+
+                _context.Fees.Update(fee);
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception)
+            {
+                // You can log the exception here if needed
+                return false;
+            }
+        }
+
+
 
 
 

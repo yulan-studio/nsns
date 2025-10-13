@@ -185,7 +185,22 @@ namespace Core.Services
         }
 
 
-      
+
+
+        public async Task<bool> UpdateActivityIsPaidAsync(int activityEnrollmentID, int userId)
+        {
+            return await _feeRepository.UpdateActivityIsPaidAsync(activityEnrollmentID, userId);
+        }
+
+
+        public async Task<bool> UpdateCourseIsPaidAsync(int courseEnrollmentID, int userId)
+        {
+            return await _feeRepository.UpdateCourseIsPaidAsync(courseEnrollmentID, userId);
+        }
+
+
+
+
 
     }
 }

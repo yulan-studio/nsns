@@ -12,7 +12,7 @@
     {
        
                 <div class="alert alert-success">
-                    @TempData["SuccessMessage2"]
+                   @Html.Raw(@TempData["SuccessMessage2"]);
                 </div>
            
     }
@@ -64,6 +64,7 @@
             <input type="hidden" name="CourseID" value="@courseSchedulesToConfirm.Course.CourseID" />
             <input type="hidden" name="Fee.PaymentModel" value="@courseSchedulesToConfirm.Fee.PaymentModel" />
             <input type="hidden" name="Fee.TotalCost" value="@courseSchedulesToConfirm.Fee.TotalCost" />
+            <input type="hidden" name="Fee.CourseEnrollmentID" value="@courseSchedulesToConfirm.Fee.CourseEnrollmentID" />
           @*   <input type="hidden" name="ChildID" value="@Model.ChildID" /> *@
          
 
@@ -176,7 +177,7 @@ else
 {
 
     <div class="alert alert-success">
-        @TempData["SuccessMessage3"]
+        @Html.Raw(@TempData["SuccessMessage3"]);
     </div>
 
 }
@@ -185,7 +186,8 @@ else
 {
 
     <div class="alert alert-danger">
-        @TempData["ErrorMessage3"]
+        @* @TempData["ErrorMessage3"] *@
+        
     </div>
 
 }
@@ -200,6 +202,7 @@ else
             <input type="hidden" name="ActivityID" value="@enrollment.ActivityID" />
             <input type="hidden" name="EnrollmentID" value="@enrollment.EnrollmentID" /> 
             <input type="hidden" name="TotalCost" value="@enrollment.TotalCost" />
+            <input type="hidden" name="PaymentModel" value="@enrollment.PaymentModel" />
         <table style="border-collapse: collapse; width: 100%; text-align: left;">
             <thead>
                 <tr style="background-color: #f2f2f2;">

@@ -36,6 +36,8 @@ namespace Core.ViewModels
             public int EnrollmentID { get; set; } // from the session (Status = "Open")
             public DateTime ScheduledAt { get; set; }
             public decimal ScheduledHours { get; set; }
+
+            public string Location { get; set; }
             public bool IsSelected { get; set; }
         }
 

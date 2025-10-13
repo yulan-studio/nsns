@@ -24,7 +24,7 @@ namespace Core.Models
 
         public required string PaymentModel { get; set; }
 
-        //public bool IsPaid { get; set; }
+        public bool IsPaid { get; set; }
 
         public DateTime? PaidAt { get; set; }
 

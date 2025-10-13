@@ -17,7 +17,9 @@ namespace Core.ViewModels
 
         public decimal? TotalCost { get; set; }
 
-        public string PaymentDescription { get; set; }
+        public required string PaymentModel { get; set; }
+
+        public string? PaymentDescription { get; set; }
 
         public int EnrollmentID { get; set; }  //this is the EnrollmentID for each course which status is 'registered' for the child
         public required string Title { get; set; }

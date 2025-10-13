@@ -39,6 +39,8 @@ namespace Core.Interfaces
 
         Task<IEnumerable<Fee>> GetAllAsync();
 
+        Task<bool> UpdateActivityIsPaidAsync(int activityEnrollmentID, int userId);
 
+        Task<bool> UpdateCourseIsPaidAsync(int courseEnrollmentID, int userId);
     }
 }
