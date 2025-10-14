@@ -12,9 +12,9 @@ namespace Core.Interfaces
     public interface ICoachIncomeService
     {
 
-        //Task<bool> UpdateCoachIncomeAsync(int enrollmentId, int updatedBy);
+        Task<bool> UpdateCoachIncomeAsync(int enrollmentId, int updatedBy);
 
-        //Task<IEnumerable<CoachIncome>> GetCoachIncomeAsync(int coachId);
+        Task<IEnumerable<CoachIncome>> GetCoachIncomeAsync(int coachId);
 
     }
 

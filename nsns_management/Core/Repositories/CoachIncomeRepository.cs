@@ -24,60 +24,60 @@ namespace Core.Repositories
             _context = context;
         }
 
-        //public async Task<bool> UpdateCoachIncomeAsync(int enrollmentId, int updatedBy)
-        //{
-        //    var enrollment = await _context.CourseEnrollments
-        //        .Include(e => e.Course)
-        //        .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentId);
+        public async Task<bool> UpdateCoachIncomeAsync(int enrollmentId, int updatedBy)
+        {
+            var enrollment = await _context.CourseEnrollments
+                .Include(e => e.Course)
+                .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentId);
 
-        //    if (enrollment == null || enrollment.Status != "Completed")
-        //        return false;
+            if (enrollment == null || enrollment.Status != "Completed")
+                return false;
 
-        //    var coachId = enrollment.Course.CoachID;
-        //    var courseId = enrollment.Course.CourseID;
-
-
-        //    // Calculate income (replace with your logic — hardcoded here as example)
-        //    decimal incomeForThisSession = enrollment.Course.HourlyCost * (decimal)enrollment.ActualHours;
-
-        //    // Get latest income for this coach
-        //    decimal previousIncome = await _context.CoachIncomes
-        //        .Where(i => i.CoachID == coachId)
-        //        .OrderByDescending(i => i.IncomeID)
-        //        .Select(i => i.Income ?? 0)
-        //        .FirstOrDefaultAsync();
-
-        //    var newIncome = previousIncome + incomeForThisSession;
-
-        //    var incomeEntry = new CoachIncome
-        //    {
-        //        CoachID = coachId,
-        //        CourseID = courseId,
-        //        EnrollmentID = enrollmentId,
-        //        IncomeChange = incomeForThisSession,
-        //        Income = newIncome,
-        //        CreatedDate = DateTime.UtcNow,
-        //        CreatedBy = updatedBy
-        //    };
-
-        //    _context.CoachIncomes.Add(incomeEntry);
-        //    await _context.SaveChangesAsync();
-        //    return true;
-        //}
+            var coachId = enrollment.Course.CoachID;
+            var courseId = enrollment.Course.CourseID;
 
 
-        //public async Task<IEnumerable<CoachIncome>> GetCoachIncomeAsync(int coachId)
-        //{ 
+            // Calculate income (replace with your logic — hardcoded here as example)
+            decimal incomeForThisSession = (decimal)enrollment.Course.HourlyCost * (decimal)enrollment.ActualHours;
 
-        //    var incomeRecords = await _context.CoachIncomes
-        //        .Where(i => i.CoachID == coachId)
-        //        .Include(i => i.Enrollment)
-        //            .ThenInclude(e => e.Child)
-        //        .Include(i => i.Course)
-        //        .OrderBy(i => i.Enrollment.ScheduledAt)
-        //        .ToListAsync();
-        //    return incomeRecords;
-        //}
+            // Get latest income for this coach
+            decimal previousIncome = await _context.CoachIncomes
+                .Where(i => i.CoachID == coachId)
+                .OrderByDescending(i => i.IncomeID)
+                .Select(i => i.Income ?? 0)
+                .FirstOrDefaultAsync();
+
+            var newIncome = previousIncome + incomeForThisSession;
+
+            var incomeEntry = new CoachIncome
+            {
+                CoachID = coachId,
+                CourseID = courseId,
+                EnrollmentID = enrollmentId,
+                IncomeChange = incomeForThisSession,
+                Income = newIncome,
+                CreatedDate = DateTime.UtcNow,
+                CreatedBy = updatedBy
+            };
+
+            _context.CoachIncomes.Add(incomeEntry);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+
+        public async Task<IEnumerable<CoachIncome>> GetCoachIncomeAsync(int coachId)
+        {
+
+            var incomeRecords = await _context.CoachIncomes
+                .Where(i => i.CoachID == coachId)
+                .Include(i => i.Enrollment)
+                    .ThenInclude(e => e.Child)
+                .Include(i => i.Course)
+                .OrderBy(i => i.Enrollment.ScheduledAt)
+                .ToListAsync();
+            return incomeRecords;
+        }
     }
 
 

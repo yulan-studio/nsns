@@ -734,36 +734,36 @@ namespace Web.Controllers.User
             return RedirectToAction("ManageEnrollments", new { childId, courseId = courseId});
         }
 
-        //[Authorize(Roles = "Coach")]
-        //[HttpGet("Income")]
-        //public async Task<IActionResult> Income()
-        //{
-        //    // Get current coach based on User ID
-        //    var user = await _userManager.GetUserAsync(User);
-        //    var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
-           
+        [Authorize(Roles = "Coach")]
+        [HttpGet("Income")]
+        public async Task<IActionResult> Income()
+        {
+            // Get current coach based on User ID
+            var user = await _userManager.GetUserAsync(User);
+            var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
 
-        //    if (coach == null)
-        //        return NotFound("Coach profile not found.");
 
-        //    // Get income records
-        //    var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
+            if (coach == null)
+                return NotFound("Coach profile not found.");
 
-        //    var viewModel = incomeRecords.Select(i => new CoachIncomeViewModel
-        //    {
-        //        EnrollmentID = i.EnrollmentID ?? 0,
-        //        CourseName = i.Course?.Title ?? "N/A",
-        //        ChildName = i.Enrollment?.Child.Name ?? "N/A",
-        //        SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
-        //        SessionHours = i.Enrollment?.ActualHours ?? 0,
-        //        IncomeChange = i.IncomeChange ?? 0,
-        //        TotalIncomeSoFar = i.Income ?? 0
-        //    }).ToList();
+            // Get income records
+            var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
 
-        //    ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
+            var viewModel = incomeRecords.Select(i => new CoachIncomeViewModel
+            {
+                EnrollmentID = i.EnrollmentID ?? 0,
+                CourseName = i.Course?.Title ?? "N/A",
+                ChildName = i.Enrollment?.Child.Name ?? "N/A",
+                SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
+                SessionHours = i.Enrollment?.ActualHours ?? 0,
+                IncomeChange = i.IncomeChange ?? 0,
+                TotalIncomeSoFar = i.Income ?? 0
+            }).ToList();
 
-        //    return View(viewModel);
-        //}
+            ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
+
+            return View(viewModel);
+        }
     }
 }
 
