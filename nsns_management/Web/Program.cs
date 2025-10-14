@@ -205,7 +205,9 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 
 
-
+var cultureInfo = new System.Globalization.CultureInfo("en-CA");
+System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 
 

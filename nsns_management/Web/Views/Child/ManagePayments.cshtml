@@ -29,6 +29,7 @@
         <tr style="background-color: #f2f2f2;">
             <th style="padding: 8px; border: 1px solid #ddd;">Parent</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Payment Package</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Course/Activity</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Amount</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Payment Date</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Receipt</th>
@@ -46,7 +47,8 @@
             {
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@payment.Parent.Name</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;"> @(payment.PaymentPackage != null ? payment.PaymentPackage.Title : "Custom Payment")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;"> @(payment.PaymentPackage != null ? payment.PaymentPackage.Title : "")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;"> @(payment.Fee != null ? (payment.Fee.CourseEnrollment != null ? payment.Fee.CourseEnrollment.Course.Title : (payment.Fee.ActivityEnrollment!=null?payment.Fee.ActivityEnrollment.Activity.Title:"")) : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">$@payment.Amount</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@(payment.PaymentDate.HasValue? payment.PaymentDate.Value.ToString("yyyy-MM-dd") : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
@@ -82,7 +84,7 @@
 
         {
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px;">No payments found.</td>
+                <td colspan="7" style="text-align: center; padding: 10px;">No payments found.</td>
             </tr>
         }
 
@@ -90,7 +92,7 @@
 
         {
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -102,7 +104,7 @@
 
         {
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>
@@ -121,8 +123,10 @@
 
     <form method="post" action="/Child/AddPayment" enctype="multipart/form-data">
         <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+       
 
         <table style="width: 100%; border-collapse: collapse;">
+            <!-- Select Parent -->
             <tr>
                 <td style="padding: 8px; width: 200px;"><label for="parentId">Select Parent:</label></td>
                 <td>
@@ -135,18 +139,18 @@
                     </select>
                 </td>
             </tr>
-
+            <!-- Payment Type -->
             <tr>
                 <td style="padding: 8px;"><label>Payment Type:</label></td>
                 <td>
-                    <input type="radio" id="packagePayment" name="paymentType" value="package" checked onchange="toggleAmountField()">
-                    <label for="packagePayment">Payment with Package</label>
+                    <input type="radio" id="packagePayment" name="paymentType" value="package" checked onchange="togglePaymentType()">
+                    <label for="packagePayment">Token Payment</label>
                     &nbsp;&nbsp;
-                    <input type="radio" id="manualPayment" name="paymentType" value="manual" onchange="toggleAmountField()">
-                    <label for="manualPayment">Payment without Package</label>
+                    <input type="radio" id="manualPayment" name="paymentType" value="manual" onchange="togglePaymentType()">
+                    <label for="manualPayment">Direct Payment</label>
                 </td>
             </tr>
-
+            <!-- Package Row -->
             <tr id="packageRow">
                 <td style="padding: 8px;"><label for="packageId">Select Package:</label></td>
                 <td>
@@ -160,35 +164,70 @@
                 </td>
             </tr>
 
-           @*  <tr id="manualRow" style="display:none;">
-                <td style="padding: 8px;"><label for="manualAmount">Enter Amount:</label></td>
-                <td><input type="number" id="manualAmount" name="manualAmount" min="0" step="1" style="width: 20%;" /></td>
-            </tr> *@
 
+            <!-- Direct Payment Row -->
+            <tr id="directPaymentRow" style="display: none;">
+                <td style="padding: 8px; vertical-align: top;"><label>Select Course or Activity:</label></td>
+                <td>
+                    @if (ViewBag.UnpaidItems != null && ViewBag.UnpaidItems.Count > 0)
+                    {
+                        
+                            @foreach (var item in ViewBag.UnpaidItems)
+                            {
+                                <div style="margin-bottom: 6px;">
+                                     <input type="radio"
+                                           name="selectedFeeId"
+                                           value="@item.FeeID"
+                                           data-cost="@item.TotalCost"
+                                           data-feeId="@item.FeeID"
+                                           id="fee_@item.FeeID"
+                                           onchange="updateAmountFromFee(this)" /> 
+                                    <label for="fee_@item.FeeID">@item.Type: @item.Title (@item.TotalCost.ToString("C"))</label>
+                                </div>
+                               
+                                @* <label for="fee_@item.FeeID">@item.Type: @item.Title (@item.TotalCost.ToString("C"))</label> *@
+
+                                @* @item.Type  @item.Title @item.TotalCost.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-CA")); *@
+                            }
+
+                        <input type="hidden" name="feeId" id="feeId" />
+                       
+                    }
+                    else
+                    {
+                        <p style="color: gray;">No unpaid courses or activities available.</p>
+                    }
+                </td>
+            </tr>
+
+         
+
+            <!-- Amount -->
             <tr>
                 <td style="padding: 8px;"><label for="amount">Amount:</label></td>
                 <td><input id="amount" name="amount" required readonly style="width: 20%;" /></td>
             </tr>
 
+            <!-- Upload Receipt -->
             <tr>
                 <td style="padding: 8px;"><label for="receiptFile">Upload Receipt:</label></td>
                 <td><input type="file" name="receiptFile" accept="image/*" required style="width: 20%;" /></td>
             </tr>
-
+            <!-- Payment Date -->
             <tr>
                 <td style="padding: 8px;"><label for="paymentDate">Payment Date:</label></td>
                 <td><input type="date" name="paymentDate" required style="width: 20%;" /></td>
             </tr>
-
+            <!-- Submit -->
             <tr>
                 <td style="padding: 8px;">
                     <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 5px;">
                         Add Payment
                     </button>
                 </td>
-                <td>
+               @*  <td>
                    
-                </td>
+                </td> *@
             </tr>
         </table>
     </form>
@@ -200,13 +239,16 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function toggleAmountField() {
+    function togglePaymentType() {
         //alert("toggleAmountField called");
         var isPackage = document.getElementById('packagePayment').checked;
 
         //document.getElementById('packageDiv').style.display = isPackage ? 'block' : 'none';
         // Toggle the <tr> rows
+        //document.getElementById('packageRow').style.display = isPackage ? 'table-row' : 'none';
         document.getElementById('packageRow').style.display = isPackage ? 'table-row' : 'none';
+        document.getElementById('directPaymentRow').style.display = isPackage ? 'none' : 'table-row';
+
         document.getElementById('amount').readOnly = isPackage;
 
         if (!isPackage) {
@@ -242,6 +284,14 @@
     }
 
 
+    function updateAmountFromFee(radio) {
+        const cost = radio.getAttribute('data-cost');
+        const feeId = radio.getAttribute('data-feeId');
+        document.getElementById('amount').value = cost;
+        document.getElementById('feeId').value = feeId;
+    }
+
+
     // Initialize on page load
-    toggleAmountField();
+    //toggleAmountField();
 </script>

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
+using NuGet.Protocol.Core.Types;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
@@ -769,6 +770,8 @@ namespace Web.Controllers.User
 
             var payments = await _paymentService.GetByChildAsync(childId);
             var child = await _childService.GetAsync(childId);
+            var unpaidItems = await _paymentService.GetUnpaidDirectEnrollmentsByChildAsync(childId);
+
             if (child == null)
             {
                 TempData["ErrorMessage"] = "Child not found.";
@@ -799,13 +802,15 @@ namespace Web.Controllers.User
                 Text = p.Title
             }).ToList();
 
+            ViewBag.UnpaidItems = unpaidItems;
+
             return View("ManagePayments", payment);
         }
 
         [Authorize(Roles = "Staff")]
         [HttpPost("AddPayment")]
 
-        public async Task<IActionResult> AddPayment(int childId, int parentId, int? packageId, decimal amount, DateTime? paymentDate, IFormFile receiptFile)
+        public async Task<IActionResult> AddPayment(int childId, int parentId, int? packageId, int? feeId, decimal amount, DateTime? paymentDate, IFormFile receiptFile)
         {
 
             try
@@ -834,8 +839,22 @@ namespace Web.Controllers.User
                 //{
                 //    packageId = 0; // Default to 0 if no package is selected
                 //}
-                var paymentId = await _paymentService.AddAndReturnIdAsync(childId, parentId, packageId, amount, paymentDate, receiptPath, user);
-                var result = await _balanceService.AddPaymentToBalanceAsync(childId, paymentId, amount, user.Id);
+
+                var result = false;
+
+                if (packageId != null)
+                { 
+                    var paymentId = await _paymentService.AddTokenPaymentAsync(childId, parentId, packageId, amount, paymentDate, receiptPath, user);
+                    result = await _balanceService.AddPaymentToBalanceAsync(childId, paymentId, amount, user.Id);
+                }
+
+                if (feeId != null)
+                {
+                    var paymentId = await _paymentService.AddDirectPaymentAsync(childId, parentId, feeId, amount, paymentDate, receiptPath, user);
+
+                    if (paymentId > 0)
+                        result = true;
+                }
                 if (result)
                 {
                     TempData["SuccessMessage"] = "Payment info has been added successfully.";
