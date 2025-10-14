@@ -55,6 +55,7 @@ namespace Core.Repositories
             return await _context.Payments
                 .Include(p => p.Parent)
                 .Include(p => p.PaymentPackage)
+                .Include(p => p.Fee)
                 .FirstOrDefaultAsync(p => p.PaymentID == id);
         }
 

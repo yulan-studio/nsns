@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Core.Interfaces;
+using Core.Models;
+using Core.Repositories;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
-using Core.Models;
-using Core.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.Extensions.Options;
-using Core.Repositories;
 
 namespace Core.Services
 {
@@ -196,6 +197,28 @@ namespace Core.Services
         public async Task<bool> UpdateCourseIsPaidAsync(int courseEnrollmentID, int userId)
         {
             return await _feeRepository.UpdateCourseIsPaidAsync(courseEnrollmentID, userId);
+        }
+
+        public async Task<bool> MarkFeeAsUnpaidAsync(int feeId)
+        {
+            try
+            {
+                var fee = await _feeRepository.GetAsync(feeId);
+                
+                if (fee == null)
+                    return false;
+
+
+                fee.IsPaid = false;
+                return await _feeRepository.UpdateAsync(fee);
+
+            }
+            catch (Exception ex)
+            {
+                // Optionally log the exception
+                //Console.WriteLine($"Error marking fee as unpaid: {ex.Message}");
+                return false;
+            }
         }
 
 

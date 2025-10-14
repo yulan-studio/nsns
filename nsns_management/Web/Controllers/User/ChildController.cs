@@ -884,26 +884,56 @@ namespace Web.Controllers.User
             try
             {
                 Core.Models.User user = await _userManager.GetUserAsync(User);
-                var result1 = await _balanceService.RemovePaymentToBalanceAsync(childId, paymentID, user.Id);
-                var result2 = await _paymentService.RemoveAsync(paymentID);
-                if (result1 && result2)
+
+                var payment = await _paymentService.GetByIdAsync(paymentID);
+                if (payment.PaymentPackageID != null)
                 {
-                    TempData["SuccessMessage"] = "Payment info has been deleted.";
-                    //return RedirectToAction("ManagePayments", new { childId });
-                    return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
+
+                    var result1 = await _balanceService.RemovePaymentToBalanceAsync(childId, paymentID, user.Id);
+                    var result2 = await _paymentService.RemoveAsync(paymentID);
+                    if (result1 && result2)
+                    {
+                        TempData["SuccessMessage"] = "Payment info has been deleted.";
+                        //return RedirectToAction("ManagePayments", new { childId });
+                        return RedirectToAction("Participation", new { childId, tab = "ManagePayments" });
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Payment info is not deleted.";
+                        //return RedirectToAction("ManagePayments", new { childId });
+                        return RedirectToAction("Participation", new { childId, tab = "ManagePayments" });
+                    }
                 }
+
+                else if (payment.FeeID != null)
+                {
+                    var feeId = payment.FeeID.Value;
+                    var result1 = await _feeService.MarkFeeAsUnpaidAsync(feeId);
+                    var result2 = await _paymentService.RemoveAsync(paymentID);
+                    if (result1 && result2)
+                    {
+                        TempData["SuccessMessage"] = "Payment info has been deleted.";
+                        //return RedirectToAction("ManagePayments", new { childId });
+                        return RedirectToAction("Participation", new { childId, tab = "ManagePayments" });
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Payment info is not deleted.";
+                        //return RedirectToAction("ManagePayments", new { childId });
+                        return RedirectToAction("Participation", new { childId, tab = "ManagePayments" });
+                    }
+                }
+
                 else
                 {
-                    TempData["ErrorMessage"] = "Payment info is not deleted.";
-                    //return RedirectToAction("ManagePayments", new { childId });
-                    return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
+                    return RedirectToAction("Participation", new { childId, tab = "ManagePayments" });
                 }
             }
             catch (Exception ex)
             {
                 TempData["ErrorMessage"] = $"{ex.Message}";
                 //return RedirectToAction("ManagePayments", new { childId });
-                return RedirectToAction("MoreInfo", new { childId, tab = "ManagePayments" });
+                return RedirectToAction("Participation", new { childId, tab = "ManagePayments" });
             }
 
 

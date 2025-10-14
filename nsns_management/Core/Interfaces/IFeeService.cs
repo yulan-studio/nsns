@@ -44,6 +44,8 @@ namespace Core.Interfaces
 
         Task<bool> UpdateCourseIsPaidAsync(int courseEnrollmentID, int userId);
 
+        Task<bool> MarkFeeAsUnpaidAsync(int feeId);
+
 
     }
 
