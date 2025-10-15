@@ -42,6 +42,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
             
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Is Paid</th>
          
         </tr>
     </thead>
@@ -71,6 +72,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;@(@enrollment.RequestToLeaveSessions>0 ?"color: red":"")">@enrollment.RequestToLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; @(@enrollment.OnLeaveSessions>0 ?"color: red":"")">@enrollment.OnLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsPaid</td>
 
                  
                 </tr>
@@ -80,7 +82,7 @@
         else
         {
             <tr>
-                <td colspan="13" style="text-align: center; padding: 10px;">No courses enrolled.</td>
+                <td colspan="14" style="text-align: center; padding: 10px;">No courses enrolled.</td>
             </tr>
         }
 
@@ -116,6 +118,7 @@
            @*  <th style="padding: 8px; border: 1px solid #ddd;">Cost</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
            @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
+            <th style="padding: 8px; border: 1px solid #ddd;">Is Paid</th>
         </tr>
     </thead>
     <tbody>
@@ -139,13 +142,14 @@
                             </button>
                         </form>
                     </td> *@
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsPaid</td>
                 </tr>
             }
         }
         else
         {
             <tr>
-                <td colspan="5" style="text-align: center; padding: 10px;">No activities enrolled.</td>
+                <td colspan="6" style="text-align: center; padding: 10px;">No activities enrolled.</td>
             </tr>
         }
 

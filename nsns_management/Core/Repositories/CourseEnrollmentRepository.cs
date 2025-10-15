@@ -157,7 +157,7 @@ namespace Core.Repositories
            .Include(e => e.Course.Specialty)
            
            
-           .Where(e => e.ChildID == childId && ((e.Status == "Registered" || e.Status == "Completed" ) && e.EnrollmentID_Ref == null))  //Not included those registered to session
+           .Where(e => e.ChildID == childId && ((e.Status == "Registered" || e.Status == "Scheduled" || e.Status == "Completed" ) && e.EnrollmentID_Ref == null))  //Not included those registered to session
            .OrderBy(e => e.CreatedDate)
            .Select(e => new CourseEnrollmentViewModel
            {
