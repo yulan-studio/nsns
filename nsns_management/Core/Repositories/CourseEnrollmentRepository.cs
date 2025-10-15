@@ -522,6 +522,76 @@ namespace Core.Repositories
 
 
 
+        public async Task<bool> UpdateCourseStatusToScheduledAsync(int enrollmentID)
+        {
+
+            // Find the activity enrollment record by ID
+            var enrollment = await _context.CourseEnrollments
+                .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentID);
+
+            if (enrollment == null)
+            {
+                return false; // Enrollment not found
+            }
+
+            // Update status to "Scheduled"
+            enrollment.Status = "Scheduled";
+
+            // Update the record in the database
+            _context.CourseEnrollments.Update(enrollment);
+
+            // Save changes
+            var result = await _context.SaveChangesAsync();
+
+            // Return true if at least one record was affected
+            return result > 0;
+        }
+
+
+       
+        public async Task<IEnumerable<PrivateCourseEnrollmentViewModel>> GetPrivateEnrollmentsViewByChildAsync(int childId, String status)
+        {
+
+            return await _context.CourseEnrollments
+           .Include(e => e.Course)
+           .Where(e => e.ChildID == childId && e.Status == status && e.ScheduledAt == null && e.Course.CourseType == "Private") //Only root private course registrations
+           .Select(e => new PrivateCourseEnrollmentViewModel
+           {
+
+               CourseID = e.CourseID,
+
+               ChildID = e.ChildID,
+               EnrollmentID = e.EnrollmentID,
+
+               Title = e.Course.Title,
+               //Address = e.Activity.Address,
+               //ScheduledAt = e.Activity.ScheduledAt,
+               Description = e.Course.Description,
+               Status = e.Status,
+
+               TotalCost = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.TotalCost)
+                        .FirstOrDefault(),
+               PaymentDescription = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.Description)
+                        .FirstOrDefault(),
+               PaymentModel = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.PaymentModel)
+                        .FirstOrDefault()
+           })
+           .OrderBy(e => e.EnrollmentID)
+           .ToListAsync();
+
+
+
+        }
+
+
+
+
 
     }
 }

@@ -988,6 +988,9 @@ namespace Web.Controllers.User
                 });
             }
 
+            //private courses
+            var privatecourses = await _courseEnrollmentService.GetPrivateEnrollmentsViewByChildAsync(child.ChildID, "Registered");
+
             var activities = await _activityEnrollmentService.GetEnrollmentsViewByChildAsync(child.ChildID, "Registered");
 
 
@@ -995,8 +998,9 @@ namespace Web.Controllers.User
             {
                 Child = child,
                 ChildID = child.ChildID,
-                CoursesSchedulesToConfirm = courseSchedulesToConfirmList,
-                ActivitiesToConfirm = activities.ToList()
+                PrivateCoursesToConfirm = privatecourses.ToList(),  // Private courses to confirm
+                CoursesSchedulesToConfirm = courseSchedulesToConfirmList,  // Group course sessions to confirm
+                ActivitiesToConfirm = activities.ToList()  // Activities to confirm
             };
 
             return View("MyConfirmations", viewModel);
@@ -1482,6 +1486,67 @@ namespace Web.Controllers.User
 
 
 
+        [Authorize(Roles = "Child")]
+        [HttpPost("UpdateCourseToConform")]
+
+        public async Task<IActionResult> UpdateCourseToConform(PrivateCourseEnrollmentViewModel model, string actionType)
+        {
+            Core.Models.User user = await _userManager.GetUserAsync(User);
+            var child = await _childService.GetByIdAsync(user.Id);
+
+            if (child == null)
+                return NotFound("Child not found.");
+
+
+            if (actionType == "Confirm")
+            {
+                // Handle Confirm logic
+
+                //Upon confirmation, deduct the cost from child's balance
+                //if(model.Fee.PaymentModel == "Token")
+
+                bool result1 = true;
+
+                if (model.PaymentModel == "Token")
+                {
+                    //result1 = await _balanceService.DeductCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.TotalCost, user.Id);
+                }
+                bool result2 = await _courseEnrollmentService.UpdateCourseStatusToScheduledAsync(model.EnrollmentID);
+
+                bool result3 = true;
+
+
+                if (model.PaymentModel == "Token")
+                {
+                    //result3 = await _feeService.UpdateCourseIsPaidAsync(model.EnrollmentID, user.Id);
+                }
+
+                if (result1 && result2 && result3)
+                {
+                    // TempData["SuccessMessage3"] = "Activity schedules confirmed successfully. Please check the schedules in " + <a href=\"/Child/MySchedules\">Schedules</a>;
+                    TempData["SuccessMessage2"] = "The course has been confirmed successfully. Once sessions have been scheduled by the coach, they can be viewed in <a href=\"/Child/MySchedules\">schedules</a>.";
+
+                    var course = await _courseService.GetAsync(model.CourseID);
+                    var subject = child.MemberID + ":" + " Course has been confirmed";
+                    var message = "The course have been confirmed for the child: " + child.Name + ":\n" +
+                                    "Course: " + course.Title;
+
+                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
+                }
+
+
+
+
+                //await _emailService.SendEmailAsync("customer.nsns@gmail.com", child.MemberID + ": Course schedules has been confirmed  " + , "The course schedules have been confirmed by the child: " + child.MemberID + ".");
+
+
+            }
+
+            return RedirectToAction("MyConfirmations");
+        }
+
+
+
 
 
 
@@ -1496,21 +1561,20 @@ namespace Web.Controllers.User
             if (child == null)
                 return NotFound("Child not found.");
 
-            //if (actionType == "SaveChanges")
-            //{
-          
-
-            //}
-
-            //else if (actionType == "Confirm")
+           
             if (actionType == "Confirm")
             {
                 // Handle Confirm logic
 
                 //Upon confirmation, deduct the cost from child's balance
                 //if(model.Fee.PaymentModel == "Token")
-                bool result1 = await _balanceService.DeductActivityCostAsync(child.ChildID, model.ActivityID, (decimal)model.TotalCost, user.Id);
 
+                bool result1 = true;
+
+                if (model.PaymentModel == "Token")
+                { 
+                    result1 = await _balanceService.DeductActivityCostAsync(child.ChildID, model.ActivityID, (decimal)model.TotalCost, user.Id);
+                }
                 bool result2 = await _activityEnrollmentService.UpdateActivityStatusToScheduledAsync(model.EnrollmentID);
 
                 bool result3 = true;

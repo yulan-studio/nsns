@@ -57,7 +57,7 @@ namespace Core.Services
 
 
 
-        //After a child finishes a course session
+        //After a child finishes a course session (Token Payment)
         public async Task<bool> DeductCourseSessionCostAsync(int enrollmentId,int createdBy)
         {
             try
@@ -71,7 +71,21 @@ namespace Core.Services
             }
         }
 
-        //After a child completes an activity
+        //After a child confirms participation in private course (Token Payment)
+        public async Task<bool> DeductCourseCostAsync(int childId, int courseId, decimal cost, int createdBy)
+        {
+            try
+            {
+                bool result = await _balanceRepository.DeductCourseCostAsync(childId, courseId, cost, createdBy);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        //After a child confirms participation in an activity (Token Payment)
         public async Task<bool> DeductActivityCostAsync(int childId, int activityId, decimal cost, int createdBy)
         {
             try

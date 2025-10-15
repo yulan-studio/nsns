@@ -72,5 +72,10 @@ namespace Core.Interfaces
         Task<List<int?>> GetChildrenWithRequestsOrConcernsAsync();
 
 
+        Task<bool> UpdateCourseStatusToScheduledAsync(int enrollmentID);
+
+        Task<IEnumerable<PrivateCourseEnrollmentViewModel>> GetPrivateEnrollmentsViewByChildAsync(int childId, String status);
+
+
     }
 }

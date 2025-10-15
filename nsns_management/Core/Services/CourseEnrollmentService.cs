@@ -483,6 +483,11 @@ namespace Core.Services
             return await _enrollmentRepository.GetScheduledSessionsToConfirmByChildAsync(childId);
         }
 
+        public async Task<IEnumerable<PrivateCourseEnrollmentViewModel>> GetPrivateEnrollmentsViewByChildAsync(int childId, String status)
+        {
+            return await _enrollmentRepository.GetPrivateEnrollmentsViewByChildAsync(childId, status);
+        }
+
 
         public async Task<IEnumerable<CourseEnrollment>> GetRegisteredByCourseChildAsync(int courseId, int childId)
         {
@@ -597,6 +602,14 @@ namespace Core.Services
         public async Task<List<int>> GeEnrollmentsWithScheduleConcernsAsync()
         {
             return await _enrollmentRepository.GetEnrollmentsWithScheduleConcernsAsync();
+        }
+
+
+        public async Task<bool> UpdateCourseStatusToScheduledAsync(int courseId)
+        {
+
+            return await _enrollmentRepository.UpdateCourseStatusToScheduledAsync(courseId);
+
         }
     }
 

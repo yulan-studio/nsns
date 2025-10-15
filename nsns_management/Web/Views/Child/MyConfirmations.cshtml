@@ -12,7 +12,7 @@
 {
 
     <div class="alert alert-success">
-        @Html.Raw(@TempData["SuccessMessage2"]);
+        @Html.Raw(@TempData["SuccessMessage2"])
     </div>
 
 }
@@ -26,9 +26,14 @@
 
 }
 
+@{
+    bool hasCourseToConfirm = false;
+}
+
+@* Group course to confirm *@
 @if (Model.CoursesSchedulesToConfirm.Any())
 {
-
+    hasCourseToConfirm = true;
 
     @foreach (var courseSchedulesToConfirm in Model.CoursesSchedulesToConfirm)
     {
@@ -156,13 +161,77 @@
      
     }
 }
-else
+
+
+
+@* Private course to confirm *@
+@if (Model.PrivateCoursesToConfirm != null && Model.PrivateCoursesToConfirm.Any())
 {
-    <div style="text-align: left; padding-top: 30px;">No schedules available for confirmation.</div>
+    hasCourseToConfirm = true;
+
+    @foreach (var enrollment in Model.PrivateCoursesToConfirm)
+    {
+
+
+        <form method="post" asp-action="UpdateCourseToConform">
+            <input type="hidden" name="CourseID" value="@enrollment.CourseID" />
+            <input type="hidden" name="EnrollmentID" value="@enrollment.EnrollmentID" />
+            <input type="hidden" name="TotalCost" value="@enrollment.TotalCost" />
+            <input type="hidden" name="PaymentModel" value="@enrollment.PaymentModel" />
+            <table style="border-collapse: collapse; width: 100%; text-align: left;">
+                <thead>
+                    <tr style="background-color: #f2f2f2;">
+                        <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
+                        <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
+                       @*  <th style="padding: 8px; border: 1px solid #ddd;">Address</th> *@
+                       @*  <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th> *@
+                        @*  <th style="padding: 8px; border: 1px solid #ddd;">Cost</th> *@
+                        <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+                        @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Description</td>
+                       @*  <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Address</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td> *@
+                        @*  <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.TotalCost</td> *@
+                        <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.Status == "Canceled" ? "color: red" : "")">@enrollment.Status</td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+
+            <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+
+                Total Cost: @enrollment.TotalCost<br />
+                Description: @(enrollment.PaymentDescription)<br />
+
+            </div>
+
+
+
+            <div @* class="alert alert-danger" *@  style="padding: 20px 20px 20px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+                Please click 'Confirm' to complete your course registration.<br />
+                请点击"Confirm"以完成课程注册。<br /><br />
+                <button type="submit" name="actionType" value="Confirm" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Confirm</button>
+
+            </div>
+        </form>
+
+
+    }
+
 }
 
 
 
+@if(!hasCourseToConfirm)
+{
+    <div style="text-align: left; padding-top: 10px; padding-bottom: 20px;">No course available for confirmation.</div>
+}
 
 <div style="padding-top: 20px; padding-bottom: 20px">
     <h4 style="color:steelblue">- Activities -</h4>
@@ -172,7 +241,7 @@ else
 {
 
     <div class="alert alert-success">
-        @Html.Raw(@TempData["SuccessMessage3"]);
+        @Html.Raw(@TempData["SuccessMessage3"])
     </div>
 
 }

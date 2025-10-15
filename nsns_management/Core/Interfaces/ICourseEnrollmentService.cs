@@ -68,6 +68,8 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsToConfirmByChildAsync(int childId);
 
+        Task<IEnumerable<PrivateCourseEnrollmentViewModel>> GetPrivateEnrollmentsViewByChildAsync(int childId, String status);
+
         Task<IEnumerable<CourseEnrollment>> GetRegisteredByCourseChildAsync(int courseId, int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetSchedulesByCourseChildAsync(int courseId, int childId);
@@ -86,6 +88,8 @@ namespace Core.Interfaces
         Task<List<int>> GeEnrollmentsWithScheduleConcernsAsync();
 
         Task<IEnumerable<CourseEnrollment>> GetWaitToCompleteByCourseChildAsync(int courseId, int childId);
+
+        Task<bool> UpdateCourseStatusToScheduledAsync(int courseId);
     }
 
 

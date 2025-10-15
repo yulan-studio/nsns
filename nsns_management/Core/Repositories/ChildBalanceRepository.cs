@@ -56,7 +56,7 @@ namespace Core.Repositories
         }
 
 
-
+        //Deduct cost for a course session (Token pay)
         public async Task<bool> DeductCourseSessionCostAsync(int enrollmentId,  int createdBy)
         {
             var enrollment = await _context.CourseEnrollments
@@ -89,10 +89,32 @@ namespace Core.Repositories
                 EnrollmentID = enrollmentId,
                 BalanceChange = costForThisSession*(-1),
                 Balance = latestBalance - costForThisSession,
-                TransactionType = "Private Course Session",
+                TransactionType = "Course Session",
                 CreatedDate = DateTime.UtcNow,
                 CreatedBy = createdBy,
                 UpdatedBy = createdBy,
+                UpdatedDate = DateTime.UtcNow
+            };
+
+            _context.ChildBalances.Add(newEntry);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        //Deduct cost for a course (Direct pay)
+        public async Task<bool> DeductCourseCostAsync(int childId, int courseId, decimal cost, int createdBy)
+        {
+            decimal latestBalance = await GetFinalBalanceAsync(childId);
+
+            var newEntry = new ChildBalance
+            {
+                ChildID = childId,
+                CourseID = courseId,
+                BalanceChange = -cost,
+                Balance = latestBalance - cost,
+                TransactionType = "Course",
+                CreatedDate = DateTime.UtcNow,
+                //CreatedBy = createdBy,
+                //UpdatedBy = createdBy,
                 UpdatedDate = DateTime.UtcNow
             };
 
