@@ -1575,7 +1575,7 @@ namespace Web.Controllers.User
                 { 
                     result1 = await _balanceService.DeductActivityCostAsync(child.ChildID, model.ActivityID, (decimal)model.TotalCost, user.Id);
                 }
-                bool result2 = await _activityEnrollmentService.UpdateActivityStatusToScheduledAsync(model.EnrollmentID);
+                bool result2 = await _activityEnrollmentService.UpdateActivityStatusToConfirmedAsync(model.EnrollmentID);
 
                 bool result3 = true;
 

@@ -253,7 +253,7 @@ namespace Core.Repositories
             var now = DateTime.UtcNow;
             var enrollments = await _context.ActivityEnrollments
                 .Include(e => e.Activity)
-                .Where(e => ((DateTime)e.Activity.ScheduledAt).AddDays(1)  <= now && e.Status == "Scheduled")
+                .Where(e => ((DateTime)e.Activity.ScheduledAt).AddDays(1)  <= now && e.Status == "Confirmed")
                 .ToListAsync();
 
             foreach (var enrollment in enrollments)
@@ -284,7 +284,7 @@ namespace Core.Repositories
 
 
 
-        public async Task<bool> UpdateActivityStatusToScheduledAsync(int enrollmentID)
+        public async Task<bool> UpdateActivityStatusToConfirmedAsync(int enrollmentID)
         {
 
             // Find the activity enrollment record by ID
@@ -297,7 +297,7 @@ namespace Core.Repositories
             }
 
             // Update status to "Scheduled"
-            enrollment.Status = "Scheduled";
+            enrollment.Status = "Confirmed";
 
             // Update the record in the database
             _context.ActivityEnrollments.Update(enrollment);
