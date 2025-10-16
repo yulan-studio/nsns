@@ -638,7 +638,7 @@ namespace Web.Controllers.User
                 if (totalCost == null)
                 {
                     //totalCost = 0;
-                    description ??= "To be charged in sessions"; // Ensure description is not null
+                    description = "Use Token: Fee will be deducted from your balance per session"; // Ensure description is not null
                 }
 
 

@@ -47,6 +47,12 @@ namespace Core.Services
                 CreatedAt = DateTime.UtcNow,
                //IsPaid = false
             };
+
+            if(totalCost == null)
+                fee.IsPaid = false;
+            if (totalCost == 0)
+                fee.IsPaid = true;
+
             return await _feeRepository.AddAsync(fee);
         }
 
