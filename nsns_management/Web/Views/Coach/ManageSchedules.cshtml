@@ -186,7 +186,7 @@
                         <td style="padding: 8px; border: 1px solid #ddd;"></td>  
                     }
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:@(schedule.Status == "RequestToReschedule" ? "#FFDBF6" : "#ffffff")">@schedule.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ParentNote</td>
                     <form method="post" action="/Coach/DeleteSchedule">
                     <td style="padding: 8px; border: 1px solid #ddd;"><textarea class="form-control" name="coachNote"> @schedule.CoachNote</textarea></td>

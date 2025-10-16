@@ -302,7 +302,7 @@ namespace Core.Services
 
             //return children;
 
-            var course_enrollments = await _enrollmentRepository.GetEnrollmentsByCourseAsync(courseId, "Registered");
+            var course_enrollments = await _enrollmentRepository.GetEnrollmentsByCourseAsync(courseId, "Confirmed");
 
             var children = new List<ChildViewModel>();
 
