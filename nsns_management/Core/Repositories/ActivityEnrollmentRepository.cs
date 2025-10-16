@@ -260,10 +260,13 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<ActivityEnrollment>> UpdateActivityStatusToCompletedAsync()
         {
-            var now = DateTime.UtcNow;
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            //var now = DateTime.UtcNow;
             var enrollments = await _context.ActivityEnrollments
                 .Include(e => e.Activity)
-                .Where(e => ((DateTime)e.Activity.ScheduledAt).AddDays(1)  <= now && e.Status == "Confirmed")
+                .Where(e => ((DateTime)e.Activity.ScheduledAt).AddDays(1)  <= torontoNow && e.Status == "Confirmed")
                 .ToListAsync();
 
             foreach (var enrollment in enrollments)
