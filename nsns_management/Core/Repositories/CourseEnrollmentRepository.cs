@@ -189,6 +189,14 @@ namespace Core.Repositories
                TotalCost = _context.Fees
                         .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
                         .Select(f => f.TotalCost)
+                        .FirstOrDefault(),
+               PaymentModel = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.PaymentModel)
+                        .FirstOrDefault(),
+               PaymentDescription = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.Description)
                         .FirstOrDefault()
            })
            .OrderBy(e => e.CourseID)

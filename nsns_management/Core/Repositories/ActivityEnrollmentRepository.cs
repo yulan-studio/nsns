@@ -83,7 +83,12 @@ namespace Core.Repositories
                PaymentModel = _context.Fees
                         .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
                         .Select(f => f.PaymentModel)
-                        .FirstOrDefault()
+                        .FirstOrDefault(),
+
+               PaymentDescription = _context.Fees
+                        .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.Description)
+                        .FirstOrDefault(),
            })
            .OrderBy(e => e.ScheduledAt)
            .ToListAsync();
