@@ -613,12 +613,12 @@ namespace Core.Services
         }
 
 
-        public async Task<bool> UpdateCourseStatusToScheduledAsync(int courseId)
-        {
+        //public async Task<bool> UpdateCourseStatusToConfirmedAsync(int courseId)
+        //{
 
-            return await _enrollmentRepository.UpdateCourseStatusToScheduledAsync(courseId);
+        //    return await _enrollmentRepository.UpdateCourseStatusToScheduledAsync(courseId);
 
-        }
+        //}
 
 
         public async Task<bool> UpdateCourseEnrollmentStatusToConfirmedAsync(int enrollmentId)

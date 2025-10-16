@@ -44,7 +44,7 @@
         <tr>
             <td style="padding: 8px;"><label for="MaxCapacity">Max Capacity:</label></td>
             <td style="padding: 8px;">
-                <input id="MaxCapacity" name="MaxCapacity" value="@(Model.MaxCapacity)" type="number" step="1" min="2" placeholder="Enter Max Capacity" style="width: 100%;"  />
+                <input id="MaxCapacity" name="MaxCapacity" value="@(Model.MaxCapacity)" type="number" step="1" min="2" placeholder="Enter Max Capacity" style="width: 100%;" @(Model.CourseType == "Private" ? "disabled" : "") />
             </td>
         </tr>
 

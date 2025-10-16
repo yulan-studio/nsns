@@ -444,6 +444,8 @@ namespace Core.Repositories
         }
 
 
+       
+
 
 
         //For Group Courses, Set sessions to be completed when it's finished
@@ -560,30 +562,30 @@ namespace Core.Repositories
 
 
 
-        public async Task<bool> UpdateCourseStatusToScheduledAsync(int enrollmentID)
-        {
+        //public async Task<bool> UpdateCourseStatusToConfirmedAsync(int enrollmentID)
+        //{
 
-            // Find the activity enrollment record by ID
-            var enrollment = await _context.CourseEnrollments
-                .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentID);
+        //    // Find the activity enrollment record by ID
+        //    var enrollment = await _context.CourseEnrollments
+        //        .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentID);
 
-            if (enrollment == null)
-            {
-                return false; // Enrollment not found
-            }
+        //    if (enrollment == null)
+        //    {
+        //        return false; // Enrollment not found
+        //    }
 
-            // Update status to "Scheduled"
-            enrollment.Status = "Scheduled";
+        //    // Update status to "Scheduled"
+        //    enrollment.Status = "Scheduled";
 
-            // Update the record in the database
-            _context.CourseEnrollments.Update(enrollment);
+        //    // Update the record in the database
+        //    _context.CourseEnrollments.Update(enrollment);
 
-            // Save changes
-            var result = await _context.SaveChangesAsync();
+        //    // Save changes
+        //    var result = await _context.SaveChangesAsync();
 
-            // Return true if at least one record was affected
-            return result > 0;
-        }
+        //    // Return true if at least one record was affected
+        //    return result > 0;
+        //}
 
 
        

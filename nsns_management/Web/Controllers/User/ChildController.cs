@@ -1520,7 +1520,7 @@ namespace Web.Controllers.User
                 {
                     //result1 = await _balanceService.DeductCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.TotalCost, user.Id);
                 }
-                bool result2 = await _courseEnrollmentService.UpdateCourseStatusToScheduledAsync(model.EnrollmentID);
+                bool result2 = await _courseEnrollmentService.UpdateCourseEnrollmentStatusToConfirmedAsync(model.EnrollmentID);
 
                 bool result3 = true;
 

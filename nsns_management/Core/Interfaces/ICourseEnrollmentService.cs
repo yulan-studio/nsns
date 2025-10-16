@@ -89,7 +89,7 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetWaitToCompleteByCourseChildAsync(int courseId, int childId);
 
-        Task<bool> UpdateCourseStatusToScheduledAsync(int courseId);
+        //Task<bool> UpdateCourseStatusToScheduledAsync(int courseId);
 
         Task<bool> UpdateCourseEnrollmentStatusToConfirmedAsync(int enrollmentId);
 
