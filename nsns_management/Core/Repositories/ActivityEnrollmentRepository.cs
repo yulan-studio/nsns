@@ -31,7 +31,7 @@ namespace Core.Repositories
             return await _context.ActivityEnrollments
                 .Include(e => e.Activity)
                 //.Include(e => e.Child)
-                .Where(e => e.ChildID == childId && e.Activity.ScheduledAt >= torontoNow && e.Status == "Scheduled")
+                .Where(e => e.ChildID == childId && e.Activity.ScheduledAt >= torontoNow && e.Status == "Confirmed")
                 .OrderBy(e => e.Activity.ScheduledAt)
                 .ToListAsync();
         }
@@ -89,6 +89,11 @@ namespace Core.Repositories
                         .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
                         .Select(f => f.Description)
                         .FirstOrDefault(),
+               IsPaid = _context.Fees
+                      .Where(f => f.ActivityEnrollmentID == e.EnrollmentID)
+                      .Select(f => f.IsPaid)
+                       .FirstOrDefault()
+
            })
            .OrderBy(e => e.ScheduledAt)
            .ToListAsync();

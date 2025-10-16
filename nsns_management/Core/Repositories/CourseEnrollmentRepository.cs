@@ -519,7 +519,7 @@ namespace Core.Repositories
             var rootEnrollments = await _context.CourseEnrollments
                 .Include(e => e.Course)
                 .Where(e =>
-                    e.Status == "Registered" &&
+                    e.Status == "Confirmed" &&
                     e.EnrollmentID_Ref == null &&
                     e.ScheduledAt == null &&
                     e.Course.SessionCount != null)

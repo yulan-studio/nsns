@@ -1540,7 +1540,7 @@ namespace Web.Controllers.User
 
                 if (model.PaymentModel == "Token")
                 {
-                    //result1 = await _balanceService.DeductCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.TotalCost, user.Id);
+                   //result1 = await _balanceService.DeductCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.TotalCost, user.Id);
                 }
                 bool result2 = await _courseEnrollmentService.UpdateCourseEnrollmentStatusToConfirmedAsync(model.EnrollmentID);
 
