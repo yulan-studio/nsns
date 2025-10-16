@@ -157,7 +157,7 @@ namespace Core.Repositories
            .Include(e => e.Course.Specialty)
            
            
-           .Where(e => e.ChildID == childId && ((e.Status == "Registered" || e.Status == "Scheduled" || e.Status == "Completed" ) && e.EnrollmentID_Ref == null))  //Not included those registered to session
+           .Where(e => e.ChildID == childId && ((e.Status == "Registered" || e.Status == "Confirmed" || e.Status == "Scheduled" || e.Status == "Completed" ) && e.EnrollmentID_Ref == null))  //Not included those registered to session
            .OrderBy(e => e.CreatedDate)
            .Select(e => new CourseEnrollmentViewModel
            {
@@ -212,6 +212,16 @@ namespace Core.Repositories
                 .Where(e => e.CourseID == courseId && e.ChildID == childId && e.Status == status && e.EnrollmentID_Ref !=null)
                 .OrderBy (e => e.ScheduledAt)
                 .ToListAsync();
+        }
+
+
+        public async Task<int?> GetEnrollmentIdByChildAndCourseAsync(int courseId, int childId, string status)
+        {
+            return await _context.CourseEnrollments
+               
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.Status == status && e.EnrollmentID_Ref == null)
+                .Select(e => (int?)e.EnrollmentID)
+                .FirstOrDefaultAsync();
         }
 
 
@@ -405,6 +415,34 @@ namespace Core.Repositories
 
             await _context.SaveChangesAsync();
         }
+
+
+
+        public async Task<bool> UpdateCourseEnrollmentStatusToConfirmedAsync(int enrollmentID)
+        {
+
+            // Find the activity enrollment record by ID
+            var enrollment = await _context.CourseEnrollments
+                .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentID);
+
+            if (enrollment == null)
+            {
+                return false; // Enrollment not found
+            }
+
+            // Update status to "Scheduled"
+            enrollment.Status = "Confirmed";
+
+            // Update the record in the database
+            _context.CourseEnrollments.Update(enrollment);
+
+            // Save changes
+            var result = await _context.SaveChangesAsync();
+
+            // Return true if at least one record was affected
+            return result > 0;
+        }
+
 
 
 

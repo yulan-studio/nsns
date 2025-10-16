@@ -133,10 +133,10 @@ namespace Core.Services
         }
 
         //public async Task<IEnumerable<ActivityEnrollment>> UpdateActivityStatusToScheduledAsync()
-        public async Task<bool> UpdateActivityStatusToConfirmedAsync(int activityId)
+        public async Task<bool> UpdateActivityEnrollmentStatusToConfirmedAsync(int enrollmentId)
         {
             
-            return await _enrollmentRepository.UpdateActivityStatusToConfirmedAsync(activityId);
+            return await _enrollmentRepository.UpdateActivityEnrollmentStatusToConfirmedAsync(enrollmentId);
 
         }
 

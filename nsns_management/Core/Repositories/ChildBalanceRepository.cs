@@ -157,7 +157,7 @@ namespace Core.Repositories
                 BalanceChange = -cost,
                 Balance = latestBalance - cost,
                 CreatedDate = DateTime.UtcNow,
-                TransactionType = "Group Course",
+                TransactionType = "Course",
                 //CreatedBy = createdBy,
                 //UpdatedBy = createdBy,
                 UpdatedDate = DateTime.UtcNow

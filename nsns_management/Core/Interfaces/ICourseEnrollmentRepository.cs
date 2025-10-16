@@ -59,9 +59,13 @@ namespace Core.Interfaces
 
         Task<bool> UpdateCompletedCoursesAsync();
 
+        Task<bool> UpdateCourseEnrollmentStatusToConfirmedAsync(int enrollmentID);
+
         Task<List<int?>> GetChildrenWithRequestToLeaveAsync();
 
-    
+        Task<int?> GetEnrollmentIdByChildAndCourseAsync(int courseId, int childId, string status);
+
+
 
         Task<List<int?>> GetChildrenWithScheduleConcernsAsync();
 

@@ -1431,21 +1431,30 @@ namespace Web.Controllers.User
             if (actionType == "Confirm")
             {
                 // Handle Confirm logic
+                bool result1 = true;
+                if (model.Fee.PaymentModel == "Token")
+                { 
+                     result1 = await _balanceService.DeductGroupCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.Fee.TotalCost, user.Id);
+                }
 
-                //if(model.Fee.PaymentModel == "Token")
-               bool result1 = await _balanceService.DeductGroupCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.Fee.TotalCost, user.Id);
+                //public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId)
+                int? enrollmentId = await _courseEnrollmentService.GetEnrollmentIdByChildAndCourseAsync(model.CourseID, child.ChildID, "Registered");
 
-                bool result2 = true;
-
+                bool result2 = false;
+                if (enrollmentId!=null)
+                {
+                    result2 = await _courseEnrollmentService.UpdateCourseEnrollmentStatusToConfirmedAsync(enrollmentId.Value);
+                }
                 
+                bool result3 = true;
 
 
                 if (model.Fee.PaymentModel == "Token")
                 {
-                    result2 = await _feeService.UpdateCourseIsPaidAsync((int)model.Fee.CourseEnrollmentID, user.Id);
+                    result3 = await _feeService.UpdateCourseIsPaidAsync((int)model.Fee.CourseEnrollmentID, user.Id);
                 }
 
-                if (result1 == true && result2 == true)
+                if (result1 == true && result2 == true && result3 == true)
                 {
                     if (model?.Schedules != null && model.Schedules.Any())
                     {
@@ -1575,7 +1584,7 @@ namespace Web.Controllers.User
                 { 
                     result1 = await _balanceService.DeductActivityCostAsync(child.ChildID, model.ActivityID, (decimal)model.TotalCost, user.Id);
                 }
-                bool result2 = await _activityEnrollmentService.UpdateActivityStatusToConfirmedAsync(model.EnrollmentID);
+                bool result2 = await _activityEnrollmentService.UpdateActivityEnrollmentStatusToConfirmedAsync(model.EnrollmentID);
 
                 bool result3 = true;
 

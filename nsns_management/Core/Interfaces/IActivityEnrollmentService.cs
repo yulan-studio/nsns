@@ -37,7 +37,7 @@ namespace Core.Interfaces
 
         Task<bool> UpdateActivityStatusToClosedAsync(int activityId);
 
-        Task<bool> UpdateActivityStatusToConfirmedAsync(int activityId);
+        Task<bool> UpdateActivityEnrollmentStatusToConfirmedAsync(int enrollmentId);
 
 
     }

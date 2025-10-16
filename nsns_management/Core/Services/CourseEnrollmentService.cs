@@ -535,6 +535,14 @@ namespace Core.Services
         }
 
 
+        public async Task<int?> GetEnrollmentIdByChildAndCourseAsync(int courseId, int childId, string status)
+        {
+            
+            return await _enrollmentRepository.GetEnrollmentIdByChildAndCourseAsync(courseId, childId, status);
+
+        }
+
+
         public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByCourseChildAsync(int courseId, int childId)
         {
             Child? child = await _childRepository.GetAsync(childId);
@@ -609,6 +617,14 @@ namespace Core.Services
         {
 
             return await _enrollmentRepository.UpdateCourseStatusToScheduledAsync(courseId);
+
+        }
+
+
+        public async Task<bool> UpdateCourseEnrollmentStatusToConfirmedAsync(int enrollmentId)
+        {
+
+            return await _enrollmentRepository.UpdateCourseEnrollmentStatusToConfirmedAsync(enrollmentId);
 
         }
     }

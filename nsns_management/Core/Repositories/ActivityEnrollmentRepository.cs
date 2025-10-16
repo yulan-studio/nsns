@@ -284,7 +284,7 @@ namespace Core.Repositories
 
 
 
-        public async Task<bool> UpdateActivityStatusToConfirmedAsync(int enrollmentID)
+        public async Task<bool> UpdateActivityEnrollmentStatusToConfirmedAsync(int enrollmentID)
         {
 
             // Find the activity enrollment record by ID
