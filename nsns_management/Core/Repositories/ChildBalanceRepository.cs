@@ -179,10 +179,7 @@ namespace Core.Repositories
                 .Select(cb => new ChildBalanceViewModel
                 {
                     CreatedDate = cb.CreatedDate,
-                    Type = cb.PaymentID != null ? "Payment" :
-                           cb.CourseID != null && cb.EnrollmentID == null ? "Group Course" :
-                           cb.CourseID != null && cb.EnrollmentID != null ? "Private Course Session" :
-                           cb.ActivityID != null ? "Activity" : "Other",
+                    Type =  cb.TransactionType != null ? cb.TransactionType :"Other",
                     CourseName = cb.CourseID != null ? cb.Course.Title : null,
                     ActivityName = cb.ActivityID != null ? cb.Activity.Title : null,
                     BalanceChange = cb.BalanceChange ?? 0,

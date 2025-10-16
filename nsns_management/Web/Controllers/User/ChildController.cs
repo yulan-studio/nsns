@@ -1084,6 +1084,28 @@ namespace Web.Controllers.User
         }
 
 
+        [Authorize(Roles = "Child")]
+        [HttpGet("MyPayments")]
+        public async Task<IActionResult> MyPayments()
+        {
+            Core.Models.User user = await _userManager.GetUserAsync(User);
+            var child = await _childService.GetByIdAsync(user.Id);
+            //var balances = await _balanceService.GetBalanceHistoryAsync(child.ChildID);
+            //var finalBalance = await _balanceService.GetFinalBalanceAsync(child.ChildID);
+
+            var payments = await _paymentService.GetByChildAsync(child.ChildID);
+            var paymentViewModel = new ManagePaymentsViewModel
+            {
+                Payments = payments,
+                Child = child
+            };
+            
+            return View(paymentViewModel);
+        }
+
+
+
+
 
         [Authorize(Roles = "Staff")]
         [HttpGet("Balance/{childId}")]
