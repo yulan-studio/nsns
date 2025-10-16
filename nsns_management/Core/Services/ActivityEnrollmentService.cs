@@ -32,20 +32,22 @@ namespace Core.Services
         }
 
 
-        public async Task<bool> IsChildEnrolledInActivity(int userId, int activityId)
+        public async Task<bool> IsChildEnrolledInActivity(int childId, int activityId)
         {
-            var enrollments = await _enrollmentRepository.GetEnrollmentsByChildAsync(userId, "Registered");
-            return enrollments.Any(e => e.ActivityID == activityId);
+            var enrollments1 = await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Registered");
+            var enrollments2 = await _enrollmentRepository.GetEnrollmentsByChildAsync(childId, "Confirmed");
+            return enrollments1.Any(e => e.ActivityID == activityId) || enrollments2.Any(e => e.ActivityID == activityId);
         }
 
-        public async Task<int> AddRegisteredEnrollmentAsync(int userId, int activityId, string status, User user)
+        public async Task<int> AddRegisteredEnrollmentAsync(int childId, int activityId, string status, User user)
         {
-            if (userId <= 0 || activityId <= 0)
+            if (childId <= 0 || activityId <= 0)
                 throw new ArgumentException("Invalid child or activity.");
 
-            var child = await _childRepository.GetAsync(userId);
 
-            if (await IsChildEnrolledInActivity(userId, activityId))
+            var child = await _childRepository.GetAsync(childId);
+
+            if (await IsChildEnrolledInActivity(childId, activityId))
                 throw new ArgumentException("This activity has already been registered.");
 
             try
