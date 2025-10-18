@@ -35,11 +35,12 @@ namespace Web.Controllers.User
         private readonly ICourseService _courseService;
         private readonly IChildService _childService;
         private readonly IParentChildService _parentChildService;
+        private readonly IFeeService _feeService;
 
         private readonly EmailService _emailService;
         private readonly UserManager<Core.Models.User> _userManager;
         
-        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, EmailService emailService, UserManager<Core.Models.User> userManager)
+        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, IFeeService feeService, EmailService emailService, UserManager<Core.Models.User> userManager)
         {
             _coachService = coachService;
             _incomeService = incomeService;
@@ -52,6 +53,7 @@ namespace Web.Controllers.User
             _courseService = courseService;
             _childService = childService;
             _parentChildService = parentChildService;
+            _feeService = feeService;
             _emailService = emailService;
             _userManager = userManager;
             
@@ -696,10 +698,17 @@ namespace Web.Controllers.User
             try
             {
                 bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, actualHours);
-                
+
                 //We don't calculate income for Coachs because this will be done by accounting manually
                 //bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
-                bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id); // Deduct private course cost from child's balance
+                bool result3 = true;
+
+                Core.Models.Fee? fee = await _feeService.GetFeeForCourseEnrollmentAsync(enrollmentId);
+                if(fee!= null && fee.PaymentModel == "Token")
+                {
+                    result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id); // Deduct private course cost from child's balance
+                }
+
 
                 //if (result1 && result2 && result3)
                 if (result1 && result3)
