@@ -700,7 +700,7 @@ namespace Web.Controllers.User
                 bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, actualHours);
 
                 //We don't calculate income for Coachs because this will be done by accounting manually
-                //bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
+                bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
                 bool result3 = true;
 
                 Core.Models.Fee? fee = await _feeService.GetFeeForCourseEnrollmentAsync(enrollmentId);
