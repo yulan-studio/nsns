@@ -12,8 +12,13 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System.Numerics;
 using Microsoft.EntityFrameworkCore;
 using Core.Services;
+using X.PagedList;
+
+//using X.PagedList.Mvc.Core;
+
 
 using System.Data.SqlClient;
+using X.PagedList.Extensions;
 
 namespace Web.Controllers.Courses
 {
@@ -128,36 +133,15 @@ namespace Web.Controllers.Courses
 
 
 
-        // GET: Add View
-        [Authorize(Roles = "Admin, Staff")]
-        //[HttpGet("List")]
-        //[HttpGet]
-        public async Task<IActionResult> List()
-        {
-
-            var courseList = await _courseService.GetAllAsync();
-
-            //courseList = SortOrder switch
-            //{
-            //    "title" => courseList.OrderBy(c => c.Title),
-            //    "title_desc" => courseList.OrderByDescending(c => c.Title),
-            //    "coach" => courseList.OrderBy(c => c.CoachName),
-            //    "coach_desc" => courseList.OrderByDescending(c => c.CoachName),
-            //    "type" => courseList.OrderBy(c => c.CourseType),
-            //    "type_desc" => courseList.OrderByDescending(c => c.CourseType),
-            //    _ => courseList.OrderBy(c => c.Title) // default
-            //};
-
-            return View(courseList); // Ensure there is a corresponding List.cshtml in Views/Staff
-
-        }
+       
 
         // GET: Add View
         [Authorize(Roles = "Admin, Staff")]
         [HttpGet("List")]
 
-        public async Task<IActionResult> List(string sortOrder)
+        public async Task<IActionResult> List(string sortOrder, int? page)
         {
+
             ViewData["TitleSortParm"] = sortOrder == "title" ? "title_desc" : "title";
             ViewData["CoachSortParm"] = sortOrder == "coach" ? "coach_desc" : "coach";
             ViewData["TypeSortParm"] = sortOrder == "type" ? "type_desc" : "type";
@@ -178,7 +162,22 @@ namespace Web.Controllers.Courses
                 _ => courses.OrderBy(c => c.CourseType) // default
             };
 
-            return View(courses);
+            //return View(courses);
+
+            // Paging logic
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+            // Replace the problematic line with the following:
+            //if (courses == null || !courses.Any())
+            //{
+            //    return View(new List<CourseViewModel>().ToList().ToPagedList(pageNumber, pageSize));
+            //}
+            //else
+            //{ 
+                return View(courses.ToPagedList(pageNumber, pageSize));
+            //}
+            //Install - Package X.PagedList
         }
 
 
