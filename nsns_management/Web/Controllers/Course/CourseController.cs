@@ -13,6 +13,8 @@ using System.Numerics;
 using Microsoft.EntityFrameworkCore;
 using Core.Services;
 
+using System.Data.SqlClient;
+
 namespace Web.Controllers.Courses
 {
     [Route("Course")]
@@ -128,15 +130,57 @@ namespace Web.Controllers.Courses
 
         // GET: Add View
         [Authorize(Roles = "Admin, Staff")]
-        [HttpGet("List")]
+        //[HttpGet("List")]
         //[HttpGet]
         public async Task<IActionResult> List()
         {
 
             var courseList = await _courseService.GetAllAsync();
+
+            //courseList = SortOrder switch
+            //{
+            //    "title" => courseList.OrderBy(c => c.Title),
+            //    "title_desc" => courseList.OrderByDescending(c => c.Title),
+            //    "coach" => courseList.OrderBy(c => c.CoachName),
+            //    "coach_desc" => courseList.OrderByDescending(c => c.CoachName),
+            //    "type" => courseList.OrderBy(c => c.CourseType),
+            //    "type_desc" => courseList.OrderByDescending(c => c.CourseType),
+            //    _ => courseList.OrderBy(c => c.Title) // default
+            //};
+
             return View(courseList); // Ensure there is a corresponding List.cshtml in Views/Staff
 
         }
+
+        // GET: Add View
+        [Authorize(Roles = "Admin, Staff")]
+        [HttpGet("List")]
+
+        public async Task<IActionResult> List(string sortOrder)
+        {
+            ViewData["TitleSortParm"] = sortOrder == "title" ? "title_desc" : "title";
+            ViewData["CoachSortParm"] = sortOrder == "coach" ? "coach_desc" : "coach";
+            ViewData["TypeSortParm"] = sortOrder == "type" ? "type_desc" : "type";
+            ViewData["SpecialtySortParm"] = sortOrder == "specialty" ? "specialty_desc" : "specialty";
+            ViewData["CurrentSort"] = sortOrder;
+            var courses = await _courseService.GetAllAsync();
+
+            courses = sortOrder switch
+            {
+                "specialty" => courses.OrderBy(c => c.SpecialtyName),
+                "specialty_desc" => courses.OrderByDescending(c => c.SpecialtyName),
+                "title" => courses.OrderBy(c => c.Title),
+                "title_desc" => courses.OrderByDescending(c => c.Title),
+                "coach" => courses.OrderBy(c => c.CoachName),
+                "coach_desc" => courses.OrderByDescending(c => c.CoachName),
+                "type" => courses.OrderBy(c => c.CourseType),
+                "type_desc" => courses.OrderByDescending(c => c.CourseType),
+                _ => courses.OrderBy(c => c.CourseType) // default
+            };
+
+            return View(courses);
+        }
+
 
         [HttpGet("GetCoachesBySpecialty")]
         public async Task<IActionResult> GetCoachesBySpecialty(int specialtyId)
