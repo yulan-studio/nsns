@@ -17,17 +17,83 @@
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd;">Name</th>
+            <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
+                <a asp-action="List" asp-route-sortOrder="@ViewData["NameSortParm"]" style="color: black; text-decoration: none; ">
+                    Name
+                    @if ((string)ViewData["CurrentSort"] == "name")
+                    {
+                        <span>▲</span>
+                    }
+                    else if ((string)ViewData["CurrentSort"] == "name_desc")
+                    {
+
+                        <span>▼</span>
+                    }
+                </a>
+            </th>
 
             <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
+            <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
+                <a asp-action="List" asp-route-sortOrder="@ViewData["AddressSortParm"]" style="color: black; text-decoration: none; ">
+                    Address
+                    @if ((string)ViewData["CurrentSort"] == "address")
+                    {
+                        <span>▲</span>
+                    }
+                    else if ((string)ViewData["CurrentSort"] == "address_desc")
+                    {
+
+                        <span>▼</span>
+                    }
+                </a>
+            </th>
             <th style="padding: 8px; border: 1px solid #ddd;">Max Capacity</th>
-            <th style="padding: 8px; border: 1px solid #ddd;"># of Registrations</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
+                <a asp-action="List" asp-route-sortOrder="@ViewData["RegistrationSortParm"]" style="color: black; text-decoration: none; ">
+                    # of Registrations
+                    @if ((string)ViewData["CurrentSort"] == "registrations")
+                    {
+                        <span>▲</span>
+                    }
+                    else if ((string)ViewData["CurrentSort"] == "registeration_desc")
+                    {
+
+                        <span>▼</span>
+                    }
+                </a>
+
+            </th>
+            <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
+                <a asp-action="List" asp-route-sortOrder="@ViewData["ScheduledAtSortParm"]" style="color: black; text-decoration: none; ">
+                    Scheduled At
+                    @if ((string)ViewData["CurrentSort"] == "scheduledAt")
+                    {
+                        <span>▲</span>
+                    }
+                    else if ((string)ViewData["CurrentSort"] == "scheduledAt_desc")
+                    {
+
+                        <span>▼</span>
+                    }
+                </a>
+            </th>
             @* <th style="padding: 8px; border: 1px solid #ddd;">Cost</th> *@
           @*   <th style="padding: 8px; border: 1px solid #ddd;">Contact</th> *@
         @*     <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th> *@
-            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
+                <a asp-action="List" asp-route-sortOrder="@ViewData["StatusSortParm"]" style="color: black; text-decoration: none;  ">
+                    Status
+                    @if ((string)ViewData["CurrentSort"] == "status")
+                    {
+                        <span>▲</span>
+                    }
+                    else if ((string)ViewData["CurrentSort"] == "status_desc")
+                    {
+
+                        <span>▼</span>
+                    }
+                </a>
+            </th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
         </tr>
     </thead>

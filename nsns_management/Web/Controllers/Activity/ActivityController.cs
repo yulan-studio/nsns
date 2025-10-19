@@ -1,9 +1,12 @@
 ﻿using Core.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc;
 using Core.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data.SqlClient;
+
+
 
 namespace Web.Controllers.Activity
 {
@@ -77,10 +80,34 @@ namespace Web.Controllers.Activity
         [Authorize(Roles = "Admin, Staff")]
         [HttpGet("List")]
         //[HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string sortOrder)
         {
 
+            ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+            ViewData["AddressSortParm"] = sortOrder == "address" ? "address_desc" : "address";
+            ViewData["ScheduledAtSortParm"] = sortOrder == "scheduledAt" ? "scheduledAt_desc" : "scheduledAt";
+            ViewData["StatusSortParm"] = sortOrder == "status" ? "status_desc" : "status";
+            ViewData["RegistrationSortParm"] = sortOrder == "registration" ? "registration_desc" : "registration";
+
+            ViewData["CurrentSort"] = sortOrder;
+
             var activityList = await _activityService.GetAllAsync();
+
+            activityList = sortOrder switch
+            {
+                "name" => activityList.OrderBy(c => c.Title),
+                "name_desc" => activityList.OrderByDescending(c => c.Title),
+                "address" => activityList.OrderBy(c => c.Address),
+                "address_desc" => activityList.OrderByDescending(c => c.Address),
+                "scheduledAt" => activityList.OrderBy(c => c.ScheduledAt),
+                "scheduledAt_desc" => activityList.OrderByDescending(c => c.ScheduledAt),
+                "status" => activityList.OrderBy(c => c.Status),
+                "status_desc" => activityList.OrderByDescending(c => c.Status),
+                "registration" => activityList.OrderBy(c => c.RegisteredChildrenCount),
+                "registration_desc" => activityList.OrderByDescending(c => c.RegisteredChildrenCount),
+                _ => activityList.OrderBy(c => c.ScheduledAt) // default
+            };
+
             return View(activityList); // Ensure there is a corresponding List.cshtml in Views/Staff
 
         }

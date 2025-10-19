@@ -1,19 +1,20 @@
 ﻿
-using Core.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Core.Interfaces;
 using Core.Models;
-
-using System.Diagnostics;
 using Core.Repositories;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Core.Services;
 using Core.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Security.Claims;
+using System.Data.SqlClient;
 
 
 
@@ -223,13 +224,27 @@ namespace Web.Controllers.User
         // GET: Add View
         [HttpGet("List")]
         //[HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string sortOrder)
         {
+            ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+            ViewData["GenderSortParm"] = sortOrder == "gender" ? "gender_desc" : "gender";
+            ViewData["CitySortParm"] = sortOrder == "city" ? "city_desc" : "city";
+            ViewData["CurrentSort"] = sortOrder;
 
             var coachList = await _coachService.GetAllAsync();
 
+            coachList = sortOrder switch
+            {
+                "name" => coachList.OrderBy(c => c.Name),
+                "name_desc" => coachList.OrderByDescending(c => c.Name),
+                "gender" => coachList.OrderBy(c => c.Gender),
+                "gender_desc" => coachList.OrderByDescending(c => c.Gender),
+                "city" => coachList.OrderBy(c => c.City.Name),
+                "city_desc" => coachList.OrderByDescending(c => c.City.Name),
+                
+                _ => coachList.OrderBy(c => c.Name) // default
+            };
 
-           
 
             List<CoachWithDeleteViewModel> coaches = new List<CoachWithDeleteViewModel>();
 

@@ -15,10 +15,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
 using NuGet.Protocol.Core.Types;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
 using static Core.ViewModels.ManageSessionRegistrationsViewModel;
+
+using System.Data.SqlClient;
 
 
 
@@ -96,13 +99,44 @@ namespace Web.Controllers.User
 
         [HttpGet("List")]
         // ✅ List all children
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string sortOrder)
         {
             var childrenWithRequestOrConcerns = await _courseEnrollmentService.GetChildrenWithRequestsOrConcernsAsync();
             //ViewBag.RequestConcernChildIds = childrenWithConcerns;
             ViewData["RequestConcernChildIds"] = childrenWithRequestOrConcerns;
             var childrenWithDelete = new List<ChildWithDeleteViewModel>();
+
+
+            ViewData["MemberIDParm"] = sortOrder == "id" ? "id_desc" : "id";
+            ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+            ViewData["BirthDateSortParm"] = sortOrder == "birthday" ? "birthday_desc" : "birthday";
+            ViewData["GenderSortParm"] = sortOrder == "gender" ? "gender_desc" : "gender";
+            ViewData["CitySortParm"] = sortOrder == "city" ? "city_desc" : "city";
+            ViewData["OAPSortParm"] = sortOrder == "oap" ? "oap_desc" : "oap";
+            ViewData["CurrentSort"] = sortOrder;
+
+
+
             var children = await _childService.GetAllAsync();
+
+            children = sortOrder switch
+            {
+                "id" => children.OrderBy(c => c.MemberID),
+                "id_desc" => children.OrderByDescending(c => c.MemberID),
+                "name" => children.OrderBy(c => c.Name),
+                "name_desc" => children.OrderByDescending(c => c.Name),
+                "birthday" => children.OrderBy(c => c.BirthDate),
+                "birthday_desc" => children.OrderByDescending(c => c.BirthDate),
+                "gender" => children.OrderBy(c => c.Gender),
+                "gender_desc" => children.OrderByDescending(c => c.Gender),
+                "city" => children.OrderBy(c => c.City.Name),
+                "city_desc" => children.OrderByDescending(c => c.City.Name),
+                "oap" => children.OrderBy(c => c.HasOAP),
+                "oap_desc" => children.OrderByDescending(c => c.HasOAP),
+                _ => children.OrderBy(c => c.MemberID) // default
+            };
+
+
             foreach (Child c in children)
             {
                 var canDelete = !await _childService.CheckPaidAsync(c.ChildID) && !await _childService.CheckRegisteredAsync(c.ChildID);
@@ -119,8 +153,15 @@ namespace Web.Controllers.User
         }
 
 
-        // GET: Add View
-        [HttpGet("Add")]
+
+      
+            
+
+        
+
+
+    // GET: Add View
+    [HttpGet("Add")]
         //[HttpGet]
         public async Task<IActionResult> Add()
         {
