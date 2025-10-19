@@ -22,7 +22,8 @@ using System.Xml.Linq;
 using static Core.ViewModels.ManageSessionRegistrationsViewModel;
 
 using System.Data.SqlClient;
-
+using X.PagedList;
+using X.PagedList.Extensions;
 
 
 
@@ -99,7 +100,7 @@ namespace Web.Controllers.User
 
         [HttpGet("List")]
         // ✅ List all children
-        public async Task<IActionResult> List(string sortOrder)
+        public async Task<IActionResult> List(string sortOrder, int? page)
         {
             var childrenWithRequestOrConcerns = await _courseEnrollmentService.GetChildrenWithRequestsOrConcernsAsync();
             //ViewBag.RequestConcernChildIds = childrenWithConcerns;
@@ -146,7 +147,13 @@ namespace Web.Controllers.User
                 childrenWithDelete.Add(childWithDelete);
             }
 
-            return View(childrenWithDelete);
+            //return View(childrenWithDelete);
+
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+
+            return View(childrenWithDelete.ToPagedList(pageNumber, pageSize));
 
 
 

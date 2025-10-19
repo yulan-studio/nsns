@@ -15,6 +15,8 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Security.Claims;
 using System.Data.SqlClient;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 
 
@@ -224,7 +226,7 @@ namespace Web.Controllers.User
         // GET: Add View
         [HttpGet("List")]
         //[HttpGet]
-        public async Task<IActionResult> List(string sortOrder)
+        public async Task<IActionResult> List(string sortOrder, int? page)
         {
             ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
             ViewData["GenderSortParm"] = sortOrder == "gender" ? "gender_desc" : "gender";
@@ -256,9 +258,15 @@ namespace Web.Controllers.User
                 coachWithDelete.CanDelete = canDelete;
                 coaches.Add(coachWithDelete);
             }
-            return View(coaches); // Ensure there is a corresponding List.cshtml in Views/Staff
+            //return View(coaches); // Ensure there is a corresponding List.cshtml in Views/Staff
 
-           
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+
+            return View(coaches.ToPagedList(pageNumber, pageSize));
+
+
         }
 
 

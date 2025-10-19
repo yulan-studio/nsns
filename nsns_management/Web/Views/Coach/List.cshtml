@@ -8,8 +8,27 @@
 
 
 @* @model IEnumerable<Coach> *@
-@model List<Core.ViewModels.CoachWithDeleteViewModel>
+@* @model List<Core.ViewModels.CoachWithDeleteViewModel> *@
 
+@model X.PagedList.IPagedList<Core.ViewModels.CoachWithDeleteViewModel>
+@using X.PagedList.Mvc.Core
+@using X.PagedList
+
+<style>
+    .pagination {
+        justify-content: center;
+    }
+
+    .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+    }
+
+    .page-link {
+        color: #007bff;
+    }
+</style>
 
 <h1>Manage Coaches</h1>
 
@@ -133,4 +152,21 @@
         }
     </tbody>
 </table>
+
+
+<div style="margin-top: 20px; text-align: center;">
+    @Html.PagedListPager(
+    Model,
+    page => Url.Action("List", new { page, sortOrder = ViewData["CurrentSort"] }),
+        new PagedListRenderOptions
+        {
+            DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+            DisplayLinkToLastPage = PagedListDisplayMode.Always,
+            DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+            DisplayLinkToNextPage = PagedListDisplayMode.Always,
+            UlElementClasses = new[] { "pagination" },
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" }
+        })
+</div>
 

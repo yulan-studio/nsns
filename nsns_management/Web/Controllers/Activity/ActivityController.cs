@@ -1,10 +1,13 @@
 ﻿using Core.Interfaces;
+using Core.Models;
 using Core.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data.SqlClient;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 
 
@@ -80,7 +83,7 @@ namespace Web.Controllers.Activity
         [Authorize(Roles = "Admin, Staff")]
         [HttpGet("List")]
         //[HttpGet]
-        public async Task<IActionResult> List(string sortOrder)
+        public async Task<IActionResult> List(string sortOrder, int? page)
         {
 
             ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
@@ -108,8 +111,12 @@ namespace Web.Controllers.Activity
                 _ => activityList.OrderBy(c => c.ScheduledAt) // default
             };
 
-            return View(activityList); // Ensure there is a corresponding List.cshtml in Views/Staff
+            //return View(activityList); // Ensure there is a corresponding List.cshtml in Views/Staff
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
 
+            
+            return View(activityList.ToPagedList(pageNumber, pageSize));
         }
 
         //[HttpGet("GetCoachesBySpecialty")]
