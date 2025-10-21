@@ -134,7 +134,7 @@ namespace Web.Controllers.User
                 "city_desc" => children.OrderByDescending(c => c.City.Name),
                 "oap" => children.OrderBy(c => c.HasOAP),
                 "oap_desc" => children.OrderByDescending(c => c.HasOAP),
-                _ => children.OrderBy(c => c.MemberID) // default
+                _ => children.OrderBy(c => c.Name) // default
             };
 
 
