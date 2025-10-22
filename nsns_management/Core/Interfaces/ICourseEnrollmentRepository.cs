@@ -49,6 +49,8 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetAllUpcomingSessionsByCourseAsync(int courseId);
 
+        Task<IEnumerable<CourseEnrollment>> GetAllPastSessionsByCourseAsync(int courseId);
+
         Task<List<int?>> GetRegisteredUpcomingSessionsByCourseAsync(int courseId);
 
         Task UpdateChildCompletedSessionsAsync(int courseId);

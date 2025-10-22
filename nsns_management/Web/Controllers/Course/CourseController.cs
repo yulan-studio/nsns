@@ -332,7 +332,7 @@ namespace Web.Controllers.Courses
             var openSessions = await _courseEnrollmentService.GetOpenSessionsByCourseAsync(courseId);
             var closedSessions = await _courseEnrollmentService.GetClosedSessionsByCourseAsync(courseId);
             var canceledSessions = await _courseEnrollmentService.GetCanceledSessionsByCourseAsync(courseId);
-            var completedSessions = await _courseEnrollmentService.GetCompletedSessionsByCourseAsync(courseId);
+            var finishedSessions = await _courseEnrollmentService.GetAllPastSessionsByCourseAsync(courseId);
 
             var allUpcomingSessions = await _courseEnrollmentService.GetAllUpcomingSessionsByCourseAsync(courseId);
             var allRegisteredUpcomingSessionIds = await _courseEnrollmentService.GetRegisteredUpcomingSessionsByCourseAsync(courseId);
@@ -345,8 +345,8 @@ namespace Web.Controllers.Courses
             {
                 Course = course,
                 OpenSessions = (List<CourseEnrollment>?)openSessions,
-                CompletedSessions = (List<CourseEnrollment>?)completedSessions,
-                CanceledSessions = (List<CourseEnrollment>?)canceledSessions,
+                FinishedSessions = (List<CourseEnrollment>?)finishedSessions,
+                //CanceledSessions = (List<CourseEnrollment>?)canceledSessions,
                 ClosedSessions = (List<CourseEnrollment>?)closedSessions,
                 AllUpcomingSessions = (List<CourseEnrollment>?)allUpcomingSessions,
                 RegisteredUpcomingSessionIds = allRegisteredUpcomingSessionIds

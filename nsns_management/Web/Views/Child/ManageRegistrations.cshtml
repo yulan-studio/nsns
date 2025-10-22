@@ -88,7 +88,7 @@
                         <form method="post" action="/Child/UnregisterCourse">
                             <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
                             <input type="hidden" name="childId" value="@enrollment.ChildID" />
-                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;@(enrollment.CompletedSessions == 0 && enrollment.ScheduledSessions == 0 ? "":"display: none;")">
+                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;@(enrollment.CompletedSessions == 0 && enrollment.ScheduledSessions == 0 && !@enrollment.IsPaid ? "" : "display: none;")">
                                 Remove
                             </button>
                         </form>

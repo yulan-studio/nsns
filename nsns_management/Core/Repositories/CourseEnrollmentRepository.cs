@@ -322,6 +322,17 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<CourseEnrollment>> GetAllPastSessionsByCourseAsync(int courseId)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            return await _context.CourseEnrollments
+
+                .Where(e => e.CourseID == courseId && e.Child == null && e.ScheduledAt < torontoNow)
+                .OrderBy(e => e.ScheduledAt) // Sort by ScheduledAt ascending
+                .ToListAsync();
+        }
+
 
         //Only return List of Upcoming Session IDs in a course that are registered 
         public async Task<List<int?>> GetRegisteredUpcomingSessionsByCourseAsync(int courseId)

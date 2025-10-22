@@ -29,6 +29,8 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId);
 
+        
+
         Task<IEnumerable<CourseEnrollment>> GetScheduledEnrollmentsByCourseAsync(int courseId);
 
         Task<IEnumerable<CourseEnrollment>> GetRegisteredEnrollmentsByCourseAsync(int courseId);
@@ -42,6 +44,8 @@ namespace Core.Interfaces
         Task<IEnumerable<CourseEnrollment>> GetCompletedSessionsByCourseAsync(int courseId);
 
         Task<IEnumerable<CourseEnrollment>> GetAllUpcomingSessionsByCourseAsync(int courseId);
+
+        Task<IEnumerable<CourseEnrollment>> GetAllPastSessionsByCourseAsync(int courseId);
 
         Task<List<int?>> GetRegisteredUpcomingSessionsByCourseAsync(int courseId);
 

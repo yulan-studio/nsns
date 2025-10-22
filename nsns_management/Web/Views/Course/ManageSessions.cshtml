@@ -228,67 +228,10 @@
 <br />
 
 
-<!-- Canceled Sessions Table -->
-<h5>Canceled Sessions</h5>
 
-<table style="border-collapse: collapse; width: 100%; text-align: left;">
-    <thead>
-        <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Date</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Start Time</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">End Time</th>
-
-            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Location</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Status</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 25%">Staff Note</th>
-            <th style="padding: 8px; border: 1px solid #ddd; width: 10%">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.CanceledSessions.Any())
-        {
-            foreach (var s in Model.CanceledSessions)
-            {
-                <tr id="row-@s.EnrollmentID">
-                   @*  <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledAt?.ToString("yyyy-MM-dd HH:mm")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.ScheduledHours</td> *@
-
-                    @{
-                        var scheduledAt = @s.ScheduledAt;
-                        var scheduledHours = @s.ScheduledHours.HasValue ? (double)@s.ScheduledHours.Value : 0;
-                        DateTime? endTime = scheduledAt?.AddHours(scheduledHours);
-                    }
-
-                    <td style="padding: 8px; border: 1px solid #ddd;">
-                        @(scheduledAt.HasValue? scheduledAt.Value.ToString("yyyy-MM-dd") : "")
-                    </td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">
-                        @(scheduledAt.HasValue? scheduledAt.Value.ToString("HH:mm") : "")
-                    </td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">
-                        @(endTime.HasValue? endTime.Value.ToString("HH:mm") : "")
-                    </td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Location</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.Status</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@s.StaffNote</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;"></td>
-                </tr>
-            }
-        }
-
-        else
-        {
-            <tr>
-                <td colspan="7" style="text-align: center; padding: 10px;">No Canceled sessions.</td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<br />
 
 <!-- Completed Sessions Table -->
-<h5>Completed Sessions</h5>
+<h5>Finished Sessions</h5>
 
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
@@ -305,9 +248,9 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.CompletedSessions.Any())
+        @if (Model.FinishedSessions.Any())
         {
-            foreach (var s in Model.CompletedSessions)
+            foreach (var s in Model.FinishedSessions)
             {
                 <tr id="row-@s.EnrollmentID">
                    
