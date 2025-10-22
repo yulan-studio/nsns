@@ -193,9 +193,10 @@
             <option value="">-- Select Payment Model --</option>
             <option value="Direct">Direct</option>
             <option value="Token">Token</option>
+            <option value="OAP">OAP</option>
         </select>
 
-            <label style="font-size:0.9em; color:darkslategray"> - If there is not enough balance, choose 'Direct'.</label>
+            <label style="font-size:0.9em; color:darkslategray"> - If there is enough balance, choose 'Token'.</label>
 
         <!-- Fee Input (visible conditionally) -->
         <span id="feeSection" style="display:none; margin-top:10px;">
@@ -341,9 +342,10 @@
             <option value="">-- Select Payment Model --</option>
             <option value="Direct">Direct</option>
             <option value="Token">Token</option>
+            <option value="OAP">OAP</option>
         </select>
 
-        <label style="font-size:0.9em; color:darkslategray"> - If there is not enough balance, choose 'Direct'.</label>
+        <label style="font-size:0.9em; color:darkslategray"> - If there is enough balance, choose 'Token'.</label>
 
         <!-- Fee Input (visible conditionally) -->
         <span id="activityFeeSection" style="display:none; margin-top:10px;">
@@ -427,6 +429,12 @@
                 document.getElementById("totalCost").removeAttribute("required");
             }
         }
+        else if (paymentModel === "OAP") {
+            
+                feeSection.style.display = "block";
+                document.getElementById("totalCost").setAttribute("required", "required");
+         
+        }
         else {
             feeSection.style.display = "none";
             document.getElementById("totalCost").removeAttribute("required");
@@ -470,6 +478,11 @@
                 feeSection.style.display = "block";
                 document.getElementById("totalCost").setAttribute("required", "required");
         }
+        else if (paymentModel === "OAP") {
+
+                feeSection.style.display = "block";
+                document.getElementById("totalCost").setAttribute("required", "required");
+        }
         else {
                 feeSection.style.display = "none";
                 document.getElementById("totalCost").removeAttribute("required");
@@ -492,6 +505,9 @@
         } else if (paymentModel === "Direct" && totalCost && totalCost !== "0") {
             descriptionInput.value = `Please email transfer $${totalCost} to accounting@ncoatoronto.ca, and send screenshot to Benny.`;
         } 
+        else if (paymentModel === "OAP" && totalCost && totalCost !== "0") {
+            descriptionInput.value = `Please email transfer $${totalCost} to info@nutcrackertherapy.ca, and send screenshot to customer service.`;
+        }
         // else if (paymentModel === "Token" && totalCost === null) {
         //     descriptionInput.value = "To be charged in sessions";
         // }
