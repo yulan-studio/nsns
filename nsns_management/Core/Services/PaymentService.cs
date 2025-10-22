@@ -66,6 +66,11 @@ namespace Core.Services
             return await _paymentRepository.GetUnpaidDirectEnrollmentsByChildAsync(childId);
         }
 
+        public async Task<List<UnpaidItemViewModel>> GetUnpaidOAPEnrollmentsByChildAsync(int childId)
+        {
+            return await _paymentRepository.GetUnpaidOAPEnrollmentsByChildAsync(childId);
+        }
+
 
         //public async Task<Child> GetChildByIdAsync(int childId)
         //{

@@ -19,6 +19,8 @@ namespace Core.Interfaces
 
         Task<List<UnpaidItemViewModel>> GetUnpaidDirectEnrollmentsByChildAsync(int childId);
 
+        Task<List<UnpaidItemViewModel>> GetUnpaidOAPEnrollmentsByChildAsync(int childId);
+
         //Task<Child> GetChildByIdAsync(int childId);
 
         Task<IEnumerable<Parent>> GetParentsByChildAsync(int childId);
@@ -28,6 +30,8 @@ namespace Core.Interfaces
         Task<int> AddTokenPaymentAsync(int childId, int parentId, int? packageId, decimal amount, DateTime? paymentDate, string receiptPath, User user);
 
         Task<int> AddDirectPaymentAsync(int childId, int parentId, int? feeId, decimal amount, DateTime? paymentDate, string receiptPath, User user);
+
+
         Task<bool> UpdateAsync(Payment payment);
         Task<bool> RemoveAsync(int paymentId);
     }

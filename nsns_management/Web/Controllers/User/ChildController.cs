@@ -818,7 +818,8 @@ namespace Web.Controllers.User
 
             var payments = await _paymentService.GetByChildAsync(childId);
             var child = await _childService.GetAsync(childId);
-            var unpaidItems = await _paymentService.GetUnpaidDirectEnrollmentsByChildAsync(childId);
+            var unpaidDirectItems = await _paymentService.GetUnpaidDirectEnrollmentsByChildAsync(childId);
+            var unpaidOAPItems = await _paymentService.GetUnpaidOAPEnrollmentsByChildAsync(childId);
 
             if (child == null)
             {
@@ -850,7 +851,8 @@ namespace Web.Controllers.User
                 Text = p.Title
             }).ToList();
 
-            ViewBag.UnpaidItems = unpaidItems;
+            ViewBag.UnpaidDirectItems = unpaidDirectItems;
+            ViewBag.UnpaidOAPItems = unpaidOAPItems;
 
             return View("ManagePayments", payment);
         }

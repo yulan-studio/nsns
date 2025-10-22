@@ -173,6 +173,43 @@ namespace Core.Repositories
         }
 
 
+
+
+        public async Task<List<UnpaidItemViewModel>> GetUnpaidOAPEnrollmentsByChildAsync(int childId)
+        {
+            var unpaidCourses = await (from f in _context.Fees
+                                       join ce in _context.CourseEnrollments on f.CourseEnrollmentID equals ce.EnrollmentID
+                                       join c in _context.Courses on ce.CourseID equals c.CourseID
+                                       where ce.ChildID == childId
+                                             && f.PaymentModel == "OAP"
+                                             && (f.IsPaid == false || f.IsPaid == null)
+                                       select new UnpaidItemViewModel
+                                       {
+                                           Type = "Course",
+                                           Title = c.Title,
+                                           TotalCost = f.TotalCost,
+                                           FeeID = f.FeeID
+                                       }).ToListAsync();
+
+            var unpaidActivities = await (from f in _context.Fees
+                                          join ae in _context.ActivityEnrollments on f.ActivityEnrollmentID equals ae.EnrollmentID
+                                          join a in _context.Activities on ae.ActivityID equals a.ActivityID
+                                          where ae.ChildID == childId
+                                                && f.PaymentModel == "OAP"
+                                                && (f.IsPaid == false || f.IsPaid == null)
+                                          select new UnpaidItemViewModel
+                                          {
+                                              Type = "Activity",
+                                              Title = a.Title,
+                                              TotalCost = f.TotalCost,
+                                              FeeID = f.FeeID
+                                          }).ToListAsync();
+
+            // Combine both lists
+            return unpaidCourses.Concat(unpaidActivities).ToList();
+        }
+
+
         //public async Task<bool> AddDirectPaymentAsync(int feeId, int createdBy)
         //{
         //    var fee = await _context.Fees.FirstOrDefaultAsync(f => f.FeeID == feeId);

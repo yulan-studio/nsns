@@ -27,6 +27,9 @@ namespace Core.Interfaces
         Task<bool> UpdateAsync(Payment payment);
         Task<bool> RemoveAsync(int id);
         Task<List<UnpaidItemViewModel>> GetUnpaidDirectEnrollmentsByChildAsync(int childId);
-        
+
+        Task<List<UnpaidItemViewModel>> GetUnpaidOAPEnrollmentsByChildAsync(int childId);
+
+
     }
 }
