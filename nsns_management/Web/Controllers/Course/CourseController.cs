@@ -413,7 +413,7 @@ namespace Web.Controllers.Courses
 
         // ✅ Save Session (Add / Edit)
         [HttpPost("SaveSession")]
-        public async Task<IActionResult> SaveSession(int enrollmentId, string location, string staffNote, string status)
+        public async Task<IActionResult> SaveSession(int enrollmentId, string location, string? staffNote, string status)
         {
 
             if (!ModelState.IsValid)
