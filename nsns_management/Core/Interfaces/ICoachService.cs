@@ -20,7 +20,7 @@ namespace Core.Interfaces
 
         Task<bool> RemoveAsync(int coachId);
 
-        Task<bool> UpdateAsync(int coachId, string name, string email, /*string password, */List<int> specialtyIds, string gender, string phone, string wechat, int cityId, User user);
+        Task<bool> UpdateAsync(int coachId, string name, string email, /*string password, */List<int> specialtyIds, string? gender, string phone, string wechat, int cityId, User user);
 
         Task<Coach> GetAsync(int coachId);
 

@@ -18,12 +18,12 @@
     <table style="border-collapse: collapse; width: 50%; margin-left: 0;">
         <tr>
             <td style="padding: 8px;"><label for="name">Name:</label></td>
-            <td style="padding: 8px;"><input type="text" name="name" placeholder="Name" style="width: 100%;" /></td>
+            <td style="padding: 8px;"><input type="text" name="name" placeholder="Name" style="width: 100%;" required/></td>
         </tr>
         <tr>
             <td style="padding: 8px;"><label for="gender">Gender:</label></td>
             <td style="padding: 8px;">
-                <select name="gender" class="form-control" style="width: 100%;">
+                <select name="gender" class="form-control" style="width: 100%;" required>
                     <option value="" selected>-- Select Gender --</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -54,7 +54,7 @@
         <tr>
             <td style="padding: 8px;"><label for="cityId">City:</label></td>
             <td style="padding: 8px;">
-                <select name="cityId" class="form-control" style="width: 100%;">
+                <select name="cityId" class="form-control" style="width: 100%;" required>
                     <option value="" selected>-- Select City --</option>
                     @foreach (var city in ViewBag.CityList)
                     {

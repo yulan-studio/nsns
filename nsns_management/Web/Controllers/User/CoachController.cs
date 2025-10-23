@@ -66,7 +66,7 @@ namespace Web.Controllers.User
         // POST: Add Staff Action
         [HttpPost("Add")]
         //[HttpPost]
-        public async Task<IActionResult> Add(string name, string email, string password, List<int> specialtyIds, string gender, string phone, string wechat, int cityId)
+        public async Task<IActionResult> Add(string name, string email, string password, List<int> specialtyIds, string gender, string phone, string? wechat, int cityId)
         {
 
            

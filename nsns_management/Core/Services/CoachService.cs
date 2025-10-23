@@ -47,7 +47,7 @@ namespace Core.Services
 
         }
 
-        public async Task<bool> AddAsync(string name, string email, string password, List<int> specialtyIds, string gender, string phone, string wechat, int cityId, User user)
+        public async Task<bool> AddAsync(string name, string email, string password, List<int> specialtyIds, string gender, string phone, string? wechat, int cityId, User user)
         {
             // Check if a user with the same email already exists
 
