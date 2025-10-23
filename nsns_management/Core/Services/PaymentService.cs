@@ -143,7 +143,7 @@ namespace Core.Services
         }
 
 
-        public async Task<int> AddDirectPaymentAsync(int childId, int parentId, int? feeId, decimal amount, DateTime? paymentDate, string receiptPath, User user)
+        public async Task<int> AddNoneTokenPaymentAsync(int childId, int parentId, int? feeId, decimal amount, DateTime? paymentDate, string receiptPath, User user)
         {
             //return await _paymentRepository.AddDirectPaymentAsync(feeId, createdBy);
 

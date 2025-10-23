@@ -900,7 +900,7 @@ namespace Web.Controllers.User
 
                 if (feeId != null)
                 {
-                    var paymentId = await _paymentService.AddDirectPaymentAsync(childId, parentId, feeId, amount, paymentDate, receiptPath, user);
+                    var paymentId = await _paymentService.AddNoneTokenPaymentAsync(childId, parentId, feeId, amount, paymentDate, receiptPath, user);
 
                     if (paymentId > 0)
                         result = true;
