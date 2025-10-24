@@ -32,7 +32,8 @@ namespace Core.Services
             // Get the current balance
             var currentBalance = await _balanceRepository.GetFinalBalanceAsync(childId);
 
-            decimal balanceChange = actionType == "Refund" ? -amount : amount;
+            //decimal balanceChange = actionType == "Refund" ? -amount : amount;
+            decimal balanceChange = amount;
             decimal newBalance = currentBalance + balanceChange;
 
             var newTransaction = new Core.Models.ChildBalance
