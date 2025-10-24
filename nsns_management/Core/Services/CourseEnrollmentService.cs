@@ -140,10 +140,16 @@ namespace Core.Services
             {
                 foreach (var e in course_enrollment)
                 {
-                    if (e.ChildID == childId && e.Status == "Scheduled")
-                        throw new Exception("This registration cannot be removed because the child has scheduled sessions in this course. Please cancel or complete all sessions before removing the registration.");
+                    if (e.ChildID == childId && (e.Status == "Scheduled" || e.Status == "Completed" || e.Status =="RequestToReschedule" || e.Status == "RequestToLeave" || e.Status =="OnLeave" ))
+                        throw new Exception("This registration cannot be removed because the child has scheduled sessions in this course. Please cancel all sessions before removing the registration.");
                 }
-                  
+
+                foreach (var e in course_enrollment)  // Remove all scheduled sessions for the child in this course that has not been confirmed yet
+                {
+                    if (e.ChildID == childId && (e.Status == "Registered"||e.Status =="Canceled"))
+                        await _enrollmentRepository.RemoveAsync(e.EnrollmentID);
+                }
+
             }
             return await _enrollmentRepository.RemoveAsync(enrollmentId);
         }
