@@ -31,7 +31,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
          @*    <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No funding)</th> *@
-            <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th>
+    @*         <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Session Count</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled</th>
@@ -61,7 +61,7 @@
                     
                     @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td> *@
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsActive</td>
+                @*     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsActive</td> *@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SessionCount</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.ScheduledSessions</td>
@@ -112,14 +112,14 @@
         else
         {
             <tr>
-                <td colspan="16" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
+                <td colspan="15" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
             </tr>
         }
 
          @if (TempData["SuccessMessage1"] != null)
         {
             <tr>
-                <td colspan="16">
+                <td colspan="15">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage1"]
                     </div>
@@ -130,7 +130,7 @@
         @if (TempData["ErrorMessage1"] != null)
         {
             <tr>
-                <td colspan="16">
+                <td colspan="15">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage1"]
                     </div>
@@ -504,7 +504,7 @@
         const totalCost = totalCostInput.value.trim();
 
         if (paymentModel === "Token" && totalCost && totalCost !== "0") {
-            descriptionInput.value = `Use Token: $${totalCost} will be deducted from your balance once confirmed.`;
+            descriptionInput.value = `Use Token - $${totalCost} will be deducted from your balance once confirmed.`;
         } else if (paymentModel === "Direct" && totalCost && totalCost !== "0") {
             descriptionInput.value = `Please email transfer $${totalCost} to accounting@ncoatoronto.ca, and send screenshot to Benny.`;
         } 

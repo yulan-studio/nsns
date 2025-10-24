@@ -7,13 +7,19 @@
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
     <p><strong>Course:</strong> @Model.Course.Title</p>
     <p><strong>Child:</strong> @Model.Child.Name</p>
+    @if(Model.Course.SessionCount!= null )
+    {
+        <p><strong>Session Count:</strong> @Model.Course.SessionCount</p>
+    }
+
 </div>
 
 
 <div style="margin: 0; padding: 30px 0; color: #1B7BAB;"><h5>Sessions Awaiting Completion</h5></div>
 
 <div style="padding: 10px 10px 10px 10px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #FFDBF6; ">
-    To complete the session, the coach is required to enter the actual hours and then click the 'Complete' button.
+    To complete the session, the coach is required to enter the actual hours and then click the 'Complete' button.<br/>
+    For courses with a fixed number of sessions, completing all sessions will automatically mark the enrollment as completed.
 </div>
 
 <table id="scheduleTable" style="border-collapse: collapse; width: 100%; text-align: left;">
