@@ -140,7 +140,7 @@ namespace Core.Repositories
                 .Include(e => e.Course)
                 .Include(e => e.Course.Coach)
                 .Include(e => e.Course.Specialty)
-                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && (e.Status != "Registered" && e.Status != "Completed" && e.Status != "Deleted"|| (e.Course.CourseType == "Private" && e.Status == "Deleted"))&& e.ScheduledAt>= torontoNow)
+                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && (e.Status != "Registered" && e.Status != "Completed" && e.Status != "Deleted"|| (e.Course.CourseType == "Private" && e.Status == "Deleted"))&& ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) >= torontoNow)
                 .OrderBy(e => e.CourseID)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
@@ -235,6 +235,9 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<CourseEnrollment>> GetOverduedEnrollmentsByCourseChildAsync(int courseId, int childId, string status)
         {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
                 .Include(e => e.Course)
@@ -242,7 +245,7 @@ namespace Core.Repositories
                             e.ChildID == childId && 
                             e.Status == status && 
                             e.EnrollmentID_Ref != null 
-                            && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) < DateTime.UtcNow 
+                            && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) < torontoNow
                       )
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
@@ -269,7 +272,7 @@ namespace Core.Repositories
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
                 .Include(e => e.Course)
-                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Registered" && e.Status != "Completed" && e.ScheduledAt>=torontoNow)
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Registered" && e.Status != "Completed" && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours)>=torontoNow)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }

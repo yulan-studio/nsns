@@ -17,7 +17,9 @@
         <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
             <h5>Course: @courseSchedules.Course.Title</h5>
             <strong>Course Type: </strong>  @courseSchedules.Course.CourseType
+            
             <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedules.Course.SessionCount
+
             <strong> &nbsp; &nbsp;Coach: </strong> @(courseSchedules.Course.Coach?.Name ?? "N/A")
             @if (courseSchedules.Course.CourseType == "Private")
             {
