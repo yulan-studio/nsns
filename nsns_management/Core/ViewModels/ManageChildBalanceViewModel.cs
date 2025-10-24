@@ -30,6 +30,8 @@ namespace Core.ViewModels
         public string Type { get; set; } // "Payment", "Course Session", "Activity"
         public string? CourseName { get; set; }
         public string? ActivityName { get; set; }
+
+        public string? Remarks { get; set; }
         public decimal BalanceChange { get; set; }
         public decimal Balance { get; set; }
 
