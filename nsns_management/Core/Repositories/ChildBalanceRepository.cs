@@ -26,11 +26,18 @@ namespace Core.Repositories
             _context = context;
         }
 
+        public async Task<bool> AddBalanceAsync(Core.Models.ChildBalance balance)
+        {
+            _context.ChildBalances.Add(balance);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+
         public async Task<bool> AddPaymentToBalanceAsync(int childId, int paymentId, decimal amount, int createdBy)
         {
             decimal latestBalance = await GetFinalBalanceAsync(childId);
 
-            var newEntry = new ChildBalance
+            var newEntry = new Core.Models.ChildBalance
             {
                 ChildID = childId,
                 PaymentID = paymentId,
@@ -82,7 +89,7 @@ namespace Core.Repositories
 
             
 
-            var newEntry = new ChildBalance
+            var newEntry = new Core.Models.ChildBalance
             {
                 ChildID = enrollment.ChildID,
                 CourseID = enrollment.CourseID,
@@ -105,7 +112,7 @@ namespace Core.Repositories
         {
             decimal latestBalance = await GetFinalBalanceAsync(childId);
 
-            var newEntry = new ChildBalance
+            var newEntry = new Core.Models.ChildBalance
             {
                 ChildID = childId,
                 CourseID = courseId,
@@ -128,7 +135,7 @@ namespace Core.Repositories
         {
             decimal latestBalance = await GetFinalBalanceAsync(childId);
 
-            var newEntry = new ChildBalance
+            var newEntry = new Core.Models.ChildBalance
             {
                 ChildID = childId,
                 ActivityID = activityId,
@@ -150,7 +157,7 @@ namespace Core.Repositories
         {
             decimal latestBalance = await GetFinalBalanceAsync(childId);
 
-            var newEntry = new ChildBalance
+            var newEntry = new Core.Models.ChildBalance
             {
                 ChildID = childId,
                 CourseID = courseId,
@@ -171,12 +178,12 @@ namespace Core.Repositories
 
 
 
-        public async Task<List<ChildBalanceViewModel>> GetBalanceHistoryAsync(int childId)
+        public async Task<List<Core.ViewModels.ChildBalance>> GetBalanceHistoryAsync(int childId)
         {
             var history = await _context.ChildBalances
                 .Where(cb => cb.ChildID == childId)
                 .OrderBy(cb => cb.CreatedDate)
-                .Select(cb => new ChildBalanceViewModel
+                .Select(cb => new Core.ViewModels.ChildBalance
                 {
                     CreatedDate = cb.CreatedDate,
                     Type =  cb.TransactionType != null ? cb.TransactionType :"Other",

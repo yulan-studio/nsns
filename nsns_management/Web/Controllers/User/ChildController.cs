@@ -1158,14 +1158,58 @@ namespace Web.Controllers.User
 
 
         [Authorize(Roles = "Staff")]
-        [HttpGet("Balance/{childId}")]
-        public async Task<IActionResult> Balance(int childId)
+        [HttpGet("ManageBalance/{childId}")]
+        public async Task<IActionResult> ManageBalance(int childId)
         {
             var balances = await _balanceService.GetBalanceHistoryAsync(childId);
             var finalBalance = await _balanceService.GetFinalBalanceAsync(childId);
-            ViewBag.FinalBalance = finalBalance;
-            return View(balances);
+            //ViewBag.FinalBalance = finalBalance;
+            //return View(balances);
+            var model = new ManageChildBalanceViewModel
+            {
+                ChildID = childId,
+                CurrentBalance = finalBalance,
+                BalanceHistory = balances
+            };
+
+            return View(model);
+
         }
+
+
+
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost("FixBalance")]
+        public async Task<IActionResult> FixBalance(int childId, string actionType, int amount, string remarks)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    //model.BalanceHistory = await _balanceService.GetBalanceHistoryAsync(model.ChildID);
+            //    //model.CurrentBalance = await _balanceService.GetFinalBalanceAsync(model.ChildID);
+            //    //return View(model);
+            //    return RedirectToAction("Participation", new { childId, tab = "ManageBalance" });
+            //}
+
+            Core.Models.User user = await _userManager.GetUserAsync(User);
+            //var userId = int.Parse(User.FindFirst("UserId").Value); // assuming you store UserId in claims
+
+            await _balanceService.AddBalanceFixAsync(
+                childId,
+                actionType,
+                amount,
+                remarks,
+                user.Id
+            );
+
+            TempData["SuccessMessage"] = $"{actionType} of {amount:C} completed successfully.";
+
+           // return RedirectToAction(nameof(ManageBalance), new { childId = model.ChildID });
+            return RedirectToAction("Participation", new { childId, tab = "ManageBalance" });
+        }
+
+
 
 
         //Add course sessions to a child who has registered to a group course 

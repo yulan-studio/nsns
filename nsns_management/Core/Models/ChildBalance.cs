@@ -20,6 +20,8 @@ namespace Core.Models
         public int? ActivityID { get; set; } // Foreign Key to Activities
         public int? EnrollmentID { get; set; } // Foreign Key to CourseEnrollments
 
+        public string? Remarks { get; set; } // Remarks or Description
+
         required public string TransactionType { get; set; } // Transaction Type
 
         [Column(TypeName = "decimal(10,2)")]

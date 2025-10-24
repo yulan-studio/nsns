@@ -1,0 +1,178 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Core.ViewModels.ManageChildBalanceViewModel
+
+@{
+    Layout = null;
+}
+
+@{
+    ViewData["Title"] = "Child Balance Statement";
+    // decimal finalBalance = ViewBag.FinalBalance;
+}
+
+<h2>Balance Statement</h2>
+
+<div style="padding-top: 20px;">
+  
+</div>
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 10px; border: 1px solid #ddd;">Statement Date</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Type</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Course / Activity</th>
+             <th style="padding: 10px; border: 1px solid #ddd;">Scheduled At</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Actual Hours</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Cost</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.BalanceHistory!=null &&Model.BalanceHistory.Any())
+        {
+            foreach (var item in Model.BalanceHistory)
+            {
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@item.CreatedDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@item.Type</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">
+                        @if (!string.IsNullOrEmpty(item.CourseName))
+                        {
+                            <span>Course: @item.CourseName</span>
+                        }
+                        else if (!string.IsNullOrEmpty(item.ActivityName))
+                        {
+                            <span>Activity: @item.ActivityName</span>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@item.ScheduledAt</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">@item.ActualHours</td>
+                    <td style="padding: 10px; border: 1px solid #ddd; color: @(item.BalanceChange < 0 ? "red" : "green");">
+                        $@item.BalanceChange.ToString("F2")
+                    </td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">$@item.Balance.ToString("F2")</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 15px; background-color: #f8f9fa; font-weight: bold;">
+                    No balance history available for this child.
+                </td>
+            </tr>
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="7">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="7">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h5 style="margin-top: 30px;">Final Balance: <strong>  $@Model.CurrentBalance @* $@finalBalance.ToString("F2") *@</strong></h5>
+
+<hr />
+
+
+
+@* <h4>Adjust or Refund Balance</h4> *@
+
+@* <form asp-action="FixBalance" method="post">
+    <input type="hidden" asp-for="ChildID" />
+    <input type="hidden" name="childId" value="@Model.ChildID" />
+
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="actionType" value="Adjustment"  checked />
+        <label class="form-check-label">Adjust Balance</label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="actionType" value="Refund" />
+        <label class="form-check-label">Refund</label>
+    </div>
+
+    <div class="form-group mt-2">
+        <label>Amount</label>
+        <input name="amount" type="number" step="1" class="form-control" />
+       
+
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form> *@
+
+
+
+<!-- ✅ Form to Add a New Payment -->
+<div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
+    <b>Adjust or Refund Balance</b>
+    <div style="margin-bottom: 10px;"></div>
+<!-- Adjustment / Refund Form -->
+    <form method="post" asp-action="FixBalance" style="margin-top: 20px;">
+    <input type="hidden" name="ChildID" value="@Model.ChildID" />
+
+    <table style="width: 100%; border-collapse: collapse;">
+        <!-- Select Action Type -->
+        <tr>
+            <td style="padding: 8px; width: 200px;"><label>Action Type:</label></td>
+            <td>
+                <input type="radio" id="adjustBalance" name="actionType" value="Adjustment" checked />
+                <label for="ajustBalance">Adjust Balance</label>
+                &nbsp;&nbsp;
+                <input type="radio" id="refundBalance" name="actionType" value="Refund" />
+                <label for="refundBalance">Refund</label>
+            </td>
+        </tr>
+
+        <!-- Amount -->
+        <tr>
+            <td style="padding: 8px;"><label for="Amount">Amount:</label></td>
+            <td>
+                <input id="Amount" name="amount" type="number" step="1" required style="width: 20%;" />
+               
+            </td>
+        </tr>
+
+        <!-- Remarks (optional but helpful for logs) -->
+        <tr>
+            <td style="padding: 8px;"><label for="Remarks">Remarks:</label></td>
+            <td>
+                <input id="Remarks" name="remarks" type="text" placeholder="Optional note" style="width: 50%;" />
+            </td>
+        </tr>
+
+        <!-- Submit -->
+        <tr>
+            <td style="padding: 8px;">
+                <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 5px;">
+                    Submit
+                </button>
+            </td>
+        </tr>
+    </table>
+</form>
+</div>

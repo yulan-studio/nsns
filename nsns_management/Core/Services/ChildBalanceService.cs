@@ -26,6 +26,29 @@ namespace Core.Services
             _balanceRepository = balanceRepository;
         }
 
+
+        public async Task<bool> AddBalanceFixAsync(int childId, string actionType, decimal amount, string remarks, int createdBy)
+        {
+            // Get the current balance
+            var currentBalance = await _balanceRepository.GetFinalBalanceAsync(childId);
+
+            decimal balanceChange = actionType == "Refund" ? -amount : amount;
+            decimal newBalance = currentBalance + balanceChange;
+
+            var newTransaction = new Core.Models.ChildBalance
+            {
+                ChildID = childId,
+                TransactionType = actionType,
+                Remarks = remarks,
+                BalanceChange = balanceChange,
+                Balance = newBalance,
+                CreatedDate = DateTime.Now,
+                CreatedBy = createdBy
+            };
+
+            return await _balanceRepository.AddBalanceAsync(newTransaction);
+        }
+
         //When a parent buys a payment package
         public async Task<bool> AddPaymentToBalanceAsync(int childId, int paymentId, decimal amount, int createdBy)
         {
@@ -112,7 +135,7 @@ namespace Core.Services
             }
         }
 
-        public async Task<IEnumerable<ChildBalanceViewModel>> GetBalanceHistoryAsync(int childId)
+        public async Task<IEnumerable<Core.ViewModels.ChildBalance>> GetBalanceHistoryAsync(int childId)
         {
             try
             {
@@ -121,7 +144,7 @@ namespace Core.Services
             }
             catch (Exception ex)
             {
-                return Enumerable.Empty<ChildBalanceViewModel>();
+                return Enumerable.Empty<Core.ViewModels.ChildBalance>();
             }
             
         }

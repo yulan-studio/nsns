@@ -11,7 +11,7 @@ namespace Core.Interfaces
 {
     public interface IChildBalanceService
     {
-
+        Task<bool> AddBalanceFixAsync(int childId, string actionType, decimal amount, string remarks, int createdBy);
         Task<bool> AddPaymentToBalanceAsync(int childId, int paymentId, decimal amount, int createdBy);
         Task<bool> RemovePaymentToBalanceAsync(int childId, int paymentId, int createdBy);
 
@@ -22,7 +22,8 @@ namespace Core.Interfaces
         Task<bool> DeductActivityCostAsync(int childId, int activityId, decimal cost, int createdBy);
 
         Task<bool> DeductGroupCourseCostAsync(int childId, int courseId, decimal cost, int createdBy);
-        Task<IEnumerable<ChildBalanceViewModel>> GetBalanceHistoryAsync(int childId);
+        //Task<IEnumerable<ChildBalanceViewModel>> GetBalanceHistoryAsync(int childId);
+        Task<IEnumerable<Core.ViewModels.ChildBalance>> GetBalanceHistoryAsync(int childId);
         Task<decimal> GetFinalBalanceAsync(int childId);
     }
 
