@@ -18,17 +18,18 @@
 <h2>Add Course</h2>
 
 <form method="post" action="/Course/Add">
-    <table style="border-collapse: collapse; width: 50%; text-align: left;">
+    <table style="border-collapse: collapse; width: 80%; text-align: left; vertical-align: top;">
 
         <tr>
-            <td style="padding: 8px;"><label for="CourseType">Course Type:</label></td>
-            <td style="padding: 8px;">
+            <td style="padding: 8px; width:15%"><label for="CourseType">Course Type:</label></td>
+            <td style="padding: 8px; width: 30%">
                 <select name="CourseType" id="CourseType"  class="form-control" style="width: 100%;">
                     <option value="">-- Select Course Type --</option>
                     <option value="Group">Group</option>
                     <option value="Private">Private</option>
                 </select>
             </td>
+            <td style="width:55%; padding-left: 60px;"></td>
         </tr>
 
 
@@ -44,6 +45,7 @@
                     }
                 </select>
             </td>
+            <td></td>
         </tr>
         <tr>
             <td style="padding: 8px;"><label for="CoachID">Coach:</label></td>
@@ -55,19 +57,35 @@
                 <!-- Hidden field to ensure CoachID=0 gets submitted -->
                 <input type="hidden" id="CoachIDHidden" name="CoachID" value="0" />
             </td>
+            <td></td>
         </tr>
         <tr>
             <td style="padding: 8px;"><label for="Title">Course Title:</label></td>
             <td style="padding: 8px;">
                 <input id="Title" name="Title" type="text" placeholder="Enter course title" style="width: 100%;" required/>
+                
+            </td>
+            <td style="width:55%; padding-left: 30px;">
+                <label style="font-size:0.7em; color:darkslategray">
+                    - XXX course by XXX <br />
+                    - XXX course by XXX(Token) <br />
+                    - YYYY Group XXX course<br />
+                    - YYYY-YYYY Group XXX course <br />
+                    - YYYY-YYYY 1-On-1 XXX course 
+                    
+                </label>
             </td>
         </tr>
         <tr>
-            <td style="padding: 8px;"><label for="Description">Description:</label></td>
+            <td style="padding: 8px;"><label for="Description">Description:</label></td>  
             <td style="padding: 8px;">
                 <textarea id="Description" name="Description" placeholder="Enter course description" style="width: 100%;" rows="3" required></textarea>
+                
             </td>
-            <label style="font-size:0.9em; color:darkslategray"> - Please enter a description, such as the session duration or other relevant details.</label>
+            <td style="width:55%; padding-left: 30px;">
+                <label style="font-size:0.7em; color:darkslategray"> - Input session duration and other relevant details.</label>
+            </td>
+            
         </tr>
 
 
@@ -78,12 +96,17 @@
             <td style="padding: 8px;">
                 <input id="MaxCapacity" name="MaxCapacity" type="number" step="1" min="2" placeholder="Enter Max Capacity" style="width: 100%;" />
             </td>
+            <td></td>
         </tr>
 
         <tr>
             <td style="padding: 8px;"><label for="SessionCount">Session Count:</label></td>
             <td style="padding: 8px;">
                 <input id="SessionCount" name="SessionCount" type="number" step="1" min="1" placeholder="Enter Session Count" style="width: 100%;"  />
+                
+            </td>
+            <td style="width:55%; padding-left: 30px;">
+                <label style="font-size:0.7em; color:darkslategray"> - For Token payment course, leave Session Count empty.</label>
             </td>
         </tr>
 
@@ -91,13 +114,18 @@
             <td style="padding: 8px;"><label for="HourlyCost">Hourly Cost:</label></td>
             <td style="padding: 8px;">
                 <input id="HourlyCost" name="HourlyCost" type="number" step="1" min="0" placeholder="Enter hourly cost" style="width: 100%;"  />
+                
             </td>
-        </tr>
-
+            <td style="width:55%; padding-left: 30px;">
+                <label style="font-size:0.7em; color:darkslategray"> - Used to calculate Token payment deductions / refunds.</label>
+            </td>
         <tr>
             <td style="padding: 8px;"><label for="HourlyCost2">Hourly Cost(No funding) :</label></td>
             <td style="padding: 8px;">
                 <input id="HourlyCost2" name="HourlyCost2" type="number" step="1" min="0" placeholder="Enter hourly cost" style="width: 100%;"  />
+            </td>
+            <td>
+
             </td>
         </tr>
 
@@ -107,17 +135,22 @@
                 <input id="IsActive" name="IsActive" type="checkbox" value="true" />
                 <input name="IsActive" type="hidden" value="false" />
                 <label for="IsActive">Check if the course is active</label>
+                
+            </td>
+            <td style="width:55%; padding-left: 30px;">
+                <label style="font-size:0.7em; color:darkslategray"> - Active course is open for registration.</label>
             </td>
         </tr>
         <tr>
-            <td colspan="2" style="text-align: left;  padding: 20px 16px 16px 8px;">
+            <td colspan="3" style="text-align: left;  padding: 20px 16px 16px 8px;">
                 <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Add Course</button>
                 <a href="/Course/List" style="background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Cancel</a>
 
             </td>
+            
         </tr>
         <tr>
-            <td colspan="2">
+            <td colspan="3">
                 @if (!ViewData.ModelState.IsValid)
 
                 {
