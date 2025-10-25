@@ -725,12 +725,16 @@ namespace Web.Controllers.User
                 //We don't calculate income for Coachs because this will be done by accounting manually
                 bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
                 bool result3 = true;
-
-                Core.Models.Fee? fee = await _feeService.GetFeeForCourseEnrollmentAsync(enrollmentId);
-                if(fee!= null && fee.PaymentModel == "Token")
+                if(courseEnrollment.EnrollmentID_Ref!=null)
                 {
-                    result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id); // Deduct private course cost from child's balance
+                    Core.Models.Fee? fee = await _feeService.GetFeeForCourseEnrollmentAsync((int)courseEnrollment.EnrollmentID_Ref);
+                    if (fee != null && fee.PaymentModel == "Token")
+                    {
+                        result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id); // Deduct private course cost from child's balance
+                    }
                 }
+                
+                
 
 
                 //if (result1 && result2 && result3)
