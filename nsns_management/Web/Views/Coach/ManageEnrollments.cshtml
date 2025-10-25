@@ -19,7 +19,8 @@
 
 <div style="padding: 10px 10px 10px 10px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #FFDBF6; ">
     To complete the session, the coach is required to enter the actual hours and then click the 'Complete' button.<br/>
-    For courses with a fixed number of sessions, completing all sessions will automatically mark the enrollment as completed.
+    For courses with a fixed number of sessions, completing all sessions will automatically mark the enrollment as completed.<br />
+    Ensure total completed hours = Session Count × Duration per Session for fixed-session courses.
 </div>
 
 <table id="scheduleTable" style="border-collapse: collapse; width: 100%; text-align: left;">
@@ -46,7 +47,7 @@
                             <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
                             <input type="hidden" name="childId" value="@Model.Child.ChildID" />
                             <input type="hidden" name="courseId" value="@Model.Course.CourseID" />
-                            <input name="actualHours" value="@schedule.ActualHours" type="number" step="0.5" min="0" required /> &nbsp;&nbsp;
+                            <input name="actualHours" value="@schedule.ActualHours" type="number" step="0.5" min="0.5" required /> &nbsp;&nbsp;
                             <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
                                 Complete
                             </button>
