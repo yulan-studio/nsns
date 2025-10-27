@@ -23,7 +23,7 @@
         <tr>
             <td style="padding: 8px; width:15%"><label for="CourseType">Course Type:</label></td>
             <td style="padding: 8px; width: 30%">
-                <select name="CourseType" id="CourseType"  class="form-control" style="width: 100%;">
+                <select name="CourseType" id="CourseType"  class="form-control" style="width: 100%;" required>
                     <option value="">-- Select Course Type --</option>
                     <option value="Group">Group</option>
                     <option value="Private">Private</option>
@@ -36,7 +36,7 @@
         <tr>
             <td style="padding: 8px;"><label for="SpecialtyID">Specialty:</label></td>
             <td style="padding: 8px;">
-                <select id="SpecialtyID" name="SpecialtyID" class="form-control" style="width: 100%;" onchange="fetchCoaches(this.value)">
+                <select id="SpecialtyID" name="SpecialtyID" class="form-control" style="width: 100%;" onchange="fetchCoaches(this.value)" required>
                     <option value="" selected>-- Select Specialty --</option>
                     @foreach (var specialty in ViewBag.SpecialtyList)
 
@@ -50,7 +50,7 @@
         <tr>
             <td style="padding: 8px;"><label for="CoachID">Coach:</label></td>
             <td style="padding: 8px;">
-                <select id="CoachID" name="CoachID" class="form-control" style="width: 100%;">
+                <select id="CoachID" name="CoachID" class="form-control" style="width: 100%;" required>
                     <option value="" selected>-- Select Coach --</option>
                 </select>
 
@@ -79,7 +79,7 @@
         <tr>
             <td style="padding: 8px;"><label for="Description">Description:</label></td>  
             <td style="padding: 8px;">
-                <textarea id="Description" name="Description" placeholder="Enter course description" style="width: 100%;" rows="3" required></textarea>
+                <textarea id="Description" name="Description" placeholder="Enter course description" style="width: 100%;" rows="4" ></textarea>
                 
             </td>
             <td style="width:55%; padding-left: 30px;">
@@ -113,7 +113,7 @@
         <tr>
             <td style="padding: 8px;"><label for="HourlyCost">Hourly Cost:</label></td>
             <td style="padding: 8px;">
-                <input id="HourlyCost" name="HourlyCost" type="number" step="1" min="0" placeholder="Enter hourly cost" style="width: 100%;"  />
+                <input id="HourlyCost" name="HourlyCost" type="number" step="1" min="0" placeholder="Enter hourly cost" style="width: 100%;" required />
                 
             </td>
             <td style="width:55%; padding-left: 30px;">
@@ -122,7 +122,7 @@
         <tr>
             <td style="padding: 8px;"><label for="HourlyCost2">Hourly Cost(No funding) :</label></td>
             <td style="padding: 8px;">
-                <input id="HourlyCost2" name="HourlyCost2" type="number" step="1" min="0" placeholder="Enter hourly cost" style="width: 100%;"  />
+                <input id="HourlyCost2" name="HourlyCost2" type="number"  step="1" min="0" placeholder="Enter hourly cost" style="width: 100%;"  />
             </td>
             <td>
 
