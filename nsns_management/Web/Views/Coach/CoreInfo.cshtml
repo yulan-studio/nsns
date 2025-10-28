@@ -10,6 +10,7 @@
     Layout = null;
 }
 
+
 <h2>Core Information</h2>
 
 <form asp-action="CoreInfo" method="post">
@@ -18,7 +19,7 @@
     <table style="border-collapse: collapse; width: 50%; text-align: left;">
 
         <tr>
-            <td style="padding: 8px;"><label asp-for="MemberID"></label></td>
+            <td style="padding: 8px;"><label asp-for="MemberID">Member ID</label></td>
             <td style="padding: 8px;">
                 @* <input type="text" name="memberID" placeholder="Enter child's Member ID" style="width: 100%;" /> *@
                 <input asp-for="MemberID" class="form-control" />
@@ -26,21 +27,21 @@
         </tr>
 
         <tr>
-            <td style="padding: 8px;"><label asp-for="PreferedName"></label></td>
+            <td style="padding: 8px;"><label asp-for="PreferedName">Chosen Name</label></td>
             <td style="padding: 8px;">
                 <input asp-for="PreferedName" class="form-control" />
             </td>
         </tr>
        
         <tr>
-            <td style="padding: 8px;"><label asp-for="Address"></label></td>
+            <td style="padding: 8px;"><label asp-for="Address">Address</label></td>
             <td style="padding: 8px;">
                 <input asp-for="Address" class="form-control" />
             </td>
         </tr>
 
         <tr>
-            <td style="padding: 8px;"><label asp-for="PostCode"></label></td>
+            <td style="padding: 8px;"><label asp-for="PostCode">PostCode</label></td>
             <td style="padding: 8px;">
                 <input asp-for="PostCode" class="form-control" />
             </td>
@@ -69,14 +70,24 @@
 
         <tr>
             <td style="padding: 8px;"><label asp-for="Status"></label></td>
-            <td style="padding: 8px;">
+            @* <td style="padding: 8px;">
                 <input asp-for="Status" class="form-control" />
+            </td> *@
+            <td style="padding: 8px;">
+                <select name="Status" style="width: 50%;">
+                    <option value="">-- Select Status --</option>
+                    <option value="Citizen" selected="@(Model.Status == "Citizen" ? "selected" : null)">Citizen</option>
+                    <option value="PR" selected="@(Model.Status == "PR" ? "selected" : null)">PR</option>
+                    <option value="WP" selected="@(Model.Status == "WP" ? "selected" : null)">WP</option>
+                    <option value="SP" selected="@(Model.Status == "SP" ? "selected" : null)">SP</option>
+                    <option value="Unknown" selected="@(Model.Status == "Unknown" ? "selected" : null)">Unknown</option>
+                </select>
             </td>
         </tr>
        
      
         <tr>
-            <td style="padding: 8px;"><label asp-for="PhotoConsent"></label></td>
+            <td style="padding: 8px;"><label asp-for="PhotoConsent">Photo Consent</label></td>
             <td style="padding: 8px;">
                 <input asp-for="PhotoConsent" type="checkbox" class="form-check-input" />
             </td>

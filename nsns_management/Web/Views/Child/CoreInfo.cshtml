@@ -18,27 +18,27 @@
     <table style="border-collapse: collapse; width: 50%; text-align: left;">
 
         <tr>
-            <td style="padding: 8px;"><label asp-for="MemberID"></label></td>
+            <td style="padding: 8px;"><label asp-for="MemberID">Member ID</label></td>
             <td style="padding: 8px;">
                 @* <input type="text" name="memberID" placeholder="Enter child's Member ID" style="width: 100%;" /> *@
                 <input asp-for="MemberID" class="form-control" />
             </td>
         </tr>
         <tr>
-            <td style="padding: 8px;"><label asp-for="PrimaryDiagnosis"></label></td>
+            <td style="padding: 8px;"><label asp-for="PrimaryDiagnosis">Primary Diagnosis</label></td>
             <td style="padding: 8px;">
                 @* <input type="text" name="memberID" placeholder="Enter child's Member ID" style="width: 100%;" /> *@
                 <input asp-for="PrimaryDiagnosis" class="form-control" />
             </td>
         </tr>
         <tr>
-            <td style="padding: 8px;"><label asp-for="City"></label></td>
+            <td style="padding: 8px;"><label asp-for="City">City</label></td>
             <td style="padding: 8px;">
                 @(Model.City != null ? Model.City.Name : "N/A")
             </td>
         </tr>
         <tr>
-            <td style="padding: 8px;"><label asp-for="Address"></label></td>
+            <td style="padding: 8px;"><label asp-for="Address">Address</label></td>
             <td style="padding: 8px;">
                 <input asp-for="Address" class="form-control" />
             </td>
@@ -50,7 +50,7 @@
             </td>
         </tr> *@
         <tr>
-            <td style="padding: 8px;"><label asp-for="PhotoConsent"></label></td>
+            <td style="padding: 8px;"><label asp-for="PhotoConsent">Photo Consent</label></td>
             <td style="padding: 8px;">
                 <input asp-for="PhotoConsent" type="checkbox" class="form-check-input" />
             </td>
