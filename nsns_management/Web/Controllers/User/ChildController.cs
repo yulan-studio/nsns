@@ -344,6 +344,8 @@ namespace Web.Controllers.User
                 return RedirectToAction("MoreInfo", new { childId });
         }
 
+
+
         [Authorize(Roles = "Staff")]
         [HttpPost("AddEmergencyContact/{childId}")]
         [ValidateAntiForgeryToken]

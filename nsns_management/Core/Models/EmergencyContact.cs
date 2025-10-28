@@ -11,6 +11,8 @@ namespace Core.Models
         public int EmergencyContactID { get; set; }
         public int ChildID { get; set; }
 
+        public int CoachID { get; set; }
+
         public string ContactName { get; set; }
         public string Relationship { get; set; }
         public string Phone { get; set; }

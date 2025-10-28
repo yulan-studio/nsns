@@ -38,6 +38,21 @@
     <thead>
         <tr style="background-color: #f2f2f2;">
             <th style="padding: 8px; border: 1px solid #ddd;">#</th>
+
+            <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
+                <a asp-action="List" asp-route-sortOrder="@ViewData["MemberIDParm"]" style="color: black; text-decoration: none; ">
+                    Member ID
+                    @if ((string)ViewData["CurrentSort"] == "id")
+                    {
+                        <span>▲</span>
+                    }
+                    else if ((string)ViewData["CurrentSort"] == "id_desc")
+                    {
+
+                        <span>▼</span>
+                    }
+                </a>
+            </th>
             <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
                 <a asp-action="List" asp-route-sortOrder="@ViewData["NameSortParm"]" style="color: black; text-decoration: none; ">
                     Name
@@ -46,6 +61,21 @@
                         <span>▲</span>
                     }
                     else if ((string)ViewData["CurrentSort"] == "name_desc")
+                    {
+
+                        <span>▼</span>
+                    }
+                </a>
+            </th>
+
+            <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
+                <a asp-action="List" asp-route-sortOrder="@ViewData["PreferedNameSortParm"]" style="color: black; text-decoration: none; ">
+                    Chosen Name
+                    @if ((string)ViewData["CurrentSort"] == "preferedName")
+                    {
+                        <span>▲</span>
+                    }
+                    else if ((string)ViewData["CurrentSort"] == "preferedName_desc")
                     {
 
                         <span>▼</span>
@@ -69,7 +99,7 @@
             </th>
             <th style="padding: 8px; border: 1px solid #ddd;">Email</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Phone</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Wechat</th>
+            @* <th style="padding: 8px; border: 1px solid #ddd;">Wechat</th> *@
             <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
                 <a asp-action="List" asp-route-sortOrder="@ViewData["CitySortParm"]" style="color: black; text-decoration: none; ">
                     City
@@ -85,6 +115,7 @@
                 </a>
             </th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">More Profile</th>
         </tr>
     </thead>
     <tbody>
@@ -95,7 +126,9 @@
             {
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@index</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.MemberID</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.Name</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.PreferedName</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         @if (coachWithDelete.Coach.CoachSpecialties != null && coachWithDelete.Coach.CoachSpecialties.Any())
                         {
@@ -110,7 +143,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.Gender</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.User.Email</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.Phone</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.Wechat</td>
+                    @*   <td style="padding: 8px; border: 1px solid #ddd;">@coachWithDelete.Coach.Wechat</td> *@
                     <td style="padding: 8px; border: 1px solid #ddd;">@(coachWithDelete.Coach.City != null ? coachWithDelete.Coach.City.Name : "N/A")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         @if (coachWithDelete.CanDelete)
@@ -119,6 +152,9 @@
                         }
                         <a href="/Coach/Edit/@coachWithDelete.Coach.CoachID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Edit</a>
 
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        <a href="/Coach/MoreInfo/@coachWithDelete.Coach.CoachID" style="margin-left: 10px; color: #007bff; text-decoration: none;">Manage</a>
                     </td>
                 </tr>
                 index++;
@@ -132,7 +168,7 @@
         @if (TempData["SuccessMessage"] != null)
         {
             <tr>
-                <td colspan="9">
+                <td colspan="10">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage"]
                     </div>
@@ -143,7 +179,7 @@
         @if (TempData["ErrorMessage"] != null)
         {
             <tr>
-                <td colspan="9">
+                <td colspan="10">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage"]
                     </div>

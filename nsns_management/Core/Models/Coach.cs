@@ -27,6 +27,10 @@ namespace Core.Models
         [MaxLength(255)]
         public required string Name { get; set; }
 
+        public string? PreferedName { get; set; }
+
+        public string? MemberID { get; set; }
+
         [MaxLength(255)]
         public required string Gender { get; set; }
 
@@ -43,14 +47,37 @@ namespace Core.Models
         [MaxLength(100)]
         public string? Wechat { get; set; }
 
+        [MaxLength(100)]
+        public string? Address { get; set; }
+
+        [MaxLength(6)]
+        public string? PostCode { get; set; }
 
         public int CityID { get; set; }
         [ForeignKey("CityID")]
         public virtual required City City { get; set; } // Navigation property to Speical table (SpecialID)
 
+        [Range(000, 999, ErrorMessage = "Bank must be a 3-digit number.")]
+        public int? Bank { get; set; }
+
+
+        [Range(00000, 99999, ErrorMessage = "Transit must be a 5-digit number.")]
+        public int? Transit { get; set; }
+
+
+        [Range(00000, 99999, ErrorMessage = "Account must be a 5-digit number.")]
+        public int? Account { get; set; }
+
+        public string? Status { get; set; }
+
+        public bool PhotoConsent { get; set; }
+
         // Many-to-Many Relationship
         [Required]
         public ICollection<CoachSpecialty> CoachSpecialties { get; set; }
+
+
+        public ICollection<EmergencyContact>? EmergencyContacts { get; set; } = new List<EmergencyContact>();
 
         //public List<Specialty>? Specialties { get; set; }
 

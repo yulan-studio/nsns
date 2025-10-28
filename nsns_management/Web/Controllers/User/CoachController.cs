@@ -32,7 +32,7 @@ namespace Web.Controllers.User
         private readonly ICoachRepository _coachRepository;
         private readonly ICityService _cityService;
         private readonly ISpecialtyService _specialtyService;
-
+        private readonly IEmergencyContactService _emergencyContactService;
         private readonly ICoachSpecialtyService _coachSpecialtyService;
         private readonly ICourseEnrollmentService _courseEnrollmentService;
         private readonly ICourseService _courseService;
@@ -43,7 +43,7 @@ namespace Web.Controllers.User
         private readonly EmailService _emailService;
         private readonly UserManager<Core.Models.User> _userManager;
         
-        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, IFeeService feeService, EmailService emailService, UserManager<Core.Models.User> userManager)
+        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService,  IEmergencyContactService emergencyService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, IFeeService feeService, EmailService emailService, UserManager<Core.Models.User> userManager)
         {
             _coachService = coachService;
             _incomeService = incomeService;
@@ -52,7 +52,8 @@ namespace Web.Controllers.User
             _cityService = cityService;
             _specialtyService = specialtyService;
             _coachSpecialtyService = coachSpecialtyService;
-            _courseEnrollmentService = courseEnrollmentService;
+            _emergencyContactService = emergencyService;
+        _courseEnrollmentService = courseEnrollmentService;
             _courseService = courseService;
             _childService = childService;
             _parentChildService = parentChildService;
@@ -228,7 +229,9 @@ namespace Web.Controllers.User
         //[HttpGet]
         public async Task<IActionResult> List(string sortOrder, int? page)
         {
+            ViewData["MemberIDParm"] = sortOrder == "id" ? "id_desc" : "id";
             ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+            ViewData["PreferedNameSortParm"] = sortOrder == "preferedName" ? "preferedName_desc" : "preferedName";
             ViewData["GenderSortParm"] = sortOrder == "gender" ? "gender_desc" : "gender";
             ViewData["CitySortParm"] = sortOrder == "city" ? "city_desc" : "city";
             ViewData["CurrentSort"] = sortOrder;
@@ -237,8 +240,12 @@ namespace Web.Controllers.User
 
             coachList = sortOrder switch
             {
+                "id" => coachList.OrderBy(c => c.MemberID),
+                "id_desc" => coachList.OrderByDescending(c => c.MemberID),
                 "name" => coachList.OrderBy(c => c.Name),
                 "name_desc" => coachList.OrderByDescending(c => c.Name),
+                "preferedName" => coachList.OrderBy(c => c.PreferedName),
+                "preferedName_desc" => coachList.OrderByDescending(c => c.PreferedName),
                 "gender" => coachList.OrderBy(c => c.Gender),
                 "gender_desc" => coachList.OrderByDescending(c => c.Gender),
                 "city" => coachList.OrderBy(c => c.City.Name),
@@ -437,6 +444,88 @@ namespace Web.Controllers.User
                 return View(coach);
             }
         }
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("MoreInfo/{coachId}")]
+        public async Task<IActionResult> MoreInfo(int coachId, string tab = "CoreInfo")
+        {
+            var coach = await _coachService.GetAsync(coachId);
+
+            ViewBag.ActiveTab = tab;
+           
+            return View(coach);
+        }
+
+
+        [HttpGet("CoreInfo/{coachId}")]
+        public async Task<IActionResult> CoreInfo(int coachId)
+        {
+            var coach = await _coachService.GetAsync(coachId);
+            return View(coach);
+        }
+
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost("CoreInfo/{coachId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CoreInfo(int coachId, string? memberID, string preferedName, string? address, /*int OAPAmount, */string? postCode, int? bank, int? transit, int? account, string status, bool photoConsent)
+        {
+            var coach = await _coachService.GetAsync(coachId);
+            if (ModelState.IsValid)
+            {
+
+                await _coachService.UpdateAsync(coachId, memberID, preferedName, address, postCode, bank, transit, account, status, photoConsent);
+
+                return RedirectToAction("MoreInfo", new { coachId });
+            }
+            else
+                //return View(child);
+                return RedirectToAction("MoreInfo", new { coachId });
+        }
+
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost("AddEmergencyContact/{coachId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEmergencyContact(int coachId, string contactName, string relationship, string phone, string email)
+        {
+            if (ModelState.IsValid)
+            {
+                EmergencyContact contact = new EmergencyContact
+                {
+                    ContactName = contactName,
+                    Relationship = relationship,
+                    Phone = phone,
+                    Email = email
+                };
+                contact.CoachID = coachId;
+
+                await _emergencyContactService.AddAsync(contact);
+
+                return RedirectToAction("MoreInfo", new { coachId });
+            }
+
+            return RedirectToAction("MoreInfo", new { coachId });
+        }
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost("DeleteEmergencyContact/{contactId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteEmergencyContact(int contactId, int coachId)
+        {
+            var contact = await _emergencyContactService.GetAsync(contactId);
+            if (contact != null)
+            {
+                await _emergencyContactService.DeleteAsync(contactId);
+            }
+
+            return RedirectToAction("MoreInfo", new { coachId });
+        }
+
+
 
         [Authorize(Roles = "Coach")]
         [HttpGet("ManageCourse")]
