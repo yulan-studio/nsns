@@ -503,9 +503,14 @@ namespace Web.Controllers.User
                 };
                 contact.CoachID = coachId;
 
-                await _emergencyContactService.AddAsync(contact);
+                var result = await _emergencyContactService.AddAsync(contact);
 
+                
                 return RedirectToAction("MoreInfo", new { coachId });
+               
+
+                
+            
             }
 
             return RedirectToAction("MoreInfo", new { coachId });

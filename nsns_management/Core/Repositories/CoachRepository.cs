@@ -94,6 +94,7 @@ namespace Core.Repositories
                 .Include(c => c.City)
                 .Include(c=> c.CoachSpecialties)
                 .ThenInclude(cs => cs.Specialty)
+                .Include(c => c.EmergencyContacts)
                 .FirstOrDefaultAsync(c => c.CoachID == coachId);
                
             
