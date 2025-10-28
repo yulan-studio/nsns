@@ -43,11 +43,36 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
-                        <form method="post" action="/Coach/CompleteSession">
+                        @* <form method="post" action="/Coach/CompleteSession">
                             <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
                             <input type="hidden" name="childId" value="@Model.Child.ChildID" />
                             <input type="hidden" name="courseId" value="@Model.Course.CourseID" />
                             <input name="actualHours" value="@schedule.ActualHours" type="number" step="0.5" min="0.5" required /> &nbsp;&nbsp;
+                            <input name="coachNote" value="@schedule.CoachNote" type="text" placeholder="Note" required /> &nbsp;&nbsp;
+                            
+                            <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                                Complete
+                            </button>
+                        </form> *@
+
+                        <form method="post" action="/Coach/CompleteSession">
+                            <input type="hidden" name="enrollmentId" value="@schedule.EnrollmentID" />
+                            <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+                            <input type="hidden" name="courseId" value="@Model.Course.CourseID" />
+                            <!-- Checkbox to show/hide fields -->
+                            <!-- Checkbox for "Same as Schedule" -->
+                            <label>
+                                <input type="checkbox" id="sameAsSchedule_@schedule.EnrollmentID"
+                                       onchange="toggleFields('@schedule.EnrollmentID', this.checked);" checked />
+                                Same as Schedule
+                            </label>
+                            &nbsp;&nbsp;
+                            <!-- Fields to show/hide -->
+                            <div id="extraFields_@schedule.EnrollmentID" style="display: none; margin-top: 5px;">
+                                <input name="actualHours" value="@schedule.ActualHours" type="number" step="0.5" min="0.5" required style="width:60px" /> &nbsp;&nbsp;
+                                <input name="coachNote" value="@schedule.CoachNote" type="text" placeholder="Note" required style="width: 360px"/> &nbsp;&nbsp;
+                            </div>
+
                             <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
                                 Complete
                             </button>
@@ -101,6 +126,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Note</th>
         </tr>
     </thead>
     <tbody>
@@ -113,16 +139,28 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@((complete.ScheduledAt.HasValue) ? complete.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@complete.ScheduledHours</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@complete.ActualHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@complete.CoachNote</td>
                 </tr>
             }
         }
         else
         {
             <tr>
-                <td colspan="3" style="text-align: center; padding: 10px;">No completed courses.</td>
+                <td colspan="4" style="text-align: center; padding: 10px;">No completed courses.</td>
             </tr>
         }
 
         
     </tbody>
 </table>
+
+
+
+
+<script>
+        function toggleFields(id, isChecked) {
+        const fieldsDiv = document.getElementById('extraFields_' + id);
+        // If "Same as Schedule" is checked, hide fields; otherwise show
+        fieldsDiv.style.display = isChecked ? 'none' : 'inline';
+    }
+</script>

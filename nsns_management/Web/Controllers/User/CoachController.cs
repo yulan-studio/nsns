@@ -704,7 +704,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Coach")]
         [HttpPost("CompleteSession")]
-        public async Task<IActionResult> CompleteSession(int enrollmentId, int childId, int courseId, decimal actualHours)
+        public async Task<IActionResult> CompleteSession(int enrollmentId, int childId, int courseId, decimal? actualHours, string? coachNote)
         {
             //int coachId = 16; // GetLoggedInCoachId(); // Replace with actual logic to get coach ID
             var user = await _userManager.GetUserAsync(User);
@@ -720,7 +720,11 @@ namespace Web.Controllers.User
 
             try
             {
-                bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, actualHours);
+                //decimal hoursToUse = actualHours ?? courseEnrollment.ScheduledHours;
+                decimal hoursToUse = actualHours ?? courseEnrollment.ScheduledHours ?? 0;
+                string noteToUse = !string.IsNullOrWhiteSpace(coachNote) ? coachNote : "";
+
+                bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, hoursToUse, noteToUse);
 
                 //We don't calculate income for Coachs because this will be done by accounting manually
                 bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);

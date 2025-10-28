@@ -35,7 +35,23 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Location</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@((enrollment.ScheduledAt.HasValue) ? enrollment.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "") </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours </td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ActualHours</td>
+@*                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ActualHours</td> *@
+
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                    @if (enrollment.ActualHours != null)
+                    {
+                        @*  <a href="javascript:void(0);" onclick="showPaymentDescription('@enrollment.PaymentDescription')">
+                                False
+                            </a> *@
+
+                        <a href="javascript:void(0);" onclick="showNoteModal('@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(enrollment.CoachNote))')">
+                            @enrollment.ActualHours
+                        </a>
+                    }
+
+                    </td>
+
+
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
                @*      <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Course.HourlyCost</td> *@
                     
@@ -92,6 +108,42 @@
 
     </tbody>
 </table>
+
+
+<!-- Bootstrap Modal -->
+<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="noteModalLabel">Coach Note</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="noteModalBody">
+                <!-- Content will be filled dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+<script>
+    function showNoteModal(description) {
+
+        var modalBody = document.getElementById('noteModalBody');
+        modalBody.textContent = description;
+
+        var modal = new bootstrap.Modal(document.getElementById('noteModal'));
+        modal.show();
+    }
+</script>
+
+
+
+
 
 
 

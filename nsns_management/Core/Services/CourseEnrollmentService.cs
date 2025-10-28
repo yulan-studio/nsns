@@ -565,7 +565,7 @@ namespace Core.Services
         }
 
 
-        public async Task<bool> CompleteSessionAsync(int enrollmentId, decimal actualHours)
+        public async Task<bool> CompleteSessionAsync(int enrollmentId, decimal actualHours, string coachNote)
         {
             //Enrollment removal is only allowed for courses that have not started.
             var enrollment = await _enrollmentRepository.GetAsync(enrollmentId);
@@ -582,6 +582,7 @@ namespace Core.Services
 
             enrollment.Status = "Completed";
             enrollment.ActualHours = actualHours;
+            enrollment.CoachNote = coachNote;
 
             if(enrollment.ScheduledAt.HasValue && enrollment.ScheduledHours.HasValue && DateTime.UtcNow < enrollment.ScheduledAt.Value.AddHours((double)enrollment.ScheduledHours))
             {
