@@ -214,7 +214,7 @@ namespace Core.Services
                 var coachList = await _coachRepository.GetCoachesBySpecialtyAsync(specialtyId);
 
                 // You can add additional logic or transformations here if necessary
-                return coachList;
+                return coachList.OrderBy(c=>c.Name);
             }
             catch (Exception ex)
             {
