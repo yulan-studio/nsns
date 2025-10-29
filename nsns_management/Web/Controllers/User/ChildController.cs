@@ -149,7 +149,7 @@ namespace Web.Controllers.User
 
             //return View(childrenWithDelete);
 
-            int pageSize = 10;
+            int pageSize = 40;
             int pageNumber = page ?? 1;
 
 
