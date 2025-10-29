@@ -62,7 +62,7 @@
                         {
 
                             <a href="#"
-                               onclick="loadRemarks('@item.Remarks')"
+                               onclick="loadRemarks('@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(item.Remarks))')"
                                style="color: @(item.BalanceChange < 0 ? "red" : "green");">
 
                                 $@item.BalanceChange.ToString("F2")
