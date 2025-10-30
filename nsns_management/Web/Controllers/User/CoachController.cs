@@ -818,11 +818,29 @@ namespace Web.Controllers.User
                 decimal hoursToUse = actualHours ?? courseEnrollment.ScheduledHours ?? 0;
                 string noteToUse = !string.IsNullOrWhiteSpace(coachNote) ? coachNote : "";
 
-                bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, hoursToUse, noteToUse);
+                bool result1 = true;
+
+                if (hoursToUse > 0)
+                {
+                    result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, hoursToUse, noteToUse);
+                }
+
+                if (hoursToUse == 0)
+                { 
+                    result1 = await _courseEnrollmentService.RemoveScheduleAsync(enrollmentId, noteToUse);
+                }
 
                 //We don't calculate income for Coachs because this will be done by accounting manually
-                bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
+
+                bool result2 = true;
+
+                if (hoursToUse > 0)
+                {
+                    result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
+                }
+
                 bool result3 = true;
+
                 if(courseEnrollment.EnrollmentID_Ref!=null)
                 {
                     Core.Models.Fee? fee = await _feeService.GetFeeForCourseEnrollmentAsync((int)courseEnrollment.EnrollmentID_Ref);
@@ -836,7 +854,7 @@ namespace Web.Controllers.User
 
 
                 //if (result1 && result2 && result3)
-                if (result1 && result3)
+                if (result1 && result2 && result3)
                     //if (result1)
                     {
                     TempData["SuccessMessage"] = "Course Completed successfully.";
