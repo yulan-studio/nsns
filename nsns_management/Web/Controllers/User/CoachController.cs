@@ -707,7 +707,7 @@ namespace Web.Controllers.User
                         "Scheduled At: " + scheduledAt.ToString("yyyy - MM - dd HH: mm") + "\n" +
                         "Scheduled Hours: " + scheduledHours;
 
-                    await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child, how about send to coach?
+                    //await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child, how about send to coach?
 
                     TempData["SuccessMessage"] = "Course scheduled successfully.";
                 }
