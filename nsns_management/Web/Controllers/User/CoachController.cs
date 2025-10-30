@@ -849,7 +849,7 @@ namespace Web.Controllers.User
                                   "Scheduled At: " + (courseEnrollment.ScheduledAt?.ToString("yyyy-MM-dd HH:mm") ?? "N/A") + "\n" +
                                   "Actual Hours: " + actualHours;
 
-                    await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
+                    //await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
 
 
 

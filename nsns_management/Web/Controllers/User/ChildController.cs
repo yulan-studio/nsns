@@ -1392,7 +1392,7 @@ namespace Web.Controllers.User
             var message = $"We've updated the course schedule for your child {child.Name} in \"{course.Title}\". " +
               "Please log in to https://me.nsns.ca/Child/MySchedules to review the changes or confirm if this is a new registration to complete the process.";
 
-            await _emailService.SendEmailAsync(child.User.Email, subject, message);
+            //await _emailService.SendEmailAsync(child.User.Email, subject, message);
 
             TempData["SuccessMessage"] = "Session updates saved successfully.";
             return RedirectToAction("ManageSessionRegistrations", new { childId = formModel.ChildID, courseId = formModel.CourseID });
@@ -1484,7 +1484,7 @@ namespace Web.Controllers.User
 
                     var message = "The course schedules change has been requested for the child: " + child.Name + ". Please review it ASAP.";
 
-                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff, how about send to coach?
+                    //await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff, how about send to coach?
 
                     TempData["SuccessMessage1"] = "Schedules updated successfully.";
                     TempData["CourseID"] = model.CourseID;
@@ -1517,33 +1517,7 @@ namespace Web.Controllers.User
             if (child == null)
                 return NotFound("Child not found.");
 
-            //if (actionType == "SaveChanges")
-            //{
-            //    if (model?.Schedules != null && model.Schedules.Any())
-            //    {
-            //        foreach (var schedule in model.Schedules)
-            //        {
-            //            var existing = await _courseEnrollmentService.GetAsync(schedule.EnrollmentID);
-            //            if (existing != null)
-            //            {
-            //                if (existing.Status != "Deleted")
-            //                {
-            //                    existing.ParentNote = schedule.ParentNote;
-            //                }
-
-            //                await _courseEnrollmentService.UpdateSessionAsync(existing);
-            //            }
-            //        }
-
-            //        var subject = child.MemberID + ":" + " Course schedules change has been requested";
-            //        var message = "The course schedules change has been requested for the child: " + child.Name + ".";
-
-            //        await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
-
-            //        TempData["SuccessMessage2"] = "Schedules updated successfully.";
-            //    }
-
-            //}
+            
 
             //else if (actionType == "Confirm")
             if (actionType == "Confirm")
@@ -1597,10 +1571,8 @@ namespace Web.Controllers.User
                         var message = "The course schedules have been confirmed for the child: " + child.Name + ":\n" +
                                      "Course: " + course.Title;
 
-                        await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
+                        //await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
 
-
-                        //await _emailService.SendEmailAsync("customer.nsns@gmail.com", child.MemberID + ": Course schedules has been confirmed  " + , "The course schedules have been confirmed by the child: " + child.MemberID + ".");
                         TempData["SuccessMessage2"] = "The course schedules have been confirmed successfully. Please check your <a href=\"/Child/MySchedules\">schedules</a>.";
                     }
                 }
@@ -1658,13 +1630,13 @@ namespace Web.Controllers.User
                     var message = "The course have been confirmed for the child: " + child.Name + ":\n" +
                                     "Course: " + course.Title;
 
-                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
+                    //await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
                 }
 
 
 
 
-                //await _emailService.SendEmailAsync("customer.nsns@gmail.com", child.MemberID + ": Course schedules has been confirmed  " + , "The course schedules have been confirmed by the child: " + child.MemberID + ".");
+               
 
 
             }
@@ -1722,14 +1694,9 @@ namespace Web.Controllers.User
                     var message = "The activity have been confirmed for the child: " + child.Name + ":\n" +
                                     "Activity: " + activity.Title;
 
-                    await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
+                    //await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
                 }
 
-                
-
-
-                    //await _emailService.SendEmailAsync("customer.nsns@gmail.com", child.MemberID + ": Course schedules has been confirmed  " + , "The course schedules have been confirmed by the child: " + child.MemberID + ".");
-               
                     
             }
 
