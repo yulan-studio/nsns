@@ -267,7 +267,7 @@ namespace Web.Controllers.User
             }
             //return View(coaches); // Ensure there is a corresponding List.cshtml in Views/Staff
 
-            int pageSize = 10;
+            int pageSize = 40;
             int pageNumber = page ?? 1;
 
 
