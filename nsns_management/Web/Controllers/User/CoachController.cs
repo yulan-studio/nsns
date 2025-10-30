@@ -789,8 +789,8 @@ namespace Web.Controllers.User
                 
                 
                 WaitToCompleteEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetWaitToCompleteByCourseChildAsync(course.CourseID, childId),
-                CompletedEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetCompletesByCourseChildAsync(course.CourseID, childId)
-
+                CompletedEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetCompletesByCourseChildAsync(course.CourseID, childId),
+                DeletedEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetDeletedByCourseChildAsync(course.CourseID, childId)
             };
 
             return View(model);

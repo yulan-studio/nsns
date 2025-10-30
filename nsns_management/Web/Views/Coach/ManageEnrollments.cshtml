@@ -126,7 +126,8 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Parent Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">My Note</th>
         </tr>
     </thead>
     <tbody>
@@ -139,6 +140,7 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@((complete.ScheduledAt.HasValue) ? complete.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@complete.ScheduledHours</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@complete.ActualHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@complete.ParentNote</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@complete.CoachNote</td>
                 </tr>
             }
@@ -146,11 +148,58 @@
         else
         {
             <tr>
-                <td colspan="4" style="text-align: center; padding: 10px;">No completed courses.</td>
+                <td colspan="5" style="text-align: center; padding: 10px;">No completed courses.</td>
             </tr>
         }
 
         
+    </tbody>
+</table>
+
+
+
+
+<div style="padding-top: 30px"></div>
+
+
+
+<div style="margin: 0; padding: 30px 0; color: #1B7BAB;"><h5>Deleted Sessions</h5></div>
+
+
+<table id="deletedTable" style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Parent Note</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">My Note</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.CompletedEnrollments.Any())
+        {
+            foreach (var deleted in Model.DeletedEnrollments)
+            {
+                <tr>
+
+                    <td style="padding: 8px; border: 1px solid #ddd;">@((deleted.ScheduledAt.HasValue) ? deleted.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@deleted.ScheduledHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@deleted.ActualHours</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@deleted.ParentNote</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@deleted.CoachNote</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" style="text-align: center; padding: 10px;">No Deleted courses.</td>
+            </tr>
+        }
+
+
     </tbody>
 </table>
 

@@ -60,6 +60,8 @@ namespace Core.ViewModels
         public string Gender { get; set; }
         public string City { get; set; }
         public int Scheduled { get; set; }
+
+        public int Deleted { get; set; }
         public int Completed { get; set; }
 
         public int RequestToReschedule { get; set; }

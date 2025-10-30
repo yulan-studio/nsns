@@ -80,6 +80,8 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetCompletesByCourseChildAsync(int courseId, int childId);
 
+        Task<IEnumerable<CourseEnrollment>> GetDeletedByCourseChildAsync(int courseId, int childId);
+
         //Manually set session to be completed by Coach
         Task<bool> CompleteSessionAsync(int enrollmentId, Decimal actualHours, string coachNote);
 

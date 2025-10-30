@@ -322,6 +322,7 @@ namespace Core.Services
                 var scheduled = await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Scheduled");
                 var requestToReschedule = await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "RequestToReschedule");
                 var completed = await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Completed");
+                var deleted = await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(e.CourseID, (int)e.ChildID, "Deleted");
 
                 children.Add(new ChildViewModel
                 {
@@ -334,6 +335,7 @@ namespace Core.Services
                     RegisteredDate = e.CreatedDate,
                     Scheduled = scheduled.Count(),
                     RequestToReschedule = requestToReschedule.Count(),
+                    Deleted = deleted.Count(),
                     Completed = completed.Count()
                 });
             }
@@ -534,6 +536,14 @@ namespace Core.Services
             if (child == null)
                 throw new ArgumentException("Invalid child.");
             return await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(courseId, childId, "Completed");
+        }
+
+        public async Task<IEnumerable<CourseEnrollment>> GetDeletedByCourseChildAsync(int courseId, int childId)
+        {
+            Child? child = await _childRepository.GetAsync(childId);
+            if (child == null)
+                throw new ArgumentException("Invalid child.");
+            return await _enrollmentRepository.GetEnrollmentsByCourseChildAsync(courseId, childId, "Deleted");
         }
 
 

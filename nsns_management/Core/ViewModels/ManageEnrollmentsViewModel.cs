@@ -17,5 +17,7 @@ namespace Core.ViewModels
         public List<CourseEnrollment> WaitToCompleteEnrollments { get; set; }
 
         public List<CourseEnrollment> CompletedEnrollments { get; set; }
+
+        public List<CourseEnrollment> DeletedEnrollments { get; set; }
     }
 }
