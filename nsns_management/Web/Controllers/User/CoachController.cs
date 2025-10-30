@@ -746,7 +746,7 @@ namespace Web.Controllers.User
                     "Scheduled At: " + enrollment.ScheduledAt?.ToString("yyyy - MM - dd HH: mm") + "\n" +
                     "Scheduled Hours: " + enrollment.ScheduledHours;
 
-                await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
+                //await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
 
                 TempData["SuccessMessage"] = "Schedule deleted successfully.";
             }
