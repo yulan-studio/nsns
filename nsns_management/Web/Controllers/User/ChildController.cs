@@ -1573,7 +1573,7 @@ namespace Web.Controllers.User
 
                         //await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
 
-                        TempData["SuccessMessage2"] = "The course schedules have been confirmed successfully. Please check your <a href=\"/Child/MySchedules\">schedules</a>.";
+                        TempData["SuccessMessage2"] = "The course schedules have been confirmed successfully. Please check your <a href=\"/Child/MySchedules\">Schedules</a>.";
                     }
                 }
             }
@@ -1623,7 +1623,7 @@ namespace Web.Controllers.User
                 if (result1 && result2 && result3)
                 {
                     // TempData["SuccessMessage3"] = "Activity schedules confirmed successfully. Please check the schedules in " + <a href=\"/Child/MySchedules\">Schedules</a>;
-                    TempData["SuccessMessage2"] = "The course has been confirmed successfully. Once sessions have been scheduled by the coach, they can be viewed in <a href=\"/Child/MySchedules\">schedules</a>.";
+                    TempData["SuccessMessage2"] = "The course has been confirmed successfully. Once sessions have been scheduled by the coach, they can be viewed in <a href=\"/Child/MySchedules\">Schedules</a>.";
 
                     var course = await _courseService.GetAsync(model.CourseID);
                     var subject = child.MemberID + ":" + " Course has been confirmed";
@@ -1687,7 +1687,7 @@ namespace Web.Controllers.User
                 if (result1 && result2 && result3)
                 {
                    // TempData["SuccessMessage3"] = "Activity schedules confirmed successfully. Please check the schedules in " + <a href=\"/Child/MySchedules\">Schedules</a>;
-                    TempData["SuccessMessage3"] = "The activity has been confirmed successfully. Please check your <a href=\"/Child/MySchedules\">schedules</a>.";
+                    TempData["SuccessMessage3"] = "The activity has been confirmed successfully. Please check your <a href=\"/Child/MySchedules\">Schedules</a>.";
 
                     var activity = await _activityService.GetAsync(model.ActivityID);
                     var subject = child.MemberID + ":" + " Activity has been confirmed";
