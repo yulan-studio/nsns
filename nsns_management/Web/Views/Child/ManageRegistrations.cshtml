@@ -32,7 +32,7 @@
          @*    <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No funding)</th> *@
     @*         <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th> *@
-            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            
             <th style="padding: 8px; border: 1px solid #ddd;">Session Count</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Completed</th>
@@ -41,7 +41,9 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Request To Leave</th>
             <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Total Cost</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Is Paid</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Paid</th>
+            
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Group Sessions</th>
         </tr>
@@ -62,7 +64,7 @@
                     @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td> *@
                 @*     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsActive</td> *@
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
+                   
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SessionCount</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.ScheduledSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.CompletedSessions</td>
@@ -80,7 +82,7 @@
                             </a>
                       
                     </td>
-                   
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsPaid</td>
                     
 
