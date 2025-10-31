@@ -48,10 +48,12 @@ namespace Core.Services
                //IsPaid = false
             };
 
-            if(totalCost == null)
-                fee.IsPaid = false;
-            if (totalCost == 0)
+            if (totalCost == null)
                 fee.IsPaid = true;
+            else if (totalCost == 0)
+                fee.IsPaid = true;
+            else
+                fee.IsPaid = false;
 
             return await _feeRepository.AddAsync(fee);
         }

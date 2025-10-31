@@ -1617,7 +1617,7 @@ namespace Web.Controllers.User
 
                 if (model.PaymentModel == "Token")
                 {
-                    //result3 = await _feeService.UpdateCourseIsPaidAsync(model.EnrollmentID, user.Id);
+                    result3 = await _feeService.UpdateCourseIsPaidAsync(model.EnrollmentID, user.Id);
                 }
 
                 if (result1 && result2 && result3)
