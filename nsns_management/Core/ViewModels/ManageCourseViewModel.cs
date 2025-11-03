@@ -46,6 +46,8 @@ namespace Core.ViewModels
         public int CourseID { get; set; }
         public string CourseTitle { get; set; }
 
+        public string? CourseDescription { get; set; }
+
         public int? SessionCount { get; set; }
 
         public List<ChildViewModel> RegisteredChildren { get; set; } = new List<ChildViewModel>();

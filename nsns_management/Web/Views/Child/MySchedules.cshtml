@@ -15,7 +15,8 @@
     @foreach (var courseSchedules in Model.CoursesSchedules)
     {
         <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
-            <h5>Course: @courseSchedules.Course.Title</h5>
+            <h5>Course: @($"{courseSchedules.Course.Title}{(string.IsNullOrEmpty(courseSchedules.Course.Description) ? "" : " | " + courseSchedules.Course.Description)}")</h5>
+           @*  <label style="font-size:0.9em; color:darkslategray"> @courseSchedules.Course.Description</label> *@
             <strong>Course Type: </strong>  @courseSchedules.Course.CourseType
             
             <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedules.Course.SessionCount

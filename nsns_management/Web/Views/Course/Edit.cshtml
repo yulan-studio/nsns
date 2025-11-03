@@ -32,8 +32,7 @@
         </tr>
         <tr>
             <td style="padding: 8px;"><label for="description">Description:</label></td>
-            <td style="padding: 8px;"><textarea name="description" placeholder="Enter course description" style="width: 60%;" rows="3" required>@Model.Description</textarea></td>
-            
+            <td style="padding: 8px;"><input type="text" name="description" value="@Model.Description" placeholder="Description" style="width: 60%;" /></td>
         </tr>
         <tr>
             <td style="padding: 8px;"><label for="CourseType">Course Type:</label></td>
@@ -44,7 +43,7 @@
         <tr>
             <td style="padding: 8px;"><label for="MaxCapacity">Max Capacity:</label></td>
             <td style="padding: 8px;">
-                <input id="MaxCapacity" name="MaxCapacity" value="@(Model.MaxCapacity)" type="number" step="1" min="2" placeholder="Enter Max Capacity" style="width: 100%;" @(Model.CourseType == "Private" ? "disabled" : "") />
+                <input id="MaxCapacity" name="MaxCapacity" value="@(Model.MaxCapacity)" type="number" step="1" min="2" placeholder="Enter Max Capacity" style="width: 60%;" @(Model.CourseType == "Private" ? "disabled" : "") />
             </td>
         </tr>
 

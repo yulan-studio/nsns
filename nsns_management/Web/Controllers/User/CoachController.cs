@@ -577,6 +577,7 @@ namespace Web.Controllers.User
                         var courseChildren = new CourseChildrenViewModel();
                         courseChildren.CourseID = course.CourseID;
                         courseChildren.CourseTitle = course.Title;
+                        courseChildren.CourseDescription = course.Description;
                         courseChildren.SessionCount = course.SessionCount;
 
 
