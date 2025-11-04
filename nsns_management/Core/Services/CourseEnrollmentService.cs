@@ -583,7 +583,8 @@ namespace Core.Services
                 throw new ArgumentException("Invalid scheduled session.");
 
             if (enrollment.Status != "Scheduled")
-                throw new ArgumentException("This is not scheduled");
+                //throw new ArgumentException("This is not scheduled");
+                return false;
 
             if (actualHours < 0)
             {
