@@ -13,6 +13,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{737D945A-AC99-41EC-B3FB-A740A033136F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{39948179-4D71-4E89-9441-AE09D18FF256}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB_backup", "DB_backup", "{D72C54B1-7C67-45FD-A80A-ACC6E2429FD7}"
 	ProjectSection(SolutionItems) = preProject
