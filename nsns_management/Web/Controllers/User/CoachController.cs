@@ -470,7 +470,7 @@ namespace Web.Controllers.User
         [Authorize(Roles = "Staff")]
         [HttpPost("CoreInfo/{coachId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CoreInfo(int coachId, string? memberID, string preferedName, string? address, /*int OAPAmount, */string? postCode, int? bank, int? transit, int? account, string status, bool photoConsent)
+        public async Task<IActionResult> CoreInfo(int coachId, string? memberID, string? preferedName, string? address, /*int OAPAmount, */string? postCode, int? bank, int? transit, int? account, string status, bool photoConsent)
         {
             var coach = await _coachService.GetAsync(coachId);
             if (ModelState.IsValid)
