@@ -90,8 +90,9 @@ namespace Core.Repositories
 
         public async Task<bool> CheckRegisteredAsync(int childId)
         {
-            return await _context.CourseEnrollments.AnyAsync(e => e.ChildID == childId && e.Status == "Registered" )
-                || await _context.ActivityEnrollments.AnyAsync(e => e.ChildID == childId && (e.Status == "Registered" || e.Status == "Canceled"));
+            return await _context.CourseEnrollments.AnyAsync(e => e.ChildID == childId && (e.Status == "Registered" || e.Status == "Confirmed" || e.Status =="Scheduled"|| e.Status =="Completed" ))
+                
+                || await _context.ActivityEnrollments.AnyAsync(e => e.ChildID == childId && (e.Status == "Registered" || e.Status == "Confirmed" || e.Status == "Canceled"));
         }
 
         public async Task<bool> CheckPaidAsync(int childId)
