@@ -1,9 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model List<Core.ViewModels.CoachHoursViewModel>
+@model Core.ViewModels.CoachHoursViewModel
 @{
-    ViewData["Title"] = "Coach Income";
+    ViewData["Title"] = "Coach Hours";
     //decimal total = ViewBag.TotalIncome;
 }
 
@@ -40,6 +40,41 @@
 
 <h2>Coach Hours</h2>
 
+<table style="border-collapse: collapse; width: 100%; text-align: left;">
+    <thead>
+        <tr style="background-color: #f2f2f2;">
+            <th style="padding: 8px; border: 1px solid #ddd;">Name</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Specialties</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Gender</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">City</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Phone</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Email</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td style="padding: 8px; border: 1px solid #ddd;">@Model.Coach.Name</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">
+                @if (Model.Coach.CoachSpecialties != null && Model.Coach.CoachSpecialties.Any())
+                {
+                    @string.Join(", ", Model.Coach.CoachSpecialties.Select(cs => cs.Specialty.Title))
+                }
+                else
+                {
+                    <span>N/A</span>
+                }
+            </td>
+            <td style="padding: 8px; border: 1px solid #ddd;">@Model.Coach.Gender</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">
+                @(Model.Coach.City != null ? Model.Coach.City.Name : "N/A")
+            </td>
+            <td style="padding: 8px; border: 1px solid #ddd;">@Model.Coach.Phone</td>
+            <td style="padding: 8px; border: 1px solid #ddd;">@Model.Coach.User.Email</td>
+        </tr>
+    </tbody>
+</table>
+
 <div style="margin: 20px 0; padding: 15px; border-radius: 5px; border: 1px solid #ddd; background-color: #fff;">
     <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
         <thead>
@@ -53,9 +88,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.Any())
+            @if (Model.HoursDetails!=null && Model.HoursDetails.Any())
             {
-                foreach (var item in Model)
+                foreach (var item in Model.HoursDetails)
                 {
                     <tr style="background-color: #f9f9f9;">
                         <td style="padding: 10px; border: 1px solid #ddd;">@item.SessionDate.ToString("yyyy-MM-dd HH:mm")</td>

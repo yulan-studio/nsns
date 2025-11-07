@@ -902,7 +902,7 @@ namespace Web.Controllers.User
             // Get income records
             var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
 
-            var viewModel = incomeRecords.Select(i => new CoachHoursViewModel
+            var viewModel = incomeRecords.Select(i => new HoursViewModel
             {
                 EnrollmentID = i.EnrollmentID ?? 0,
                 CourseName = i.Course?.Title ?? "N/A",
@@ -924,12 +924,12 @@ namespace Web.Controllers.User
         public async Task<IActionResult> Hours(int coachId)
         {
             // Get current coach based on User ID
-           
+           var coach = await _coachService.GetAsync(coachId);
 
             // Get income records
             var incomeRecords = await _incomeService.GetCoachIncomeAsync(coachId);
 
-            var viewModel = incomeRecords.Select(i => new CoachHoursViewModel
+            var hours = incomeRecords.Select(i => new HoursViewModel
             {
                 EnrollmentID = i.EnrollmentID ?? 0,
                 CourseName = i.Course?.Title ?? "N/A",
@@ -939,6 +939,12 @@ namespace Web.Controllers.User
                 //IncomeChange = i.IncomeChange ?? 0,
                 //TotalIncomeSoFar = i.Income ?? 0
             }).ToList();
+
+            var viewModel = new CoachHoursViewModel
+            {
+                Coach = coach,
+                HoursDetails = hours
+            };
 
             //ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
 
