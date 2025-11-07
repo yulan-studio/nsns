@@ -18,7 +18,9 @@ namespace Core.Interfaces
         //Task<Child?> GetChildByIdAsync(int childId);
 
         Task<bool> AddAsync(string name, DateTime? birthDate, string? gender, int? cityId, string email, string password, bool hasOAP, User user);
-        //Task<bool> UpdateAsync(Child child);
+        
+        Task<bool> UpdateAsync(Child child);
+
         Task<bool> UpdateAsync(int childId, string name, DateTime birthDate, string gender, int cityId, string email, bool hasOAP/*, string password*/);
 
         Task<bool> UpdateAsync(int childId, string? memberID, string? address, /*int OAPAmount, */string? primaryDiagnose, bool photoConsent/*, string password*/);

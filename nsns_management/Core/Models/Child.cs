@@ -51,5 +51,8 @@ namespace Core.Models
         //if child has OAP funding
         public bool HasOAP { get; set; }
 
+        [DataType(DataType.MultilineText)]
+        public string? Notes { get; set; }
+
     }
 }

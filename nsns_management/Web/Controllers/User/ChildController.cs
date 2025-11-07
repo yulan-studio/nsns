@@ -280,6 +280,33 @@ namespace Web.Controllers.User
             }
         }
 
+        [Authorize(Roles = "Staff")]
+        [HttpGet("ManageNotes/{childId}")]
+        public async Task<IActionResult> ManageNotes(int childId)
+        {
+            var child = await _childService.GetAsync(childId);
+            if (child == null) return NotFound();
+            return View(child);
+        }
+
+        [Authorize(Roles = "Staff")]
+        // POST: /Child/Notes/5
+        [HttpPost ("ManageNotes/{childId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ManageNotes(int childId, [Bind("ChildID,Notes")] Child child)
+        {
+            
+            var existingChild = await _childService.GetAsync(childId);
+            if (existingChild == null) return NotFound();
+
+            existingChild.Notes = child.Notes;
+             await _childService.UpdateAsync(existingChild);
+
+            TempData["SuccessMessage"] = "Notes saved successfully!";
+           
+            return RedirectToAction("Participation", new { childId, tab = "ManageNotes" });
+        }
+
 
 
         [Authorize(Roles = "Staff")]
