@@ -22,6 +22,8 @@ namespace Core.Models
 
         public string? Remarks { get; set; } // Remarks or Description
 
+        public string? Calculation { get; set; } // Remarks or Description
+
         required public string TransactionType { get; set; } // Transaction Type
 
         [Column(TypeName = "decimal(10,2)")]

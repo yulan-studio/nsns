@@ -1211,24 +1211,37 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("FixBalance")]
-        public async Task<IActionResult> FixBalance(int childId, string actionType, int amount, string remarks)
+        public async Task<IActionResult> FixBalance(int childId, string actionType, int amount, string remarks, IFormFile calculationFile)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    //model.BalanceHistory = await _balanceService.GetBalanceHistoryAsync(model.ChildID);
-            //    //model.CurrentBalance = await _balanceService.GetFinalBalanceAsync(model.ChildID);
-            //    //return View(model);
-            //    return RedirectToAction("Participation", new { childId, tab = "ManageBalance" });
-            //}
+
+            string calculationPath = null;
+
+            // ✅ Save the receipt file
+            if (calculationFile != null && calculationFile.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/calculations");
+                Directory.CreateDirectory(uploadsFolder);
+
+                string uniqueFileName = $"{Guid.NewGuid()}_{calculationFile.FileName}";
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await calculationFile.CopyToAsync(fileStream);
+                }
+
+                calculationPath = $"/calculations/{uniqueFileName}";
+            }
 
             Core.Models.User user = await _userManager.GetUserAsync(User);
             //var userId = int.Parse(User.FindFirst("UserId").Value); // assuming you store UserId in claims
 
-            await _balanceService.AddBalanceFixAsync(
+            var result = await _balanceService.AddBalanceFixAsync(
                 childId,
                 actionType,
                 amount,
                 remarks,
+                calculationPath,
                 user.Id
             );
 

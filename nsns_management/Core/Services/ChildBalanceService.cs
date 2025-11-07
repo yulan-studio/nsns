@@ -27,7 +27,7 @@ namespace Core.Services
         }
 
 
-        public async Task<bool> AddBalanceFixAsync(int childId, string actionType, decimal amount, string remarks, int createdBy)
+        public async Task<bool> AddBalanceFixAsync(int childId, string actionType, decimal amount, string remarks, string? calculationPath, int createdBy)
         {
             // Get the current balance
             var currentBalance = await _balanceRepository.GetFinalBalanceAsync(childId);
@@ -43,6 +43,7 @@ namespace Core.Services
                 Remarks = remarks,
                 BalanceChange = balanceChange,
                 Balance = newBalance,
+                Calculation = calculationPath,
                 CreatedDate = DateTime.Now,
                 CreatedBy = createdBy
             };

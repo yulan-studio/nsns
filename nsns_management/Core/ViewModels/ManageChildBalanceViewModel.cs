@@ -32,6 +32,9 @@ namespace Core.ViewModels
         public string? ActivityName { get; set; }
 
         public string? Remarks { get; set; }
+
+        [MaxLength(255)]
+        public string? Calculation { get; set; } // Receipt for the payment
         public decimal BalanceChange { get; set; }
         public decimal Balance { get; set; }
 

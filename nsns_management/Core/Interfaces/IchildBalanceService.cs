@@ -11,7 +11,7 @@ namespace Core.Interfaces
 {
     public interface IChildBalanceService
     {
-        Task<bool> AddBalanceFixAsync(int childId, string actionType, decimal amount, string remarks, int createdBy);
+        Task<bool> AddBalanceFixAsync(int childId, string actionType, decimal amount, string remarks, string? calculationPath, int createdBy);
         Task<bool> AddPaymentToBalanceAsync(int childId, int paymentId, decimal amount, int createdBy);
         Task<bool> RemovePaymentToBalanceAsync(int childId, int paymentId, int createdBy);
 
