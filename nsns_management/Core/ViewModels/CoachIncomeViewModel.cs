@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.ViewModels
 {
-    public class CoachIncomeViewModel
+    public class CoachHoursViewModel
     {
         public int EnrollmentID { get; set; }
         public string CourseName { get; set; }
@@ -17,7 +17,7 @@ namespace Core.ViewModels
 
         public decimal SessionHours { get; set; }
         
-        public decimal IncomeChange { get; set; }
-        public decimal TotalIncomeSoFar { get; set; }
+        //public decimal IncomeChange { get; set; }
+        //public decimal TotalIncomeSoFar { get; set; }
     }
 }

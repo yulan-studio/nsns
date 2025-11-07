@@ -888,8 +888,8 @@ namespace Web.Controllers.User
         }
 
         [Authorize(Roles = "Coach")]
-        [HttpGet("Income")]
-        public async Task<IActionResult> Income()
+        [HttpGet("MyHours")]
+        public async Task<IActionResult> MyHours()
         {
             // Get current coach based on User ID
             var user = await _userManager.GetUserAsync(User);
@@ -902,18 +902,45 @@ namespace Web.Controllers.User
             // Get income records
             var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
 
-            var viewModel = incomeRecords.Select(i => new CoachIncomeViewModel
+            var viewModel = incomeRecords.Select(i => new CoachHoursViewModel
             {
                 EnrollmentID = i.EnrollmentID ?? 0,
                 CourseName = i.Course?.Title ?? "N/A",
                 ChildName = i.Enrollment?.Child.Name ?? "N/A",
                 SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
                 SessionHours = i.Enrollment?.ActualHours ?? 0,
-                IncomeChange = i.IncomeChange ?? 0,
-                TotalIncomeSoFar = i.Income ?? 0
+                //IncomeChange = i.IncomeChange ?? 0,
+                //TotalIncomeSoFar = i.Income ?? 0
             }).ToList();
 
-            ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
+            //ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
+
+            return View(viewModel);
+        }
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("Hours/{coachId}")]
+        public async Task<IActionResult> Hours(int coachId)
+        {
+            // Get current coach based on User ID
+           
+
+            // Get income records
+            var incomeRecords = await _incomeService.GetCoachIncomeAsync(coachId);
+
+            var viewModel = incomeRecords.Select(i => new CoachHoursViewModel
+            {
+                EnrollmentID = i.EnrollmentID ?? 0,
+                CourseName = i.Course?.Title ?? "N/A",
+                ChildName = i.Enrollment?.Child.Name ?? "N/A",
+                SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
+                SessionHours = i.Enrollment?.ActualHours ?? 0,
+                //IncomeChange = i.IncomeChange ?? 0,
+                //TotalIncomeSoFar = i.Income ?? 0
+            }).ToList();
+
+            //ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
 
             return View(viewModel);
         }
