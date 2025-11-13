@@ -84,7 +84,7 @@
         else
         {
             <tr>
-                <td colspan="3" style="text-align: center; padding: 10px;">No scheduled courses.</td>
+                <td colspan="3" style="text-align: center; padding: 10px;">No scheduled sessions.</td>
             </tr>
         }
 
@@ -148,7 +148,7 @@
         else
         {
             <tr>
-                <td colspan="5" style="text-align: center; padding: 10px;">No completed courses.</td>
+                <td colspan="5" style="text-align: center; padding: 10px;">No completed sessions.</td>
             </tr>
         }
 
@@ -178,7 +178,7 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.CompletedEnrollments.Any())
+        @if (Model.DeletedEnrollments.Any())
         {
             foreach (var deleted in Model.DeletedEnrollments)
             {
@@ -195,7 +195,7 @@
         else
         {
             <tr>
-                <td colspan="5" style="text-align: center; padding: 10px;">No Deleted courses.</td>
+                <td colspan="5" style="text-align: center; padding: 10px;">No Deleted sessions.</td>
             </tr>
         }
 

@@ -164,6 +164,11 @@ builder.Services.AddScoped<IUserRegistrationService, UserRegistrationService>();
 var connectionString1 = Environment.GetEnvironmentVariable("DefaultConnection");
 try
 {
+    //foreach (var c in builder.Configuration.AsEnumerable())
+    //{
+    //    Console.WriteLine($"{c.Key}: {c.Value}");
+    //}
+
     var connectionString = Environment.GetEnvironmentVariable("DefaultConnection")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
     Console.WriteLine($"Connection string: {connectionString}");

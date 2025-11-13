@@ -163,3 +163,6 @@ nsns_management/.vs/ProjectEvaluation/nsns_management.strings.v9.bin
 >>>>>>> dev
 /nsns_management/Test/obj/Debug/net8.0/Test.csproj.FileListAbsolute.txt
 /nsns_management/Web/appsettings.json
+/nsns_management/Web/appsettings.Development.json
+/nsns_management/Web/appsettings.json
+/nsns_management/Web/appsettings.json

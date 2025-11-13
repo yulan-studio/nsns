@@ -16,7 +16,10 @@
     <PackageReference Include="X.PagedList.Mvc.Core" Version="10.5.9" />
   </ItemGroup>
 
-  <ItemGroup>
+	
+
+
+	<ItemGroup>
     <Folder Include="Controllers\Report\" />
     <Folder Include="wwwroot\receipts\" />
   </ItemGroup>
@@ -26,6 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!--<Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>-->
+	  <Content Update="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+	  <Content Update="appsettings.Development.json" CopyToOutputDirectory="PreserveNewest" />
+	  
     <Content Update="Views\Child\EnrollmentsHistory.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -36,4 +45,5 @@
     </Content>
   </ItemGroup>
 
+	
 </Project>
