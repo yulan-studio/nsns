@@ -1211,7 +1211,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("FixBalance")]
-        public async Task<IActionResult> FixBalance(int childId, string actionType, int amount, string remarks, IFormFile calculationFile)
+        public async Task<IActionResult> FixBalance(int childId, string actionType, decimal amount, string remarks, IFormFile calculationFile)
         {
 
             string calculationPath = null;
