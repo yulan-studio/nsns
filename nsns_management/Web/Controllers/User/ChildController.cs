@@ -51,11 +51,13 @@ namespace Web.Controllers.User
         private readonly IChildBalanceService _balanceService;
         private readonly EmailService _emailService;
         private readonly UserManager<Core.Models.User> _userManager;
+        private readonly Core.R2.R2StorageService _r2UploadService;
         //private readonly AppDbContext _context;
 
 
-        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IFeeService feeService, IPaymentService paymentService, EmailService emailService, UserManager<Core.Models.User> userManager/*, AppDbContext context*/)
+        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IFeeService feeService, IPaymentService paymentService, EmailService emailService, UserManager<Core.Models.User> userManager, Core.R2.R2StorageService r2UploadService/*, AppDbContext context*/)
         {
+            _r2UploadService = r2UploadService;
             _childService = childService;
             _balanceService = balanceService;
             _parentService = parentService;
@@ -889,7 +891,7 @@ namespace Web.Controllers.User
         [Authorize(Roles = "Staff")]
         [HttpPost("AddPayment")]
 
-        public async Task<IActionResult> AddPayment(int childId, int parentId, int? packageId, int? feeId, decimal amount, DateTime? paymentDate, IFormFile receiptFile)
+        public async Task<IActionResult> AddPayment(int childId, int parentId, int? packageId, int? feeId, decimal amount, DateTime? paymentDate, IFormFile file)
         {
 
             try
@@ -897,21 +899,31 @@ namespace Web.Controllers.User
                 string receiptPath = null;
 
                 // ✅ Save the receipt file
-                if (receiptFile != null && receiptFile.Length > 0)
+                //if (file != null && file.Length > 0)
+                //{
+                //string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/receipts");
+                //Directory.CreateDirectory(uploadsFolder);
+
+                //string uniqueFileName = $"{Guid.NewGuid()}_{file.FileName}";
+                //string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                //using (var fileStream = new FileStream(filePath, FileMode.Create))
+                //{
+                //    await receiptFile.CopyToAsync(fileStream);
+                //}
+
+                //receiptPath = $"/receipts/{uniqueFileName}";
+           // }
+
+                string fileUrl = "";
+
+                if (file != null)
                 {
-                    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/receipts");
-                    Directory.CreateDirectory(uploadsFolder);
-
-                    string uniqueFileName = $"{Guid.NewGuid()}_{receiptFile.FileName}";
-                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await receiptFile.CopyToAsync(fileStream);
-                    }
-
-                    receiptPath = $"/receipts/{uniqueFileName}";
+                    // Upload to R2
+                    string fileName = String.Concat(childId, "-", amount, "-", DateTime.UtcNow.ToString("yyyyMMdd"));
+                    fileUrl = await _r2UploadService.UploadAsync(file, "payments", fileName);
                 }
+               
 
                 Core.Models.User user = await _userManager.GetUserAsync(User);
                 //if(packageId == null)
@@ -923,13 +935,13 @@ namespace Web.Controllers.User
 
                 if (packageId != null)
                 { 
-                    var paymentId = await _paymentService.AddTokenPaymentAsync(childId, parentId, packageId, amount, paymentDate, receiptPath, user);
+                    var paymentId = await _paymentService.AddTokenPaymentAsync(childId, parentId, packageId, amount, paymentDate, fileUrl, user);
                     result = await _balanceService.AddPaymentToBalanceAsync(childId, paymentId, amount, user.Id);
                 }
 
                 if (feeId != null)
                 {
-                    var paymentId = await _paymentService.AddNoneTokenPaymentAsync(childId, parentId, feeId, amount, paymentDate, receiptPath, user);
+                    var paymentId = await _paymentService.AddNoneTokenPaymentAsync(childId, parentId, feeId, amount, paymentDate, fileUrl, user);
 
                     if (paymentId > 0)
                         result = true;
@@ -1211,26 +1223,35 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Staff")]
         [HttpPost("FixBalance")]
-        public async Task<IActionResult> FixBalance(int childId, string actionType, decimal amount, string remarks, IFormFile calculationFile)
+        public async Task<IActionResult> FixBalance(int childId, string actionType, decimal amount, string remarks, IFormFile file)
         {
 
-            string calculationPath = null;
+            //string calculationPath = null;
 
             // ✅ Save the receipt file
-            if (calculationFile != null && calculationFile.Length > 0)
+            //if (calculationFile != null && calculationFile.Length > 0)
+            //{
+            //    string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/calculations");
+            //    Directory.CreateDirectory(uploadsFolder);
+
+            //    string uniqueFileName = $"{Guid.NewGuid()}_{calculationFile.FileName}";
+            //    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            //    using (var fileStream = new FileStream(filePath, FileMode.Create))
+            //    {
+            //        await calculationFile.CopyToAsync(fileStream);
+            //    }
+
+            //    calculationPath = $"/calculations/{uniqueFileName}";
+            //}
+
+            string fileUrl = null;
+
+            if (file != null)
             {
-                string uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/calculations");
-                Directory.CreateDirectory(uploadsFolder);
-
-                string uniqueFileName = $"{Guid.NewGuid()}_{calculationFile.FileName}";
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await calculationFile.CopyToAsync(fileStream);
-                }
-
-                calculationPath = $"/calculations/{uniqueFileName}";
+                // Upload to R2
+                string fileName = String.Concat(childId, "-", amount, "-", DateTime.UtcNow.ToString("yyyyMMdd"));
+                fileUrl = await _r2UploadService.UploadAsync(file, "balance", fileName);
             }
 
             Core.Models.User user = await _userManager.GetUserAsync(User);
@@ -1241,7 +1262,7 @@ namespace Web.Controllers.User
                 actionType,
                 amount,
                 remarks,
-                calculationPath,
+                fileUrl,
                 user.Id
             );
 

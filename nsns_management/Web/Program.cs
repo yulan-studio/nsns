@@ -1,7 +1,8 @@
-﻿using Core.Contexts;
+﻿using Amazon.S3;
+using Core.BackendService;
+using Core.Contexts;
 using Core.Interfaces;
 using Core.Models;
-using Core.BackendService;
 using Core.Repositories;
 using Core.Services;
 using Microsoft.AspNetCore.Identity;
@@ -215,6 +216,10 @@ System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 
+//Register S3 Client
+builder.Services.Configure<Core.R2.CloudflareR2Options>(
+    builder.Configuration.GetSection("CloudflareR2"));
+builder.Services.AddSingleton<Core.R2.R2StorageService>();
 
 
 var app = builder.Build();
