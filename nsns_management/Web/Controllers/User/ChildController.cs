@@ -1432,13 +1432,14 @@ namespace Web.Controllers.User
                 return RedirectToAction("ManageSessionRegistrations", new { courseId = formModel.CourseID, childId = formModel.ChildID });
             }
 
-            bool hasConfirmed = false;
+            bool hasConfirmed = true;
 
             foreach (var session in formModel.AllSessions)
             {
-                if (session.Status == "Scheduled")
+                if (session.Status == "Registered")
                 {
-                    hasConfirmed = true;
+                    hasConfirmed = false;
+                    break;
                 }
             }
 
@@ -1627,13 +1628,15 @@ namespace Web.Controllers.User
             {
                 // Handle Confirm logic
                 bool result1 = true;
-                if (model.Fee.PaymentModel == "Token")
+                if (model.Fee.PaymentModel == "Token" && !model.Fee.IsPaid)
                 { 
                      result1 = await _balanceService.DeductGroupCourseCostAsync(child.ChildID, model.CourseID, (decimal)model.Fee.TotalCost, user.Id);
                 }
 
                 //public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId)
                 int? enrollmentId = await _courseEnrollmentService.GetEnrollmentIdByChildAndCourseAsync(model.CourseID, child.ChildID, "Registered");
+                if (enrollmentId == null)
+                    enrollmentId = await _courseEnrollmentService.GetEnrollmentIdByChildAndCourseAsync(model.CourseID, child.ChildID, "Confirmed");
 
                 bool result2 = false;
                 if (enrollmentId!=null)
@@ -1644,7 +1647,7 @@ namespace Web.Controllers.User
                 bool result3 = true;
 
 
-                if (model.Fee.PaymentModel == "Token")
+                if (model.Fee.PaymentModel == "Token" && !model.Fee.IsPaid)
                 {
                     result3 = await _feeService.UpdateCourseIsPaidAsync((int)model.Fee.CourseEnrollmentID, user.Id);
                 }

@@ -116,11 +116,13 @@
                         </table>
 
                         <br />
-
+                        @if (!courseSchedulesToConfirm.Fee.IsPaid)
+                        {
                         <div style="padding: 10px 20px; margin: 20px 0; border: 1px solid #ddd; background-color: #f8f9fa;">
                             Total Cost: @courseSchedulesToConfirm.Fee.TotalCost<br />
                             @(courseSchedulesToConfirm.Fee.Description)<br />
                         </div>
+                        }
 
                         <div style="padding: 20px; margin: 20px 0; border: 1px solid #ddd; background-color: #f8f9fa;">
                             Please click 'Confirm' to complete your course registration.<br />

@@ -116,7 +116,7 @@ namespace Core.Repositories
                 .Where(f => f.CourseEnrollment.ChildID == childId &&
                             f.CourseEnrollment.CourseID == courseId &&
                             f.CourseEnrollment.EnrollmentID_Ref == null &&
-                            f.CourseEnrollment.Status == "Registered"
+                            (f.CourseEnrollment.Status == "Registered"|| f.CourseEnrollment.Status == "Confirmed")
                             )
                 .FirstOrDefaultAsync();
 
