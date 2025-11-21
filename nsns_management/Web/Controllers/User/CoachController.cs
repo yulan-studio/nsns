@@ -4,6 +4,7 @@ using Core.Models;
 using Core.Repositories;
 using Core.Services;
 using Core.ViewModels;
+using Humanizer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
@@ -12,9 +13,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System.Data.SqlClient;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Security.Claims;
-using System.Data.SqlClient;
+using System.Threading.Tasks;
 using X.PagedList;
 using X.PagedList.Extensions;
 
@@ -700,13 +702,13 @@ namespace Web.Controllers.User
                 {
 
 
-                    var subject = "A Course schedule has been added";
+                    //var subject = "A Course schedule has been added";
 
-                    var message = "A course schedule has been added for the child: " + child.Name + ":\n" +
-                        "Course: " + course.Title + "\n" +
-                        "Coach: " + coach.Name + "\n" +
-                        "Scheduled At: " + scheduledAt.ToString("yyyy - MM - dd HH: mm") + "\n" +
-                        "Scheduled Hours: " + scheduledHours;
+                    //var message = "A course schedule has been added for the child: " + child.Name + ":\n" +
+                    //    "Course: " + course.Title + "\n" +
+                    //    "Coach: " + coach.Name + "\n" +
+                    //    "Scheduled At: " + scheduledAt.ToString("yyyy - MM - dd HH: mm") + "\n" +
+                    //    "Scheduled Hours: " + scheduledHours;
 
                     //await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child, how about send to coach?
 
@@ -739,13 +741,13 @@ namespace Web.Controllers.User
 
             if (result)
             {
-                var subject = "A Course schedule has been deleted";
+                //var subject = "A Course schedule has been deleted";
 
-                var message = "A course schedule has been deleted for the child: " + child.Name + ":\n" +
-                    "Course: " + course.Title + "\n" +
-                    "Coach: " + coach.Name + "\n" +
-                    "Scheduled At: " + enrollment.ScheduledAt?.ToString("yyyy - MM - dd HH: mm") + "\n" +
-                    "Scheduled Hours: " + enrollment.ScheduledHours;
+                //var message = "A course schedule has been deleted for the child: " + child.Name + ":\n" +
+                //    "Course: " + course.Title + "\n" +
+                //    "Coach: " + coach.Name + "\n" +
+                //    "Scheduled At: " + enrollment.ScheduledAt?.ToString("yyyy - MM - dd HH: mm") + "\n" +
+                //    "Scheduled Hours: " + enrollment.ScheduledHours;
 
                 //await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
 
@@ -861,14 +863,17 @@ namespace Web.Controllers.User
                     TempData["SuccessMessage"] = "Course Completed successfully.";
 
 
-                    var subject = "Course Session Completed successfully.";
+                    var subject = "Your Child’s Course Session Has Been Successfully Completed";
 
-                    var message = "The follow course session has been completed for " + child.Name + ":\n" +
+                    var message = "Hello,\r\n\r\nWe’re happy to let you know that the following course session for " + child.Name + " has been completed successfully:\r\n\r\n" +
+                       
+                      
                                   "Course: " + course.Title + "\n" +
                                   "Scheduled At: " + (courseEnrollment.ScheduledAt?.ToString("yyyy-MM-dd HH:mm") ?? "N/A") + "\n" +
-                                  "Actual Hours: " + actualHours;
+                                  "Actual Hours Completed: " + actualHours + "\n\n" +
+                                  "If you have any questions about this session or need any further information, please feel free to contact us anytime.Thank you for your continued support!";
 
-                    //await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
+                    await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
 
 
 

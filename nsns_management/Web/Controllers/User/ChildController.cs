@@ -1627,10 +1627,10 @@ namespace Web.Controllers.User
 
 
 
-                        var course = await _courseService.GetAsync(model.CourseID);
-                        var subject = child.MemberID + ":" + " Course schedules has been confirmed";
-                        var message = "The course schedules have been confirmed for the child: " + child.Name + ":\n" +
-                                     "Course: " + course.Title;
+                        //var course = await _courseService.GetAsync(model.CourseID);
+                        //var subject = child.MemberID + ":" + " Course schedules has been confirmed";
+                        //var message = "The course schedules have been confirmed for the child: " + child.Name + ":\n" +
+                        //             "Course: " + course.Title;
 
                         //await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
 
@@ -1686,10 +1686,10 @@ namespace Web.Controllers.User
                     // TempData["SuccessMessage3"] = "Activity schedules confirmed successfully. Please check the schedules in " + <a href=\"/Child/MySchedules\">Schedules</a>;
                     TempData["SuccessMessage2"] = "The course has been confirmed successfully. Once sessions have been scheduled by the coach, they can be viewed in <a href=\"/Child/MySchedules\">Schedules</a>.";
 
-                    var course = await _courseService.GetAsync(model.CourseID);
-                    var subject = child.MemberID + ":" + " Course has been confirmed";
-                    var message = "The course have been confirmed for the child: " + child.Name + ":\n" +
-                                    "Course: " + course.Title;
+                    //var course = await _courseService.GetAsync(model.CourseID);
+                    //var subject = child.MemberID + ":" + " Course has been confirmed";
+                    //var message = "The course have been confirmed for the child: " + child.Name + ":\n" +
+                    //                "Course: " + course.Title;
 
                     //await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
                 }
@@ -1750,10 +1750,10 @@ namespace Web.Controllers.User
                    // TempData["SuccessMessage3"] = "Activity schedules confirmed successfully. Please check the schedules in " + <a href=\"/Child/MySchedules\">Schedules</a>;
                     TempData["SuccessMessage3"] = "The activity has been confirmed successfully. Please check your <a href=\"/Child/MySchedules\">Schedules</a>.";
 
-                    var activity = await _activityService.GetAsync(model.ActivityID);
-                    var subject = child.MemberID + ":" + " Activity has been confirmed";
-                    var message = "The activity have been confirmed for the child: " + child.Name + ":\n" +
-                                    "Activity: " + activity.Title;
+                    //var activity = await _activityService.GetAsync(model.ActivityID);
+                    //var subject = child.MemberID + ":" + " Activity has been confirmed";
+                    //var message = "The activity have been confirmed for the child: " + child.Name + ":\n" +
+                    //                "Activity: " + activity.Title;
 
                     //await _emailService.SendEmailAsync("customer.nsns@gmail.com", subject, message);  //send to staff
                 }
