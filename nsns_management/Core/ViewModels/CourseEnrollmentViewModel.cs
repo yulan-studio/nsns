@@ -34,6 +34,8 @@ namespace Core.ViewModels
 
         public decimal? HourlyCost2 { get; set; }
         public string Status { get; set; }
+
+        public int RegisteredSessions { get; set; }
         public int ScheduledSessions { get; set; }
         public int CompletedSessions { get; set; }
 

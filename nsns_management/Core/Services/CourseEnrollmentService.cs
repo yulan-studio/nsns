@@ -557,6 +557,16 @@ namespace Core.Services
         }
 
 
+        public async Task<IEnumerable<CourseEnrollment>> GetEnrollments2ByCourseChildAsync(int courseId, int childId)
+        {
+            Child? child = await _childRepository.GetAsync(childId);
+            if (child == null)
+                throw new ArgumentException("Invalid child.");
+            return await _enrollmentRepository.GetEnrollments2ByCourseChildAsync(courseId, childId);
+
+        }
+
+
         public async Task<int?> GetEnrollmentIdByChildAndCourseAsync(int courseId, int childId, string status)
         {
             

@@ -175,6 +175,7 @@ namespace Core.Repositories
                HourlyCost = e.Course.HourlyCost,
                HourlyCost2 = e.Course.HourlyCost2,
                Status = e.Status,
+               RegisteredSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Registered" && c.EnrollmentID_Ref != null), // Count all registered sessions
                ScheduledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Scheduled" && c.EnrollmentID_Ref != null), // Count all scheduled sessions
                CompletedSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Completed" && c.EnrollmentID_Ref != null), // Count completed sessions
                CanceledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Canceled" && c.EnrollmentID_Ref != null), // Count all canceled sessions
@@ -258,6 +259,17 @@ namespace Core.Repositories
                 .Include(e => e.Child)
                 .Include(e => e.Course)
                 .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Deleted")
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
+        //Include Registered/Scheduled/Completed/RequestToReschedule/RequestToCancel (not include Deleted, Canceled)
+        public async Task<IEnumerable<CourseEnrollment>> GetEnrollments2ByCourseChildAsync(int courseId, int childId)
+        {
+            return await _context.CourseEnrollments
+                .Include(e => e.Child)
+                .Include(e => e.Course)
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Deleted" && e.Status != "Canceled")
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }

@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using System.Data.SqlClient;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using X.PagedList;
@@ -865,15 +866,34 @@ namespace Web.Controllers.User
 
                     var subject = "Your Child’s Course Session Has Been Successfully Completed";
 
-                    var message = "Hello,\r\n\r\nWe’re happy to let you know that the following course session for " + child.Name + " has been completed successfully:\r\n\r\n" +
-                       
-                      
-                                  "Course: " + course.Title + "\n" +
-                                  "Scheduled At: " + (courseEnrollment.ScheduledAt?.ToString("yyyy-MM-dd HH:mm") ?? "N/A") + "\n" +
-                                  "Actual Hours Completed: " + actualHours + "\n\n" +
-                                  "If you have any questions about this session or need any further information, please feel free to contact us anytime.Thank you for your continued support!";
 
-                    await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
+                    //var message =
+                    //                "Hello,\r\n\r\n" +
+                    //                "We’re happy to let you know that the following course session for " + child.Name + " has been completed successfully:\r\n\r\n" +
+                    //                "Course: " + course.Title + "\r\n" +
+                    //                "Scheduled At: " + (courseEnrollment.ScheduledAt?.ToString("yyyy-MM-dd HH:mm") ?? "N/A") + "\r\n" +
+                    //                "Actual Hours Completed: " + hoursToUse + "\r\n\r\n" +
+                    //                "If you have any questions about this session or need any further information, please feel free to contact us anytime.\r\n" +
+                    //                "Thank you for your continued support!\r\n\r\n" +
+                    //                "NorthStar Special Needs Society Team";
+
+                    var htmlMessage =
+                                        "<p>Hello,</p>" +
+                                        "<p>We’re happy to let you know that the following course session for <strong>" +
+                                        WebUtility.HtmlEncode(child.Name) +
+                                        "</strong> has been completed successfully:</p>" +
+                                        "<ul>" +
+                                          "<li><strong>Course:</strong> " + WebUtility.HtmlEncode(course.Title) + "</li>" +
+                                          "<li><strong>Scheduled At:</strong> " +
+                                            WebUtility.HtmlEncode(courseEnrollment.ScheduledAt?.ToString("yyyy-MM-dd HH:mm") ?? "N/A") + "</li>" +
+                                          "<li><strong>Actual Hours Completed:</strong> " + WebUtility.HtmlEncode(hoursToUse.ToString()) + "</li>" +
+                                        "</ul>" +
+                                        "<p>If you have any questions about this session or need any further information, please feel free to contact us anytime.</p>" +
+                                        "<p>Thank you for your continued support!</p>" +
+                                        "<p>NSNS Support Team</p>";
+
+
+                    await _emailService.SendEmailAsync(child.User.Email, subject, htmlMessage);  //send to child
 
 
 

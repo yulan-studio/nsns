@@ -16,14 +16,14 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Linq;
 using NuGet.Protocol.Core.Types;
 using System.Data.SqlClient;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Xml.Linq;
-using static Core.ViewModels.ManageSessionRegistrationsViewModel;
-
-using System.Data.SqlClient;
 using X.PagedList;
 using X.PagedList.Extensions;
+using static Core.ViewModels.ManageSessionRegistrationsViewModel;
 
 
 
@@ -1292,6 +1292,7 @@ namespace Web.Controllers.User
             // Sessions the child already registered to
             //var registeredSessions = await _courseEnrollmentService.GetRegisteredByCourseChildAsync(courseId, childId);
             var allEnrolledSessions = await _courseEnrollmentService.GetEnrollmentsByCourseChildAsync(courseId, childId);
+            var allEnrolledSessions2 = await _courseEnrollmentService.GetEnrollments2ByCourseChildAsync(courseId, childId);
             if (sessions != null)
             {
                 foreach (var session in sessions)
@@ -1353,7 +1354,7 @@ namespace Web.Controllers.User
                 AllSessions = all_sessions,
                 //ScheduledSessions = scheduled_sessions,
                 CourseSessionsCount = (int)course.SessionCount,
-                EnrolledSessionsCount = allEnrolledSessions.Count()
+                EnrolledSessionsCount = allEnrolledSessions2.Count()
 
             };
 
@@ -1420,13 +1421,25 @@ namespace Web.Controllers.User
             var course = await _courseService.GetAsync(formModel.CourseID);
             var child = await _childService.GetAsync(formModel.ChildID);
 
-            //if (child == null)
-            //    return NotFound("Child not found.");
+           
+
+                //if (child == null)
+                //    return NotFound("Child not found.");
 
             if (formModel.AllSessions == null || !formModel.AllSessions.Any())
             {
                 TempData["ErrorMessage"] = "No sessions submitted.";
                 return RedirectToAction("ManageSessionRegistrations", new { courseId = formModel.CourseID, childId = formModel.ChildID });
+            }
+
+            bool hasConfirmed = false;
+
+            foreach (var session in formModel.AllSessions)
+            {
+                if (session.Status == "Scheduled")
+                {
+                    hasConfirmed = true;
+                }
             }
 
             foreach (var session in formModel.AllSessions)
@@ -1447,13 +1460,42 @@ namespace Web.Controllers.User
 
 
             //_dbContext.SaveChanges();
+            var subject = "";
+            var htmlMessage = "";
 
-            var subject = "Please review/confirm your child's course schedule";
+            if (hasConfirmed)
+            {
+                subject = "Please Review Your Child’s Updated Course Schedule";
 
-            var message = $"We've updated the course schedule for your child {child.Name} in \"{course.Title}\". " +
-              "Please log in to https://me.nsns.ca/Child/MySchedules to review the changes or confirm if this is a new registration to complete the process.";
+                htmlMessage =
+            "<p>Hello,</p>" +
+            $"<p>We’ve updated the course schedule for your child <strong>{child.Name}</strong> in " +
+            $"<strong>\"{WebUtility.HtmlEncode(course.Title)}\"</strong>.</p>" +
+            "<p>Please log in to your parent portal to review the changes:</p>" +
+            "<p><a href=\"https://me.nsns.ca/Child/MySchedules\">https://me.nsns.ca/Child/MySchedules</a></p>" +
+    
+            "<p>If you have any questions or need assistance, please feel free to contact us.</p>" +
+            "<p>Thank you,<br/>NSNS Support Team</p>";
+            }
+            else
+            {
+                subject = "Please Confirm Your Child’s Course";
+                htmlMessage =
+            "<p>Hello,</p>" +
+            $"<p>We’ve added the course schedule for your child <strong>{child.Name}</strong> in " +
+            $"<strong>\"{WebUtility.HtmlEncode(course.Title)}\"</strong>.</p>" +
+            "<p>Please log in to your parent portal to confirm the course:</p>" +
+            "<p><a href=\"https://me.nsns.ca/Child/MyConfirmations\">https://me.nsns.ca/Child/MyConfirmations</a></p>" +
+            "<p>If you have any questions or need assistance, please feel free to contact us.</p>" +
+            "<p>Thank you,<br/>NSNS Support Team</p>";
+            }
 
-            //await _emailService.SendEmailAsync(child.User.Email, subject, message);
+                
+
+            
+
+
+            await _emailService.SendEmailAsync(child.User.Email, subject, htmlMessage);
 
             TempData["SuccessMessage"] = "Session updates saved successfully.";
             return RedirectToAction("ManageSessionRegistrations", new { childId = formModel.ChildID, courseId = formModel.CourseID });
