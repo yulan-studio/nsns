@@ -920,7 +920,7 @@ namespace Web.Controllers.User
                 if (file != null)
                 {
                     // Upload to R2
-                    string fileName = String.Concat(childId, "-", amount, "-", DateTime.UtcNow.ToString("yyyyMMdd"));
+                    string fileName = String.Concat(childId, "-", DateTime.UtcNow.ToString("yyyyMMdd-HHmmss"));
                     fileUrl = await _r2UploadService.UploadAsync(file, "payments", fileName);
                 }
                
@@ -1250,7 +1250,7 @@ namespace Web.Controllers.User
             if (file != null)
             {
                 // Upload to R2
-                string fileName = String.Concat(childId, "-", amount, "-", DateTime.UtcNow.ToString("yyyyMMdd"));
+                string fileName = String.Concat(childId, "-", DateTime.UtcNow.ToString("yyyyMMdd-HHmmss"));
                 fileUrl = await _r2UploadService.UploadAsync(file, "balance", fileName);
             }
 
