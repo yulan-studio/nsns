@@ -867,16 +867,6 @@ namespace Web.Controllers.User
                     var subject = "Your Child’s Course Session Has Been Successfully Completed";
 
 
-                    //var message =
-                    //                "Hello,\r\n\r\n" +
-                    //                "We’re happy to let you know that the following course session for " + child.Name + " has been completed successfully:\r\n\r\n" +
-                    //                "Course: " + course.Title + "\r\n" +
-                    //                "Scheduled At: " + (courseEnrollment.ScheduledAt?.ToString("yyyy-MM-dd HH:mm") ?? "N/A") + "\r\n" +
-                    //                "Actual Hours Completed: " + hoursToUse + "\r\n\r\n" +
-                    //                "If you have any questions about this session or need any further information, please feel free to contact us anytime.\r\n" +
-                    //                "Thank you for your continued support!\r\n\r\n" +
-                    //                "NorthStar Special Needs Society Team";
-
                     var htmlMessage =
                                         "<p>Hello,</p>" +
                                         "<p>We’re happy to let you know that the following course session for <strong>" +
