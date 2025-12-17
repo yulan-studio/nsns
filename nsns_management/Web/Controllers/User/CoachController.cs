@@ -883,7 +883,7 @@ namespace Web.Controllers.User
                                         "<p>NSNS Support Team</p>";
 
 
-                    await _emailService.SendEmailAsync(child.User.Email, subject, htmlMessage);  //send to child
+                    //await _emailService.SendEmailAsync(child.User.Email, subject, htmlMessage);  //send to child
 
 
 
