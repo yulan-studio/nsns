@@ -1,8 +1,13 @@
 ﻿
  @model Core.ViewModels.ManageCourseViewModel
 
+<h2>Manage Courses</h2>
 
-<h2>Manage Courses</h2> <span style="align-content:end"><a href="https://sites.google.com/view/nsns-coach-attendance/%E9%A6%96%E9%A1%B5" target="_blank">NSNS Coach Attendance</a></span>
+<div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+    At this stage, coaches are requested to complete the original coaching time log in parallel and ensure that both records are consistent. <br />
+    在现阶段，请教练同时填写原来的教练时间登记表，且两份记录保持一致。<br />
+     <span style="align-content:end"><a href="https://sites.google.com/view/nsns-coach-attendance/%E9%A6%96%E9%A1%B5" target="_blank">NSNS Coach Attendance</a></span>
+</div>
 
 @foreach (var specialty in Model.Specialties)
 {
