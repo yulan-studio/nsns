@@ -1,5 +1,6 @@
 ﻿using Core.Interfaces;
 using Core.Models;
+using Core.DTOs;
 using Core.Contexts;
 using System;
 using System.Collections.Generic;
@@ -38,24 +39,24 @@ namespace Core.Repositories
 
 
             // Calculate income (replace with your logic — hardcoded here as example)
-            decimal incomeForThisSession = (decimal)enrollment.Course.HourlyCost * (decimal)enrollment.ActualHours;
+            //decimal incomeForThisSession = (decimal)enrollment.Course.HourlyCost * (decimal)enrollment.ActualHours;
 
             // Get latest income for this coach
-            decimal previousIncome = await _context.CoachIncomes
-                .Where(i => i.CoachID == coachId)
-                .OrderByDescending(i => i.IncomeID)
-                .Select(i => i.Income ?? 0)
-                .FirstOrDefaultAsync();
+            //decimal previousIncome = await _context.CoachIncomes
+            //    .Where(i => i.CoachID == coachId)
+            //    .OrderByDescending(i => i.IncomeID)
+            //    .Select(i => i.Income ?? 0)
+            //    .FirstOrDefaultAsync();
 
-            var newIncome = previousIncome + incomeForThisSession;
+            //var newIncome = previousIncome + incomeForThisSession;
 
             var incomeEntry = new CoachIncome
             {
-                CoachID = coachId,
+                CoachID = (int)coachId,
                 CourseID = courseId,
                 EnrollmentID = enrollmentId,
-                IncomeChange = incomeForThisSession,
-                Income = newIncome,
+                //IncomeChange = incomeForThisSession,
+                //Income = newIncome,
                 CreatedDate = DateTime.UtcNow,
                 CreatedBy = updatedBy
             };
@@ -77,6 +78,47 @@ namespace Core.Repositories
                 .OrderBy(i => i.Enrollment.ScheduledAt)
                 .ToListAsync();
             return incomeRecords;
+        }
+
+
+
+        public async Task<IEnumerable<CoachMonthlyIncome>> GetCoachMonthlyIncomeAsync(int coachId)
+        {
+            var records = await _context.CoachIncomes
+                .Where(i => i.CoachID == coachId)
+                .Include(i => i.Enrollment)
+                    .ThenInclude(e => e.Child)
+                .Include(i => i.Course)
+                .ToListAsync();
+
+            // Fix for CS1061: Safely access Year and Month from nullable DateTime (DateTime?)
+            var result = records
+                .GroupBy(i => new
+                {
+                    Year = ((DateTime)(i.Enrollment.ScheduledAt).Value).Year,
+                    Month = ((DateTime)(i.Enrollment.ScheduledAt).Value).Month
+
+                })
+                .OrderBy(g => g.Key.Year)
+                .ThenBy(g => g.Key.Month)
+                .Select(g => new CoachMonthlyIncome
+                {
+                    Year = g.Key.Year,
+                    Month = g.Key.Month,
+                    TotalHours = (decimal)g.Sum(x => x.Enrollment.ActualHours),
+                    //TotalIncome = g.Sum(x => x.Amount),
+                    Details = g.Select(x => new CoachIncomeDetail
+                    {
+                        ScheduledAt = (DateTime)x.Enrollment.ScheduledAt,
+                        Hours = (decimal)x.Enrollment.ActualHours,
+                        //Amount = x.Amount,
+                        ChildName = x.Enrollment.Child.Name,
+                        CourseName = x.Course.Title
+                    }).ToList()
+                })
+                .ToList();
+
+            return result;
         }
     }
 

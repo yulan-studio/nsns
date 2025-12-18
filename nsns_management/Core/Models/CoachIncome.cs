@@ -15,9 +15,9 @@ namespace Core.Models
         public int IncomeID { get; set; } // Primary key for the table
 
         // Foreign key references to the coaches, courses, and course_enrollments tables
-        public int? CoachID { get; set; }
-        public int? CourseID { get; set; }
-        public int? EnrollmentID { get; set; }
+        public int CoachID { get; set; }
+        public int CourseID { get; set; }
+        public int EnrollmentID { get; set; }
 
         // Income-related fields
         public decimal? IncomeChange { get; set; }
@@ -25,13 +25,13 @@ namespace Core.Models
 
         // Foreign keys referencing related entities
         [ForeignKey(nameof(CoachID))]
-        public virtual Coach? Coach { get; set; } // Navigation property for the associated Coach
+        public virtual Coach Coach { get; set; } // Navigation property for the associated Coach
 
         [ForeignKey(nameof(CourseID))]
-        public virtual Course? Course { get; set; } // Navigation property for the associated Course
+        public virtual Course Course { get; set; } // Navigation property for the associated Course
 
         [ForeignKey(nameof(EnrollmentID))]
-        public virtual CourseEnrollment? Enrollment { get; set; } // Navigation property for the associated Enrollment
+        public virtual CourseEnrollment Enrollment { get; set; } // Navigation property for the associated Enrollment
 
         // Timestamps for record creation and update
         public DateTime? CreatedDate { get; set; } 

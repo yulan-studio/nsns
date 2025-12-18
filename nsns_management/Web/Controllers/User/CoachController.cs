@@ -915,22 +915,23 @@ namespace Web.Controllers.User
                 return NotFound("Coach profile not found.");
 
             // Get income records
-            var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
+            //var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
 
-            var viewModel = incomeRecords.Select(i => new HoursViewModel
-            {
-                EnrollmentID = i.EnrollmentID ?? 0,
-                CourseName = i.Course?.Title ?? "N/A",
-                ChildName = i.Enrollment?.Child.Name ?? "N/A",
-                SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
-                SessionHours = i.Enrollment?.ActualHours ?? 0,
-                //IncomeChange = i.IncomeChange ?? 0,
-                //TotalIncomeSoFar = i.Income ?? 0
-            }).ToList();
+            //var viewModel = incomeRecords.Select(i => new HoursViewModel
+            //{
+            //    EnrollmentID = i.EnrollmentID,
+            //    CourseName = i.Course?.Title ?? "N/A",
+            //    ChildName = i.Enrollment?.Child.Name ?? "N/A",
+            //    SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
+            //    SessionHours = i.Enrollment?.ActualHours ?? 0,
+
+            //}).ToList();
 
             //ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
 
-            return View(viewModel);
+            var incomeRecords = await _incomeService.GetCoachMonthlyIncomeAsync(coach.CoachID);
+
+            return View(incomeRecords);
         }
 
 
@@ -940,30 +941,22 @@ namespace Web.Controllers.User
         {
             // Get current coach based on User ID
            var coach = await _coachService.GetAsync(coachId);
+           var incomeRecords = await _incomeService.GetCoachMonthlyIncomeAsync(coachId);
 
-            // Get income records
-            var incomeRecords = await _incomeService.GetCoachIncomeAsync(coachId);
 
-            var hours = incomeRecords.Select(i => new HoursViewModel
-            {
-                EnrollmentID = i.EnrollmentID ?? 0,
-                CourseName = i.Course?.Title ?? "N/A",
-                ChildName = i.Enrollment?.Child.Name ?? "N/A",
-                SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
-                SessionHours = i.Enrollment?.ActualHours ?? 0,
-                //IncomeChange = i.IncomeChange ?? 0,
-                //TotalIncomeSoFar = i.Income ?? 0
-            }).ToList();
 
             var viewModel = new CoachHoursViewModel
             {
                 Coach = coach,
-                HoursDetails = hours
+                MonthlyIncomes = incomeRecords.ToList()
             };
 
-            //ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
+
 
             return View(viewModel);
+
+
+
         }
     }
 }
