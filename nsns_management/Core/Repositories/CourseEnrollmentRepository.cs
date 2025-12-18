@@ -1,5 +1,6 @@
 ﻿using Core.Interfaces;
 using Core.Models;
+using Core.DTOs;
 using Core.ViewModels;
 using Core.Contexts;
 using System;
@@ -663,6 +664,28 @@ namespace Core.Repositories
 
         }
 
+
+
+        public async Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId)
+        {
+            var sessions = await _context.CourseEnrollments
+                .Where(e => e.Course.CoachID == coachId)
+                .Where(e => e.ScheduledAt != null)
+                .Include(e => e.Course)
+                .Include(e => e.Child)
+                .ToListAsync();
+
+            return sessions.Select(e => new CalendarSchedule
+            {
+                Title = $"{e.Child.Name}",
+                Start = e.ScheduledAt.Value,
+                End = e.ActualHours != null
+                    ? e.ScheduledAt.Value.AddHours((double)e.ActualHours.Value)
+                    : e.ScheduledAt.Value.AddHours((double)(e.ScheduledHours ?? 0)),
+                Status = e.ActualHours != null ? "Completed" : "Scheduled",
+                Color = e.ActualHours != null ? "#28a745" : "#0d6efd" // 绿 / 蓝
+            }).ToList();
+        }
 
 
 

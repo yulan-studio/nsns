@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Core.DTOs;
+using Core.Interfaces;
+using Core.Models;
+using Core.Repositories;
+using Core.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
-using Core.Models;
-using Core.ViewModels;
-using Core.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.Extensions.Options;
-using Core.Repositories;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
 
 namespace Core.Services
 {
@@ -660,6 +661,12 @@ namespace Core.Services
 
             return await _enrollmentRepository.UpdateCourseEnrollmentStatusToConfirmedAsync(enrollmentId);
 
+        }
+
+
+        public async Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId)
+        {
+            return await _enrollmentRepository.GetCoachSchedulesAsync(coachId);
         }
     }
 

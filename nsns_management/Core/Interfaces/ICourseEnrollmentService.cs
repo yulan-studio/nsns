@@ -1,6 +1,7 @@
-﻿using Core.Models;
-using Core.ViewModels;
+﻿using Core.DTOs;
+using Core.Models;
 using Core.Repositories;
+using Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -102,6 +103,8 @@ namespace Core.Interfaces
         Task<bool> UpdateCourseEnrollmentStatusToConfirmedAsync(int enrollmentId);
 
         Task<int?> GetEnrollmentIdByChildAndCourseAsync(int courseId, int childId, string status);
+
+        Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId);
     }
 
 

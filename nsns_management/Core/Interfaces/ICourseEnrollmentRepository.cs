@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Core.DTOs;
+using Core.Models;
+using Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Core.Models;
-using Core.ViewModels;
 
 namespace Core.Interfaces
 {
@@ -81,6 +82,8 @@ namespace Core.Interfaces
         //Task<bool> UpdateCourseStatusToScheduledAsync(int enrollmentID);
 
         Task<IEnumerable<PrivateCourseEnrollmentViewModel>> GetPrivateEnrollmentsViewByChildAsync(int childId, String status);
+
+        Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId);
 
 
     }

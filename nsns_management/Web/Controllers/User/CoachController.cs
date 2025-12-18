@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlClient;
 using System.Diagnostics;
@@ -932,6 +933,29 @@ namespace Web.Controllers.User
             var incomeRecords = await _incomeService.GetCoachMonthlyIncomeAsync(coach.CoachID);
 
             return View(incomeRecords);
+        }
+
+        
+        [HttpGet("GetCoachSchedules")]
+        public async Task<IActionResult> GetCoachSchedules()
+        {
+            // Get current coach based on User ID
+            var user = await _userManager.GetUserAsync(User);
+            var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
+
+            var schedules = await _courseEnrollmentService.GetCoachSchedulesAsync(coach.CoachID);
+
+            return Json(schedules);
+
+        }
+
+        [Authorize(Roles = "Coach")]
+        [HttpGet("MyCalendar")]
+        public async Task<IActionResult> MyCalendar()
+        {
+            // Get current coach based on User ID
+          
+            return View();
         }
 
 
