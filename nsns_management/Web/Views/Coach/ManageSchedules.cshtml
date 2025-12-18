@@ -69,7 +69,7 @@
     <div style="padding-top: 10px"></div>
     <strong>Gender:</strong> @Model.Child.Gender
     <div style="padding-top: 10px"></div>
-    <strong>Birthday:</strong> @Model.Child.BirthDate
+    <strong>Birthday:</strong> @(Model.Child.BirthDate.HasValue ? Model.Child.BirthDate.Value.ToShortDateString() : "")
     <div style="padding-top: 10px"></div>
     <strong>City:</strong> @Model.Child.City.Name
     <div style="padding-top: 10px"></div>
