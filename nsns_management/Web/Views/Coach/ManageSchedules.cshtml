@@ -108,7 +108,7 @@
         {
             foreach (var schedule in Model.Schedules)
             {
-                <tr>
+                <tr id="row-@schedule.EnrollmentID">
 
                     @*  <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td> *@
@@ -119,8 +119,23 @@
                         var scheduledHours = schedule.ScheduledHours.HasValue ? (double)schedule.ScheduledHours.Value : 0;
                         var end = start.AddHours(scheduledHours);
 
-                        <td style="padding: 8px; border: 1px solid #ddd;">@start.ToString("yyyy-MM-dd")</td>
-                        <td style="padding: 8px; border: 1px solid #ddd;">@start.ToString("HH:mm")</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">
+                            <span id="dateView-@schedule.EnrollmentID">@start.ToString("yyyy-MM-dd")</span>
+                           @*  <input type="date"
+                            class="edit-mode"
+                            id="dateEdit-@schedule.EnrollmentID"
+                            value="@start.ToString("yyyy-MM-dd")"
+                            style="display:none;" /> *@
+                        </td>
+
+                        <td style="padding: 8px; border: 1px solid #ddd;">
+                            <span id="timeView-@schedule.EnrollmentID"> @start.ToString("HH:mm")</span>
+                          @*   <input type="time"
+                                   class="edit-mode"
+                                   id="timeEdit-@schedule.EnrollmentID"
+                                   value="@start.ToString("HH:mm")"
+                                   style="display:none;" /> *@
+                        </td>
                         <td style="padding: 8px; border: 1px solid #ddd;">@end.ToString("HH:mm")</td>
                     }
                     else
@@ -129,7 +144,14 @@
                         <td style="padding: 8px; border: 1px solid #ddd;"></td>
                         <td style="padding: 8px; border: 1px solid #ddd;"></td>
                     }
-                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.Location</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                        <span class="view-mode" id="locationView-@schedule.EnrollmentID"> @schedule.Location </span>
+                        <input type="text"
+                               class="edit-mode"
+                               id="locationEdit-@schedule.EnrollmentID"
+                               value="@schedule.Location"
+                               style="display:none;" />
+                    </td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:@(schedule.Status == "RequestToReschedule" ? "#FFDBF6" : "#ffffff")">@schedule.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ParentNote</td>
                     <form method="post" action="/Coach/DeleteSchedule">
@@ -145,6 +167,9 @@
                         <input type="hidden" id="courseId" name="courseId" value="@Model.Course.CourseID" />
                         <input type="hidden" name="coachNote" value="@schedule.CoachNote" />
                         <input type="hidden" name="enrollmentId_Ref" value="@Model.EnrollmentID" />
+
+                       
+
                         @{
                             var now = DateTime.UtcNow;
 
@@ -154,8 +179,38 @@
                         }
 
                         @if (schedule.Status != "Deleted" && !isWithin24Hours)
+                          {
+                           @*  <button type="button"
+                                    class="view-mode"
+                                    onclick="enterEditMode(@schedule.EnrollmentID)">
+                                Edit
+                            </button> *@
+
+                            <a href="javascript:void(0);"
+                               class="view-mode"
+                               style="margin-right: 10px;"
+                               onclick="enterEditMode(@schedule.EnrollmentID)">
+                                Edit
+                            </a>
+
+                            <button type="button"
+                                    class="edit-mode"
+                                    style="display:none; background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;"
+                                    onclick="saveSchedule(@schedule.EnrollmentID)">
+                                Save
+                            </button>
+
+                            <button type="button"
+                                    class="edit-mode"
+                                    style="display:none; background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;"
+                                    onclick="cancelEdit(@schedule.EnrollmentID)">
+                                Cancel
+                            </button>
+                          }
+
+                        @if (schedule.Status != "Deleted" && !isWithin24Hours)
                         {
-                            <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                            <button type="submit" class="view-mode" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
                                 Remove
                             </button>
                         }
@@ -171,11 +226,11 @@
                     <div style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
                         - If a parent requests to reschedule, the coach is required to remove the existing schedule and create a new one. <br />
                         - Coaches can also reschedule a session at least 24 hours before the scheduled start time. <br />
-                        - In the case of the location is not available for the time, please also remove the existing schedule.<br />
+                        - Location can be edited directly.<br />
                         - Kindly ensure the parent is informed of the change via phone or WeChat.<br />
                         - 如果家长请求改期，教练需先删除原有的安排，再创建新的课程安排。<br />
                         - 教练也可以在课程开始前至少24小时进行改期。<br />
-                        - 如果场地在该时间不可用，也请删除原有的安排。<br />
+                        - 场地如果需要调整可以直接修改。<br />
                         - 请通过电话或微信确保通知家长相关变更。
                     </div>
                 </td>
@@ -261,7 +316,80 @@
 
 
 
+<script>
 
+    function enterEditMode(id) {
+
+        // document.querySelectorAll(`#dateView-${id}, #timeView-${id}, #locationView-${id}`)
+        //     .forEach(e => e.style.display = "none");
+        
+        document.querySelectorAll(`#locationView-${id}`)
+            .forEach(e => e.style.display = "none");
+
+        // document.querySelectorAll(`#dateEdit-${id}, #timeEdit-${id}, #locationEdit-${id}`)
+        //     .forEach(e => e.style.display = "inline-block");
+
+        document.querySelectorAll(`#locationEdit-${id}`)
+            .forEach(e => e.style.display = "inline-block");
+
+        document.querySelectorAll(`#row-${id} .edit-mode`)
+            .forEach(e => e.style.display = "inline-block");
+
+        document.querySelectorAll(`#row-${id} .view-mode`)
+            .forEach(e => e.style.display = "none");
+
+      
+    }
+
+    function cancelEdit(id) {
+        document.querySelectorAll(`#locationEdit-${id}`)
+            .forEach(e => e.style.display = "none");
+        // document.querySelectorAll(`#dateEdit-${id}, #timeEdit-${id}, #locationEdit-${id}`)
+        //     .forEach(e => e.style.display = "none");
+
+        document.querySelectorAll(`#locationView-${id}`)
+            .forEach(e => e.style.display = "inline-block");
+         // document.querySelectorAll(`#dateView-${id}, #timeView-${id}, #locationView-${id}`)
+         //    .forEach(e => e.style.display = "inline-block");
+
+        document.querySelectorAll(`#row-${id} .edit-mode`)
+            .forEach(e => e.style.display = "none");
+
+        document.querySelectorAll(`#row-${id} .view-mode`)
+            .forEach(e => e.style.display = "inline-block");
+    }
+
+
+    function saveSchedule(id) {
+        // const date = document.getElementById(`dateEdit-${id}`).value;
+        // const time = document.getElementById(`timeEdit-${id}`).value;
+        const location = document.getElementById(`locationEdit-${id}`).value;
+
+        fetch('/Coach/UpdateSchedule', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                enrollmentId: id,
+                // scheduledAt: `${date}T${time}`,
+                location: location,
+                childId: document.getElementById("childId").value,
+                courseId: document.getElementById("courseId").value,
+                enrollmentId_Ref: document.getElementById("enrollmentId_Ref").value
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+            if (data.redirectUrl) {
+                window.location.href = data.redirectUrl;
+                }
+            });
+        }
+
+
+      
+
+
+</script>
 
 
 

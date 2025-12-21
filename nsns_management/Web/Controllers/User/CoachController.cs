@@ -950,6 +950,30 @@ namespace Web.Controllers.User
         }
 
         [Authorize(Roles = "Coach")]
+        [HttpPost("UpdateSchedule")]
+        public async Task<IActionResult> UpdateSchedule([FromBody] UpdateCoachScheduleViewModel vm)
+        {
+            await _courseEnrollmentService.UpdateCoachSchedule(vm);
+            // You need to provide values for childId, courseId, and enrollmentId_Ref here if you want to redirect.
+            // For now, just return Ok or a suitable result.
+            //return RedirectToAction("ManageSchedules", new { vm.ChildId, courseId = vm.CourseId, enrollmentId = vm.EnrollmentId_Ref });
+            return Ok(new
+            {
+                redirectUrl = Url.Action(
+                "ManageSchedules",
+                "Coach",
+                new
+                {
+                    childId = vm.ChildId,
+                    courseId = vm.CourseId,
+                    enrollmentId = vm.EnrollmentId_Ref
+                })
+            });
+           
+        }
+
+
+        [Authorize(Roles = "Coach")]
         [HttpGet("MyCalendar")]
         public async Task<IActionResult> MyCalendar()
         {

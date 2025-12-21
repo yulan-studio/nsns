@@ -86,5 +86,8 @@ namespace Core.Interfaces
         Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId);
 
 
+        Task<bool> UpdateCoachSchedule(UpdateCoachScheduleViewModel vm);
+
+
     }
 }
