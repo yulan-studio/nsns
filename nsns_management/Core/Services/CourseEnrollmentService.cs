@@ -4,6 +4,7 @@ using Core.Models;
 using Core.Repositories;
 using Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -46,7 +47,8 @@ namespace Core.Services
             return enrollment;
         }
 
-        
+      
+
 
         public async Task<bool> RemoveAsync(int enrollmentId)
         {
@@ -667,6 +669,12 @@ namespace Core.Services
         public async Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId)
         {
             return await _enrollmentRepository.GetCoachSchedulesAsync(coachId);
+        }
+
+
+        public async Task<bool> UpdateCoachSchedule(UpdateCoachScheduleViewModel vm)
+        {
+            return await _enrollmentRepository.UpdateCoachSchedule(vm);
         }
     }
 

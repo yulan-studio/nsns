@@ -105,6 +105,8 @@ namespace Core.Interfaces
         Task<int?> GetEnrollmentIdByChildAndCourseAsync(int courseId, int childId, string status);
 
         Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId);
+
+        Task<bool> UpdateCoachSchedule(UpdateCoachScheduleViewModel vm);
     }
 
 

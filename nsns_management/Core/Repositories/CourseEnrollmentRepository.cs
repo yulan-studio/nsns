@@ -1,14 +1,15 @@
-﻿using Core.Interfaces;
-using Core.Models;
+﻿using Core.Contexts;
 using Core.DTOs;
+using Core.Interfaces;
+using Core.Models;
 using Core.ViewModels;
-using Core.Contexts;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 
 
@@ -670,6 +671,30 @@ namespace Core.Repositories
         {
             var sessions = await _context.CourseEnrollments
                 .Where(e => e.Course.CoachID == coachId)
+                .Where(e => e.ScheduledAt != null && e.Status!="Deleted")
+                .Include(e => e.Course)
+                .Include(e => e.Child)
+                .ToListAsync();
+
+            return sessions.Select(e => new CalendarSchedule
+            {
+                Title = $"{e.Child.Name}",
+                Start = e.ScheduledAt.Value,
+                End = e.ActualHours != null
+                    ? e.ScheduledAt.Value.AddHours((double)e.ActualHours.Value)
+                    : e.ScheduledAt.Value.AddHours((double)(e.ScheduledHours ?? 0)),
+                Status = e.ActualHours != null ? "Completed" : "Scheduled",
+                Color = e.ActualHours != null ? "#28a745" : "#0d6efd" // 绿 / 蓝
+            }).ToList();
+        }
+
+
+
+
+        public async Task<IEnumerable<CalendarSchedule>> UpdateCoachSchedulesAsync(int coachId)
+        {
+            var sessions = await _context.CourseEnrollments
+                .Where(e => e.Course.CoachID == coachId)
                 .Where(e => e.ScheduledAt != null)
                 .Include(e => e.Course)
                 .Include(e => e.Child)
@@ -688,6 +713,21 @@ namespace Core.Repositories
         }
 
 
+
+        public async Task<bool> UpdateCoachSchedule(UpdateCoachScheduleViewModel vm)
+        {
+            var schedule = _context.CourseEnrollments.FirstOrDefault(e => e.EnrollmentID == vm.EnrollmentId);
+
+            if (schedule == null)
+                return false;
+            else
+            {
+                //schedule.ScheduledAt = DateTime.Parse(vm.ScheduledAt);
+                schedule.Location = vm.Location;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+        }
 
 
     }
