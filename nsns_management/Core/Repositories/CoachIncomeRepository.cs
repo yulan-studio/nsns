@@ -99,8 +99,8 @@ namespace Core.Repositories
                     Month = ((DateTime)(i.Enrollment.ScheduledAt).Value).Month
 
                 })
-                .OrderBy(g => g.Key.Year)
-                .ThenBy(g => g.Key.Month)
+                .OrderByDescending(g => g.Key.Year)
+                .ThenByDescending(g => g.Key.Month)
                 .Select(g => new CoachMonthlyIncome
                 {
                     Year = g.Key.Year,
