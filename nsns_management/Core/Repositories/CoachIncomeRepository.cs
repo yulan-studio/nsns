@@ -107,7 +107,7 @@ namespace Core.Repositories
                     Month = g.Key.Month,
                     TotalHours = (decimal)g.Sum(x => x.Enrollment.ActualHours),
                     //TotalIncome = g.Sum(x => x.Amount),
-                    Details = g.Select(x => new CoachIncomeDetail
+                    Details = g.OrderBy(x => x.Enrollment.ScheduledAt).Select(x => new CoachIncomeDetail
                     {
                         ScheduledAt = (DateTime)x.Enrollment.ScheduledAt,
                         Hours = (decimal)x.Enrollment.ActualHours,
