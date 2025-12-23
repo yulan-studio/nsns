@@ -1,6 +1,5 @@
 ﻿
 
-@* <script src="/js/schedules.js"></script> *@
 
 <script>
     function validateScheduleTime() {
@@ -110,8 +109,6 @@
             {
                 <tr id="row-@schedule.EnrollmentID">
 
-                    @*  <td style="padding: 8px; border: 1px solid #ddd;">@((schedule.ScheduledAt.HasValue) ? schedule.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@schedule.ScheduledHours</td> *@
 
                     @if (schedule.ScheduledAt.HasValue)
                     {
@@ -121,20 +118,11 @@
 
                         <td style="padding: 8px; border: 1px solid #ddd;">
                             <span id="dateView-@schedule.EnrollmentID">@start.ToString("yyyy-MM-dd")</span>
-                           @*  <input type="date"
-                            class="edit-mode"
-                            id="dateEdit-@schedule.EnrollmentID"
-                            value="@start.ToString("yyyy-MM-dd")"
-                            style="display:none;" /> *@
+                           
                         </td>
 
                         <td style="padding: 8px; border: 1px solid #ddd;">
                             <span id="timeView-@schedule.EnrollmentID"> @start.ToString("HH:mm")</span>
-                          @*   <input type="time"
-                                   class="edit-mode"
-                                   id="timeEdit-@schedule.EnrollmentID"
-                                   value="@start.ToString("HH:mm")"
-                                   style="display:none;" /> *@
                         </td>
                         <td style="padding: 8px; border: 1px solid #ddd;">@end.ToString("HH:mm")</td>
                     }
@@ -174,17 +162,13 @@
                             var now = DateTime.UtcNow;
 
                             var scheduledUtc = TimeZoneInfo.ConvertTimeToUtc(schedule.ScheduledAt.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
-                            //var isWithin24Hours = @schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
+                          
                             var isWithin24Hours = (scheduledUtc - now).TotalHours < 24;
                         }
 
                         @if (schedule.Status != "Deleted" && !isWithin24Hours)
                           {
-                           @*  <button type="button"
-                                    class="view-mode"
-                                    onclick="enterEditMode(@schedule.EnrollmentID)">
-                                Edit
-                            </button> *@
+                        
 
                             <a href="javascript:void(0);"
                                class="view-mode"
@@ -302,11 +286,6 @@
         <div style="padding-top: 15px"></div>
         <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">Schedule</button>
     </form>
-
-    
-
-
-  
     
 </div>
 
@@ -320,14 +299,9 @@
 
     function enterEditMode(id) {
 
-        // document.querySelectorAll(`#dateView-${id}, #timeView-${id}, #locationView-${id}`)
-        //     .forEach(e => e.style.display = "none");
         
         document.querySelectorAll(`#locationView-${id}`)
             .forEach(e => e.style.display = "none");
-
-        // document.querySelectorAll(`#dateEdit-${id}, #timeEdit-${id}, #locationEdit-${id}`)
-        //     .forEach(e => e.style.display = "inline-block");
 
         document.querySelectorAll(`#locationEdit-${id}`)
             .forEach(e => e.style.display = "inline-block");
@@ -344,13 +318,9 @@
     function cancelEdit(id) {
         document.querySelectorAll(`#locationEdit-${id}`)
             .forEach(e => e.style.display = "none");
-        // document.querySelectorAll(`#dateEdit-${id}, #timeEdit-${id}, #locationEdit-${id}`)
-        //     .forEach(e => e.style.display = "none");
 
         document.querySelectorAll(`#locationView-${id}`)
             .forEach(e => e.style.display = "inline-block");
-         // document.querySelectorAll(`#dateView-${id}, #timeView-${id}, #locationView-${id}`)
-         //    .forEach(e => e.style.display = "inline-block");
 
         document.querySelectorAll(`#row-${id} .edit-mode`)
             .forEach(e => e.style.display = "none");
@@ -361,8 +331,7 @@
 
 
     function saveSchedule(id) {
-        // const date = document.getElementById(`dateEdit-${id}`).value;
-        // const time = document.getElementById(`timeEdit-${id}`).value;
+
         const location = document.getElementById(`locationEdit-${id}`).value;
 
         fetch('/Coach/UpdateSchedule', {
@@ -370,7 +339,6 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 enrollmentId: id,
-                // scheduledAt: `${date}T${time}`,
                 location: location,
                 childId: document.getElementById("childId").value,
                 courseId: document.getElementById("courseId").value,
