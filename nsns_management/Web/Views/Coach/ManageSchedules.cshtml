@@ -2,8 +2,9 @@
 
 <h2 class="mb-3">Schedule Course</h2>
 
-<a href="/Coach/ManageCourse" class="btn btn-light mb-3">← Back to Courses List</a>
+<a href="/Coach/ManageCourse" class="btn btn-static-grey mb-3">← Back to Courses List</a>
 
+@* btn-light  mb-3*@
 <!-- Info Panel -->
 <div class="p-3 mb-4 bg-light border rounded">
     <strong>Course:</strong> @Model.Course.Title <br />
@@ -23,6 +24,22 @@
 </div>
 
 <style>
+
+    .btn-static-grey {
+        background-color: #e0e0e0;
+        color: #333;
+        border: 1px solid #ccc;
+    }
+
+    .btn-static-grey:hover,
+    .btn-static-grey:focus,
+    .btn-static-grey:active {
+        background-color: #e0e0e0; /* same as normal */
+        color: #333;
+        border-color: #ccc;
+        box-shadow: none;
+    }
+
     /* ===== Desktop default ===== */
     table.mobile-stack {
         width: 100%;
@@ -134,21 +151,22 @@
                     <td data-label="Actions">
                         @if (s.Status != "Deleted" && !isWithin24Hours)
                         {
-                            <a href="javascript:void(0);" class="view-mode btn btn-sm btn-outline-primary" onclick="enterEditMode(@s.EnrollmentID)">Edit</a>
-                            <button type="button" class="edit-mode btn btn-sm btn-primary" style="display:none" onclick="saveSchedule(@s.EnrollmentID)">Save</button>
+                            <a href="javascript:void(0);" class="view-mode" onclick="enterEditMode(@s.EnrollmentID)">Edit</a>
+                            
+                            <button type="button" class="edit-mode btn btn-primary" style="display:none" onclick="saveSchedule(@s.EnrollmentID)">Save</button>
 
 
-                            <button type="button" class="edit-mode btn btn-sm btn-secondary" style="display:none" onclick="cancelEdit(@s.EnrollmentID)">Cancel</button>
+                            <button type="button" class="edit-mode btn btn-secondary" style="display:none" onclick="cancelEdit(@s.EnrollmentID)">Cancel</button>
                         }
 
                         @if (s.Status != "Deleted" && !isWithin24Hours)
                         {
-                            <form method="post" action="/Coach/DeleteSchedule" style="display:inline-block; margin-top:3px;">
+                            <form method="post" action="/Coach/DeleteSchedule" style="display:inline-block; margin-top:3px; margin-left: 5px;">
                                 <input type="hidden" name="enrollmentId" value="@s.EnrollmentID" />
                                 <input type="hidden" name="childId" id="childId" value="@Model.Child.ChildID" />
                                 <input type="hidden" name="courseId" id="courseId" value="@Model.Course.CourseID" />
                                 <input type="hidden" name="enrollmentId_Ref" id="enrollmentId_Ref" value="@Model.EnrollmentID" />
-                                <button type="submit" class="view-mode btn btn-sm btn-danger">Remove</button>
+                                <button type="submit" class="view-mode btn btn btn-primary">Remove</button>
                             </form>
                         }
                     </td>
