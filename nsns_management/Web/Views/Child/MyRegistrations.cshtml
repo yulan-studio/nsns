@@ -5,6 +5,63 @@
 @model Core.ViewModels.ManageRegisterationsViewModel
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
 
+<style>
+    /* ===== Desktop default ===== */
+    table.mobile-stack {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table.mobile-stack th,
+        table.mobile-stack td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+    /* ===== Mobile card layout ===== */
+    @@media (max-width: 767px) {
+        table.mobile-stack thead
+
+    {
+        display: none;
+    }
+
+    table.mobile-stack,
+    table.mobile-stack tbody,
+    table.mobile-stack tr,
+    table.mobile-stack td {
+        display: block;
+        width: 100%;
+    }
+
+        table.mobile-stack tr {
+            margin-bottom: 16px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        table.mobile-stack td {
+            border: none;
+            padding: 6px 0;
+        }
+
+        table.mobile-stack td::before {
+            content: attr(data-label);
+            display: block;
+            font-weight: 600;
+            color: #1B7BAB;
+            margin-bottom: 2px;
+        }
+
+    }
+</style>
+
+
+
+
 <h2>Registeration History</h2>
 
 
@@ -24,28 +81,21 @@
     如需查看即将开始的课程安排，请前往 <a href="/Child/MySchedules">Schedules</a> 页面。已完成的课程请查看 <a href="/Child/MyEnrollmentsHistory">Enrollments</a> 页面。
   
 </div>
-<table style="border-collapse: collapse; width: 100%; text-align: left;">
-    <thead>
-        <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
-     @*        <th style="padding: 8px; border: 1px solid #ddd;">Course Type</th> *@
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th> *@
-            <th style="padding: 8px; border: 1px solid #ddd;">Specialty</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
-            
-          @*   <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No Funding)</th> *@
-            <th style="padding: 8px; border: 1px solid #ddd;">Session Count</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Completed</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Canceled</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Request To Reschedule</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Request To Leave</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
-            
-            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Is Paid</th>
-         
+<table class="mobile-stack table table-bordered mt-3" @* class="mobile-stack" *@>
+    <thead class="table-primary">
+        <tr>
+            <th>Course</th>
+            <th>Specialty</th>
+            <th>Coach</th>
+            <th>Session Count</th>
+            <th>Scheduled</th>
+            <th>Completed</th>
+            <th>Canceled</th>
+            <th>Request To Reschedule</th>
+            <th>Request To Leave</th>
+            <th>On Leave</th>
+            <th>Status</th>
+            <th>Is Paid</th>
         </tr>
     </thead>
     <tbody>
@@ -56,31 +106,20 @@
 
             {
                 <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
-                   @*  <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CourseType</td> *@
-                   @*  <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.IsActive == false ?"color: red":"")">@enrollment.IsActive</td> *@
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SpecialtyName</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
-                    
-                 @*    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td> *@
-                    
-                    
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SessionCount</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; color:@(enrollment.ScheduledSessions > 0 ? "red" : "black");">@enrollment.ScheduledSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.CompletedSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;@(@enrollment.CanceledSessions>0 ?"color: red":"")">@enrollment.CanceledSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;@(enrollment.RequestToRescheduleSessions > 0 ?"color: red":"")">@enrollment.RequestToRescheduleSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;@(@enrollment.RequestToLeaveSessions>0 ?"color: red":"")">@enrollment.RequestToLeaveSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; @(@enrollment.OnLeaveSessions>0 ?"color: red":"")">@enrollment.OnLeaveSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">
+                    <td data-label="Course">@enrollment.Title</td>
+                    <td data-label="Specialty">@enrollment.SpecialtyName</td>
+                    <td data-label="Coach">@enrollment.CoachName</td>
+                    <td data-label="Session Count">@enrollment.SessionCount</td>
+                    <td data-label="Scheduled">@enrollment.ScheduledSessions</td>
+                    <td data-label="Completed">@enrollment.CompletedSessions</td>
+                    <td data-label="Canceled">@enrollment.CanceledSessions</td>
+                    <td data-label="Request To Reschedule">@enrollment.RequestToRescheduleSessions</td>
+                    <td data-label="Request To Leave">@enrollment.RequestToLeaveSessions</td>
+                    <td data-label="On Leave">@enrollment.OnLeaveSessions</td>
+                    <td data-label="Status">@enrollment.Status</td>
+                    <td data-label="Is Paid">
                         @if (!enrollment.IsPaid)
                         {
-                           @*  <a href="javascript:void(0);" onclick="showPaymentDescription('@enrollment.PaymentDescription')">
-                                False
-                            </a> *@
-
                             <a href="javascript:void(0);" onclick="showPaymentModal('@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(enrollment.PaymentDescription))')">
                                 False
                             </a>
@@ -90,6 +129,7 @@
                             @enrollment.IsPaid
                         }
                     </td>
+
 
                  
                 </tr>
@@ -129,41 +169,43 @@
 
 
 </div>
-<table style="border-collapse: collapse; width: 100%; text-align: left;">
-    <thead>
+<table class="mobile-stack table table-bordered mt-3" @* class="mobile-stack" *@>
+   @*  <thead>
         <tr style="background-color: #f2f2f2;">
             <th style="padding: 8px; border: 1px solid #ddd;">Activity</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Cost</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Is Paid</th>
         </tr>
+    </thead> *@
+
+
+    <thead class="table-primary">
+        <tr>
+            <th>Activity</th>
+            <th>Description</th>
+            <th>Address</th>
+            <th>Scheduled At</th>
+            <th>Status</th>
+            <th>Is Paid</th>
+          
+        </tr>
     </thead>
+       
     <tbody>
         @if (Model.ActivityEnrollments.Any())
         {
             foreach (var enrollment in Model.ActivityEnrollments)
             {
                 <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Description</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Address</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
-                    @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.TotalCost</td> *@
-                    <td style="padding: 8px; border: 1px solid #ddd;@(enrollment.Status == "Canceled" ?"color: red":"")">@enrollment.Status</td>
-                @*     <td style="padding: 8px; border: 1px solid #ddd;">
-                        <form method="post" action="/Child/UnregisterActivity">
-                            <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
-                            <input type="hidden" name="childId" value="@enrollment.ChildID" />
-                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;">
-                                Remove
-                            </button>
-                        </form>
-                    </td> *@
-                    <td style="padding: 8px; border: 1px solid #ddd;">
+                    <td data-label="Activity">@enrollment.Title</td>
+                    <td data-label="Description">@enrollment.Description</td>
+                    <td data-label="Address">@enrollment.Address</td>
+                    <td data-label="Scheduled At">@enrollment.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td data-label="Status">@enrollment.Status</td>
+                    <td data-label="Is Paid">
                         @if (!enrollment.IsPaid)
                         {
                             <a href="javascript:void(0);" onclick="showPaymentModal('@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(enrollment.PaymentDescription))')">
@@ -173,9 +215,9 @@
                         else
                         {
                             @enrollment.IsPaid
-                            
                         }
                     </td>
+
                 </tr>
             }
         }
