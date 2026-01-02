@@ -20,7 +20,6 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th> *@
             
         </tr>
     </thead>
@@ -35,25 +34,20 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Location</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@((enrollment.ScheduledAt.HasValue) ? enrollment.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "") </td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours </td>
-@*                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ActualHours</td> *@
-
                     <td style="padding: 8px; border: 1px solid #ddd;">
-                    @if (enrollment.ActualHours != null)
-                    {
-                        @*  <a href="javascript:void(0);" onclick="showPaymentDescription('@enrollment.PaymentDescription')">
-                                False
-                            </a> *@
+                        @if (enrollment.ActualHours != null)
+                        {
 
-                        <a href="javascript:void(0);" onclick="showNoteModal('@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(enrollment.CoachNote))')">
-                            @enrollment.ActualHours
-                        </a>
-                    }
+
+                            <a href="javascript:void(0);" onclick="showNoteModal('@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(enrollment.CoachNote))')">
+                                @enrollment.ActualHours
+                            </a>
+                        }
 
                     </td>
 
 
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
-               @*      <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Course.HourlyCost</td> *@
                     
                 </tr>
             }
@@ -80,7 +74,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
-           @*  <th style="padding: 8px; border: 1px solid #ddd;">Cost</th> *@
+
         </tr>
     </thead>
     <tbody>
@@ -94,7 +88,6 @@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Description</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Address</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
-                    @* <td style="padding: 8px; border: 1px solid #ddd;"></td> *@
                 </tr>
             }
         }
