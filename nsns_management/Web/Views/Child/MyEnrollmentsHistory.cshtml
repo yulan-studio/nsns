@@ -1,142 +1,182 @@
 ﻿@model Core.ViewModels.EnrollmentsHistoryViewModel
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+
+<style>
+    /* ===== Desktop default ===== */
+    table.mobile-stack {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        table.mobile-stack th,
+        table.mobile-stack td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+    /* ===== Mobile stacked cards ===== */
+    @@media (max-width: 767px) {
+        table.mobile-stack thead
+    {
+        display: none;
+    }
+
+    table.mobile-stack,
+    table.mobile-stack tbody,
+    table.mobile-stack tr,
+    table.mobile-stack td {
+        display: block;
+        width: 100%;
+    }
+
+        table.mobile-stack tr {
+            margin-bottom: 16px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        table.mobile-stack td {
+            border: none;
+            padding: 6px 0;
+        }
+
+            table.mobile-stack td::before {
+                content: attr(data-label);
+                display: block;
+                font-weight: 600;
+                color: steelblue;
+                margin-bottom: 2px;
+            }
+
+    }
+</style>
+
 <h2>Enrollments History</h2>
 
-
-
-
-<div style="padding-top: 20px; padding-bottom: 20px">
+<!-- ================= COURSES ================= -->
+<div class="py-3">
     <h4 style="color:steelblue">- Courses -</h4>
 </div>
 
-
-<table id="CompletedCourses" style="border-collapse: collapse; width: 100%; text-align: left;">
-    <thead>
-        <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Location</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Hours</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Actual Hours</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
-            
+@* <table class="mobile-stack table table-bordered">
+    <thead class="table-light"> *@
+<table class="mobile-stack table table-bordered mt-3" >
+    <thead class="table-primary">
+        <tr>
+            <th>Course</th>
+            <th>Coach</th>
+            <th>Location</th>
+            <th>Scheduled At</th>
+            <th>Scheduled Hours</th>
+            <th>Actual Hours</th>
+            <th>Status</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.CompletedCourses!= null && Model.CompletedCourses.Any())
+        @if (Model.CompletedCourses != null && Model.CompletedCourses.Any())
         {
             foreach (var enrollment in Model.CompletedCourses)
             {
                 <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Course.Title</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@(enrollment.Course.Coach?.Name ?? "N/A")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Location</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@((enrollment.ScheduledAt.HasValue) ? enrollment.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm") : "") </td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledHours </td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">
-                        @if (enrollment.ActualHours != null)
+                    <td data-label="Course">@enrollment.Course.Title</td>
+                    <td data-label="Coach">@(enrollment.Course.Coach?.Name ?? "N/A")</td>
+                    <td data-label="Location">@enrollment.Location</td>
+                    <td data-label="Scheduled At">
+                        @(enrollment.ScheduledAt.HasValue
+                                        ? enrollment.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm")
+                                        : "")
+            </td>
+            <td data-label="Scheduled Hours">@enrollment.ScheduledHours</td>
+            <td data-label="Actual Hours">
+                @if (enrollment.ActualHours != null)
                         {
-
-
-                            <a href="javascript:void(0);" onclick="showNoteModal('@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(enrollment.CoachNote))')">
+                            <a href="javascript:void(0);"
+                               onclick="showNoteModal('@Html.Raw(System.Web.HttpUtility.JavaScriptStringEncode(enrollment.CoachNote))')">
                                 @enrollment.ActualHours
                             </a>
                         }
-
                     </td>
-
-
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
-                    
+                    <td data-label="Status">@enrollment.Status</td>
                 </tr>
             }
         }
         else
         {
             <tr>
-                <td colspan="7" style="text-align: center; padding: 10px;">No completed courses.</td>
+                <td colspan="7" class="text-center p-3">
+                    No completed courses.
+                </td>
             </tr>
         }
-
-       
     </tbody>
 </table>
 
-<div style="padding-top: 20px; padding-bottom: 20px">
+<!-- ================= ACTIVITIES ================= -->
+<div class="py-3">
     <h4 style="color:steelblue">- Activities -</h4>
 </div>
 
-<table id="CompletedActivities" style="border-collapse: collapse; width: 100%; text-align: left;">
-    <thead>
-        <tr style="background-color: #f2f2f2;">
-            <th style="padding: 8px; border: 1px solid #ddd;">Activity</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Description</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
-
+<table class="mobile-stack table table-bordered mt-3">
+    <thead class="table-primary">
+        <tr>
+            <th>Activity</th>
+            <th>Description</th>
+            <th>Address</th>
+            <th>Scheduled At</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model.CompletedActivities!=null && Model.CompletedActivities.Any())
-           
+        @if (Model.CompletedActivities != null && Model.CompletedActivities.Any())
         {
             foreach (var enrollment in Model.CompletedActivities)
             {
                 <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Title</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Description</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Address</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td data-label="Activity">@enrollment.Activity.Title</td>
+                    <td data-label="Description">@enrollment.Activity.Description</td>
+                    <td data-label="Address">@enrollment.Activity.Address</td>
+                    <td data-label="Scheduled At">
+                        @enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd HH:mm")
+                    </td>
                 </tr>
             }
         }
         else
         {
             <tr>
-                <td colspan="4" style="text-align: center; padding: 10px;">No completed activities.</td>
+                <td colspan="4" class="text-center p-3">
+                    No completed activities.
+                </td>
             </tr>
         }
-
-
     </tbody>
 </table>
 
-
-<!-- Bootstrap Modal -->
-<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+<!-- ================= MODAL ================= -->
+<div class="modal fade" id="noteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="noteModalLabel">Coach Note</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title">Coach Note</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body" id="noteModalBody">
-                <!-- Content will be filled dynamically -->
-            </div>
+            <div class="modal-body" id="noteModalBody"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
             </div>
         </div>
     </div>
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     function showNoteModal(description) {
-
-        var modalBody = document.getElementById('noteModalBody');
-        modalBody.textContent = description;
-
-        var modal = new bootstrap.Modal(document.getElementById('noteModal'));
-        modal.show();
+        document.getElementById('noteModalBody').textContent = description;
+        new bootstrap.Modal(document.getElementById('noteModal')).show();
     }
 </script>
-
-
-
-
-
-
-
