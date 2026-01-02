@@ -21,7 +21,7 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Payment Date</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Screenshot</th>
 
-            @* <th style="padding: 8px; border: 1px solid #ddd;">Actions</th> *@
+
         </tr>
     </thead>
     <tbody>
@@ -53,15 +53,7 @@
                             <span>No Receipt</span>
                         }
                     </td>
-                    @* <td style="padding: 8px; border: 1px solid #ddd;">
-                        <form method="post" action="/Child/RemovePayment">
-                            <input type="hidden" name="paymentId" value="@payment.PaymentID" />
-                            <input type="hidden" name="childId" value="@payment.Child.ChildID" />
-                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;">
-                                Remove
-                            </button>
-                        </form>
-                    </td> *@
+
                 </tr>
             }
 
@@ -71,7 +63,7 @@
 
         {
             <tr>
-                <td colspan="7" style="text-align: center; padding: 10px;">No payments found.</td>
+                <td colspan="6" style="text-align: center; padding: 10px;">No payments found.</td>
             </tr>
         }
 
