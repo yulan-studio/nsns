@@ -22,13 +22,20 @@
 
     /* ===== Mobile stacked cards ===== */
     @@media (max-width: 767px) {
-    .balance-table {
+    /* .balance-table {
         display: none;
+    } */
+
+        
+    .desktop-only {
+        display: none !important;
     }
-    table.mobile-stack thead
+       
+
+  /*   table.mobile-stack thead
     {
         display: none;
-    }
+    } 
 
     table.mobile-stack,
     table.mobile-stack tbody,
@@ -60,6 +67,8 @@
         }
 
     }
+
+        */
 </style>
 
 <h2>Balance Statement</h2>
@@ -68,13 +77,13 @@
 <table class="mobile-stack table table-bordered mt-3">
     <thead class="table-primary">
         <tr>
-            <th>Statement Date</th>
-            <th>Type</th>
-            <th>Course / Activity</th>
-            <th>Scheduled At</th>
-            <th>Actual Hours</th>
-            <th>Cost</th>
-            <th>Balance</th>
+                <th style="padding: 8px; border: 1px solid #ddd;" class="desktop-only">Statement Date</th>
+                <th style="padding: 8px; border: 1px solid #ddd;" class="desktop-only">Type</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Course / Activity</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Scheduled At</th>
+                <th style="padding: 8px; border: 1px solid #ddd;" class="desktop-only">Actual Hours</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Cost</th>
+                <th style="padding: 8px; border: 1px solid #ddd;">Balance</th>
         </tr>
     </thead>
 
@@ -84,15 +93,15 @@
             foreach (var item in Model)
             {
                 <tr>
-                    <td data-label="Statement Date">
+                    <td @* data-label="Statement Date" *@ class="desktop-only">
                         @item.CreatedDate.ToString("yyyy-MM-dd HH:mm")
                     </td>
 
-                    <td data-label="Type">
+                    <td @* data-label="Type" *@ class="desktop-only">
                         @item.Type
                     </td>
 
-                    <td data-label="Course / Activity">
+                    <td @* data-label="Course / Activity" *@>
                         @if (!string.IsNullOrEmpty(item.CourseName))
                         {
                             <span>Course: @item.CourseName</span>
@@ -107,15 +116,15 @@
                         }
                     </td>
 
-                    <td data-label="Scheduled At">
+                    <td @* data-label="Scheduled At" *@>
                         @item.ScheduledAt
                     </td>
 
-                    <td data-label="Actual Hours">
+                        <td class="desktop-only" @* data-label="Actual Hours" *@>
                         @item.ActualHours
                     </td>
 
-                    <td data-label="Cost"
+                    <td @* data-label="Cost" *@
                         style="color:@(item.BalanceChange < 0 ? "red" : "green")">
                         @if (!string.IsNullOrEmpty(item.Remarks))
                         {
@@ -131,7 +140,7 @@
                         }
                     </td>
 
-                    <td data-label="Balance">
+                    <td @* data-label="Balance" *@>
                         $@item.Balance.ToString("F2")
                     </td>
                 </tr>
