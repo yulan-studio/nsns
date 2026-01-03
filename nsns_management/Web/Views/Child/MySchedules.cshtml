@@ -1,10 +1,23 @@
 ﻿@model Core.ViewModels.ChildSchedulesViewModel
+
+
 @* <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> *@
 
 <style>
 /* =========================
     MOBILE FRIENDLY TABLES
     ========================= */
+
+    /* Hide extra course details on mobile */
+@@media (max-width: 768px) {
+    .desktop-only
+
+    {
+        display: none !important;
+    }
+
+}
+
 @@media (max-width: 768px) {
     /* Course summary stacks nicely */
     .course-summary strong
@@ -107,9 +120,12 @@
 
             <h5>Course: @($"{courseSchedules.Course.Title}{(string.IsNullOrEmpty(courseSchedules.Course.Description) ? "" : " | " + courseSchedules.Course.Description)}")</h5>
            @*  <label style="font-size:0.9em; color:darkslategray"> @courseSchedules.Course.Description</label> *@
-            <strong>Course Type: </strong>  @courseSchedules.Course.CourseType
+
+            <span class="desktop-only">
+               <strong>Course Type: </strong>  @courseSchedules.Course.CourseType
             
-            <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedules.Course.SessionCount
+                <strong> &nbsp; &nbsp; Sessions Count: </strong> @courseSchedules.Course.SessionCount
+            </span>
 
             <strong> &nbsp; &nbsp;Coach: </strong> @(courseSchedules.Course.Coach?.Name ?? "N/A")
             @if (courseSchedules.Course.CourseType == "Private")
@@ -140,7 +156,8 @@
                 <input type="hidden" name="CourseID" value="@courseSchedules.Course.CourseID" />
 
                
-                 <table class="mobile-table" style="border-collapse: collapse; width: 100%; text-align: left;">
+                 @* <table class="mobile-table" style="border-collapse: collapse; width: 100%; text-align: left;"> *@
+                 <table class="mobile-table table table-bordered mt-3" style="border-collapse: collapse; width: 100%; text-align: left; vertical-align:middle">
 
                            
                     <thead class="table-primary">
