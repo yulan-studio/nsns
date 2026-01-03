@@ -180,7 +180,7 @@
             <input type="hidden" name="EnrollmentID" value="@enrollment.EnrollmentID" />
             <input type="hidden" name="TotalCost" value="@enrollment.TotalCost" />
             <input type="hidden" name="PaymentModel" value="@enrollment.PaymentModel" />
-            <table class="mobile-stack table table-bordered mt-3" style="border-collapse: collapse; width: 100%; text-align: left;">
+            <table class="mobile-stack table table-bordered mt-2" style="border-collapse: collapse; width: 100%; text-align: left;">
                 <thead class="table-primary">
                     <tr>
                         <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
@@ -200,7 +200,7 @@
             </table>
             <br />
 
-            <div @* class="alert alert-danger" *@  style="padding: 10px 20px 10px 20px; margin: 20px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+            <div  style="padding: 20px 20px 20px 20px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
 
                 Total Cost: $@enrollment.TotalCost<br />
                 @(enrollment.PaymentDescription)<br />
