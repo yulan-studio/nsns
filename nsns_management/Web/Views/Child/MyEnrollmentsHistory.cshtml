@@ -18,18 +18,23 @@
 
     /* ===== Mobile stacked cards ===== */
     @@media (max-width: 767px) {
-        table.mobile-stack thead
-    {
-        display: none;
-    }
 
-    table.mobile-stack,
-    table.mobile-stack tbody,
-    table.mobile-stack tr,
-    table.mobile-stack td {
-        display: block;
-        width: 100%;
-    }
+        .desktop-only {
+            display: none !important;
+        }
+
+        /* table.mobile-stack thead
+        {
+            display: none;
+        }
+
+        table.mobile-stack,
+        table.mobile-stack tbody,
+        table.mobile-stack tr,
+        table.mobile-stack td {
+            display: block;
+            width: 100%;
+        }
 
         table.mobile-stack tr {
             margin-bottom: 16px;
@@ -44,13 +49,13 @@
             padding: 6px 0;
         }
 
-            table.mobile-stack td::before {
-                content: attr(data-label);
-                display: block;
-                font-weight: 600;
-                color: steelblue;
-                margin-bottom: 2px;
-            }
+        table.mobile-stack td::before {
+            content: attr(data-label);
+            display: block;
+            font-weight: 600;
+            color: steelblue;
+            margin-bottom: 2px;
+        } */
 
     }
 </style>
@@ -68,10 +73,10 @@
     <thead class="table-primary">
         <tr>
             <th>Course</th>
-            <th>Coach</th>
-            <th>Location</th>
+            <th class="desktop-only">Coach</th>
+            <th class="desktop-only">Location</th>
             <th>Scheduled At</th>
-            <th>Scheduled Hours</th>
+            <th class="desktop-only">Scheduled Hours</th>
             <th>Actual Hours</th>
             <th>Status</th>
         </tr>
@@ -82,16 +87,16 @@
             foreach (var enrollment in Model.CompletedCourses)
             {
                 <tr>
-                    <td data-label="Course">@enrollment.Course.Title</td>
-                    <td data-label="Coach">@(enrollment.Course.Coach?.Name ?? "N/A")</td>
-                    <td data-label="Location">@enrollment.Location</td>
-                    <td data-label="Scheduled At">
+                    <td @* data-label="Course" *@>@enrollment.Course.Title</td>
+                    <td class="desktop-only" @* data-label="Coach" *@>@(enrollment.Course.Coach?.Name ?? "N/A")</td>
+                    <td class="desktop-only" @* data-label="Location" *@>@enrollment.Location</td>
+                    <td @* data-label="Scheduled At" *@>
                         @(enrollment.ScheduledAt.HasValue
                                         ? enrollment.ScheduledAt.Value.ToString("yyyy-MM-dd HH:mm")
                                         : "")
             </td>
-            <td data-label="Scheduled Hours">@enrollment.ScheduledHours</td>
-            <td data-label="Actual Hours">
+            <td class="desktop-only" @* data-label="Scheduled Hours" *@>@enrollment.ScheduledHours</td>
+            <td @* data-label="Actual Hours" *@>
                 @if (enrollment.ActualHours != null)
                         {
                             <a href="javascript:void(0);"
@@ -100,7 +105,7 @@
                             </a>
                         }
                     </td>
-                    <td data-label="Status">@enrollment.Status</td>
+                    <td @* data-label="Status" *@>@enrollment.Status</td>
                 </tr>
             }
         }
@@ -124,9 +129,9 @@
     <thead class="table-primary">
         <tr>
             <th>Activity</th>
-            <th>Description</th>
-            <th>Address</th>
+           @*  <th>Description</th> *@
             <th>Scheduled At</th>
+            <th class="desktop-only">Address</th>
         </tr>
     </thead>
     <tbody>
@@ -135,12 +140,13 @@
             foreach (var enrollment in Model.CompletedActivities)
             {
                 <tr>
-                    <td data-label="Activity">@enrollment.Activity.Title</td>
-                    <td data-label="Description">@enrollment.Activity.Description</td>
-                    <td data-label="Address">@enrollment.Activity.Address</td>
-                    <td data-label="Scheduled At">
+                    <td @* data-label="Activity" *@>@enrollment.Activity.Title</td>
+                  @*   <td data-label="Description">@enrollment.Activity.Description</td> *@
+                    <td @* data-label="Scheduled At" *@>
                         @enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd HH:mm")
                     </td>
+                    <td class="desktop-only" @* data-label="Address" *@>@enrollment.Activity.Address</td>
+                    
                 </tr>
             }
         }
