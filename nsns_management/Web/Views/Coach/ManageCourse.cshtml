@@ -49,6 +49,10 @@
            ========================= */
     @@media (max-width: 767px) {
 
+        .desktop-only {
+            display: none !important;
+        }
+
         table.mobile-stack thead {
             display: none;
         }
@@ -91,7 +95,7 @@
                 color: #fff;
                 text-decoration: none;
                 border-radius: 4px;
-            }
+            } 
     }
 </style>
 
@@ -126,13 +130,13 @@
                 <thead class="table-primary">
                     <tr>
                         <th>Child Name</th>
-                        <th>Gender</th>
-                        <th>City</th>
-                        <th>Birthday</th>
-                        <th>Registration Date</th>
-                        <th>Scheduled</th>
+                        <th class="desktop-only">Gender</th>
+                        <th class="desktop-only">City</th>
+                        <th class="desktop-only">Birthday</th>
+                        <th class="desktop-only">Registration Date</th>
+                        <th class="desktop-only">Scheduled</th>
                         <th>Request to Reschedule</th>
-                        <th>Deleted</th>
+                        <th class="desktop-only">Deleted</th>
                         <th>Completed</th>
                         <th>Schedules</th>
                         <th>Enrollments</th>
@@ -146,20 +150,20 @@
                         {
                             <tr>
                                 <td data-label="Child Name">@child.Name</td>
-                                <td data-label="Gender">@child.Gender</td>
-                                <td data-label="City">@child.City</td>
-                                <td data-label="Birthday">
+                                <td class="desktop-only" data-label="Gender">@child.Gender</td>
+                                <td class="desktop-only" data-label="City">@child.City</td>
+                                <td class="desktop-only" data-label="Birthday">
                                     @(child.BirthDate?.ToString("yyyy-MM-dd") ?? "N/A")
                                 </td>
-                                <td data-label="Registration Date">
+                                <td class="desktop-only" data-label="Registration Date">
                                     @child.RegisteredDate.ToString("yyyy-MM-dd")
                                 </td>
-                                <td data-label="Scheduled">@child.Scheduled</td>
+                                <td class="desktop-only" data-label="Scheduled">@child.Scheduled</td>
                                 <td data-label="Request to Reschedule"
                                     style="background-color:@(child.RequestToReschedule > 0 ? "#FFDBF6" : "transparent")">
                                     @child.RequestToReschedule
                                 </td>
-                                <td data-label="Deleted">@child.Deleted</td>
+                                <td class="desktop-only" data-label="Deleted">@child.Deleted</td>
                                 <td data-label="Completed">@child.Completed</td>
                                 <td data-label="Schedules">
                                     <a href="/Coach/ManageSchedules/@child.ChildID?courseId=@course.CourseID&enrollmentId=@child.EnrollmentID">
