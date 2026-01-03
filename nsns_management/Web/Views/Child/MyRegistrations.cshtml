@@ -19,21 +19,34 @@
             vertical-align: top;
         }
 
+
+
+
+
+
     /* ===== Mobile card layout ===== */
     @@media (max-width: 767px) {
+
+        .desktop-only {
+            display: none !important;
+        }
+
+        .course-title {
+            font-weight: 600;
+        }
+
         table.mobile-stack thead
+        {
+            display: none;
+        }
 
-    {
-        display: none;
-    }
-
-    table.mobile-stack,
-    table.mobile-stack tbody,
-    table.mobile-stack tr,
-    table.mobile-stack td {
-        display: block;
-        width: 100%;
-    }
+        table.mobile-stack,
+        table.mobile-stack tbody,
+        table.mobile-stack tr,
+        table.mobile-stack td {
+            display: block;
+            width: 100%;
+        }
 
         table.mobile-stack tr {
             margin-bottom: 16px;
@@ -85,14 +98,14 @@
     <thead class="table-primary">
         <tr>
             <th>Course</th>
-            <th>Specialty</th>
+            <th class="desktop-only">Specialty</th>
             <th>Coach</th>
             <th>Session Count</th>
-            <th>Scheduled</th>
+            <th class="desktop-only">Scheduled</th>
             <th>Completed</th>
             <th>Canceled</th>
-            <th>Request To Reschedule</th>
-            <th>Request To Leave</th>
+            <th class="desktop-only">Request To Reschedule</th>
+            <th class="desktop-only">Request To Leave</th>
             <th>On Leave</th>
             <th>Status</th>
             <th>Is Paid</th>
@@ -106,15 +119,15 @@
 
             {
                 <tr>
-                    <td data-label="Course">@enrollment.Title</td>
-                    <td data-label="Specialty">@enrollment.SpecialtyName</td>
+                    <td class="course-title" data-label="Course">@enrollment.Title</td>
+                    <td class="desktop-only" data-label="Specialty">@enrollment.SpecialtyName</td>
                     <td data-label="Coach">@enrollment.CoachName</td>
                     <td data-label="Session Count">@enrollment.SessionCount</td>
-                    <td data-label="Scheduled">@enrollment.ScheduledSessions</td>
+                    <td class="desktop-only" data-label="Scheduled">@enrollment.ScheduledSessions</td>
                     <td data-label="Completed">@enrollment.CompletedSessions</td>
                     <td data-label="Canceled">@enrollment.CanceledSessions</td>
-                    <td data-label="Request To Reschedule">@enrollment.RequestToRescheduleSessions</td>
-                    <td data-label="Request To Leave">@enrollment.RequestToLeaveSessions</td>
+                    <td class="desktop-only" data-label="Request To Reschedule">@enrollment.RequestToRescheduleSessions</td>
+                    <td class="desktop-only" data-label="Request To Leave">@enrollment.RequestToLeaveSessions</td>
                     <td data-label="On Leave">@enrollment.OnLeaveSessions</td>
                     <td data-label="Status">@enrollment.Status</td>
                     <td data-label="Is Paid">
