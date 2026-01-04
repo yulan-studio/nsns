@@ -15,66 +15,6 @@
 
 <h2>My Calendar</h2>
 
-@* <div style="margin-top: 30px;" id="calendar"></div> *@
-
-@* <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            height: 'auto',
-
-            events: '/Coach/GetCoachSchedules',
-
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            }
-        });
-
-        calendar.render();
-    });
-</script> *@
-
-@* <script>
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'timeGridWeek',
-    height: 'auto',
-
-        events: '/Coach/GetCoachSchedules',
-
-    headerToolbar: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'dayGridMonth,timeGridWeek,timeGridDay'
-    },
-
-    eventTimeFormat: {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-    },
-
-    eventDidMount: function (info) {
-        tippy(info.el, {
-            content: `
-<strong>${info.event.title}</strong>
-<br />
-                Status: ${info.event.extendedProps.status}
-            `,
-            allowHTML: true
-        });
-    }
-}); *@
-
-
-
-
-
-
-
 
 
 <style>
@@ -101,41 +41,41 @@
         color: #ffffff;
     }
 
-        /* Hover state */
-        .fc .fc-button:hover {
-            background-color: #2198D4;
-            border-color: #2198D4;
-            color: #ffffff;
-        }
+    /* Hover state */
+    .fc .fc-button:hover {
+        background-color: #2198D4;
+        border-color: #2198D4;
+        color: #ffffff;
+    }
 
-        /* Active (selected) button */
-        .fc .fc-button.fc-button-active {
-            background-color: #2198D4;
-            border-color: #2198D4;
-            color: #ffffff;
-        }
+    /* Active (selected) button */
+    .fc .fc-button.fc-button-active {
+        background-color: #2198D4;
+        border-color: #2198D4;
+        color: #ffffff;
+    }
 
-        /* Disabled button */
-        .fc .fc-button:disabled {
-            background-color: #6c757d;
-            border-color: #6c757d;
-            color: #ffffff;
-            opacity: 0.7;
-        }
+    /* Disabled button */
+    .fc .fc-button:disabled {
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: #ffffff;
+        opacity: 0.7;
+    }
 
-        /* 月视图中日期数字颜色 */
-        .fc .fc-daygrid-day-number {
-            color: #363636; 
-            text-decoration: none;
-            font-weight: 500;
-        }
+    /* 月视图中日期数字颜色 */
+    .fc .fc-daygrid-day-number {
+        color: #363636; 
+        text-decoration: none;
+        font-weight: 500;
+    }
 
-        /* 星期标题（Sun Mon Tue...） */
-        .fc .fc-col-header-cell-cushion {
-            color: #2198D4; /* 自定义颜色（蓝色示例） */
-            font-weight: 700;
-            text-decoration: none;
-        }
+    /* 星期标题（Sun Mon Tue...） */
+    .fc .fc-col-header-cell-cushion {
+        color: #2198D4; /* 自定义颜色（蓝色示例） */
+        font-weight: 700;
+        text-decoration: none;
+    }
 </style>
 
 <div id="calendar"></div>
