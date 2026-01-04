@@ -102,10 +102,16 @@
 
     @foreach (var pc in Model.Parents)
     {
-        <div>
+        <div class="d-none d-md-block">
             <strong>@pc.Relationship:</strong> @pc.Parent.Name
-            &nbsp; | <strong>Phone:</strong> @pc.Parent.Phone
-            &nbsp; | <strong>WeChat:</strong> @pc.Parent.Wechat
+            <strong>&nbsp; &nbsp; Phone:</strong> @pc.Parent.Phone
+            <strong>&nbsp; &nbsp; WeChat:</strong> @pc.Parent.Wechat
+        </div>
+
+        <div class="d-block d-md-none">
+            <div><strong>@pc.Relationship:</strong> @pc.Parent.Name</div>
+            <div><strong>Phone:</strong> @pc.Parent.Phone</div>
+            <div><strong>WeChat:</strong> @pc.Parent.Wechat</div>
         </div>
     }
 </div>
