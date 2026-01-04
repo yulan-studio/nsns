@@ -55,7 +55,19 @@ async Task SeedRolesAndAdmin(IServiceProvider serviceProvider)
     }
 }
 
+
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Make RememberMe working
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.ExpireTimeSpan = TimeSpan.FromDays(14);
+    options.SlidingExpiration = true;
+});
+
 
 // 绑定配置
 builder.Services.Configure<SmtpSettings>(
