@@ -43,7 +43,7 @@
             box-shadow: none !important;
         }
 
-        /* .btn-schedule {
+        .btn-grey {
             background-color: #7bb4dc;
             color: white;
             border-radius: 0;
@@ -52,14 +52,62 @@
             transition: background-color 0.3s ease;
         }
 
-        .btn-schedule:hover {
+        .btn-grey:hover {
             background-color: #e0e0e0;
             color: black;
-        } */
+        } 
+
+        .btn-static-grey {
+            background-color: #e0e0e0;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+
+        .btn-static-grey:hover,
+        .btn-static-grey:focus,
+        .btn-static-grey:active,
+        .btn-static-grey.active {
+            background-color: #e0e0e0; /* same as normal */
+            color: #333;
+            border-color: #ccc;
+            box-shadow: none;
+        }
 
         footer {
             padding: 1rem 0;
             font-size: 0.9rem;
+        }
+
+
+        @@media (max-width: 768px) {
+
+        .btn-grey {
+
+            color: #fff;
+            border: 1px solid #7bb4dc;
+        }
+
+        .btn-grey:hover {
+            background-color: #7bb4dc;
+            border-color: #7bb4dc;
+            color: #fff;
+        }
+
+        .btn-grey:active,
+        .btn-grey.active {
+            background-color: #7bb4dc !important;
+            border-color: #7bb4dc !important;
+            color: #fff !important;
+        }
+
+        .btn-grey:focus,
+        .btn-grey:focus-visible {
+            background-color: #7bb4dc !important;
+            border-color: #7bb4dc !important;
+            color: #fff !important;
+            box-shadow: none;
+        } 
         }
     </style>
 </head>
