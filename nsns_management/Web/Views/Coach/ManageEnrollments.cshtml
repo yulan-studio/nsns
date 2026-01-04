@@ -3,7 +3,19 @@
 <style>
 
 
-   
+    .btn-primary {
+        background-color: #1B7BAB;
+        border: 1px solid #1B7BAB;
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active,
+    .btn-primary.active {
+        background-color: #23A1E0 !important;
+        border-color: #23A1E0 !important;
+        box-shadow: none !important;
+    }
 
     /* Desktop default */
     table.mobile-stack {
@@ -203,7 +215,7 @@
                                 </div> *@
 
                                 <div class="row-button">
-                                    <button type="submit" style="background-color: #2198D4; color: white; padding: 5px 10px; border: none; cursor: pointer;">
+                                    <button type="submit" class="btn btn-primary">
                                         Complete
                                     </button>
                                 </div>
