@@ -16,6 +16,7 @@ using System.Numerics;
 using System.Xml.Linq;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Core.Services
 {
@@ -56,11 +57,11 @@ namespace Core.Services
 
         public async Task<Child?> GetByIdAsync(int userId)
         {
-            var user = await _userRepository.GetAsync(userId);
-            if (user == null)
-            {
-                throw new KeyNotFoundException($"Child not found.");
-            }
+            //var user = await _userRepository.GetAsync(userId);
+            //if (user == null)
+            //{
+            //    throw new KeyNotFoundException($"Child not found.");
+            //}
             var child = await _childRepository.GetByIdAsync(userId);
             if (child == null)
             {
@@ -77,7 +78,8 @@ namespace Core.Services
             var existingUser = await _userManager.FindByEmailAsync(email);
             if (existingUser != null)
             {
-                throw new Exception("A user with the same username or email already exists.");
+                throw new Exception("A child with the same email already exists.");
+                
             }
 
             var result = await _userRegistrationService.RegisterUserAsync(email, password, "Child", user);
@@ -93,12 +95,15 @@ namespace Core.Services
                         city = await _cityRepository.GetAsync((int)cityId);
                     var childUser = new Child
                     {
+                        MemberID = "",
                         Name = name,
                         BirthDate = birthDate,
                         Gender = gender,
                         User = newUser,
                         City = city, 
-                        HasOAP = hasOAP
+                        HasOAP = hasOAP,
+                        PrimaryDiagnosis = "",
+                        Address = ""
                     };
 
 
@@ -111,6 +116,10 @@ namespace Core.Services
 
             
         }
+
+
+
+        
 
         public async Task<bool> UpdateAsync(Child child)
         {
@@ -133,6 +142,7 @@ namespace Core.Services
             }
 
             // Update fields
+            //child.MemberID = memberID;
             child.Name = name;
             child.User.Email = email;
             child.BirthDate = birthDate;
@@ -141,6 +151,36 @@ namespace Core.Services
             child.CityID = cityId;
             child.HasOAP = hasOAP;
             child.User.UpdatedDate = DateTime.UtcNow;
+
+            // Update the password if provided
+            //if (!string.IsNullOrWhiteSpace(password))
+            //{
+            //    coach.Password = _passwordHasher.HashPassword(coach, password);
+            //}
+
+            // Save changes
+            return await _childRepository.UpdateAsync(child);
+        }
+
+
+
+        public async Task<bool> UpdateAsync(int childId, string? memberID, string? address, /*int OAPAmount,*/  string? primaryDiagnosis, bool photoConsent/*, string password*/)
+        {
+            // Find the coach by ID
+            var child = await _childRepository.GetAsync(childId);
+            if (child == null)
+            {
+                throw new KeyNotFoundException($"Child with ID {childId} not found.");
+            }
+
+            // Update fields
+            child.MemberID = memberID;
+            child.Address = address;
+            //child.OAPAmount = OAPAmount;
+            child.PrimaryDiagnosis = primaryDiagnosis;
+            child.PhotoConsent = photoConsent;
+           
+           // child.User.UpdatedDate = DateTime.UtcNow;
 
             // Update the password if provided
             //if (!string.IsNullOrWhiteSpace(password))

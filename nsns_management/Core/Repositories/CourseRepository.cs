@@ -81,6 +81,7 @@ namespace Core.Repositories
         {
             return await _context.Courses
                 .Include(c => c.Coach)
+                .ThenInclude(coach => coach.User)
                 .Include(c => c.CreatedByUser)
                 //.Include(c => c.UpdatedByUser)
                 .FirstOrDefaultAsync(c => c.CourseID == courseId);

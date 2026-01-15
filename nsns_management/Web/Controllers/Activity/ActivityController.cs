@@ -1,9 +1,15 @@
 ﻿using Core.Interfaces;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc;
+using Core.Models;
 using Core.ViewModels;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data.SqlClient;
+using X.PagedList;
+using X.PagedList.Extensions;
+
+
 
 namespace Web.Controllers.Activity
 {
@@ -77,12 +83,40 @@ namespace Web.Controllers.Activity
         [Authorize(Roles = "Admin, Staff")]
         [HttpGet("List")]
         //[HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string sortOrder, int? page)
         {
 
-            var activityList = await _activityService.GetAllAsync();
-            return View(activityList); // Ensure there is a corresponding List.cshtml in Views/Staff
+            ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+            ViewData["AddressSortParm"] = sortOrder == "address" ? "address_desc" : "address";
+            ViewData["ScheduledAtSortParm"] = sortOrder == "scheduledAt" ? "scheduledAt_desc" : "scheduledAt";
+            ViewData["StatusSortParm"] = sortOrder == "status" ? "status_desc" : "status";
+            ViewData["RegistrationSortParm"] = sortOrder == "registration" ? "registration_desc" : "registration";
 
+            ViewData["CurrentSort"] = sortOrder;
+
+            var activityList = await _activityService.GetAllAsync();
+
+            activityList = sortOrder switch
+            {
+                "name" => activityList.OrderBy(c => c.Title),
+                "name_desc" => activityList.OrderByDescending(c => c.Title),
+                "address" => activityList.OrderBy(c => c.Address),
+                "address_desc" => activityList.OrderByDescending(c => c.Address),
+                "scheduledAt" => activityList.OrderBy(c => c.ScheduledAt),
+                "scheduledAt_desc" => activityList.OrderByDescending(c => c.ScheduledAt),
+                "status" => activityList.OrderBy(c => c.Status),
+                "status_desc" => activityList.OrderByDescending(c => c.Status),
+                "registration" => activityList.OrderBy(c => c.RegisteredChildrenCount),
+                "registration_desc" => activityList.OrderByDescending(c => c.RegisteredChildrenCount),
+                _ => activityList.OrderBy(c => c.ScheduledAt) // default
+            };
+
+            //return View(activityList); // Ensure there is a corresponding List.cshtml in Views/Staff
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+            
+            return View(activityList.ToPagedList(pageNumber, pageSize));
         }
 
         //[HttpGet("GetCoachesBySpecialty")]
@@ -114,7 +148,7 @@ namespace Web.Controllers.Activity
 
         [Authorize(Roles = "Staff")]
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(string title, string description, string address, int maxCapacity, DateTime scheduledAt, Decimal cost, /*bool isActive,*/ string status)
+        public async Task<IActionResult> Add(string title, string description, string address, int maxCapacity, DateTime scheduledAt, /*Decimal cost,*/ /*bool isActive,*/ string status)
         {
             //createdBy = 1; //temparary set
 
@@ -127,7 +161,7 @@ namespace Web.Controllers.Activity
             try
             {
                 var user = await _userManager.GetUserAsync(User);
-                var result = await _activityService.AddAsync( title,  description,  address,  maxCapacity,  scheduledAt,  cost,  status, user);
+                var result = await _activityService.AddAsync( title,  description,  address,  maxCapacity,  scheduledAt,  /*cost,*/  status, user);
 
                 if (!result)
                 {
@@ -176,12 +210,12 @@ namespace Web.Controllers.Activity
         [Authorize(Roles = "Staff")]
         [HttpPost("Edit/{activityId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int activityId, string title, string description, string address, int maxCapacity, DateTime scheduledAt, decimal cost, /*bool isActive,*/ string status)
+        public async Task<IActionResult> Edit(int activityId, string title, string description, string address, int maxCapacity, DateTime scheduledAt, /*decimal cost,*/ /*bool isActive,*/ string status)
         {
             try
             {
                 var user = await _userManager.GetUserAsync(User);
-                var result = await _activityService.UpdateAsync(activityId,  title,  description,  address,  maxCapacity,  scheduledAt,  cost, /*isActive, */status, user);
+                var result = await _activityService.UpdateAsync(activityId,  title,  description,  address,  maxCapacity,  scheduledAt, /* cost,*/ /*isActive, */status, user);
 
                 if (!result)
                 {

@@ -33,6 +33,9 @@ window.addEventListener('DOMContentLoaded', function () {
        
         document.getElementById("CoachIDHidden").disabled = disable; 
 
+        document.getElementById("HourlyCost").disabled = !disable; 
+        document.getElementById("HourlyCost2").disabled = !disable; 
+
 
 
     });

@@ -14,7 +14,7 @@ namespace Core.ViewModels
         [StringLength(255)]
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public string CourseType { get; set; }
 
@@ -26,9 +26,9 @@ namespace Core.ViewModels
         [Range(0, double.MaxValue)]
         public decimal HourlyCost { get; set; }
 
-        [Required]
+       
         [Range(0, double.MaxValue)]
-        public decimal HourlyCost2 { get; set; }
+        public decimal? HourlyCost2 { get; set; }
 
         public bool IsActive { get; set; }
     }

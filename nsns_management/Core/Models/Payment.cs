@@ -19,6 +19,8 @@ namespace Core.Models
         public int ParentID { get; set; } // Foreign key for Parent (nullable)
         public int? PaymentPackageID { get; set; } // Foreign key for PaymentPackage (nullable)
 
+        public int? FeeID { get; set; } // Foreign key for PaymentPackage (nullable)
+
         [Column(TypeName = "decimal(10,2)")]
         public decimal? Amount { get; set; } // Amount of the payment
 
@@ -43,6 +45,9 @@ namespace Core.Models
 
         [ForeignKey(nameof(PaymentPackageID))]
         public virtual PaymentPackage? PaymentPackage { get; set; } // Navigation property for PaymentPackage
+
+        [ForeignKey(nameof(FeeID))]
+        public virtual Fee? Fee { get; set; } // Navigation property for Fee
 
         [ForeignKey(nameof(CreatedBy))]
         public virtual User CreatedByUser { get; set; } // Navigation property for user who created the payment

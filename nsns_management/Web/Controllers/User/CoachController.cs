@@ -1,19 +1,26 @@
 ﻿
-using Core.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Core.Interfaces;
 using Core.Models;
-
-using System.Diagnostics;
 using Core.Repositories;
+using Core.Services;
+using Core.ViewModels;
+using Humanizer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Core.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Hosting;
+using System.Data;
+using System.Data.SqlClient;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Net;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using X.PagedList;
+using X.PagedList.Extensions;
 
 
 
@@ -29,15 +36,18 @@ namespace Web.Controllers.User
         private readonly ICoachRepository _coachRepository;
         private readonly ICityService _cityService;
         private readonly ISpecialtyService _specialtyService;
-
+        private readonly IEmergencyContactService _emergencyContactService;
         private readonly ICoachSpecialtyService _coachSpecialtyService;
         private readonly ICourseEnrollmentService _courseEnrollmentService;
         private readonly ICourseService _courseService;
         private readonly IChildService _childService;
         private readonly IParentChildService _parentChildService;
+        private readonly IFeeService _feeService;
+
+        private readonly EmailService _emailService;
         private readonly UserManager<Core.Models.User> _userManager;
         
-        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, UserManager<Core.Models.User> userManager)
+        public CoachController(ICoachService coachService, ICoachRepository coachRepository, ICoachIncomeService incomeService,  IEmergencyContactService emergencyService, IChildBalanceService balanceService, ICityService cityService, ISpecialtyService specialtyService, ICoachSpecialtyService coachSpecialtyService, ICourseEnrollmentService courseEnrollmentService, ICourseService courseService, IChildService childService, IParentChildService parentChildService, IFeeService feeService, EmailService emailService, UserManager<Core.Models.User> userManager)
         {
             _coachService = coachService;
             _incomeService = incomeService;
@@ -46,10 +56,13 @@ namespace Web.Controllers.User
             _cityService = cityService;
             _specialtyService = specialtyService;
             _coachSpecialtyService = coachSpecialtyService;
-            _courseEnrollmentService = courseEnrollmentService;
+            _emergencyContactService = emergencyService;
+        _courseEnrollmentService = courseEnrollmentService;
             _courseService = courseService;
             _childService = childService;
             _parentChildService = parentChildService;
+            _feeService = feeService;
+            _emailService = emailService;
             _userManager = userManager;
             
         }
@@ -58,7 +71,7 @@ namespace Web.Controllers.User
         // POST: Add Staff Action
         [HttpPost("Add")]
         //[HttpPost]
-        public async Task<IActionResult> Add(string name, string email, string password, List<int> specialtyIds, string gender, string phone, string wechat, int cityId)
+        public async Task<IActionResult> Add(string name, string email, string password, List<int> specialtyIds, string gender, string phone, string? wechat, int cityId)
         {
 
            
@@ -218,13 +231,33 @@ namespace Web.Controllers.User
         // GET: Add View
         [HttpGet("List")]
         //[HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string sortOrder, int? page)
         {
+            ViewData["MemberIDParm"] = sortOrder == "id" ? "id_desc" : "id";
+            ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+            ViewData["PreferedNameSortParm"] = sortOrder == "preferedName" ? "preferedName_desc" : "preferedName";
+            ViewData["GenderSortParm"] = sortOrder == "gender" ? "gender_desc" : "gender";
+            ViewData["CitySortParm"] = sortOrder == "city" ? "city_desc" : "city";
+            ViewData["CurrentSort"] = sortOrder;
 
             var coachList = await _coachService.GetAllAsync();
 
+            coachList = sortOrder switch
+            {
+                "id" => coachList.OrderBy(c => c.MemberID),
+                "id_desc" => coachList.OrderByDescending(c => c.MemberID),
+                "name" => coachList.OrderBy(c => c.Name),
+                "name_desc" => coachList.OrderByDescending(c => c.Name),
+                "preferedName" => coachList.OrderBy(c => c.PreferedName),
+                "preferedName_desc" => coachList.OrderByDescending(c => c.PreferedName),
+                "gender" => coachList.OrderBy(c => c.Gender),
+                "gender_desc" => coachList.OrderByDescending(c => c.Gender),
+                "city" => coachList.OrderBy(c => c.City.Name),
+                "city_desc" => coachList.OrderByDescending(c => c.City.Name),
+                
+                _ => coachList.OrderBy(c => c.Name) // default
+            };
 
-           
 
             List<CoachWithDeleteViewModel> coaches = new List<CoachWithDeleteViewModel>();
 
@@ -236,9 +269,15 @@ namespace Web.Controllers.User
                 coachWithDelete.CanDelete = canDelete;
                 coaches.Add(coachWithDelete);
             }
-            return View(coaches); // Ensure there is a corresponding List.cshtml in Views/Staff
+            //return View(coaches); // Ensure there is a corresponding List.cshtml in Views/Staff
 
-           
+            int pageSize = 40;
+            int pageNumber = page ?? 1;
+
+
+            return View(coaches.ToPagedList(pageNumber, pageSize));
+
+
         }
 
 
@@ -410,6 +449,93 @@ namespace Web.Controllers.User
             }
         }
 
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("MoreInfo/{coachId}")]
+        public async Task<IActionResult> MoreInfo(int coachId, string tab = "CoreInfo")
+        {
+            var coach = await _coachService.GetAsync(coachId);
+
+            ViewBag.ActiveTab = tab;
+           
+            return View(coach);
+        }
+
+
+        [HttpGet("CoreInfo/{coachId}")]
+        public async Task<IActionResult> CoreInfo(int coachId)
+        {
+            var coach = await _coachService.GetAsync(coachId);
+            return View(coach);
+        }
+
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost("CoreInfo/{coachId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CoreInfo(int coachId, string? memberID, string? preferedName, string? address, /*int OAPAmount, */string? postCode, int? bank, int? transit, int? account, string status, bool photoConsent)
+        {
+            var coach = await _coachService.GetAsync(coachId);
+            if (ModelState.IsValid)
+            {
+
+                await _coachService.UpdateAsync(coachId, memberID, preferedName, address, postCode, bank, transit, account, status, photoConsent);
+
+                return RedirectToAction("MoreInfo", new { coachId });
+            }
+            else
+                //return View(child);
+                return RedirectToAction("MoreInfo", new { coachId });
+        }
+
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost("AddEmergencyContact/{coachId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddEmergencyContact(int coachId, string contactName, string relationship, string phone, string email)
+        {
+            if (ModelState.IsValid)
+            {
+                EmergencyContact contact = new EmergencyContact
+                {
+                    ContactName = contactName,
+                    Relationship = relationship,
+                    Phone = phone,
+                    Email = email
+                };
+                contact.CoachID = coachId;
+
+                var result = await _emergencyContactService.AddAsync(contact);
+
+                
+                return RedirectToAction("MoreInfo", new { coachId });
+               
+
+                
+            
+            }
+
+            return RedirectToAction("MoreInfo", new { coachId });
+        }
+
+        [Authorize(Roles = "Staff")]
+        [HttpPost("DeleteEmergencyContact/{contactId}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteEmergencyContact(int contactId, int coachId)
+        {
+            var contact = await _emergencyContactService.GetAsync(contactId);
+            if (contact != null)
+            {
+                await _emergencyContactService.DeleteAsync(contactId);
+            }
+
+            return RedirectToAction("MoreInfo", new { coachId });
+        }
+
+
+
         [Authorize(Roles = "Coach")]
         [HttpGet("ManageCourse")]
         public async Task<IActionResult> ManageCourse()
@@ -455,6 +581,7 @@ namespace Web.Controllers.User
                         var courseChildren = new CourseChildrenViewModel();
                         courseChildren.CourseID = course.CourseID;
                         courseChildren.CourseTitle = course.Title;
+                        courseChildren.CourseDescription = course.Description;
                         courseChildren.SessionCount = course.SessionCount;
 
 
@@ -549,8 +676,10 @@ namespace Web.Controllers.User
             {
                 throw new ArgumentException("Child not found");
             }
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var nowToronto = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
 
-            if (scheduledAt < DateTime.UtcNow)
+            if (scheduledAt < nowToronto)
             {
                 TempData["ErrorMessage"] = "Please choose a future time.";
             }
@@ -573,6 +702,18 @@ namespace Web.Controllers.User
 
                 if (result)
                 {
+
+
+                    //var subject = "A Course schedule has been added";
+
+                    //var message = "A course schedule has been added for the child: " + child.Name + ":\n" +
+                    //    "Course: " + course.Title + "\n" +
+                    //    "Coach: " + coach.Name + "\n" +
+                    //    "Scheduled At: " + scheduledAt.ToString("yyyy - MM - dd HH: mm") + "\n" +
+                    //    "Scheduled Hours: " + scheduledHours;
+
+                    //await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child, how about send to coach?
+
                     TempData["SuccessMessage"] = "Course scheduled successfully.";
                 }
                 else
@@ -589,10 +730,29 @@ namespace Web.Controllers.User
         [HttpPost("DeleteSchedule")]
         public async Task<IActionResult> DeleteSchedule(int enrollmentId, int childId, int courseId, string coachNote, int enrollmentId_Ref)
         {
+
+            var child = await _childService.GetAsync(childId);
+            var course = await _courseService.GetAsync(courseId);
+            var user = await _userManager.GetUserAsync(User);
+            var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
+
+            var enrollment = await _courseEnrollmentService.GetAsync(enrollmentId);
+
             bool result = await _courseEnrollmentService.RemoveScheduleAsync(enrollmentId, coachNote);
+            
 
             if (result)
             {
+                //var subject = "A Course schedule has been deleted";
+
+                //var message = "A course schedule has been deleted for the child: " + child.Name + ":\n" +
+                //    "Course: " + course.Title + "\n" +
+                //    "Coach: " + coach.Name + "\n" +
+                //    "Scheduled At: " + enrollment.ScheduledAt?.ToString("yyyy - MM - dd HH: mm") + "\n" +
+                //    "Scheduled Hours: " + enrollment.ScheduledHours;
+
+                //await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child
+
                 TempData["SuccessMessage"] = "Schedule deleted successfully.";
             }
             else
@@ -630,9 +790,12 @@ namespace Web.Controllers.User
             {
                 Course = course,
                 Child = child,
-                ScheduledEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetSchedulesByCourseChildAsync(course.CourseID, childId),
-                CompletedEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetCompletesByCourseChildAsync(course.CourseID, childId)
-
+                //ScheduledEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetSchedulesByCourseChildAsync(course.CourseID, childId),
+                
+                
+                WaitToCompleteEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetWaitToCompleteByCourseChildAsync(course.CourseID, childId),
+                CompletedEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetCompletesByCourseChildAsync(course.CourseID, childId),
+                DeletedEnrollments = (List<CourseEnrollment>)await _courseEnrollmentService.GetDeletedByCourseChildAsync(course.CourseID, childId)
             };
 
             return View(model);
@@ -640,7 +803,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Coach")]
         [HttpPost("CompleteSession")]
-        public async Task<IActionResult> CompleteSession(int enrollmentId, int childId, int courseId, decimal actualHours)
+        public async Task<IActionResult> CompleteSession(int enrollmentId, int childId, int courseId, decimal? actualHours, string? coachNote)
         {
             //int coachId = 16; // GetLoggedInCoachId(); // Replace with actual logic to get coach ID
             var user = await _userManager.GetUserAsync(User);
@@ -651,16 +814,80 @@ namespace Web.Controllers.User
                 throw new ArgumentException("Child not found");
             }
 
+            var course = await _courseService.GetAsync(courseId); // Ensure the course exists
+            var courseEnrollment = await _courseEnrollmentService.GetAsync(enrollmentId);
+
             try
             {
-                bool result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, actualHours);
-                //bool result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
-                //bool result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id);
+                //decimal hoursToUse = actualHours ?? courseEnrollment.ScheduledHours;
+                decimal hoursToUse = actualHours ?? courseEnrollment.ScheduledHours ?? 0;
+                string noteToUse = !string.IsNullOrWhiteSpace(coachNote) ? coachNote : "";
+
+                bool result1 = true;
+
+                if (hoursToUse > 0)
+                {
+                    result1 = await _courseEnrollmentService.CompleteSessionAsync(enrollmentId, hoursToUse, noteToUse);
+                }
+
+                if (hoursToUse == 0)
+                { 
+                    result1 = await _courseEnrollmentService.RemoveScheduleAsync(enrollmentId, noteToUse);
+                }
+
+                //We don't calculate income for Coachs because this will be done by accounting manually
+
+                bool result2 = true;
+
+                if (hoursToUse > 0)
+                {
+                    result2 = await _incomeService.UpdateCoachIncomeAsync(enrollmentId, user.Id);
+                }
+
+                bool result3 = true;
+
+                if(courseEnrollment.EnrollmentID_Ref!=null)
+                {
+                    Core.Models.Fee? fee = await _feeService.GetFeeForCourseEnrollmentAsync((int)courseEnrollment.EnrollmentID_Ref);
+                    if (fee != null && fee.PaymentModel == "Token")
+                    {
+                        result3 = await _balanceService.DeductCourseSessionCostAsync(enrollmentId, user.Id); // Deduct private course cost from child's balance
+                    }
+                }
+                
+                
+
 
                 //if (result1 && result2 && result3)
-                if (result1)
-                {
+                if (result1 && result2 && result3)
+                    //if (result1)
+                    {
                     TempData["SuccessMessage"] = "Course Completed successfully.";
+
+
+                    var subject = "Your Child’s Course Session Has Been Successfully Completed";
+
+
+                    var htmlMessage =
+                                        "<p>Hello,</p>" +
+                                        "<p>We’re happy to let you know that the following course session for <strong>" +
+                                        WebUtility.HtmlEncode(child.Name) +
+                                        "</strong> has been completed successfully:</p>" +
+                                        "<ul>" +
+                                          "<li><strong>Course:</strong> " + WebUtility.HtmlEncode(course.Title) + "</li>" +
+                                          "<li><strong>Scheduled At:</strong> " +
+                                            WebUtility.HtmlEncode(courseEnrollment.ScheduledAt?.ToString("yyyy-MM-dd HH:mm") ?? "N/A") + "</li>" +
+                                          "<li><strong>Actual Hours Completed:</strong> " + WebUtility.HtmlEncode(hoursToUse.ToString()) + "</li>" +
+                                        "</ul>" +
+                                        "<p>If you have any questions about this session or need any further information, please feel free to contact us anytime.</p>" +
+                                        "<p>Thank you for your continued support!</p>" +
+                                        "<p>NSNS Support Team</p>";
+
+
+                    //await _emailService.SendEmailAsync(child.User.Email, subject, htmlMessage);  //send to child
+
+
+
                 }
                 else
                 {
@@ -677,37 +904,107 @@ namespace Web.Controllers.User
         }
 
         [Authorize(Roles = "Coach")]
-        [HttpGet("Income")]
-        public async Task<IActionResult> Income()
+        [HttpGet("MyHours")]
+        public async Task<IActionResult> MyHours()
         {
             // Get current coach based on User ID
             var user = await _userManager.GetUserAsync(User);
             var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
-            //int coachId = coach.CoachID;
 
-            //var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            //var coach = await _context.Coaches.FirstOrDefaultAsync(c => c.UserID == userId);
 
             if (coach == null)
                 return NotFound("Coach profile not found.");
 
             // Get income records
-            var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
+            //var incomeRecords = await _incomeService.GetCoachIncomeAsync(coach.CoachID);
 
-            var viewModel = incomeRecords.Select(i => new CoachIncomeViewModel
+            //var viewModel = incomeRecords.Select(i => new HoursViewModel
+            //{
+            //    EnrollmentID = i.EnrollmentID,
+            //    CourseName = i.Course?.Title ?? "N/A",
+            //    ChildName = i.Enrollment?.Child.Name ?? "N/A",
+            //    SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
+            //    SessionHours = i.Enrollment?.ActualHours ?? 0,
+
+            //}).ToList();
+
+            //ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
+
+            var incomeRecords = await _incomeService.GetCoachMonthlyIncomeAsync(coach.CoachID);
+
+            return View(incomeRecords);
+        }
+
+        
+        [HttpGet("GetCoachSchedules")]
+        public async Task<IActionResult> GetCoachSchedules()
+        {
+            // Get current coach based on User ID
+            var user = await _userManager.GetUserAsync(User);
+            var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
+
+            var schedules = await _courseEnrollmentService.GetCoachSchedulesAsync(coach.CoachID);
+
+            return Json(schedules);
+
+        }
+
+        [Authorize(Roles = "Coach")]
+        [HttpPost("UpdateSchedule")]
+        public async Task<IActionResult> UpdateSchedule([FromBody] UpdateCoachScheduleViewModel vm)
+        {
+            await _courseEnrollmentService.UpdateCoachSchedule(vm);
+            // You need to provide values for childId, courseId, and enrollmentId_Ref here if you want to redirect.
+            // For now, just return Ok or a suitable result.
+            //return RedirectToAction("ManageSchedules", new { vm.ChildId, courseId = vm.CourseId, enrollmentId = vm.EnrollmentId_Ref });
+            return Ok(new
             {
-                EnrollmentID = i.EnrollmentID ?? 0,
-                CourseName = i.Course?.Title ?? "N/A",
-                ChildName = i.Enrollment?.Child.Name ?? "N/A",
-                SessionDate = i.Enrollment?.ScheduledAt ?? DateTime.MinValue,
-                SessionHours = i.Enrollment?.ActualHours ?? 0,
-                IncomeChange = i.IncomeChange ?? 0,
-                TotalIncomeSoFar = i.Income ?? 0
-            }).ToList();
+                redirectUrl = Url.Action(
+                "ManageSchedules",
+                "Coach",
+                new
+                {
+                    childId = vm.ChildId,
+                    courseId = vm.CourseId,
+                    enrollmentId = vm.EnrollmentId_Ref
+                })
+            });
+           
+        }
 
-            ViewBag.TotalIncome = viewModel.LastOrDefault()?.TotalIncomeSoFar ?? 0;
+
+        [Authorize(Roles = "Coach")]
+        [HttpGet("MyCalendar")]
+        public async Task<IActionResult> MyCalendar()
+        {
+            // Get current coach based on User ID
+          
+            return View();
+        }
+
+
+        [Authorize(Roles = "Staff")]
+        [HttpGet("Hours/{coachId}")]
+        public async Task<IActionResult> Hours(int coachId)
+        {
+            // Get current coach based on User ID
+           var coach = await _coachService.GetAsync(coachId);
+           var incomeRecords = await _incomeService.GetCoachMonthlyIncomeAsync(coachId);
+
+
+
+            var viewModel = new CoachHoursViewModel
+            {
+                Coach = coach,
+                MonthlyIncomes = incomeRecords.ToList()
+            };
+
+
 
             return View(viewModel);
+
+
+
         }
     }
 }

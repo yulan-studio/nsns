@@ -51,6 +51,17 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+
+        public async Task<ParentChild> GetByParentChildIdAsync(int parentChildId)
+        {
+
+            return await _context.ParentChild.Include(pc => pc.Parent).Where(pc => pc.ParentChildID == parentChildId).FirstOrDefaultAsync();
+
+           
+
+
+        }
+
         // ✅ Delete a parent-child relationship
         public async Task<bool> DeleteAsync(int parentChildId)
         {
@@ -59,6 +70,22 @@ namespace Core.Repositories
 
             _context.ParentChild.Remove(parentChild);
             return await _context.SaveChangesAsync() > 0;
+        }
+
+
+
+        public async Task<bool> UpdateAsync(ParentChild entity)
+        {
+            try
+            {
+                _context.ParentChild.Update(entity);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 

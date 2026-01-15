@@ -11,6 +11,14 @@
 
 <form method="post" action="/Child/Add">
     <table style="border-collapse: collapse; width: 50%; text-align: left;">
+
+        @* <tr>
+            <td style="padding: 8px;"><label for="memberID">Member ID:</label></td>
+            <td style="padding: 8px;">
+                <input type="text" name="memberID" placeholder="Enter child's Member ID" style="width: 100%;"  />
+            </td>
+        </tr> *@
+
         <tr>
             <td style="padding: 8px;"><label for="Name">Name:</label></td>
             <td style="padding: 8px;">
@@ -81,5 +89,27 @@
                 </a>
             </td>
         </tr>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="2">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="2">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
     </table>
 </form>

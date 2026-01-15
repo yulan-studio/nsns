@@ -47,7 +47,7 @@
 
 <h1>Manage Cities</h1>
 
-<a href="#" onclick="loadAddForm()" style="display: inline-block; margin-bottom: 20px; color: #007bff; text-decoration: none;">Add City</a>
+<a href="#" onclick="loadAddForm()" style="display: inline-block; margin-bottom: 20px;  text-decoration: none;">Add City</a>
 
 <table style="border-collapse: collapse; width: 50%; text-align: left;">
     <thead>
@@ -76,6 +76,28 @@
             </tr>
             index++;
         }
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

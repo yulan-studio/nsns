@@ -5,7 +5,7 @@
 
 
 
-<form id="cityForm">
+@* <form id="cityForm">
     <table style="border-collapse: collapse;  text-align: left;">
         <tr>
             <td style="padding: 8px; width: 40%"><label for="name">City Name:</label></td>
@@ -27,5 +27,39 @@
         </tr>
         <!-- ✅ Error Message Placeholder (Initially Hidden) -->
        
+    </table>
+</form>
+ *@
+
+
+<form asp-action="Save" method="post" id="cityForm">
+    <table style="border-collapse: collapse; text-align: left; width: 100%;">
+        <tr>
+            <td style="padding: 8px; width: 40%">
+                <label for="Name">City Name:</label>
+            </td>
+            <td style="padding: 8px; width: 60%">
+                <input asp-for="Name" placeholder="City Name"
+                       style="width: 100%;" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
+                <button type="submit"
+                        style="background-color: #ff4d4d; color: white; border: none;
+                               padding: 5px 10px; cursor: pointer;">
+                    Add City
+                </button>
+                <a href="/City/List"
+                   style="background-color: #ddd; color: black; text-decoration: none;
+                          padding: 5px 10px; border: 1px solid #ccc;">Cancel</a>
+            </td>
+        </tr>
+       @*  <tr>
+            <td colspan="2" style="text-align: left; padding: 20px 16px 16px 8px;">
+                <div asp-validation-summary="All" class="alert alert-danger"></div>
+            </td>
+        </tr> *@
     </table>
 </form>

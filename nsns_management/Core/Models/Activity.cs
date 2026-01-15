@@ -21,14 +21,14 @@ namespace Core.Models
         public string? Description { get; set; }
 
         [MaxLength(255)]
-        public string? Address { get; set; }
+        public string Address { get; set; }
 
         public int MaxCapacity { get; set; }
 
         public DateTime ScheduledAt { get; set; }
 
-        [Column(TypeName = "decimal(10, 2)")]
-        public decimal Cost { get; set; }
+        //[Column(TypeName = "decimal(10, 2)")]
+        //public decimal Cost { get; set; }
 
         //public bool IsActive { get; set; } = true;
 

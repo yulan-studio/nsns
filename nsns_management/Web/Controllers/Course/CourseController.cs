@@ -12,6 +12,13 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using System.Numerics;
 using Microsoft.EntityFrameworkCore;
 using Core.Services;
+using X.PagedList;
+
+//using X.PagedList.Mvc.Core;
+
+
+using System.Data.SqlClient;
+using X.PagedList.Extensions;
 
 namespace Web.Controllers.Courses
 {
@@ -126,17 +133,53 @@ namespace Web.Controllers.Courses
 
 
 
+       
+
         // GET: Add View
         [Authorize(Roles = "Admin, Staff")]
         [HttpGet("List")]
-        //[HttpGet]
-        public async Task<IActionResult> List()
+
+        public async Task<IActionResult> List(string sortOrder, int? page)
         {
 
-            var courseList = await _courseService.GetAllAsync();
-            return View(courseList); // Ensure there is a corresponding List.cshtml in Views/Staff
+            ViewData["TitleSortParm"] = sortOrder == "title" ? "title_desc" : "title";
+            ViewData["CoachSortParm"] = sortOrder == "coach" ? "coach_desc" : "coach";
+            ViewData["TypeSortParm"] = sortOrder == "type" ? "type_desc" : "type";
+            ViewData["SpecialtySortParm"] = sortOrder == "specialty" ? "specialty_desc" : "specialty";
+            ViewData["CurrentSort"] = sortOrder;
+            var courses = await _courseService.GetAllAsync();
 
+            courses = sortOrder switch
+            {
+                "specialty" => courses.OrderBy(c => c.SpecialtyName),
+                "specialty_desc" => courses.OrderByDescending(c => c.SpecialtyName),
+                "title" => courses.OrderBy(c => c.Title),
+                "title_desc" => courses.OrderByDescending(c => c.Title),
+                "coach" => courses.OrderBy(c => c.CoachName),
+                "coach_desc" => courses.OrderByDescending(c => c.CoachName),
+                "type" => courses.OrderBy(c => c.CourseType),
+                "type_desc" => courses.OrderByDescending(c => c.CourseType),
+                _ => courses.OrderBy(c => c.CourseType) // default
+            };
+
+            //return View(courses);
+
+            // Paging logic
+            int pageSize = 10;
+            int pageNumber = page ?? 1;
+
+            // Replace the problematic line with the following:
+            //if (courses == null || !courses.Any())
+            //{
+            //    return View(new List<CourseViewModel>().ToList().ToPagedList(pageNumber, pageSize));
+            //}
+            //else
+            //{ 
+                return View(courses.ToPagedList(pageNumber, pageSize));
+            //}
+            //Install - Package X.PagedList
         }
+
 
         [HttpGet("GetCoachesBySpecialty")]
         public async Task<IActionResult> GetCoachesBySpecialty(int specialtyId)
@@ -289,7 +332,7 @@ namespace Web.Controllers.Courses
             var openSessions = await _courseEnrollmentService.GetOpenSessionsByCourseAsync(courseId);
             var closedSessions = await _courseEnrollmentService.GetClosedSessionsByCourseAsync(courseId);
             var canceledSessions = await _courseEnrollmentService.GetCanceledSessionsByCourseAsync(courseId);
-            var completedSessions = await _courseEnrollmentService.GetCompletedSessionsByCourseAsync(courseId);
+            var finishedSessions = await _courseEnrollmentService.GetAllPastSessionsByCourseAsync(courseId);
 
             var allUpcomingSessions = await _courseEnrollmentService.GetAllUpcomingSessionsByCourseAsync(courseId);
             var allRegisteredUpcomingSessionIds = await _courseEnrollmentService.GetRegisteredUpcomingSessionsByCourseAsync(courseId);
@@ -302,8 +345,8 @@ namespace Web.Controllers.Courses
             {
                 Course = course,
                 OpenSessions = (List<CourseEnrollment>?)openSessions,
-                CompletedSessions = (List<CourseEnrollment>?)completedSessions,
-                CanceledSessions = (List<CourseEnrollment>?)canceledSessions,
+                FinishedSessions = (List<CourseEnrollment>?)finishedSessions,
+                //CanceledSessions = (List<CourseEnrollment>?)canceledSessions,
                 ClosedSessions = (List<CourseEnrollment>?)closedSessions,
                 AllUpcomingSessions = (List<CourseEnrollment>?)allUpcomingSessions,
                 RegisteredUpcomingSessionIds = allRegisteredUpcomingSessionIds
@@ -370,7 +413,7 @@ namespace Web.Controllers.Courses
 
         // ✅ Save Session (Add / Edit)
         [HttpPost("SaveSession")]
-        public async Task<IActionResult> SaveSession(int enrollmentId, string location, string staffNote, string status)
+        public async Task<IActionResult> SaveSession(int enrollmentId, string location, string? staffNote, string status)
         {
 
             if (!ModelState.IsValid)
@@ -388,12 +431,20 @@ namespace Web.Controllers.Courses
 
                 //This also include if update the session Status to 'Canceled', all children's registration to the session need to be canceled. 
                 result = await _courseEnrollmentService.UpdateSessionAsync(session);
+
+
                 if (result)
                 {
-                   
-                        await _courseEnrollmentService.UpdateChildCanceledSessionsAsync(session.EnrollmentID);
-                        return Json(new { success = true });
-                  
+                    if (status == "Canceled")
+                    { 
+                        await _courseEnrollmentService.UpdateChildCanceledSessionsAsync(session.EnrollmentID, staffNote);
+
+                        //Send email to all enrolled children
+
+                    }
+
+                    return Json(new { success = true });
+
                 }
                 else
                 {

@@ -1,13 +1,15 @@
-﻿using Core.Interfaces;
+﻿using Core.Contexts;
+using Core.DTOs;
+using Core.Interfaces;
 using Core.Models;
 using Core.ViewModels;
-using Core.Contexts;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 
 
@@ -76,6 +78,22 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+
+        public async Task<IEnumerable<CourseEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            return await _context.CourseEnrollments
+                .Include(e => e.Course)
+                .Include(e => e.Course.Coach)
+                .Include(e => e.Course.Specialty)
+                .Where(e => e.ChildID != null && e.ChildID == childId && (e.Status == "Completed" || e.Status == "Canceled" || e.Status == "OnLeave") && e.EnrollmentID_Ref != null && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) <= torontoNow)
+                .OrderBy(e => e.CourseID)
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
         //Get Registered/Completed records of root course registration
         public async Task<IEnumerable<CourseEnrollment>> GetRootEnrollmentsByChildAsync(int childId, string status)
         {
@@ -124,7 +142,7 @@ namespace Core.Repositories
                 .Include(e => e.Course)
                 .Include(e => e.Course.Coach)
                 .Include(e => e.Course.Specialty)
-                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && (e.Status != "Registered" && e.Status != "Completed" && e.Status != "Deleted"|| (e.Course.CourseType == "Private" && e.Status == "Deleted"))&& e.ScheduledAt>= torontoNow)
+                .Where(e => e.ChildID != null && e.ChildID == childId && e.EnrollmentID_Ref != null && (e.Status != "Registered" && e.Status != "Completed" && e.Status != "Deleted"|| (e.Course.CourseType == "Private" && e.Status == "Deleted"))&& ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) >= torontoNow)
                 .OrderBy(e => e.CourseID)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
@@ -139,7 +157,9 @@ namespace Core.Repositories
            .Include(e => e.Course)
            .Include(e => e.Course.Coach)
            .Include(e => e.Course.Specialty)
-           .Where(e => e.ChildID == childId && ((e.Status == "Registered" || e.Status == "Completed" ) && e.EnrollmentID_Ref == null))  //Not included those registered to session
+           
+           
+           .Where(e => e.ChildID == childId && ((e.Status == "Registered" || e.Status == "Confirmed" || e.Status == "Scheduled" || e.Status == "Completed" ) && e.EnrollmentID_Ref == null))  //Not included those registered to session
            .OrderBy(e => e.CreatedDate)
            .Select(e => new CourseEnrollmentViewModel
            {
@@ -157,12 +177,30 @@ namespace Core.Repositories
                HourlyCost = e.Course.HourlyCost,
                HourlyCost2 = e.Course.HourlyCost2,
                Status = e.Status,
+               RegisteredSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Registered" && c.EnrollmentID_Ref != null), // Count all registered sessions
                ScheduledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Scheduled" && c.EnrollmentID_Ref != null), // Count all scheduled sessions
                CompletedSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Completed" && c.EnrollmentID_Ref != null), // Count completed sessions
                CanceledSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "Canceled" && c.EnrollmentID_Ref != null), // Count all canceled sessions
                OnLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "OnLeave" && c.EnrollmentID_Ref != null), // Count all on leave sessions
                RequestToLeaveSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToLeave" && c.EnrollmentID_Ref != null), // Count all requested to leave sessions,
-               RequestToRescheduleSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToReschedule" && c.EnrollmentID_Ref != null) // Count all requested to leave sessions
+               RequestToRescheduleSessions = _context.CourseEnrollments.Count(c => c.ChildID == e.ChildID && c.CourseID == e.CourseID && c.Status == "RequestToReschedule" && c.EnrollmentID_Ref != null), // Count all requested to leave sessions
+                                                                                                                                                                                                           // NEW: get IsPaid from Fees
+               IsPaid = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.IsPaid)
+                        .FirstOrDefault(),
+               TotalCost = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.TotalCost)
+                        .FirstOrDefault(),
+               PaymentModel = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.PaymentModel)
+                        .FirstOrDefault(),
+               PaymentDescription = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.Description)
+                        .FirstOrDefault()
            })
            .OrderBy(e => e.CourseID)
            .ToListAsync();
@@ -187,6 +225,35 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+
+        public async Task<int?> GetEnrollmentIdByChildAndCourseAsync(int courseId, int childId, string status)
+        {
+            return await _context.CourseEnrollments
+               
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.Status == status && e.EnrollmentID_Ref == null)
+                .Select(e => (int?)e.EnrollmentID)
+                .FirstOrDefaultAsync();
+        }
+
+
+        public async Task<IEnumerable<CourseEnrollment>> GetOverduedEnrollmentsByCourseChildAsync(int courseId, int childId, string status)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            return await _context.CourseEnrollments
+                .Include(e => e.Child)
+                .Include(e => e.Course)
+                .Where(e => e.CourseID == courseId && 
+                            e.ChildID == childId && 
+                            e.Status == status && 
+                            e.EnrollmentID_Ref != null 
+                            && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) < torontoNow
+                      )
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
         //Include Registered/Scheduled/Canceled/Completed/RequestToReschedule/RequestToCancel (not include Deleted)
         public async Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId)
         {
@@ -194,6 +261,17 @@ namespace Core.Repositories
                 .Include(e => e.Child)
                 .Include(e => e.Course)
                 .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Deleted")
+                .OrderBy(e => e.ScheduledAt)
+                .ToListAsync();
+        }
+
+        //Include Registered/Scheduled/Completed/RequestToReschedule/RequestToCancel (not include Deleted, Canceled)
+        public async Task<IEnumerable<CourseEnrollment>> GetEnrollments2ByCourseChildAsync(int courseId, int childId)
+        {
+            return await _context.CourseEnrollments
+                .Include(e => e.Child)
+                .Include(e => e.Course)
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Deleted" && e.Status != "Canceled")
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }
@@ -208,7 +286,7 @@ namespace Core.Repositories
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
                 .Include(e => e.Course)
-                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Registered" && e.Status != "Completed" && e.ScheduledAt>=torontoNow)
+                .Where(e => e.CourseID == courseId && e.ChildID == childId && e.EnrollmentID_Ref != null && e.Status != "Registered" && e.Status != "Completed" && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours)>=torontoNow)
                 .OrderBy(e => e.ScheduledAt)
                 .ToListAsync();
         }
@@ -261,6 +339,17 @@ namespace Core.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<CourseEnrollment>> GetAllPastSessionsByCourseAsync(int courseId)
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            return await _context.CourseEnrollments
+
+                .Where(e => e.CourseID == courseId && e.Child == null && e.ScheduledAt < torontoNow)
+                .OrderBy(e => e.ScheduledAt) // Sort by ScheduledAt ascending
+                .ToListAsync();
+        }
+
 
         //Only return List of Upcoming Session IDs in a course that are registered 
         public async Task<List<int?>> GetRegisteredUpcomingSessionsByCourseAsync(int courseId)
@@ -285,6 +374,9 @@ namespace Core.Repositories
         }
 
 
+       
+
+
         //Here's how you can create a method to return a list of children who:
         //Have a group course session(EnrollmentID_Ref != null)
         //Status is "Registered"
@@ -297,6 +389,23 @@ namespace Core.Repositories
                     e.Status == "Registered" &&
                     !string.IsNullOrEmpty(e.ParentNote))
                 .Select(e => e.ChildID)
+                .Distinct()
+                .ToListAsync();
+        }
+
+
+        public async Task<List<int>> GetEnrollmentsWithScheduleConcernsAsync()
+        {
+           
+            return await _context.CourseEnrollments
+                .Where(e => e.ScheduledAt == null &&
+                    _context.CourseEnrollments.Any(f =>
+                        f.EnrollmentID_Ref != null &&
+                        f.Status == "Registered" &&
+                        !string.IsNullOrEmpty(f.ParentNote) &&
+                        f.CourseID == e.CourseID &&
+                        f.ChildID == e.ChildID))
+                .Select(e => e.EnrollmentID)
                 .Distinct()
                 .ToListAsync();
         }
@@ -345,11 +454,43 @@ namespace Core.Repositories
 
 
 
+        public async Task<bool> UpdateCourseEnrollmentStatusToConfirmedAsync(int enrollmentID)
+        {
+
+            // Find the activity enrollment record by ID
+            var enrollment = await _context.CourseEnrollments
+                .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentID);
+
+            if (enrollment == null)
+            {
+                return false; // Enrollment not found
+            }
+
+            // Update status to "Scheduled"
+            enrollment.Status = "Confirmed";
+
+            // Update the record in the database
+            _context.CourseEnrollments.Update(enrollment);
+
+            // Save changes
+            var result = await _context.SaveChangesAsync();
+
+            // Return true if at least one record was affected
+            return result > 0;
+        }
+
+
+       
+
+
+
         //For Group Courses, Set sessions to be completed when it's finished
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
 
-            DateTime now = DateTime.UtcNow;
+            //DateTime now = DateTime.UtcNow;
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
 
             //Get all sessions of the group course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments
@@ -359,7 +500,7 @@ namespace Core.Repositories
                             && (e.Status == "Open" || e.Status == "Closed")
                             && e.ScheduledAt != null
                             && e.ScheduledHours != null
-                            && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) <= now)
+                            && ((DateTime)e.ScheduledAt).AddHours((double)e.ScheduledHours) <= torontoNow)
                 .ToListAsync();
 
             // Update Status
@@ -373,7 +514,7 @@ namespace Core.Repositories
 
 
         //Set all registration related to a enrollmentId to be Cancled.
-        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId)
+        public async Task UpdateChildCanceledSessionsAsync(int enrollmentId, string staffNote)
         {
 
 
@@ -390,6 +531,7 @@ namespace Core.Repositories
             foreach (var session in sessionsToUpdate)
             {
                 session.Status = "Canceled";
+                session.StaffNote = staffNote;
             }
 
             await _context.SaveChangesAsync();
@@ -405,9 +547,10 @@ namespace Core.Repositories
             var rootEnrollments = await _context.CourseEnrollments
                 .Include(e => e.Course)
                 .Where(e =>
-                    e.Status == "Registered" &&
+                    e.Status == "Confirmed" &&
                     e.EnrollmentID_Ref == null &&
-                    e.ScheduledAt == null)
+                    e.ScheduledAt == null &&
+                    e.Course.SessionCount != null)
                 .ToListAsync();
             //Step 2: Get all Completed sessions for all root course, check completed count
             foreach (var root in rootEnrollments)
@@ -454,6 +597,137 @@ namespace Core.Repositories
         }
 
 
+
+        //public async Task<bool> UpdateCourseStatusToConfirmedAsync(int enrollmentID)
+        //{
+
+        //    // Find the activity enrollment record by ID
+        //    var enrollment = await _context.CourseEnrollments
+        //        .FirstOrDefaultAsync(e => e.EnrollmentID == enrollmentID);
+
+        //    if (enrollment == null)
+        //    {
+        //        return false; // Enrollment not found
+        //    }
+
+        //    // Update status to "Scheduled"
+        //    enrollment.Status = "Scheduled";
+
+        //    // Update the record in the database
+        //    _context.CourseEnrollments.Update(enrollment);
+
+        //    // Save changes
+        //    var result = await _context.SaveChangesAsync();
+
+        //    // Return true if at least one record was affected
+        //    return result > 0;
+        //}
+
+
+       
+        public async Task<IEnumerable<PrivateCourseEnrollmentViewModel>> GetPrivateEnrollmentsViewByChildAsync(int childId, String status)
+        {
+
+            return await _context.CourseEnrollments
+           .Include(e => e.Course)
+           .Where(e => e.ChildID == childId && e.Status == status && e.ScheduledAt == null && e.Course.CourseType == "Private") //Only root private course registrations
+           .Select(e => new PrivateCourseEnrollmentViewModel
+           {
+
+               CourseID = e.CourseID,
+
+               ChildID = e.ChildID,
+               EnrollmentID = e.EnrollmentID,
+
+               Title = e.Course.Title,
+               //Address = e.Activity.Address,
+               //ScheduledAt = e.Activity.ScheduledAt,
+               Description = e.Course.Description,
+               Status = e.Status,
+
+               TotalCost = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.TotalCost)
+                        .FirstOrDefault(),
+               PaymentDescription = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.Description)
+                        .FirstOrDefault(),
+               PaymentModel = _context.Fees
+                        .Where(f => f.CourseEnrollmentID == e.EnrollmentID)
+                        .Select(f => f.PaymentModel)
+                        .FirstOrDefault()
+           })
+           .OrderBy(e => e.EnrollmentID)
+           .ToListAsync();
+
+
+
+        }
+
+
+
+        public async Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId)
+        {
+            var sessions = await _context.CourseEnrollments
+                .Where(e => e.Course.CoachID == coachId)
+                .Where(e => e.ScheduledAt != null && e.Status!="Deleted")
+                .Include(e => e.Course)
+                .Include(e => e.Child)
+                .ToListAsync();
+
+            return sessions.Select(e => new CalendarSchedule
+            {
+                Title = $"{e.Child.Name}",
+                Start = e.ScheduledAt.Value,
+                End = e.ActualHours != null
+                    ? e.ScheduledAt.Value.AddHours((double)e.ActualHours.Value)
+                    : e.ScheduledAt.Value.AddHours((double)(e.ScheduledHours ?? 0)),
+                Status = e.ActualHours != null ? "Completed" : "Scheduled",
+                Color = e.ActualHours != null ? "#28a745" : "#0d6efd" // 绿 / 蓝
+            }).ToList();
+        }
+
+
+
+
+        public async Task<IEnumerable<CalendarSchedule>> UpdateCoachSchedulesAsync(int coachId)
+        {
+            var sessions = await _context.CourseEnrollments
+                .Where(e => e.Course.CoachID == coachId)
+                .Where(e => e.ScheduledAt != null)
+                .Include(e => e.Course)
+                .Include(e => e.Child)
+                .ToListAsync();
+
+            return sessions.Select(e => new CalendarSchedule
+            {
+                Title = $"{e.Child.Name}",
+                Start = e.ScheduledAt.Value,
+                End = e.ActualHours != null
+                    ? e.ScheduledAt.Value.AddHours((double)e.ActualHours.Value)
+                    : e.ScheduledAt.Value.AddHours((double)(e.ScheduledHours ?? 0)),
+                Status = e.ActualHours != null ? "Completed" : "Scheduled",
+                Color = e.ActualHours != null ? "#28a745" : "#0d6efd" // 绿 / 蓝
+            }).ToList();
+        }
+
+
+
+        public async Task<bool> UpdateCoachSchedule(UpdateCoachScheduleViewModel vm)
+        {
+            var schedule = _context.CourseEnrollments.FirstOrDefault(e => e.EnrollmentID == vm.EnrollmentId);
+
+            if (schedule == null)
+                return false;
+            else
+            {
+                //schedule.ScheduledAt = DateTime.Parse(vm.ScheduledAt);
+                schedule.Location = vm.Location;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+        }
 
 
     }

@@ -75,6 +75,7 @@ namespace Core.Repositories
         {
             try
             {
+                _context.Entry(entity.User).State = EntityState.Modified;
                 _context.Coaches.Update(entity);
                 await _context.SaveChangesAsync();  // Commit the changes asynchronously
                 return true;
@@ -92,6 +93,8 @@ namespace Core.Repositories
                 .Include(c => c.User)
                 .Include(c => c.City)
                 .Include(c=> c.CoachSpecialties)
+                .ThenInclude(cs => cs.Specialty)
+                .Include(c => c.EmergencyContacts)
                 .FirstOrDefaultAsync(c => c.CoachID == coachId);
                
             

@@ -1,4 +1,5 @@
 ﻿using Core.Models;
+using Core.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,9 @@ namespace Core.Interfaces
         Task<IEnumerable<Payment>> GetByChildAsync(int childId);
         Task<Payment> GetByIdAsync(int id);
         Task<IEnumerable<Payment>> GetByPackageAsync(int packageId);
-        Task<int> AddAndReturnIdAsync(Payment payment);
+        Task<int> AddPaymentAsync(Payment payment);
+
+        //Task<bool> AddDirectPaymentAsync(int feeId, int createdBy);
 
         Task<Child> GetChildByIdAsync(int childId);
 
@@ -23,6 +26,10 @@ namespace Core.Interfaces
         Task<IEnumerable<PaymentPackage>> GetAllActivePackagesAsync();
         Task<bool> UpdateAsync(Payment payment);
         Task<bool> RemoveAsync(int id);
+        Task<List<UnpaidItemViewModel>> GetUnpaidDirectEnrollmentsByChildAsync(int childId);
+
+        Task<List<UnpaidItemViewModel>> GetUnpaidOAPEnrollmentsByChildAsync(int childId);
+
 
     }
 }

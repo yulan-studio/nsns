@@ -9,7 +9,7 @@
 
 <h1>Manage Specialties</h1>
 
-<a href="#" onclick="loadAddForm()" style="display: inline-block; margin-bottom: 20px; color: #007bff; text-decoration: none;">Add Specialty</a>
+<a href="#" onclick="loadAddForm()" style="display: inline-block; margin-bottom: 20px; text-decoration: none;">Add Specialty</a>
 
 <table style="border-collapse: collapse; width: 50%; text-align: left;">
     <thead>
@@ -39,6 +39,28 @@
             </tr>
                 index++;
         }
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <tr>
+                <td colspan="4">
+                    <div class="alert alert-success">
+                        @TempData["SuccessMessage"]
+                    </div>
+                </td>
+            </tr>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <tr>
+                <td colspan="4">
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                </td>
+            </tr>
         }
 
     </tbody>

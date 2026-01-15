@@ -16,7 +16,7 @@ namespace Core.ViewModels
 
         public string Title { get; set; }
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public string CourseType { get; set; }
 
@@ -24,9 +24,9 @@ namespace Core.ViewModels
 
         public int? SessionCount { get; set; }
 
-        public decimal HourlyCost { get; set; }
+        public decimal? HourlyCost { get; set; }
 
-        public decimal HourlyCost2 { get; set; }
+        public decimal? HourlyCost2 { get; set; }
 
         public int RegisteredChildrenCount { get; set; }
 

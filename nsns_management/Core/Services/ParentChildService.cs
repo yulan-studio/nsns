@@ -52,9 +52,26 @@ namespace Core.Services
             return await _parentChildRepository.GetByChildIdAsync(childId);
         }
 
+        public async Task<ParentChild> GetParentByParentChildIdAsync(int parantChildId)
+        {
+            return await _parentChildRepository.GetByParentChildIdAsync(parantChildId);
+        }
+
         public async Task<bool> RemoveParentFromChild(int parentChildId)
         {
             return await _parentChildRepository.DeleteAsync(parentChildId);
+        }
+
+
+        public async Task<bool> UpdateAsync(ParentChild parentChild)
+        {
+            var existingParent = await _parentChildRepository.GetByParentChildIdAsync(parentChild.ParentChildID);
+            if (existingParent == null)
+                throw new KeyNotFoundException("Parent not found.");
+
+            existingParent.Parent = parentChild.Parent; 
+
+            return await _parentChildRepository.UpdateAsync(existingParent);
         }
     }
 

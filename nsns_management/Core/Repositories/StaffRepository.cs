@@ -83,6 +83,7 @@ namespace Core.Repositories
         {
             try
             {
+                _context.Entry(entity.User).State = EntityState.Modified;
                 _context.Staff.Update(entity);
                 await _context.SaveChangesAsync();  // Commit the changes asynchronously
                 return true;

@@ -54,23 +54,23 @@ namespace Core.Services
 
         // Add a new course
         
-        public async  Task<bool> AddAsync(string title, string description, string courseType, int? maxCapacity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, int coachId, int specialtyId, User user)
+        public async  Task<bool> AddAsync(string title, string? description, string courseType, int? maxCapacity, int? sessionCount, decimal? hourlyCost, decimal? hourlyCost2, bool isActive, int coachId, int specialtyId, User user)
         {
             // Validate inputs
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                throw new ArgumentException("Title cannot be null or empty.", nameof(title));
-            }
+            //if (string.IsNullOrWhiteSpace(title))
+            //{
+            //    throw new ArgumentException("Title cannot be null or empty.", nameof(title));
+            //}
 
-            if (hourlyCost <= 0)
-            {
-                throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost));
-            }
+            //if (hourlyCost <= 0)
+            //{
+            //    throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost));
+            //}
 
-            if (hourlyCost2 <= 0)
-            {
-                throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost2));
-            }
+            //if (hourlyCost2 <= 0)
+            //{
+            //    throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost2));
+            //}
 
             //if(courseType == "Private")
             //    maxCapatcity = 0;
@@ -142,7 +142,7 @@ namespace Core.Services
 
 
         // Update an existing course
-        public async Task<bool> UpdateAsync(int courseId, string title, string description, string courseType, int? maxCapatcity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, User user/*, int userId, int updatedBy*/)
+        public async Task<bool> UpdateAsync(int courseId, string title, string? description, string courseType, int? maxCapatcity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, User user/*, int userId, int updatedBy*/)
         {
             // Validate inputs
             if (string.IsNullOrWhiteSpace(title))

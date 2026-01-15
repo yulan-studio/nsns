@@ -20,9 +20,9 @@ namespace Core.ViewModels
 
         public List<CourseEnrollment>? ClosedSessions { get; set; }
 
-        public List<CourseEnrollment>? CanceledSessions { get; set; }
+        //public List<CourseEnrollment>? CanceledSessions { get; set; }
 
-        public List<CourseEnrollment>? CompletedSessions { get; set; }
+        public List<CourseEnrollment>? FinishedSessions { get; set; }
 
         public List<CourseEnrollment>? AllUpcomingSessions { get; set; }
 

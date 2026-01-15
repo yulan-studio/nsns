@@ -78,18 +78,17 @@ namespace Web.Controllers.Account
 
                 //if(user.Role == "Admin")
                 //    return Redirect("/Dashboard/Admin"); // Redirect to the requested page
-                //else if (user.Role == "Staff")
-                //    return Redirect("/Dashboard/Staff"); // Redirect to the requested page
-                //else if (user.Role == "Coach")
-                //    return Redirect("/Dashboard/Coach"); // Redirect to the requested page
-                //else if (user.Role == "Child")
-                //    return Redirect("/Dashboard/Child"); // Redirect to the requested page
-                //else
-                //{
-                //    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                //    return View(model);
-                //}
-                return Redirect("/Home/Index");
+                if (user.Role == "Coach")
+                    return Redirect("/Coach/ManageCourse"); 
+                  
+                else if (user.Role == "Child")
+                    return Redirect("/Child/MyRegistrations"); 
+
+                else if (user.Role == "Staff")
+                    return Redirect("/Child/List");
+                
+                else
+                    return Redirect("/Home/Index");
             }
             else
             {

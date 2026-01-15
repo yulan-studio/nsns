@@ -16,19 +16,19 @@ function loadEditForm(specialtyId) {
 
 
 // Submit Add/Edit Form
-function saveSpecialty() {
-    var formData = $("#specialtyForm").serialize();
-    $.post("/Specialty/Save?" + new Date().getTime(), formData, function (response) {
-        console.log(response);
-        if (response.success) 
-        {
-            location.reload();  // Refresh list after saving
-        } 
-        else 
-        {
-            $("#errorMessage").text(response.message).show();
-        }
-    });
+//function saveSpecialty() {
+//    var formData = $("#specialtyForm").serialize();
+//    $.post("/Specialty/Save?" + new Date().getTime(), formData, function (response) {
+//        console.log(response);
+//        if (response.success) 
+//        {
+//            location.reload();  // Refresh list after saving
+//        } 
+//        else 
+//        {
+//            $("#errorMessage").text(response.message).show();
+//        }
+//    });
 
     //$.post("/City/Save", formData)
     //    .done(function (response) {
@@ -44,7 +44,7 @@ function saveSpecialty() {
     //        $("#errorMessage").text("An unexpected error occurred.").show();
     //        alert("An error occurred while saving.");
     //    });
-}
+//}
 
 // Delete City
 function loadDeleteSpecialtyConfirm(specialtyId) {

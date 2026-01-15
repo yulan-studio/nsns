@@ -29,7 +29,7 @@ namespace Core.Services
             _activityRepository = activityRepository;
         }
 
-        public async Task<bool> AddAsync(string title, string description, string address, int maxCapacity, DateTime scheduledAt, Decimal Cost, string status, User user)
+        public async Task<bool> AddAsync(string title, string description, string address, int maxCapacity, DateTime scheduledAt, /*Decimal Cost,*/ string status, User user)
         {
 
 
@@ -41,7 +41,7 @@ namespace Core.Services
                 Address = address,
                 MaxCapacity = maxCapacity,
                 ScheduledAt = scheduledAt,
-                Cost = Cost,
+                //Cost = Cost,
                 //IsActive = isActive,
                 Status = status,
                 CreatedBy = user.Id,
@@ -72,7 +72,7 @@ namespace Core.Services
         }
 
 
-        public async Task<bool> UpdateAsync(int id, string title, string description, string address, int maxCapacity, DateTime scheduledAt, Decimal cost, /*bool isActive, */string status, User user)
+        public async Task<bool> UpdateAsync(int id, string title, string description, string address, int maxCapacity, DateTime scheduledAt, /*Decimal cost,*/ /*bool isActive, */string status, User user)
         //public async Task<bool> UpdateAsync(Activity activity)
         {
             //Find the staff by ID
@@ -88,7 +88,7 @@ namespace Core.Services
             activity.Address = address;
             activity.MaxCapacity = maxCapacity;
             activity.ScheduledAt = scheduledAt;
-            activity.Cost = cost;
+            //activity.Cost = cost;
             //activity.IsActive = isActive;
             activity.Status = status;
             //activity.UpdatedDate = DateTime.UtcNow;

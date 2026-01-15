@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
+﻿using Core.Interfaces;
 using Core.Models;
-using Core.Interfaces;
+using Core.Repositories;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 //using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Security.Claims;
-using Microsoft.Extensions.Options;
-using Core.Repositories;
-using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
+using System.Security.Principal;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Core.Services
 {
@@ -47,7 +49,7 @@ namespace Core.Services
 
         }
 
-        public async Task<bool> AddAsync(string name, string email, string password, List<int> specialtyIds, string gender, string phone, string wechat, int cityId, User user)
+        public async Task<bool> AddAsync(string name, string email, string password, List<int> specialtyIds, string gender, string phone, string? wechat, int cityId, User user)
         {
             // Check if a user with the same email already exists
 
@@ -117,6 +119,45 @@ namespace Core.Services
                 result = await _userRepository.RemoveAsync(coach.User);
             return result;
         }
+
+
+
+       
+
+        public async Task<bool> UpdateAsync(int coachId, string? memberID, string? preferedName, string? address, string? postCode, int? bank, int? transit, int? account, string status,  bool photoConsent/*, string password*/)
+        {
+            // Find the coach by ID
+            var coach = await _coachRepository.GetAsync(coachId);
+            if (coach == null)
+            {
+                throw new KeyNotFoundException($"Coach with ID {coachId} not found.");
+            }
+
+            // Update fields
+            coach.MemberID = memberID;
+            coach.PreferedName = preferedName;
+            coach.Address = address;
+            coach.PostCode = postCode;
+            coach.Bank = bank;
+            coach.Transit = transit;
+            coach.Account = account;
+            coach.Status = status;
+            coach.PhotoConsent = photoConsent;
+
+            // child.User.UpdatedDate = DateTime.UtcNow;
+
+            // Update the password if provided
+            //if (!string.IsNullOrWhiteSpace(password))
+            //{
+            //    coach.Password = _passwordHasher.HashPassword(coach, password);
+            //}
+
+            // Save changes
+            return await _coachRepository.UpdateAsync(coach);
+        }
+
+
+
 
 
         public async Task<bool> UpdateAsync(int coachId, string name,string email, /*string password,*/ List<int> specialtyIds, string gender, string phone, string wechat, int cityId, User user)
@@ -214,7 +255,7 @@ namespace Core.Services
                 var coachList = await _coachRepository.GetCoachesBySpecialtyAsync(specialtyId);
 
                 // You can add additional logic or transformations here if necessary
-                return coachList;
+                return coachList.OrderBy(c=>c.Name);
             }
             catch (Exception ex)
             {

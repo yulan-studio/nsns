@@ -27,7 +27,7 @@ namespace Core.Models
 
         // Status of the enrollment (e.g., Pending, Approved, Cancelled)
         [StringLength(50)]
-        public string? Status { get; set; }
+        public string Status { get; set; }
 
         // Foreign key referencing the users table (creator of the record)
         [Required]

@@ -1,7 +1,8 @@
-﻿using Core.Contexts;
+﻿using Amazon.S3;
+using Core.BackendService;
+using Core.Contexts;
 using Core.Interfaces;
 using Core.Models;
-using Core.BackendService;
 using Core.Repositories;
 using Core.Services;
 using Microsoft.AspNetCore.Identity;
@@ -54,7 +55,29 @@ async Task SeedRolesAndAdmin(IServiceProvider serviceProvider)
     }
 }
 
+
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+//Make RememberMe working
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.ExpireTimeSpan = TimeSpan.FromDays(14);
+    options.SlidingExpiration = true;
+});
+
+
+// 绑定配置
+builder.Services.Configure<SmtpSettings>(
+builder.Configuration.GetSection("SmtpSettings"));
+
+// 注册 EmailService
+builder.Services.AddTransient<EmailService>();
+
+
+
 
 // Add services to the container.
 // Full MVC with Views (HTML pages using Razor).
@@ -109,6 +132,9 @@ builder.Services.AddScoped<IActivityService, ActivityService>();
 builder.Services.AddScoped<IChildService, ChildService>();
 builder.Services.AddScoped<IChildRepository, ChildRepository>();
 
+builder.Services.AddScoped<IEmergencyContactService, EmergencyContactService>();
+builder.Services.AddScoped<IEmergencyContactRepository, EmergencyContactRepository>();
+
 builder.Services.AddScoped<IParentService, ParentService>();
 builder.Services.AddScoped<IParentRepository, ParentRepository>();
 
@@ -126,6 +152,9 @@ builder.Services.AddScoped<IPaymentPackageService, PaymentPackageService>();
 
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+
+builder.Services.AddScoped<IFeeRepository, FeeRepository>();
+builder.Services.AddScoped<IFeeService, FeeService>();
 
 // Add UserService
 
@@ -148,11 +177,17 @@ builder.Services.AddScoped<IUserRegistrationService, UserRegistrationService>();
 var connectionString1 = Environment.GetEnvironmentVariable("DefaultConnection");
 try
 {
+    //foreach (var c in builder.Configuration.AsEnumerable())
+    //{
+    //    Console.WriteLine($"{c.Key}: {c.Value}");
+    //}
+
     var connectionString = Environment.GetEnvironmentVariable("DefaultConnection")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
     Console.WriteLine($"Connection string: {connectionString}");
     //builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 39))));
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)), ServiceLifetime.Scoped);
+
 
 }
 catch (Exception ex)
@@ -188,9 +223,15 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 
 
+var cultureInfo = new System.Globalization.CultureInfo("en-CA");
+System.Globalization.CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 
-
+//Register S3 Client
+builder.Services.Configure<Core.R2.CloudflareR2Options>(
+    builder.Configuration.GetSection("CloudflareR2"));
+builder.Services.AddSingleton<Core.R2.R2StorageService>();
 
 
 var app = builder.Build();
@@ -276,6 +317,11 @@ app.UseEndpoints(endpoints =>
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}");
+
+
+app.MapControllerRoute(
+    name: "childRoute",
+    pattern: "{controller=Child}/{action=ManageRegistrations}/{childId?}");
 
 
 

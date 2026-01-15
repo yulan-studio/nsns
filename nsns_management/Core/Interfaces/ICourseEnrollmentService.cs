@@ -1,6 +1,7 @@
-﻿using Core.Models;
-using Core.ViewModels;
+﻿using Core.DTOs;
+using Core.Models;
 using Core.Repositories;
+using Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -15,19 +16,23 @@ namespace Core.Interfaces
         Task<CourseEnrollment> GetAsync(int enrollmentId);
 
         Task<bool> RemoveAsync(int enrollmentId);
-        Task<bool> AddRegisteredEnrollmentAsync(int childId, int courseId, decimal scheduledHours, string status, User user);
+        Task<int> AddRegisteredEnrollmentAsync(int childId, int courseId, decimal scheduledHours, string status, User user);
         Task<bool> RemoveRegisteredEnrollmentAsync(int enrollmentId);
 
-        Task<bool> AddSessionRegisteredEnrollmentAsync(int childId, int courseId, DateTime? scheduledAt, decimal? scheduledHours, int enrollmentId_Ref, string status, User user);
+        Task<bool> AddSessionRegisteredEnrollmentAsync(int childId, int courseId, DateTime? scheduledAt, decimal? scheduledHours, string? location, int enrollmentId_Ref, string status, User user);
         Task<IEnumerable<CourseEnrollmentViewModel>> GetRegisteredEnrollmentsByChildAsync(int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetEnrollmentsByCourseChildAsync(int courseId, int childId);
+
+        Task<IEnumerable<CourseEnrollment>> GetEnrollments2ByCourseChildAsync(int courseId, int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByCourseChildAsync(int courseId, int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId);
 
-        Task<IEnumerable<CourseEnrollment>> GetCompletedEnrollmentsByChildAsync(int childId);
+        Task<IEnumerable<CourseEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId);
+
+        
 
         Task<IEnumerable<CourseEnrollment>> GetScheduledEnrollmentsByCourseAsync(int courseId);
 
@@ -42,6 +47,8 @@ namespace Core.Interfaces
         Task<IEnumerable<CourseEnrollment>> GetCompletedSessionsByCourseAsync(int courseId);
 
         Task<IEnumerable<CourseEnrollment>> GetAllUpcomingSessionsByCourseAsync(int courseId);
+
+        Task<IEnumerable<CourseEnrollment>> GetAllPastSessionsByCourseAsync(int courseId);
 
         Task<List<int?>> GetRegisteredUpcomingSessionsByCourseAsync(int courseId);
 
@@ -60,7 +67,7 @@ namespace Core.Interfaces
 
         Task UpdateCompletedSessionsAsync(int courseId);
 
-        Task UpdateChildCanceledSessionsAsync(int courseId);
+        Task UpdateChildCanceledSessionsAsync(int courseId, string staffNote);
 
         Task<bool> RemoveScheduleAsync(int enrollmentId, string coachNote);
 
@@ -68,20 +75,38 @@ namespace Core.Interfaces
 
         Task<IEnumerable<CourseEnrollment>> GetScheduledSessionsToConfirmByChildAsync(int childId);
 
+        Task<IEnumerable<PrivateCourseEnrollmentViewModel>> GetPrivateEnrollmentsViewByChildAsync(int childId, String status);
+
         Task<IEnumerable<CourseEnrollment>> GetRegisteredByCourseChildAsync(int courseId, int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetSchedulesByCourseChildAsync(int courseId, int childId);
 
         Task<IEnumerable<CourseEnrollment>> GetCompletesByCourseChildAsync(int courseId, int childId);
 
+        Task<IEnumerable<CourseEnrollment>> GetDeletedByCourseChildAsync(int courseId, int childId);
+
         //Manually set session to be completed by Coach
-        Task<bool> CompleteSessionAsync(int enrollmentId, Decimal actualHours);
+        Task<bool> CompleteSessionAsync(int enrollmentId, Decimal actualHours, string coachNote);
 
         Task<bool> UpdateCompletedCoursesAsync();
 
         Task<List<int?>> GetChildrenWithRequestsOrConcernsAsync();
 
         Task<List<int?>> GetChildrenWithConcernsAsync();
+
+        Task<List<int>> GeEnrollmentsWithScheduleConcernsAsync();
+
+        Task<IEnumerable<CourseEnrollment>> GetWaitToCompleteByCourseChildAsync(int courseId, int childId);
+
+        //Task<bool> UpdateCourseStatusToScheduledAsync(int courseId);
+
+        Task<bool> UpdateCourseEnrollmentStatusToConfirmedAsync(int enrollmentId);
+
+        Task<int?> GetEnrollmentIdByChildAndCourseAsync(int courseId, int childId, string status);
+
+        Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId);
+
+        Task<bool> UpdateCoachSchedule(UpdateCoachScheduleViewModel vm);
     }
 
 

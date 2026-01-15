@@ -1,49 +1,50 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewData["Title"] = "Manage Registrations";
+﻿@model Core.ViewModels.ManageRegisterationsViewModel
 
-    //var requestConcernIds = ViewBag.RequestConcernChildIds as List<int> ?? new List<int>();
-    //var requestConcernIds = (ViewData["RequestConcernChildIds"] as IEnumerable<object>)?.Cast<int>().ToList() ?? new List<int>();
-    var concernIds = (ViewData["ConcernChildIds"] as IEnumerable<int?>)?.ToList() ?? new List<int?>();
+@{
+    Layout = null;
 }
 
-<script src="/js/registrations.js"></script>
+@{
+    // Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Manage Registrations";
+
+    var concernIds = (ViewData["ConcernEnrollmentIds"] as IEnumerable<int>)?.ToList() ?? new List<int>();
+    
+}
 
 
-@model Core.ViewModels.ManageRegisterationsViewModel
-
-<div>
-    <p><strong>Name:</strong> @Model.Child.Name</p>
-    <p><strong>Birth Date:</strong> @(Model.Child.BirthDate.HasValue ? Model.Child.BirthDate.Value.ToString("yyyy-MM-dd") : "N/A")</p>
-    <p><strong>Gender:</strong> @Model.Child.Gender</p>
-    <p><strong>City:</strong> @(Model.Child.City != null ? Model.Child.City.Name : "N/A")</p>
-    <p><strong>Has OAP:</strong> @Model.Child.HasOAP</p>
-</div>
-<a href="/Child/List" style="display: inline-block; margin-top: 20px; background-color: #ddd; color: black; text-decoration: none; padding: 5px 10px; border: 1px solid #ccc;">Back to Children List</a>
-<div style="border-top: 2px solid #ddd; margin: 20px 0;"></div>
 
 <!-- ✅ Table Showing Already Registered Courses -->
-<h3 style="color: 007bff">Registered Courses</h3>
+
+<h3 style="color: 007bff">Registration History</h3>
+<div style="padding-top: 20px; padding-bottom: 20px">
+    <h4 style="color:steelblue">- Courses -</h4>
+</div>
 
 
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
         <tr style="background-color: #f2f2f2;">
             <th style="padding: 8px; border: 1px solid #ddd;">Course</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Course Type</th>
+           @*  <th style="padding: 8px; border: 1px solid #ddd;">Course Type</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Specialty</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Coach</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No funding)</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+         @*    <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Hourly Cost(No funding)</th> *@
+    @*         <th style="padding: 8px; border: 1px solid #ddd;">Is Active</th> *@
+            
             <th style="padding: 8px; border: 1px solid #ddd;">Session Count</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Schedculed</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Registered</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Scheduled</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Completed</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Canceled</th>
            @*  <th style="padding: 8px; border: 1px solid #ddd;">Request To Reschedule</th> *@
             <th style="padding: 8px; border: 1px solid #ddd;">Request To Leave</th>
             <th style="padding: 8px; border: 1px solid #ddd;">On Leave</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Total Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Paid</th>
+            
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Group Sessions</th>
         </tr>
@@ -57,31 +58,46 @@
             {
                 <tr>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CourseType</td>
+                    @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CourseType</td> *@
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SpecialtyName</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.CoachName</td>
                     
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsActive</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
+                    @* <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.HourlyCost2</td> *@
+                @*     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsActive</td> *@
+                   
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.SessionCount</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; @(enrollment.RegisteredSessions > 0 ? "color: red" : "")">@enrollment.RegisteredSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.ScheduledSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.CompletedSessions</td>
-                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.CanceledSessions</td>
+                    <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; @(enrollment.CanceledSessions > 0 ? "color: red" : "")">@enrollment.CanceledSessions</td>
                   @*   <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; color:@((enrollment.RequestToRescheduleSessions > 0) && enrollment.CourseType == "Group"? "red" : "black");" >@enrollment.RequestToRescheduleSessions</td> *@
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC; background-color:@(enrollment.RequestToLeaveSessions > 0 ? "#FFDBF6" : "#EDFDFC");">@enrollment.RequestToLeaveSessions</td>
                     <td style="padding: 8px; border: 1px solid #ddd; background-color:#EDFDFC;">@enrollment.OnLeaveSessions</td>
+                   
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+                       
+                            <a href="#"
+                               onclick="loadEditCourseFeeForm(@enrollment.EnrollmentID)"
+                               style="margin-left: 10px; color: #007bff; text-decoration: none;">
+                                @enrollment.TotalCost
+                            </a>
+                      
+                    </td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsPaid</td>
+                    
+
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Child/UnregisterCourse">
                             <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
                             <input type="hidden" name="childId" value="@enrollment.ChildID" />
-                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;@(enrollment.CompletedSessions == 0 && enrollment.ScheduledSessions == 0 ? "":"display: none;")">
+                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer;@(enrollment.CompletedSessions == 0 && enrollment.ScheduledSessions == 0 && !@enrollment.IsPaid ? "" : "display: none;")">
                                 Remove
                             </button>
                         </form>
                     </td>
-                    <td style="padding: 8px; border: 1px solid #ddd; @(concernIds.Contains(@enrollment.ChildID) ? "background-color: #F8C3DF;" : "")">
+                    <td style="padding: 8px; border: 1px solid #ddd; @(concernIds.Contains(@enrollment.EnrollmentID) ? "background-color: #F8C3DF;" : "")">
                         <a href="/Child/ManageSessionRegistrations?childId=@enrollment.ChildID&courseId=@enrollment.CourseID" style="margin-left: 10px; color: #007bff; text-decoration: none; @(enrollment.CourseType == "Group" ?"":"display: none;")">Manage</a>
                         
                        @*  <a asp-controller="Child"
@@ -100,14 +116,14 @@
         else
         {
             <tr>
-                <td colspan="16" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
+                <td colspan="15" style="text-align: center; padding: 10px;">No private courses enrolled.</td>
             </tr>
         }
 
          @if (TempData["SuccessMessage1"] != null)
         {
             <tr>
-                <td colspan="16">
+                <td colspan="15">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage1"]
                     </div>
@@ -118,7 +134,7 @@
         @if (TempData["ErrorMessage1"] != null)
         {
             <tr>
-                <td colspan="16">
+                <td colspan="15">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage1"]
                     </div>
@@ -129,6 +145,24 @@
 </table>
 
 
+
+<div id="courseFeeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Course Fee</h5>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="courseModalContent">
+                <!-- The Edit form will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
 
 
@@ -136,40 +170,63 @@
 <b>Register @Model.Child.Name in a Course</b>
 <div style="margin-bottom: 10px;"></div>
     <form method="post" action="/Child/RegisterCourse">
-    <input type="hidden" name="childId" value="@Model.Child.ChildID" />
+        <input type="hidden" name="childId" value="@Model.Child.ChildID" />
 
-    <!-- Select Specialty First -->
-    <label for="specialtyId">Select Specialty:</label>
-    <select id="specialtyId" name="specialtyId" required onchange="fetchCoursesBySpecialty(this.value)">
-        <option value="">-- Select Specialty --</option>
-        @foreach (var specialty in ViewBag.SpecialtyList)
+        <!-- Select Specialty First -->
+        <label for="specialtyId">Select Specialty:</label>
+        <select id="specialtyId" name="specialtyId" required onchange="fetchCoursesBySpecialty(this.value)">
+            <option value="">-- Select Specialty --</option>
+            @foreach (var specialty in ViewBag.SpecialtyList)
 
-        {
-            <option value="@specialty.Value">@specialty.Text</option>
-        }
-    </select>
+            {
+                <option value="@specialty.Value">@specialty.Text</option>
+            }
+        </select>
 
-    <!-- Select Course Based on Specialty -->
-    <label for="courseId">Select Course:</label>
-    <select id="courseId" name="courseId" required>
-        <option value="">-- Select Course --</option>
-    </select>
+        <!-- Select Course Based on Specialty -->
+        <label for="courseId">Select Course:</label>
+        <select id="courseId" name="courseId" required onchange="checkIfGroupClass(this.value)">
+            <option value="">-- Select Course --</option>
+        </select>
 
-    @* <label for="scheduledHours">Scheduled Hours:</label>
-    <input type="number" name="scheduledHours" min="1" value="0" disabled required /> *@
-    <input type="hidden" name="scheduledHours" value="0" />
+        <input type="hidden" name="scheduledHours" value="0" />
+        <div style="margin-top: 20px; margin-bottom:20px;">
+        <!-- Select Payment Model -->
+        <label for="paymentModel">Payment Model:</label>
+            <select id="paymentModel" name="paymentModel" required onchange="toggleCourseFeeInput(this);updateDescription(this);">
+            <option value="">-- Select Payment Model --</option>
+            <option value="Direct">Direct</option>
+            <option value="Token">Token</option>
+            <option value="OAP">OAP</option>
+        </select>
 
-    <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
-</form>
+            <label style="font-size:0.9em; color:darkslategray"> - If there is enough balance, choose 'Token'.</label>
+
+        <!-- Fee Input (visible conditionally) -->
+        <span id="feeSection" style="display:none; margin-top:10px;">
+            <label for="totalCost">Fee:</label>
+                <input type="number" step="1" min="0" id="totalCost" name="totalCost" oninput="updateDescription(this)" />
+
+            <!-- Description Textarea -->
+            <label for="description" style="margin-top:8px; display:block;">Description:</label>
+            <textarea id="description" name="description" rows="5" cols="40"
+                      placeholder="Enter fee details here..."></textarea>
+        </span>
+        </div>
+
+        <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
+    </form>
 
 </div>
 @* 
 <div style="border-top: 1px solid #007bff; margin: 40px 0;"></div> *@
 
-
+<div style="margin-bottom: 10px;"></div>
 
 <!-- ✅ Table Showing Already Enrolled Activities -->
-<h3 style="color: 007bff">Registered Activities</h3>
+<div style="padding-top: 20px; padding-bottom: 20px">
+    <h4 style="color:steelblue">- Activities -</h4>
+</div>
 
 <table style="border-collapse: collapse; width: 100%; text-align: left;">
     <thead>
@@ -177,7 +234,8 @@
             <th style="padding: 8px; border: 1px solid #ddd;">Activity Title</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Address</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Scheduled Date</th>
-            <th style="padding: 8px; border: 1px solid #ddd;">Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Total Cost</th>
+            <th style="padding: 8px; border: 1px solid #ddd;">Is Paid</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Status</th>
             <th style="padding: 8px; border: 1px solid #ddd;">Actions</th>
         </tr>
@@ -188,16 +246,28 @@
             foreach (var enrollment in Model.ActivityEnrollments)
             {
                 <tr>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Title</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Address</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.ScheduledAt.ToString("yyyy-MM-dd")</td>
-                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Cost</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Title</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Address</td>
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.ScheduledAt.ToString("yyyy-MM-dd")</td>
+                   @*  <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Activity.Cost</td> *@
+                    <td style="padding: 8px; border: 1px solid #ddd;">
+
+                        <a href="#"
+                           onclick="loadEditActivityFeeForm(@enrollment.EnrollmentID)"
+                           style="margin-left: 10px; color: #007bff; text-decoration: none;">
+                            @enrollment.TotalCost
+                        </a>
+
+                    </td>
+
+                    <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.IsPaid</td>
+
                     <td style="padding: 8px; border: 1px solid #ddd;">@enrollment.Status</td>
                     <td style="padding: 8px; border: 1px solid #ddd;">
                         <form method="post" action="/Child/UnregisterActivity">
                             <input type="hidden" name="enrollmentId" value="@enrollment.EnrollmentID" />
                             <input type="hidden" name="childId" value="@enrollment.ChildID" />
-                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer; @(enrollment.Status == "Canceled" ?"display: none":"")">
+                            <button type="submit" style="background-color: #ff4d4d; color: white; padding: 5px 10px; border: none; cursor: pointer; @(enrollment.Status == "Canceled" || enrollment.Status == "Completed" ? "display: none" : "")">
                                 Remove
                             </button>
                         </form>
@@ -208,14 +278,14 @@
         else
         {
             <tr>
-                <td colspan="6" style="text-align: center; padding: 10px;">No activities enrolled.</td>
+                <td colspan="7" style="text-align: center; padding: 10px;">No activities enrolled.</td>
             </tr>
         }
 
         @if (TempData["SuccessMessage2"] != null)
         {
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <div class="alert alert-success">
                         @TempData["SuccessMessage2"]
                     </div>
@@ -226,7 +296,7 @@
         @if (TempData["ErrorMessage2"] != null)
         {
             <tr>
-                <td colspan="6">
+                <td colspan="7">
                     <div class="alert alert-danger">
                         @TempData["ErrorMessage2"]
                     </div>
@@ -235,6 +305,22 @@
         }
     </tbody>
 </table>
+
+
+
+<div id="activityFeeModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Activity Fee</h5>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="activityModalContent">
+                <!-- The Edit form will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+</div>
 
 <div style="margin: 30px 0; padding: 20px; background-color: #f2f2f2">
 
@@ -253,8 +339,186 @@
             <option value="@activity.Value">@activity.Text</option>
         }
     </select>
+        <div style="margin-top: 10px; margin-bottom:20px;">
+        <!-- Select Payment Model -->
+        <label @* for="PaymentModel2" *@>Payment Model:</label>
+            <select id="paymentModel" name="paymentModel" required onchange="toggleActivityFeeInput(this);updateDescription(this);">
+            <option value="">-- Select Payment Model --</option>
+            <option value="Direct">Direct</option>
+            <option value="Token">Token</option>
+            <option value="OAP">OAP</option>
+        </select>
+
+        <label style="font-size:0.9em; color:darkslategray"> - If there is enough balance, choose 'Token'.</label>
+
+        <!-- Fee Input (visible conditionally) -->
+        <span id="activityFeeSection" style="display:none; margin-top:10px;">
+            <label for="totalCost">Fee:</label>
+                <input type="number" step="1" min="0" id="totalCost" name="totalCost" oninput="updateDescription(this)" />
+
+            <!-- Description Textarea -->
+            <label for="description" style="margin-top:8px; display:block;">Description:</label>
+            <textarea id="description" name="description" rows="3" cols="40"
+                      placeholder="Enter fee details here..."></textarea>
+                
+        </span>
+     </div>
 
     <button type="submit" style="background-color: #ff4d4d; color: white; border: none; padding: 5px 10px; cursor: pointer;">Register</button>
-        <small style="color:darkslategray">   - Open activities are shown here</small>
+        @* <small style="color:darkslategray">   - Open activities are shown here</small> *@
 </form>
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> 
+<script>
+        function fetchCoursesBySpecialty(specialtyId) {
+            if (!specialtyId) {
+                document.getElementById('courseId').innerHTML = '<option value="">-- Select Course --</option>';
+                return;
+            }
+
+            fetch(`/Child/GetCoursesBySpecialty?specialtyId=${specialtyId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const courseDropdown = document.getElementById('courseId');
+                    courseDropdown.innerHTML = '<option value="">-- Select Course --</option>';
+                    data.forEach(course => {
+                        const option = document.createElement('option');
+                        option.value = course.courseID;
+                        option.text = course.title;
+                        option.setAttribute("data-course-type", course.courseType);
+                        courseDropdown.add(option);
+                    });
+                });
+    }
+
+
+    let isGroupClass = false;
+
+    function checkIfGroupClass(courseId) {
+        const courseDropdown = document.getElementById("courseId");
+        const selectedOption = courseDropdown.options[courseDropdown.selectedIndex];
+        const courseType = selectedOption.getAttribute("data-course-type");
+
+        if (courseType === "Group") {
+            isGroupClass = true;
+        } else {
+            isGroupClass = false;
+        }
+
+        toggleCourseFeeInput();
+    }
+
+    function toggleCourseFeeInput(element) {
+        const parentDiv = element.closest("div"); // Find nearest div section
+        const paymentModelDropdown = parentDiv.querySelector("[name='paymentModel']");
+        const paymentModel = paymentModelDropdown.value;
+        const feeSection = document.getElementById("feeSection");
+
+        if (paymentModel === "Direct") {
+            feeSection.style.display = "block";
+            document.getElementById("totalCost").setAttribute("required", "required");
+        }
+        else if (paymentModel === "Token") {
+            if (isGroupClass) {
+                feeSection.style.display = "block";
+                document.getElementById("totalCost").setAttribute("required", "required");
+
+
+
+            }
+            else {
+                feeSection.style.display = "none";
+                document.getElementById("totalCost").removeAttribute("required");
+            }
+        }
+        else if (paymentModel === "OAP") {
+            
+                feeSection.style.display = "block";
+                document.getElementById("totalCost").setAttribute("required", "required");
+         
+        }
+        else {
+            feeSection.style.display = "none";
+            document.getElementById("totalCost").removeAttribute("required");
+        }
+
+
+    }
+
+
+    function loadEditCourseFeeForm(courseEnrollmentId) {
+        $.get("/Fee/EditCourseFee/" + courseEnrollmentId, function (data) {
+            //alert(data);
+            $("#courseModalContent").html(data);
+            $("#courseFeeModal").modal("show");
+        });
+    }
+
+    function loadEditActivityFeeForm(activityEnrollmentId) {
+        $.get("/Fee/EditActivityFee/" + activityEnrollmentId, function (data) {
+            //alert(data);
+            $("#activityModalContent").html(data);
+            $("#activityFeeModal").modal("show");
+        });
+    }
+
+
+
+    function toggleActivityFeeInput(element) {
+        const parentDiv = element.closest("div"); // Find nearest div section
+        const paymentModelDropdown = parentDiv.querySelector("[name='paymentModel']");
+        //const paymentModel = document.getElementById("paymentModel").value;
+        const paymentModel = paymentModelDropdown.value;
+        const feeSection = document.getElementById("activityFeeSection");
+
+        if (paymentModel === "Direct") {
+            feeSection.style.display = "block";
+            document.getElementById("totalCost").setAttribute("required", "required");
+        }
+        else if (paymentModel === "Token") {
+
+                feeSection.style.display = "block";
+                document.getElementById("totalCost").setAttribute("required", "required");
+        }
+        else if (paymentModel === "OAP") {
+
+                feeSection.style.display = "block";
+                document.getElementById("totalCost").setAttribute("required", "required");
+        }
+        else {
+                feeSection.style.display = "none";
+                document.getElementById("totalCost").removeAttribute("required");
+        }
+    }
+
+
+
+        function updateDescription(element) {
+        const parentDiv = element.closest("div"); // Find nearest div section
+        const paymentModelDropdown = parentDiv.querySelector("[name='paymentModel']");
+        const totalCostInput = parentDiv.querySelector("[name='totalCost']");
+        const descriptionInput = parentDiv.querySelector("[name='description']");
+
+        const paymentModel = paymentModelDropdown.value;
+        const totalCost = totalCostInput.value.trim();
+
+        if (paymentModel === "Token" && totalCost && totalCost !== "0") {
+            descriptionInput.value = `Use Token - $${totalCost} will be deducted from your balance once confirmed.`;
+        } else if (paymentModel === "Direct" && totalCost && totalCost !== "0") {
+            descriptionInput.value = `Please email transfer $${totalCost} to accounting@ncoatoronto.ca, and send screenshot to Benny.`;
+        } 
+        else if (paymentModel === "OAP" && totalCost && totalCost !== "0") {
+            descriptionInput.value = `Please email transfer $${totalCost} to info@nutcrackertherapy.ca, and send screenshot to customer service.`;
+        }
+        // else if (paymentModel === "Token" && totalCost === null) {
+        //     descriptionInput.value = "To be charged in sessions";
+        // }
+        else {
+            descriptionInput.value = "Free";
+        }
+    }
+
+</script>

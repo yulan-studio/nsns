@@ -83,10 +83,13 @@ namespace Web.Controllers.Setting
             //city.CreatedBy = 1;  //temparaly set it to 1
             var user = await _userManager.GetUserAsync(User);
             try
-                {
-                   var result = false;
+            {
+                var result = false;
+                bool isNewCity = false;
+
                 if (city.CityID == 0)
                 {
+                    isNewCity = true;
                     city.CreatedBy = user.Id;
                     city.CreatedDate = DateTime.UtcNow; ;
                     result = await _cityService.AddAsync(city);
@@ -98,18 +101,31 @@ namespace Web.Controllers.Setting
                     result = await _cityService.UpdateAsync(city);
                 }
 
-                    if (result)
-                        return Json(new { success = true });
-                    else
-                        return Json(new { success = false });
-               
 
-                }
-
-                catch (Exception ex)
+                if (result)
                 {
-                    return Json(new { success = false, message = ex.Message }); // ✅ Return error message
+                    if (isNewCity)
+                        TempData["SuccessMessage"] = "The city has been added";
+                    else
+                        TempData["SuccessMessage"] = "The city has been updated";
+                    return RedirectToAction("List");
                 }
+                else
+                //return BadRequest("Something is wrong.");
+                //return Json(new { success = false}); // ✅ Return error message
+                {
+                    TempData["ErrorMessage"] = "Something went wrong.";
+                    return RedirectToAction("List");
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                //return Json(new { success = false, message = ex.Message }); // ✅ Return error message
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("List");
+            }
 
             
         }

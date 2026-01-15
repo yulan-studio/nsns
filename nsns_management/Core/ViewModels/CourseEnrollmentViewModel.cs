@@ -15,6 +15,14 @@ namespace Core.ViewModels
 
         public bool IsActive { get; set; }
 
+        public bool IsPaid { get; set; }
+
+        public decimal? TotalCost { get; set; }
+
+        public required string PaymentModel { get; set; }
+
+        public string? PaymentDescription { get; set; }
+
         public int EnrollmentID { get; set; }  //this is the EnrollmentID for each course which status is 'registered' for the child
         public string Title { get; set; }
 
@@ -22,10 +30,12 @@ namespace Core.ViewModels
         public string CoachName { get; set; }
         public string SpecialtyName { get; set; }
 
-        public decimal HourlyCost { get; set; }
+        public decimal? HourlyCost { get; set; }
 
-        public decimal HourlyCost2 { get; set; }
+        public decimal? HourlyCost2 { get; set; }
         public string Status { get; set; }
+
+        public int RegisteredSessions { get; set; }
         public int ScheduledSessions { get; set; }
         public int CompletedSessions { get; set; }
 

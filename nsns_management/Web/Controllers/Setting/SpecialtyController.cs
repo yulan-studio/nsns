@@ -88,6 +88,7 @@ namespace Web.Controllers.Setting
             try
             {
                 var result = false;
+                bool isNewSpecialty = false;
                 if (specialty.SpecialtyID == 0)
                 {
                     specialty.CreatedBy = user.Id;
@@ -100,16 +101,28 @@ namespace Web.Controllers.Setting
                 }
 
                 if (result)
-                    return Json(new { success = true });
+                {
+                    if (isNewSpecialty)
+                        TempData["SuccessMessage"] = "The specialty has been added";
+                    else
+                        TempData["SuccessMessage"] = "The specialty has been updated";
+                    return RedirectToAction("List");
+                }
                 else
-                    return Json(new { success = false });
+                //return BadRequest("Something is wrong.");
+                //return Json(new { success = false}); // ✅ Return error message
+                {
+                    TempData["ErrorMessage"] = "Something went wrong.";
+                    return RedirectToAction("List");
+                }
 
 
             }
 
             catch (Exception ex)
             {
-                return Json(new { success = false, message = ex.Message }); // ✅ Return error message
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction("List");
             }
 
 

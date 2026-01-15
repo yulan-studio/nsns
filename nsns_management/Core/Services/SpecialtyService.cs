@@ -74,7 +74,7 @@ namespace Core.Services
                 var specialtyList = await _specialtyRepository.GetAllAsync();
 
                 // You can add additional logic or transformations here if necessary
-                return specialtyList;
+                return specialtyList.OrderBy(s=>s.Title);
             }
             catch (Exception ex)
             {

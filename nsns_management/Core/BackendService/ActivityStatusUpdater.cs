@@ -28,11 +28,11 @@ namespace Core.BackendService
                     var enrollments = await activityEnrollmentService.UpdateActivityStatusToCompletedAsync();
 
 
-                    var childBalanceService = scope.ServiceProvider.GetRequiredService<IChildBalanceService>();
-                    foreach (var enrollment in enrollments)
-                    {
-                        var result = await childBalanceService.DeductActivityCostAsync(enrollment.ChildID, enrollment.ActivityID, enrollment.Activity.Cost, 7);
-                    }
+                    //var childBalanceService = scope.ServiceProvider.GetRequiredService<IChildBalanceService>();
+                    //foreach (var enrollment in enrollments)
+                    //{
+                    //    var result = await childBalanceService.DeductActivityCostAsync(enrollment.ChildID, enrollment.ActivityID, enrollment.Activity.Cost, 7);
+                    //}
                     
 
                     //await activityEnrollmentService.UpdateActivityStatusToClosedAsync();

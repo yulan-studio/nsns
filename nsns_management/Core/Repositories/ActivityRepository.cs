@@ -74,9 +74,11 @@ namespace Core.Repositories
 
         public async Task UpdateActivityStatusToCompletedAsync()
         {
-            var now = DateTime.UtcNow;
+            //var now = DateTime.UtcNow;
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
             var activities = await _context.Activities
-                .Where(a => ((DateTime)a.ScheduledAt).AddDays(1) <= now /*&& a.IsActive == true*/)
+                .Where(a => ((DateTime)a.ScheduledAt).AddDays(1) <= torontoNow /*&& a.IsActive == true*/)
                 .ToListAsync();
 
             foreach (var activity in activities)
@@ -128,7 +130,7 @@ namespace Core.Repositories
                             Description = a.Description,
                             Address = a.Address,
                             ScheduledAt = a.ScheduledAt,
-                            Cost = a.Cost,
+                            //Cost = a.Cost,
                             MaxCapacity = a.MaxCapacity,
                             Status = a.Status,
                             RegisteredChildrenCount = _context.ActivityEnrollments

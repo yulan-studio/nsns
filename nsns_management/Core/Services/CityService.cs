@@ -72,7 +72,7 @@ namespace Core.Services
                 var cityList = await _cityRepository.GetAllAsync();
 
                 // You can add additional logic or transformations here if necessary
-                return cityList;
+                return cityList.OrderBy(c=> c.Name);
             }
             catch (Exception ex)
             {

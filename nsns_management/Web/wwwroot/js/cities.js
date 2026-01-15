@@ -16,15 +16,15 @@ function loadEditForm(cityId) {
 
 
 // Submit Add/Edit Form
-function saveCity() {
-    var formData = $("#cityForm").serialize();
-    $.post("/City/Save?" + new Date().getTime(), formData, function (response) {
-        if (response.success) {
-            location.reload();  // Refresh list after saving
-        } else {
-            $("#errorMessage").text(response.message).show();
-        }
-    });
+//function saveCity() {
+//    var formData = $("#cityForm").serialize();
+//    $.post("/City/Save?" + new Date().getTime(), formData, function (response) {
+//        if (response.success) {
+//            location.reload();  // Refresh list after saving
+//        } else {
+//            $("#errorMessage").text(response.message).show();
+//        }
+//    });
 
     //$.post("/City/Save", formData)
     //    .done(function (response) {
@@ -40,7 +40,7 @@ function saveCity() {
     //        $("#errorMessage").text("An unexpected error occurred.").show();
     //        alert("An error occurred while saving.");
     //    });
-}
+//}
 
 // Delete City
 function loadDeleteCityConfirm(cityId) {
