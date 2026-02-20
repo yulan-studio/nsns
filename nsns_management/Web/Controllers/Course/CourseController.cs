@@ -280,7 +280,7 @@ namespace Web.Controllers.Courses
         [Authorize(Roles = "Staff")]
         [HttpPost("Edit/{courseId}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int courseId, string title, string description, string courseType, int? maxCapacity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive/*, int userId, int updatedBy*/)
+        public async Task<IActionResult> Edit(int courseId, string title, string description, string courseType, int? maxCapacity, int? sessionCount, decimal hourlyCost, decimal? hourlyCost2, bool isActive/*, int userId, int updatedBy*/)
         {
             try
             {

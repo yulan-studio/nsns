@@ -142,7 +142,7 @@ namespace Core.Services
 
 
         // Update an existing course
-        public async Task<bool> UpdateAsync(int courseId, string title, string? description, string courseType, int? maxCapatcity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, User user/*, int userId, int updatedBy*/)
+        public async Task<bool> UpdateAsync(int courseId, string title, string? description, string courseType, int? maxCapatcity, int? sessionCount, decimal hourlyCost, decimal? hourlyCost2, bool isActive, User user/*, int userId, int updatedBy*/)
         {
             // Validate inputs
             if (string.IsNullOrWhiteSpace(title))
@@ -155,7 +155,7 @@ namespace Core.Services
                 throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost));
             }
 
-            if (hourlyCost2 <= 0)
+            if (hourlyCost !=null && hourlyCost2 <= 0)
             {
                 throw new ArgumentException("Hourly cost2 must be greater than zero.", nameof(hourlyCost));
             }

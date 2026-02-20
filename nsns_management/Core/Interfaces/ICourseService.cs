@@ -29,7 +29,7 @@ namespace Core.Interfaces
 
 
         // Update an existing course
-        Task<bool> UpdateAsync(int courseId, string title, string? description, string courseType, int? maxCapatcity, int? sessionCount, decimal hourlyCost, decimal hourlyCost2, bool isActive, User user/*, int userId, int updatedBy*/);
+        Task<bool> UpdateAsync(int courseId, string title, string? description, string courseType, int? maxCapatcity, int? sessionCount, decimal hourlyCost, decimal? hourlyCost2, bool isActive, User user/*, int userId, int updatedBy*/);
 
 
         // Delete a course by ID
