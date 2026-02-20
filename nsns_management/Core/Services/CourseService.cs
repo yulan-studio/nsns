@@ -150,14 +150,14 @@ namespace Core.Services
                 throw new ArgumentException("Title cannot be null or empty.", nameof(title));
             }
 
-            if (hourlyCost <= 0)
+            if (hourlyCost < 0)
             {
-                throw new ArgumentException("Hourly cost must be greater than zero.", nameof(hourlyCost));
+                throw new ArgumentException("Hourly cost cannot be negative.", nameof(hourlyCost));
             }
 
-            if (hourlyCost !=null && hourlyCost2 <= 0)
+            if (hourlyCost2 !=null && hourlyCost2 < 0)
             {
-                throw new ArgumentException("Hourly cost2 must be greater than zero.", nameof(hourlyCost));
+                throw new ArgumentException("Hourly cost (no funding) cannot be negative.", nameof(hourlyCost2));
             }
 
             if (courseType == "Private")
