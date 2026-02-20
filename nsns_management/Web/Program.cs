@@ -60,6 +60,9 @@ async Task SeedRolesAndAdmin(IServiceProvider serviceProvider)
 
 var builder = WebApplication.CreateBuilder(args);
 
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 //Make RememberMe working
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -184,10 +187,20 @@ try
 
     var connectionString = Environment.GetEnvironmentVariable("DefaultConnection")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
-    Console.WriteLine($"Connection string: {connectionString}");
+    Console.WriteLine("Database connection initialized.");
     //builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 39))));
-    builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)), ServiceLifetime.Scoped);
-
+    //builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)), ServiceLifetime.Scoped);
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+            mysqlOptions =>
+            {
+                mysqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,
+                    maxRetryDelay: TimeSpan.FromSeconds(10),
+                    errorNumbersToAdd: null);
+            }
+        )
+    );
 
 }
 catch (Exception ex)
@@ -235,6 +248,10 @@ builder.Services.AddSingleton<Core.R2.R2StorageService>();
 
 
 var app = builder.Build();
+
+//Add / health endpoint
+//app.MapGet("/health", () => "OK");
+app.MapGet("/health", () => Results.Ok("Healthy"));
 
 // ? Enable session middleware
 app.UseSession();
