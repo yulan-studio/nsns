@@ -21,11 +21,11 @@
             <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
                 <a asp-action="List" asp-route-sortOrder="@ViewData["SpecialtyNameParm"]" style="color: black; text-decoration: none; ">
                     Specialty Name
-                    @if ((string)ViewData["CurrentSort"] == "name")
+                    @if ((string)ViewData["SpecialtyNameParm"] == "name")
                     {
                         <span>▲</span>
                     }
-                    else if ((string)ViewData["CurrentSort"] == "name_desc")
+                    else if ((string)ViewData["SpecialtyNameParm"] == "name_desc")
                     {
 
                         <span>▼</span>

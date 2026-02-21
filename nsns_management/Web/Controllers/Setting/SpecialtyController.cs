@@ -35,10 +35,10 @@ namespace Web.Controllers.Setting
         [HttpGet("List")]
         public async Task<IActionResult> List(string sortOrder)
         {
-            //var cities = await _context.Cities.ToListAsync();
 
-            ViewBag.NameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["SpecialtyNameParm"] = sortOrder == "name" ? "name_desc" : "name";
 
+     
             var specialties = await _specialtyService.GetAllAsync();
 
             List<SpecialtyWithDeleteViewModel> specialtiesWithDelete = new List<SpecialtyWithDeleteViewModel>();
@@ -48,7 +48,7 @@ namespace Web.Controllers.Setting
                 case "name_desc":
                     specialties = specialties.OrderByDescending(s => s.Title);
                     break;
-                default:
+                case "name":
                     specialties = specialties.OrderBy(s => s.Title);
                     break;
             }
