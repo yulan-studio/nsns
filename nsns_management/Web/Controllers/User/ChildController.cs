@@ -1140,8 +1140,14 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Child")]
         [HttpGet("MyEnrollmentsHistory")]
-        public async Task<IActionResult> MyEnrollmentsHistory()
+        public async Task<IActionResult> MyEnrollmentsHistory(string sortOrder)
         {
+            ViewData["CurrentSort"] = sortOrder;
+
+            ViewData["CourseSortParm"] = String.IsNullOrEmpty(sortOrder) ? "course_desc" : "course";
+            ViewData["ScheduledAtSortParm"] = sortOrder == "scheduledAt" ? "scheduledAt_desc" : "scheduledAt";
+
+
             Core.Models.User user = await _userManager.GetUserAsync(User);
             var child = await _childService.GetByIdAsync(user.Id);
 
@@ -1149,11 +1155,35 @@ namespace Web.Controllers.User
             var completedCourses = await _courseEnrollmentService.GetFinishedEnrollmentsByChildAsync(child.ChildID);
             var completedActivities = await _activityEnrollmentService.GetFinishedEnrollmentsByChildAsync(child.ChildID);
 
+            switch (sortOrder)
+            {
+                case "course":
+                    completedCourses = completedCourses.OrderBy(e => e.Course.Title);
+                    break;
+
+                case "course_desc":
+                    completedCourses = completedCourses.OrderByDescending(e => e.Course.Title);
+                    break;
+
+                case "scheduledAt":
+                    completedCourses = completedCourses.OrderBy(e => e.ScheduledAt);
+                    break;
+
+                case "scheduledAt_desc":
+                    completedCourses = completedCourses.OrderByDescending(e => e.ScheduledAt);
+                    break;
+
+                default:
+                    completedCourses = completedCourses.OrderBy(e => e.Course.Title);
+                    break;
+            }
+
 
             EnrollmentsHistoryViewModel enrollmentHistory = new EnrollmentsHistoryViewModel
             {
                 Child = child,
-                CompletedCourses = (List<CourseEnrollment>)completedCourses,
+                //CompletedCourses = (List<CourseEnrollment>)completedCourses,
+                CompletedCourses = completedCourses.ToList(),
                 CompletedActivities = (List<ActivityEnrollment>)completedActivities
             };
 

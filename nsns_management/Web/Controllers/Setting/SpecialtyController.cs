@@ -1,16 +1,17 @@
 ﻿
-using Core.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+using Core.Contexts;
 using Core.Interfaces;
 using Core.Models;
-using Core.Contexts;
-using System.Diagnostics;
 using Core.Repositories;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.CodeAnalysis;
+using Core.Services;
 using Core.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
+using System.Diagnostics;
 
 
 
@@ -32,12 +33,26 @@ namespace Web.Controllers.Setting
 
         // ✅ Load City List
         [HttpGet("List")]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string sortOrder)
         {
-            //var cities = await _context.Cities.ToListAsync();
+
+            ViewData["SpecialtyNameParm"] = sortOrder == "name" ? "name_desc" : "name";
+
+     
             var specialties = await _specialtyService.GetAllAsync();
 
             List<SpecialtyWithDeleteViewModel> specialtiesWithDelete = new List<SpecialtyWithDeleteViewModel>();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    specialties = specialties.OrderByDescending(s => s.Title);
+                    break;
+                case "name":
+                    specialties = specialties.OrderBy(s => s.Title);
+                    break;
+            }
+
 
             foreach (Specialty specialty in specialties)
             {

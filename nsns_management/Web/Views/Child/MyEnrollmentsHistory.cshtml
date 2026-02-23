@@ -67,15 +67,56 @@
     <h4 style="color:steelblue">- Courses -</h4>
 </div>
 
+<div style="padding: 10px 10px 10px 10px; margin: 0px 0px 20px 0px; border: 1px solid #ddd; background-color: #f8f9fa;">
+
+    Records can be sorted by 'Course' or 'Scheduled At'.<br />
+
+    记录可以按课程（Course）或安排时间（Scheduled At）进行排序。
+
+
+
+</div>
+
 @* <table class="mobile-stack table table-bordered">
     <thead class="table-light"> *@
 <table class="mobile-stack table table-bordered mt-3" >
     <thead class="table-primary">
         <tr>
-            <th>Course</th>
+            @* <th>Course</th> *@
+
+            <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
+                <a asp-action="MyEnrollmentsHistory" asp-route-sortOrder="@ViewData["CourseSortParm"]" style="color: black; text-decoration: none; ">
+                    Course
+                    @if ((string)ViewData["CurrentSort"] == "course")
+                    {
+                        <span>▲</span>
+                    }
+                    else if ((string)ViewData["CurrentSort"] == "course_desc")
+                    {
+
+                        <span>▼</span>
+                    }
+                </a>
+            </th>
             <th class="desktop-only">Coach</th>
             <th class="desktop-only">Location</th>
-            <th>Scheduled At</th>
+           @*  <th>Scheduled At</th> *@
+           
+            <th style="padding: 8px; border: 1px solid #ddd; background-color:lightblue">
+                <a asp-action="MyEnrollmentsHistory" asp-route-sortOrder="@ViewData["ScheduledAtSortParm"]" style="color: black; text-decoration: none; ">
+                    Scheduled At
+                    @if ((string)ViewData["CurrentSort"] == "scheduledAt")
+                    {
+                        <span>▲</span>
+                    }
+                    else if ((string)ViewData["CurrentSort"] == "scheduledAt_desc")
+                    {
+
+                        <span>▼</span>
+                    }
+                </a>
+            </th>
+
             <th class="desktop-only">Scheduled Hours</th>
             <th>Actual Hours</th>
             <th>Status</th>

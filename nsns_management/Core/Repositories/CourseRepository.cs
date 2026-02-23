@@ -59,7 +59,7 @@ namespace Core.Repositories
 
                     HourlyCost = c.HourlyCost,
                     HourlyCost2 = c.HourlyCost2,
-                    RegisteredChildrenCount = _context.CourseEnrollments.Count(e => e.CourseID == c.CourseID && e.Status == "Registered"), // Count of registered children
+                    RegisteredChildrenCount = _context.CourseEnrollments.Count(e => e.CourseID == c.CourseID && (e.Status == "Registered" || e.Status == "Confirmed")), // Count of registered children
                     IsActive = c.IsActive
                 })
                 .OrderBy(c => c.CourseType)
