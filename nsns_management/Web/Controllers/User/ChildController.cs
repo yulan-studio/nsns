@@ -102,60 +102,88 @@ namespace Web.Controllers.User
 
         [HttpGet("List")]
         // ✅ List all children
-        public async Task<IActionResult> List(string sortOrder, int? page)
+        public async Task<IActionResult> List(string sortOrder, int? page, string searchName)
         {
+            var children = await _childService.GetAllAsync();
             var childrenWithRequestOrConcerns = await _courseEnrollmentService.GetChildrenWithRequestsOrConcernsAsync();
-            //ViewBag.RequestConcernChildIds = childrenWithConcerns;
-            ViewData["RequestConcernChildIds"] = childrenWithRequestOrConcerns;
             var childrenWithDelete = new List<ChildWithDeleteViewModel>();
 
-
-            ViewData["MemberIDParm"] = sortOrder == "id" ? "id_desc" : "id";
-            ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
-            ViewData["BirthDateSortParm"] = sortOrder == "birthday" ? "birthday_desc" : "birthday";
-            ViewData["GenderSortParm"] = sortOrder == "gender" ? "gender_desc" : "gender";
-            ViewData["CitySortParm"] = sortOrder == "city" ? "city_desc" : "city";
-            ViewData["OAPSortParm"] = sortOrder == "oap" ? "oap_desc" : "oap";
-            ViewData["CurrentSort"] = sortOrder;
-
-
-
-            var children = await _childService.GetAllAsync();
-
-            children = sortOrder switch
+            // 🔍 If searching → ignore paging & sorting
+            if (!string.IsNullOrEmpty(searchName))
             {
-                "id" => children.OrderBy(c => c.MemberID),
-                "id_desc" => children.OrderByDescending(c => c.MemberID),
-                "name" => children.OrderBy(c => c.Name),
-                "name_desc" => children.OrderByDescending(c => c.Name),
-                "birthday" => children.OrderBy(c => c.BirthDate),
-                "birthday_desc" => children.OrderByDescending(c => c.BirthDate),
-                "gender" => children.OrderBy(c => c.Gender),
-                "gender_desc" => children.OrderByDescending(c => c.Gender),
-                "city" => children.OrderBy(c => c.City.Name),
-                "city_desc" => children.OrderByDescending(c => c.City.Name),
-                "oap" => children.OrderBy(c => c.HasOAP),
-                "oap_desc" => children.OrderByDescending(c => c.HasOAP),
-                _ => children.OrderBy(c => c.Name) // default
-            };
+                var filteredChildren = children
+                    .Where(c => c.Name.Contains(searchName))
+                    .ToList();
 
+                foreach (Child c in filteredChildren)
+                {
+                    var canDelete = !await _childService.CheckPaidAsync(c.ChildID) && !await _childService.CheckRegisteredAsync(c.ChildID);
+                    var childWithDelete = new ChildWithDeleteViewModel();
+                    childWithDelete.Child = c;
+                    childWithDelete.CanDelete = canDelete;
+                    childrenWithDelete.Add(childWithDelete);
+                }
 
-            foreach (Child c in children)
-            {
-                var canDelete = !await _childService.CheckPaidAsync(c.ChildID) && !await _childService.CheckRegisteredAsync(c.ChildID);
-                var childWithDelete = new ChildWithDeleteViewModel();
-                childWithDelete.Child = c;
-                childWithDelete.CanDelete = canDelete;
-                childrenWithDelete.Add(childWithDelete);
+                // convert to IPagedList just to match your View model
+                return View(childrenWithDelete.ToPagedList(1, childrenWithDelete.Count == 0 ? 1 : childrenWithDelete.Count));
+
+                
             }
 
-            //return View(childrenWithDelete);
 
-            int pageSize = 40;
-            int pageNumber = page ?? 1;
+            else
+            {
+                ViewData["RequestConcernChildIds"] = childrenWithRequestOrConcerns;
+                ViewData["MemberIDParm"] = sortOrder == "id" ? "id_desc" : "id";
+                ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+                ViewData["BirthDateSortParm"] = sortOrder == "birthday" ? "birthday_desc" : "birthday";
+                ViewData["GenderSortParm"] = sortOrder == "gender" ? "gender_desc" : "gender";
+                ViewData["CitySortParm"] = sortOrder == "city" ? "city_desc" : "city";
+                ViewData["OAPSortParm"] = sortOrder == "oap" ? "oap_desc" : "oap";
+                ViewData["CurrentSort"] = sortOrder;
 
 
-            return View(childrenWithDelete.ToPagedList(pageNumber, pageSize));
+
+
+
+                children = sortOrder switch
+                {
+                    "id" => children.OrderBy(c => c.MemberID),
+                    "id_desc" => children.OrderByDescending(c => c.MemberID),
+                    "name" => children.OrderBy(c => c.Name),
+                    "name_desc" => children.OrderByDescending(c => c.Name),
+                    "birthday" => children.OrderBy(c => c.BirthDate),
+                    "birthday_desc" => children.OrderByDescending(c => c.BirthDate),
+                    "gender" => children.OrderBy(c => c.Gender),
+                    "gender_desc" => children.OrderByDescending(c => c.Gender),
+                    "city" => children.OrderBy(c => c.City.Name),
+                    "city_desc" => children.OrderByDescending(c => c.City.Name),
+                    "oap" => children.OrderBy(c => c.HasOAP),
+                    "oap_desc" => children.OrderByDescending(c => c.HasOAP),
+                    _ => children.OrderBy(c => c.Name) // default
+                };
+
+
+                foreach (Child c in children)
+                {
+                    var canDelete = !await _childService.CheckPaidAsync(c.ChildID) && !await _childService.CheckRegisteredAsync(c.ChildID);
+                    var childWithDelete = new ChildWithDeleteViewModel();
+                    childWithDelete.Child = c;
+                    childWithDelete.CanDelete = canDelete;
+                    childrenWithDelete.Add(childWithDelete);
+                }
+
+                //return View(childrenWithDelete);
+
+                int pageSize = 40;
+                int pageNumber = page ?? 1;
+
+
+                return View(childrenWithDelete.ToPagedList(pageNumber, pageSize));
+
+            }
+                //ViewBag.RequestConcernChildIds = childrenWithConcerns;
+                
 
 
 
@@ -163,14 +191,27 @@ namespace Web.Controllers.User
 
 
 
-      
-            
 
-        
+        //public async Task<IActionResult> List(string searchName)
+        ////public IActionResult List(string sortOrder, int? page, string searchName)
+        //{
+
+        //    var children = await _childService.GetAllAsync();
+        //    if (!string.IsNullOrEmpty(searchName))
+        //    {
+        //        children = children.Where(c => c.Name.Contains(searchName));
+        //    }
+
+        //    //int pageSize = 10;
+        //    //int pageNumber = (page ?? 1);
+
+        //    return View(children);
+        //}
 
 
-    // GET: Add View
-    [HttpGet("Add")]
+
+        // GET: Add View
+        [HttpGet("Add")]
         //[HttpGet]
         public async Task<IActionResult> Add()
         {
