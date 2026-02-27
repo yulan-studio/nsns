@@ -231,51 +231,79 @@ namespace Web.Controllers.User
         // GET: Add View
         [HttpGet("List")]
         //[HttpGet]
-        public async Task<IActionResult> List(string sortOrder, int? page)
+        public async Task<IActionResult> List(string sortOrder, int? page, string searchName)
         {
-            ViewData["MemberIDParm"] = sortOrder == "id" ? "id_desc" : "id";
-            ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
-            ViewData["PreferedNameSortParm"] = sortOrder == "preferedName" ? "preferedName_desc" : "preferedName";
-            ViewData["GenderSortParm"] = sortOrder == "gender" ? "gender_desc" : "gender";
-            ViewData["CitySortParm"] = sortOrder == "city" ? "city_desc" : "city";
-            ViewData["CurrentSort"] = sortOrder;
 
+            
             var coachList = await _coachService.GetAllAsync();
-
-            coachList = sortOrder switch
-            {
-                "id" => coachList.OrderBy(c => c.MemberID),
-                "id_desc" => coachList.OrderByDescending(c => c.MemberID),
-                "name" => coachList.OrderBy(c => c.Name),
-                "name_desc" => coachList.OrderByDescending(c => c.Name),
-                "preferedName" => coachList.OrderBy(c => c.PreferedName),
-                "preferedName_desc" => coachList.OrderByDescending(c => c.PreferedName),
-                "gender" => coachList.OrderBy(c => c.Gender),
-                "gender_desc" => coachList.OrderByDescending(c => c.Gender),
-                "city" => coachList.OrderBy(c => c.City.Name),
-                "city_desc" => coachList.OrderByDescending(c => c.City.Name),
-                
-                _ => coachList.OrderBy(c => c.Name) // default
-            };
-
-
             List<CoachWithDeleteViewModel> coaches = new List<CoachWithDeleteViewModel>();
-
             foreach (Coach coach in coachList)
             {
                 CoachWithDeleteViewModel coachWithDelete = new CoachWithDeleteViewModel();
                 coachWithDelete.Coach = coach;
-                bool canDelete =!(await _courseService.GetCoursesByCoachAsync(coach.CoachID)).Any();
+                bool canDelete = !(await _courseService.GetCoursesByCoachAsync(coach.CoachID)).Any();
                 coachWithDelete.CanDelete = canDelete;
                 coaches.Add(coachWithDelete);
             }
-            //return View(coaches); // Ensure there is a corresponding List.cshtml in Views/Staff
+            
 
-            int pageSize = 40;
-            int pageNumber = page ?? 1;
+            if (!string.IsNullOrEmpty(searchName))
+            {
+                var filteredCoaches = coaches
+                    .Where(c => c.Coach.Name.Contains(searchName))
+                    .ToList();
+
+                // convert to IPagedList just to match your View model
+                return View(filteredCoaches.ToPagedList(1, filteredCoaches.Count == 0 ? 1 : filteredCoaches.Count));
 
 
-            return View(coaches.ToPagedList(pageNumber, pageSize));
+            }
+
+            else {
+                ViewData["MemberIDParm"] = sortOrder == "id" ? "id_desc" : "id";
+                ViewData["NameSortParm"] = sortOrder == "name" ? "name_desc" : "name";
+                ViewData["PreferedNameSortParm"] = sortOrder == "preferedName" ? "preferedName_desc" : "preferedName";
+                ViewData["GenderSortParm"] = sortOrder == "gender" ? "gender_desc" : "gender";
+                ViewData["CitySortParm"] = sortOrder == "city" ? "city_desc" : "city";
+                ViewData["CurrentSort"] = sortOrder;
+
+
+
+                coachList = sortOrder switch
+                {
+                    "id" => coachList.OrderBy(c => c.MemberID),
+                    "id_desc" => coachList.OrderByDescending(c => c.MemberID),
+                    "name" => coachList.OrderBy(c => c.Name),
+                    "name_desc" => coachList.OrderByDescending(c => c.Name),
+                    "preferedName" => coachList.OrderBy(c => c.PreferedName),
+                    "preferedName_desc" => coachList.OrderByDescending(c => c.PreferedName),
+                    "gender" => coachList.OrderBy(c => c.Gender),
+                    "gender_desc" => coachList.OrderByDescending(c => c.Gender),
+                    "city" => coachList.OrderBy(c => c.City.Name),
+                    "city_desc" => coachList.OrderByDescending(c => c.City.Name),
+
+                    _ => coachList.OrderBy(c => c.Name) // default
+                };
+
+
+                //List<CoachWithDeleteViewModel> coaches = new List<CoachWithDeleteViewModel>();
+
+                //foreach (Coach coach in coachList)
+                //{
+                //    CoachWithDeleteViewModel coachWithDelete = new CoachWithDeleteViewModel();
+                //    coachWithDelete.Coach = coach;
+                //    bool canDelete = !(await _courseService.GetCoursesByCoachAsync(coach.CoachID)).Any();
+                //    coachWithDelete.CanDelete = canDelete;
+                //    coaches.Add(coachWithDelete);
+                //}
+                //return View(coaches); // Ensure there is a corresponding List.cshtml in Views/Staff
+
+                int pageSize = 40;
+                int pageNumber = page ?? 1;
+
+
+                return View(coaches.ToPagedList(pageNumber, pageSize));
+            }
 
 
         }

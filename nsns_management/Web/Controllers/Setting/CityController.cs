@@ -29,14 +29,24 @@ namespace Web.Controllers.Setting
 
         // ✅ Load City List
         [HttpGet("List")]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string sortOrder)
         {
-            
+            ViewData["CityNameParm"] = sortOrder == "name" ? "name_desc" : "name";
             //var cities =await _cityService.GetAllAsync();
             //return View(cities);
 
             var allCities = await _cityService.GetAllAsync();
             var usedCities = (await _cityService.GetAllUsedAsync()).Select(c => c.CityID).ToHashSet(); // Get used city IDs as HashSet for fast lookup
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    allCities = allCities.OrderByDescending(s => s.Name);
+                    break;
+                case "name":
+                    allCities = allCities.OrderBy(s => s.Name);
+                    break;
+            }
 
             var viewModel = new ManageCitiesViewModel
             {
