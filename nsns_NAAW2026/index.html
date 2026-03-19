@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building an Inclusive Future</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #F7F7F7;
+    color: #333;
+    line-height: 1.6;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+
+    header {
+        padding: 15px 20px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav {
+        position: absolute;
+        top: 70px;
+        left: 150px;
+        background: white;
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav a {
+        margin: 10px 0;
+    }
+
+    .nav.active {
+        display: flex;
+    }
+
+    .nav .btn {
+        padding: 8px 14px;   /* smaller */
+        font-size: 0.9rem;
+        border-radius: 18px;
+        display: inline-block; /* prevent full-width look */
+        width: 80px;
+    }
+}
+
+
+
+
+header {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    z-index: 1000;
+}
+
+header nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #1F3A5F;
+    font-weight: 500;
+}
+
+.btn {
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: #1F3A5F;
+    color: white;
+}
+
+.btn-secondary {
+    background: #2A9D8F;
+    color: white;
+}
+
+.hero {
+    height: 90vh;
+    /* background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                url('/image/hero.jpg') center/cover; */
+    background:url('image/hero.jpg') center/cover;
+    color: white;
+    display: flex;
+    align-items: flex-start;
+    text-align: flex-start;
+    padding: 0 20px;
+    position: relative;
+}
+
+.hero-content {
+    max-width: 900px;
+    position: absolute;
+    /* margin: auto; */
+    margin-left:10%;
+    margin-top: 12%
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.section {
+    padding: 70px 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.section h2 {
+    color: #1F3A5F;
+    margin-bottom: 20px;
+    text-align: left; /* enforce consistency */
+}
+
+
+
+
+.grid {
+    display: grid;
+    gap: 20px;
+}
+
+.grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+    margin-bottom: 10px;
+    color: #1F3A5F;
+    font-size: 1.2rem;
+}
+
+
+
+.audience-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.audience-group h3 {
+    color: #1F3A5F;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.audience-group ul {
+    padding-left: 18px;
+    margin: 0;
+}
+
+.audience-group li {
+    margin-bottom: 6px;
+}
+
+
+.highlight {
+    background: #EAF4F4;
+}
+
+.center {
+    text-align: center;
+}
+
+/* .partners {
+    max-width: 900px;
+} */
+
+.partner-group {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.partner-role {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+}
+
+.partner-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.partner-item img {
+    width: 80px;
+    height: auto;
+    object-fit: contain;
+}
+
+.partner-item strong {
+    display: block;
+    color: #1F3A5F;
+    margin-bottom: 5px;
+}
+
+.partner-item p {
+    margin: 0;
+    color: #555;
+}
+
+@media (max-width: 768px) {
+    .partner-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .partner-item img {
+        width: 60px;
+    }
+}
+
+footer {
+    background: #1F3A5F;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+a {
+    color: #2A9D8F;
+}
+
+@media(max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- <header>
+    <div><strong>NorthStar Initiative</strong></div>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#events">Events</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#contact">Contact</a>
+        <a class="btn btn-primary" href="#">Register</a>
+    </nav>
+</header> -->
+
+<header>
+    <div><strong>NorthStar Initiative</strong></div>
+
+    <div class="menu-toggle">☰</div>
+
+    <nav class="nav">
+        <a href="#about">About</a>
+        <a href="#events">Events</a>
+        <a href="#schedule">Schedule</a>
+        <a href="#contact">Contact</a>
+        <a class="btn btn-primary" href="#">Register</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Building an Inclusive Future<br>through Collective Action</h1>
+        <p>Advancing accessibility, inclusion, and shared understanding <br/>in Asian-Canadian communities</p>
+        <a href="#events" class="btn btn-secondary">View Events</a>
+        <a href="#" class="btn btn-primary">Register</a>
+        <a href="#" class="btn btn-secondary">Download eMedia Kit</a>
+    </div>
+</section>
+
+<!-- INTRO -->
+<section class="section center">
+    <h3><strong>A National AccessAbility Week 2026 initiative</strong></h3>
+    <p><strong>May 24-30, 2026</strong></p>
+    <p>Join us for a week of events that bring people together through dialogue, learning, and inclusive community participation.</p>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section grid">
+    <div>
+        <h2>About the Initiative</h2>
+        <!-- <p>This initiative brings people together through workshops, panel discussions, community conversations, and inclusive arts and sports activities.</p>
+        <p>Centered in the Greater Toronto Area with select programs across Canada and online.</p> -->
+        <p><strong>Building an Inclusive Future through Collective Action</strong> is NorthStar Special Needs Society's National AccessAbility Week 2026 initiative.</p>
+        <p>Through workshops, panel discussions, community conversations, and inclusive arts and sports activities, the initiative brings people together to advance accessibility, challenge stigma, and strengthen disability inclusion.</p>
+        <p>Programming will be centered in the Greater Toronto Area, with selected sports activities for autistic children also taking place in a small number of other Canadian cities. Key sessions will also be accessible online.</pp>
+        <p>While NorthStar's core work focuses on children with autism and their families, this initiative speaks to broader issues of disability, belonging, and inclusion across Asian-Canadian communities.</pp>
+
+    </div>
+    <!-- <div>
+        <img src="https://via.placeholder.com/500x350" alt="Community event" style="width:100%; border-radius:10px;">
+    </div> -->
+</section>
+
+<!-- WHY -->
+<section class="section highlight">
+    <h2>Why This Matters</h2>
+    <p>In many Asian-Canadian communities, disability is still too often shaped by silence, misunderstanding, stigma, or shame. Cultural expectations, fear of judgment, language barriers, and limited access to culturally relevant support can make it harder for individuals and families to seek help and participate fully in community life.</p>
+    <p>This initiative creates space for conversation, learning, and action. Grounded in cultural understanding and community participation, it aims to support more informed dialogue and more inclusive communities.</p>
+</p>
+</section>
+
+<!-- GOALS -->
+<section class="section">
+    <h2>What We Hope to Achieve</h2>
+    <div class="grid grid-2">
+
+        <div class="card">
+            <h3>1. Deepen Awareness and Understanding</h3>
+            <p>Broaden understanding of disability experiences in Asian-Canadian communities and encourage more informed, inclusive perspectives.</p>
+        </div>
+
+        <div class="card">
+            <h3>2. Confront Stigma and Exclusion</h3>
+            <p>Challenge stigma by centering lived experience alongside professional and community insight.</p>
+        </div>
+
+        <div class="card">
+            <h3>3. Support Families and Caregivers</h3>
+            <p>Offer practical knowledge, encouragement, and connection for families and caregivers.</p>
+        </div>
+
+        <div class="card">
+            <h3>4. Share Useful Practices</h3>
+            <p>Highlight approaches that can help educators, service providers, and community organizations support inclusion in culturally diverse settings.</p>
+        </div>
+
+        <div class="card">
+            <h3>5. Encourage Collective Responsibility</h3>
+            <p>Bring families, professionals, community leaders, and partners together around a shared commitment to accessibility and inclusion.</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events" class="section">
+    <h2>NAAW 2026 Events</h2>
+    <p>This year's programming will include workshops, panel discussions, community conversations, and inclusive arts and sports activities.</p>
+<p>Events will be anchored in the Greater Toronto Area and will bring together families, persons with disabilities, educators, service providers, community leaders, researchers, and other stakeholders. Selected sports activities for autistic children will also take place in a small number of other Canadian cities, while online access to key sessions will help connect participants more broadly.</p>
+<p>Register to take part in National AccessAbility Week 2026 events.</p>
+
+    <a href="#" class="btn btn-primary">Register to Participate</a>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule" class="section">
+    <h2>Event Schedule</h2>
+    <p><strong>Coming Soon</strong></p>
+    <p>Programming will take place May 24-30, 2026.</p>
+    <a href="#" class="btn btn-primary">Register for Events</a>
+</section>
+
+<!-- AUDIENCE -->
+<section class="section">
+    <h2>Who Should Attend</h2>
+    <p class="section-intro">
+        These events are open to anyone who wants to learn, connect, and contribute to a more inclusive future.
+    </p>
+
+    <div class="audience-columns">
+
+        <div class="audience-group">
+            <h3>Individuals & Families</h3>
+            <ul>
+                <li>People with disabilities</li>
+                <li>Caregivers, parents, and family members</li>
+                <li>Students and youth with disabilities</li>
+            </ul>
+        </div>
+
+        <div class="audience-group">
+            <h3>Educators & School Professionals</h3>
+            <ul>
+                <li>Teachers, principals, and school administrators</li>
+                <li>Educational support staff</li>
+                <li>Post-secondary staff and accessibility service providers</li>
+            </ul>
+        </div>
+
+        <div class="audience-group">
+            <h3>Employers & Workplace Leaders</h3>
+            <ul>
+                <li>Business owners, managers, and HR professionals</li>
+                <li>Workplace inclusion advocates</li>
+                <li>Employees interested in disability and equity</li>
+            </ul>
+        </div>
+
+        <div class="audience-group">
+            <h3>Health & Social Service Providers</h3>
+            <ul>
+                <li>Therapists, counsellors, and healthcare professionals</li>
+                <li>Disability service providers</li>
+                <li>Staff from nonprofit and community organizations</li>
+            </ul>
+        </div>
+
+        <div class="audience-group">
+            <h3>Community Builders & Changemakers</h3>
+            <ul>
+                <li>Community leaders and advocates</li>
+                <li>Policymakers and government staff</li>
+                <li>Anyone interested in disability awareness and inclusion in Asian-Canadian communities</li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="section partners">
+    <h2>Partners and Supporters</h2>
+    <p class="section-intro">
+        This initiative is made possible through the support and collaboration of organizations committed to accessibility, inclusion, and community well-being.
+    </p>
+
+    <!-- Project Lead -->
+    <div class="partner-group">
+        <div class="partner-role">Project Lead and Organizer</div>
+        <div class="partner-item">
+            <img src="image/northstar_logo.jpg" alt="NorthStar Logo">
+            <div>
+                <strong>NorthStar Special Needs Society</strong>
+                <p>Serving children with autism and their families through inclusive community programming since 2021.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Funded By -->
+    <div class="partner-group">
+        <div class="partner-role">Funded By</div>
+        <div class="partner-item">
+            <img src="image/Canada_logo.jpg" alt="Government of Canada Logo">
+            <div>
+                <strong>Government of Canada</strong>
+                <p>Accessible Canada - National AccessAbility Week Funding<br>
+                Social Development Partnerships Program - Disability Component</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Partner -->
+    <div class="partner-group">
+        <div class="partner-role">Key Partner</div>
+        <div class="partner-item">
+            <img src="image/york-U_logo.jpg" alt="York University Logo">
+            <div>
+                <strong>Asian Business and Management Program (York University)</strong>
+                <p>Supporting the initiative's educational and community engagement dimensions.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supporting -->
+    <div class="partner-group">
+        <div class="partner-role">Additional Supporting Organization</div>
+        <div class="partner-item">
+            <img src="image/newstart_nexus_logo.jpg" alt="NewStart Nexus Logo">
+            <div>
+                <strong>NewStart Nexus</strong>
+                <p>Providing consultation and project management support to help strengthen nonprofit initiatives and community impact.</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+<!-- CONTACT -->
+<section id="contact" class="section">
+    <h2>Contact Us</h2>
+    <p>Have a question about the events, want to stay connected, or are interested in future programming?</p>
+    <p>General Inquiries: <a href="mailto:naaw@nsns.ca">naaw@nsns.ca</a></p>
+
+    
+</section>
+
+<!-- SHARE -->
+<section class="section highlight">
+    <h2>Help Spread the Word</h2>
+
+    <p>Want to share this initiative with your community, network, or audience?</p>
+    <p>Download our eMedia Kit for ready-to-use outreach materials, including:</p>
+    <ul>
+    <li>social media graphics</li>
+    <li>printable poster</li>
+    <li>press release and promotional copy for newsletters, blogs, and community outreach</li>
+    </ul>
+    <p>By sharing this initiative, you help widen the conversation, challenge stigma, and support a more inclusive future.</p>
+
+    <p>Download our eMedia Kit with ready-to-use outreach materials.<br/><br/></p>
+    <a href="#" class="btn btn-secondary">Download eMedia Kit</a>
+</section>
+
+<footer>
+    <p>© 2026 NorthStar Special Needs Society</p>
+</footer>
+
+
+<script>
+const toggle = document.querySelector(".menu-toggle");
+const nav = document.querySelector(".nav");
+
+toggle.addEventListener("click", () => {
+    nav.classList.toggle("active");
+});
+</script>
+
+
+</body>
+
+
+</html>
