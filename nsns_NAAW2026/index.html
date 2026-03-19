@@ -104,34 +104,61 @@ header nav a {
 }
 
 .hero {
-    height: 90vh;
-    /* background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                url('/image/hero.jpg') center/cover; */
-    background:url('image/hero.jpg') center/cover;
+    min-height: 90vh;
+    background: url('image/hero.jpg') center/cover no-repeat;
     color: white;
     display: flex;
-    align-items: flex-start;
-    text-align: flex-start;
-    padding: 0 20px;
-    position: relative;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 60px 20px;
 }
 
 .hero-content {
-    max-width: 900px;
-    position: absolute;
-    /* margin: auto; */
-    margin-left:10%;
-    margin-top: 12%
+    max-width: 700px;
 }
 
 .hero h1 {
     font-size: 2.5rem;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .hero p {
     font-size: 1.2rem;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+}
+
+/* Buttons spacing */
+.hero .btn {
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .hero {
+        align-items: center;
+        text-align: left;
+        padding: 40px 20px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .hero .btn {
+        display: inline-block;
+        font-size: 0.9rem;
+        padding: 8px 14px;
+    }
 }
 
 .section {
