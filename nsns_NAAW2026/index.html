@@ -136,6 +136,30 @@ header nav a {
 }
 
 
+@media (min-width: 769px) {
+    .hero {
+        position: relative;
+        min-height: 90vh;
+        overflow: hidden;               /* hide parts outside the container */
+    }
+
+    .hero::before {
+        content: "";
+        position: absolute;
+        top: -200px;                    /* amount of top to hide */
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('image/hero.jpg') center/cover no-repeat;
+        z-index: -1;
+    }
+
+    /* remove previous background */
+    .hero {
+        background: none;
+    }
+}
+
 /* Mobile optimization */
 /* @media (max-width: 768px) {
     .hero {
@@ -483,7 +507,7 @@ a {
 <section id="schedule" class="section">
     <h2>Event Schedule</h2>
     <p><strong>Coming Soon</strong></p>
-    <p>Programming will take place May 24-30, 2026.</p>
+    <p>Programming will take place May 24-30, 2026.<br/></p>
     <a href="#" class="btn btn-primary">Register for Events</a>
 </section>
 
