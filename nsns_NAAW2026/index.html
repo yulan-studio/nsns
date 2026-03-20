@@ -37,14 +37,18 @@ body {
     .nav {
         position: absolute;
         top: 70px;
-        left: 150px;
+        left: 75%;
+        transform: translateX(-50%); /* center the menu */
         background: white;
-        width: 100%;
+        width: 50%;
+        max-width: 300px;            /* optional limit */
         display: none;
         flex-direction: column;
         padding: 20px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+
+     
 
     .nav a {
         margin: 10px 0;
