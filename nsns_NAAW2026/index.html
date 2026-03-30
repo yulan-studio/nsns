@@ -385,6 +385,7 @@ a {
 }
 
 
+
 /* Schedule interactive cards */
 .schedule-card {
     cursor: pointer;
@@ -399,14 +400,22 @@ a {
     margin-top: 10px;
 }
 
+/* Smooth accordion animation */
 .schedule-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: 
+        max-height 0.4s ease,
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
 .schedule-card.active .schedule-content {
-    max-height: 300px;
+    max-height: 400px; /* enough to fit content */
+    opacity: 1;
+    transform: translateY(0);
     margin-top: 10px;
 }
 
@@ -553,7 +562,7 @@ a {
         With a focus on Asian Canadian communities, the series explores disability, inclusion, and accessibility through dialogue, shared learning, and practical strategies.
     </p>
 
-    <div class="grid grid-2 schedule-grid">
+    <div class="grid schedule-grid">
 
         <!-- Event 1 -->
         <div class="card schedule-card">
@@ -796,7 +805,16 @@ const scheduleCards = document.querySelectorAll(".schedule-card");
 
 scheduleCards.forEach(card => {
     card.addEventListener("click", () => {
-        card.classList.toggle("active");
+
+        const isActive = card.classList.contains("active");
+
+        // Close ALL cards first
+        scheduleCards.forEach(c => c.classList.remove("active"));
+
+        // If it was NOT active, open it
+        if (!isActive) {
+            card.classList.add("active");
+        }
     });
 });
 </script>
