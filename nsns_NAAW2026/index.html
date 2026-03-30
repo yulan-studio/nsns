@@ -383,6 +383,33 @@ a {
         font-size: 2rem;
     }
 }
+
+
+/* Schedule interactive cards */
+.schedule-card {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.schedule-card:hover {
+    transform: translateY(-3px);
+}
+
+.schedule-header h3 {
+    margin-top: 10px;
+}
+
+.schedule-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.schedule-card.active .schedule-content {
+    max-height: 300px;
+    margin-top: 10px;
+}
+
 </style>
 </head>
 
@@ -508,10 +535,97 @@ a {
 </section>
 
 <!-- SCHEDULE -->
-<section id="schedule" class="section">
+<!-- <section id="schedule" class="section">
     <h2>Event Schedule</h2>
     <p><strong>Coming Soon</strong></p>
-    <p>Programming will take place May 24-30, 2026.<br/></p>
+    <p>Programming will take place May 31-June 6, 2026.<br/></p>
+    <a href="#" class="btn btn-primary">Register for Events</a>
+</section> -->
+
+<!-- SCHEDULE -->
+<section id="schedule" class="section">
+    <h2>Event Schedule</h2>
+
+    <p>
+        This workshop series is designed for a broad audience, including parents, caregivers, educators, health care professionals, employers and community members.
+    </p>
+    <p>
+        With a focus on Asian Canadian communities, the series explores disability, inclusion, and accessibility through dialogue, shared learning, and practical strategies.
+    </p>
+
+    <div class="grid grid-2 schedule-grid">
+
+        <!-- Event 1 -->
+        <div class="card schedule-card">
+            <div class="schedule-header">
+                <strong>Monday, June 1 (Virtual)</strong><br>
+                <span>7:00–9:00 PM</span>
+                <h3>Education & Advocacy: Navigating the School System</h3>
+            </div>
+            <div class="schedule-content">
+                <p>
+                    Understanding the school system can feel overwhelming. This session explains how special education works in Ontario in a clear and accessible way.
+                </p>
+                <p>
+                    Learn about Individual Education Plans (IEPs), collaboration between families and educators, and how to advocate for the right supports.
+                </p>
+            </div>
+        </div>
+
+        <!-- Event 2 -->
+        <div class="card schedule-card">
+            <div class="schedule-header">
+                <strong>Tuesday, June 2 (Virtual)</strong><br>
+                <span>7:00–9:00 PM</span>
+                <h3>Employment Pathways for Youth with Disabilities</h3>
+            </div>
+            <div class="schedule-content">
+                <p>
+                    A supportive introduction to employment pathways for youth with disabilities and their families.
+                </p>
+                <p>
+                    Explore skill-building, job coaching, supported employment, and how to access community resources.
+                </p>
+            </div>
+        </div>
+
+        <!-- Event 3 -->
+        <div class="card schedule-card">
+            <div class="schedule-header">
+                <strong>Wednesday, June 3 (Virtual)</strong><br>
+                <span>7:00–9:00 PM</span>
+                <h3>Transition to Adulthood & Planning Ahead</h3>
+            </div>
+            <div class="schedule-content">
+                <p>
+                    A clear overview of transitioning into adulthood for youth with disabilities.
+                </p>
+                <p>
+                    Learn about services after age 18, funding, disability savings plans, and planning for independence.
+                </p>
+            </div>
+        </div>
+
+        <!-- Event 4 -->
+        <div class="card schedule-card">
+            <div class="schedule-header">
+                <strong>Thursday, June 4 (Virtual)</strong><br>
+                <span>7:00–9:00 PM</span>
+                <h3>Mental Health & Burnout for Caregivers</h3>
+            </div>
+            <div class="schedule-content">
+                <p>
+                    A session focused on caregiver well-being, resilience, and mental health.
+                </p>
+                <p>
+                    Learn to recognize burnout, explore coping strategies, and strengthen support networks.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <br>
     <a href="#" class="btn btn-primary">Register for Events</a>
 </section>
 
@@ -674,6 +788,15 @@ toggle.addEventListener("click", () => {
 navLinks.forEach(link => {
     link.addEventListener("click", () => {
         nav.classList.remove("active");
+    });
+});
+
+
+const scheduleCards = document.querySelectorAll(".schedule-card");
+
+scheduleCards.forEach(card => {
+    card.addEventListener("click", () => {
+        card.classList.toggle("active");
     });
 });
 </script>
