@@ -387,10 +387,10 @@ a {
 
 
 /* =========================
-   SCHEDULE SECTION (FINAL LIGHT VERSION)
+   SCHEDULE SECTION (ENHANCED)
 ========================= */
 
-/* Layout: full width, one per row */
+/* Layout */
 .schedule-grid {
     grid-template-columns: 1fr;
     gap: 25px;
@@ -398,11 +398,11 @@ a {
 
 /* Card */
 .schedule-card {
+    position: relative;
     cursor: pointer;
-    border-radius: 12px;
+    border-radius: 14px;
     padding: 25px;
 
-    /* Light gradient background */
     background: linear-gradient(
         to bottom,
         #f0f6fa 0%,
@@ -410,21 +410,57 @@ a {
     );
 
     color: #333;
-
     border: 1px solid #e0e6ed;
-
-    /* subtle accent */
     border-left: 4px solid #2A9D8F;
 
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: 
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        background 0.3s ease,
+        border-left 0.3s ease;
 }
 
-/* Hover */
+/* 🔥 Hover Effect (More Standout) */
 .schedule-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+    transform: translateY(-6px) scale(1.01);
+
+    box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+
+    background: linear-gradient(
+        to bottom,
+        #f8fcff 0%,
+        #e0f4f2 100%
+    );
+
+    border-left: 6px solid #2A9D8F;
+}
+
+/* Glow ring on hover */
+.schedule-card:hover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    pointer-events: none;
+    box-shadow: 0 0 0 2px rgba(42,157,143,0.15);
+}
+
+/* Click hint */
+.schedule-card::before {
+    content: "Click to expand";
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 0.75rem;
+    color: #888;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.schedule-card:hover::before {
+    opacity: 1;
 }
 
 /* Header */
@@ -448,32 +484,53 @@ a {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
-    transform: translateY(-5px);
+    transform: translateY(-8px);
 
     transition: 
-        max-height 0.4s ease,
-        opacity 0.3s ease,
-        transform 0.3s ease;
+        max-height 0.45s ease,
+        opacity 0.35s ease,
+        transform 0.35s ease;
 }
 
 /* Expanded state */
 .schedule-card.active .schedule-content {
-    max-height: 400px;
+    max-height: 500px;
     opacity: 1;
     transform: translateY(0);
     margin-top: 15px;
 }
 
-/* Text inside */
+/* Active card styling */
+.schedule-card.active {
+    transform: translateY(-4px);
+
+    box-shadow: 0 16px 32px rgba(42, 157, 143, 0.18);
+
+    border-left: 6px solid #2A9D8F;
+
+    background: linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        #eaf7f6 100%
+    );
+}
+
+/* Text */
 .schedule-content p {
     color: #333;
+    margin-bottom: 10px;
 }
 
-/* Active highlight */
-.schedule-card.active {
-    box-shadow: 0 10px 22px rgba(42, 157, 143, 0.15);
-}
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .schedule-card {
+        padding: 20px;
+    }
 
+    .schedule-card::before {
+        display: none; /* cleaner on mobile */
+    }
+}
 </style>
 </head>
 
@@ -611,7 +668,7 @@ a {
     <h2>Event Schedule</h2>
 
     <p>
-    Designed for a diverse audience of caregivers, professionals, and community members, this workshop series explores the intersections of disability, neurodiversity, and mental health within Asian Canadian communities. By addressing specific cultural perspectives and systemic stigmas, the program fosters a space for meaningful dialogue and shared learning. Ultimately, participants will gain practical strategies and a deeper understanding of how to dismantle barriers and promote inclusive practices across all sectors of society.
+    Designed for a diverse audience of caregivers, professionals, and community members, this workshop series explores the intersections of disability, neurodiversity, and mental health within Asian Canadian communities. By addressing specific cultural perspectives and systemic stigmas, the program fosters a space for meaningful dialogue and shared learning. Ultimately, participants will gain practical strategies and a deeper understanding of how to dismantle barriers and promote inclusive practices across all sectors of society.<br/><br/>
     </p>
 
     <div class="grid schedule-grid">
@@ -624,12 +681,8 @@ a {
                 <h3>Education & Advocacy: Navigating the School System</h3>
             </div>
             <div class="schedule-content">
-                <p>
-                    Understanding the school system can feel overwhelming. This session explains how special education works in Ontario in a clear and accessible way.
-                </p>
-                <p>
-                    Learn about Individual Education Plans (IEPs), collaboration between families and educators, and how to advocate for the right supports.
-                </p>
+                <p>Understanding the school system can feel overwhelming, whether you are directly supporting a child with disabilities or simply want to be better informed. This session explains how special education works in Ontario in a clear and accessible way. </p>
+                <p>You'll gain insight into tools like the Individual Education Plan, learn how families and educators can work together more effectively, and explore how to advocate for the right supports. Ideal for parents, caregivers, and anyone interested in inclusive education and student success.</p>
             </div>
         </div>
 
@@ -642,10 +695,10 @@ a {
             </div>
             <div class="schedule-content">
                 <p>
-                    A supportive introduction to employment pathways for youth with disabilities and their families.
+                    Starting the path to employment can feel overwhelming for youth with disabilities and their families. This session offers a clear and supportive overview of how to take those first steps with confidence. 
                 </p>
                 <p>
-                    Explore skill-building, job coaching, supported employment, and how to access community resources.
+                    You'll explore practical ways to build skills and gain experience, learn about programs like job coaching and supported employment, and understand how to access community resources. The session also shows how to match supports to different needs and prepare for workplace expectations.
                 </p>
             </div>
         </div>
@@ -659,10 +712,10 @@ a {
             </div>
             <div class="schedule-content">
                 <p>
-                    A clear overview of transitioning into adulthood for youth with disabilities.
+                    The move into adulthood can bring many questions for youth with disabilities and their families. This session provides a clear and supportive overview of what to expect during this important transition. 
                 </p>
                 <p>
-                    Learn about services after age 18, funding, disability savings plans, and planning for independence.
+                    You'll learn about changes after age 18, including services, funding, and key decisions, as well as tools like disability savings plans and other supports. We'll also discuss planning for independence and support needs, and ways to start thinking about next steps. 
                 </p>
             </div>
         </div>
@@ -676,13 +729,15 @@ a {
             </div>
             <div class="schedule-content">
                 <p>
-                    A session focused on caregiver well-being, resilience, and mental health.
+                    Caring for others is meaningful but can be challenging. This session focuses on mental health, resilience, and well-being for caregivers, while highlighting the importance of community support. 
                 </p>
                 <p>
-                    Learn to recognize burnout, explore coping strategies, and strengthen support networks.
+                    Participants will learn to recognize stress and burnout, explore simple coping strategies, and discover ways to strengthen support networks. Whether you are a caregiver or want to better understand these experiences, this session shows how we can support one another.
                 </p>
             </div>
         </div>
+
+        <p>*The term “disability” in this series includes neurodiversity (such as Autism and ADHD), learning disabilities, and physical or developmental conditions. </p>
 
     </div>
 
