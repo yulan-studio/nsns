@@ -125,7 +125,7 @@ namespace Core.Services
                 PaymentDate = paymentDate,
                 CreatedByUser = user,
                 Receipt = receiptPath,
-                CreatedDate = DateTime.UtcNow
+                CreatedDate = DateTimeHelper.GetTorontoTime()
 
             };
 
@@ -199,7 +199,7 @@ namespace Core.Services
                 CreatedByUser = user,
                 Receipt = receiptPath,
                 Fee = fee,
-                CreatedDate = DateTime.UtcNow
+                CreatedDate = DateTimeHelper.GetTorontoTime()
 
             };
 

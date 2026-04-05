@@ -19,8 +19,8 @@
 
 <style>
     /* =========================
-           DESKTOP DEFAULT (TABLE)
-           ========================= */
+               DESKTOP DEFAULT (TABLE)
+               ========================= */
     table.mobile-stack {
         display: table;
         width: 100%;
@@ -45,8 +45,8 @@
         }
 
     /* =========================
-           MOBILE ONLY (CARDS)
-           ========================= */
+               MOBILE ONLY (CARDS)
+               ========================= */
     @@media (max-width: 767px) {
 
         .desktop-only {
@@ -95,7 +95,7 @@
                 color: #fff;
                 text-decoration: none;
                 border-radius: 4px;
-            } 
+            }
     }
 </style>
 
@@ -117,9 +117,18 @@
                         (course.CourseDescription != null
                         ? $" | {course.CourseDescription}"
                         : ""))
-    </p>
+        &nbsp; &nbsp; &nbsp;
+        @if (course.CourseType == "Group")
+                {
+                    <a href="@Url.Action("Attendance", "Course", new { courseId = course.CourseID })">
+                        View Attendance
+                    </a>
 
-    @if (course.SessionCount != null)
+                    
+                }
+            </p>
+
+            @if (course.SessionCount != null)
             {
                 <p class="mb-2">
                     <strong>Session Count:</strong> @course.SessionCount
@@ -138,8 +147,12 @@
                         <th>Request to Reschedule</th>
                         <th class="desktop-only">Deleted</th>
                         <th>Completed</th>
-                        <th>Schedules</th>
-                        <th>Enrollments</th>
+
+                        @if (course.CourseType != "Group")
+                        {
+                            <th>Schedules</th>
+                            <th>Enrollments</th>
+                        }
                     </tr>
                 </thead>
 
@@ -165,16 +178,20 @@
                                 </td>
                                 <td class="desktop-only" data-label="Deleted">@child.Deleted</td>
                                 <td data-label="Completed">@child.Completed</td>
-                                <td data-label="Schedules">
-                                    <a href="/Coach/ManageSchedules/@child.ChildID?courseId=@course.CourseID&enrollmentId=@child.EnrollmentID">
-                                        Manage
-                                    </a>
-                                </td>
-                                <td data-label="Enrollments">
-                                    <a href="/Coach/ManageEnrollments/@child.ChildID?courseId=@course.CourseID">
-                                        Manage
-                                    </a>
-                                </td>
+
+                                @if (course.CourseType != "Group")
+                                {
+                                    <td data-label="Schedules">
+                                        <a href="/Coach/ManageSchedules/@child.ChildID?courseId=@course.CourseID&enrollmentId=@child.EnrollmentID">
+                                            Manage
+                                        </a>
+                                    </td>
+                                    <td data-label="Enrollments">
+                                        <a href="/Coach/ManageEnrollments/@child.ChildID?courseId=@course.CourseID">
+                                            Manage
+                                        </a>
+                                    </td>
+                                }
                             </tr>
                         }
                     }
@@ -186,7 +203,7 @@
                             </td>
                         </tr>
                     }
-@* 
+                    @* 
                     @if (TempData["SuccessMessage"] != null)
                     {
                         <tr>

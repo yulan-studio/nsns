@@ -38,8 +38,7 @@ namespace Core.Services
                 Relationship = relationship,
                 CreatedBy = createdBy,
                 UpdatedBy = createdBy,
-                CreatedDate = DateTime.UtcNow,
-                //UpdatedDate = DateTime.UtcNow
+                CreatedDate = DateTimeHelper.GetTorontoTime(),
             };
 
             //newRelation.Parent = parent;

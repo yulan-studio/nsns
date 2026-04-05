@@ -5,16 +5,24 @@
 <script src="/js/sessions.js"></script>
 
 <script>
+
+    function getTorontoNow() {
+        return new Date(
+        new Date().toLocaleString("en-US", { timeZone: "America/Toronto" })
+        );
+    }
+
+
     function validateScheduleTime() {
         const scheduledAtInput = document.getElementById("scheduledAt");
         const errorSpan = document.getElementById("scheduledAtError");
         const scheduledDate = new Date(scheduledAtInput.value);
-        const now = new Date();
+        const now = getTorontoNow();
         //temparary removed this validation
-        // if (!scheduledAtInput.value || scheduledDate <= now) {
-        //     errorSpan.textContent = "Scheduled time must be in the future.";
-        //     return false;
-        // }
+        if (!scheduledAtInput.value || scheduledDate <= now) {
+            errorSpan.textContent = "Scheduled time must be in the future.";
+            return false;
+        }
 
         // errorSpan.textContent = ""; // clear error if valid
         return true;
@@ -104,6 +112,20 @@
             <span id="minutesDisplay" style="margin-left: 10px; font-style: italic;"></span>
         </div>
 
+        <div style="margin-bottom: 10px;">
+            <strong>Repeat:</strong><br />
+            <select id="repeatType" name="repeatType" style="width: 40%; padding: 5px;">
+                <option value="None">Does not repeat</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+            </select>
+        </div>
+
+        <div style="margin-bottom: 10px;">
+            <strong>Repeat Count:</strong><br />
+            <input type="number" name="repeatCount" min="1" max="100" value="1" style="width: 40%; padding: 5px;" />
+            <span style="font-style: italic;"></span>
+        </div>
 
         <div style="margin-bottom: 10px;">
             <strong>Location:</strong><br />
@@ -115,7 +137,9 @@
             <textarea name="staffNote" rows="3" style="width: 40%; padding: 5px;" ></textarea>
         </div>
 
-        <button type="submit" style="background-color: #ff4d4d; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 4px;">Add Session</button>
+
+
+        <button type="submit" style="background-color: #ff4d4d; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 4px;">Add Session(s)</button>
     </form>
 </div>
 

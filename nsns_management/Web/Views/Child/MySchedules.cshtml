@@ -27,37 +27,7 @@
         margin-top: 6px;
     }
 
-    /* Toggle button full width */
-   /*  .btn-schedule {
-        width: 100%;
-        margin-bottom: 8px;
-    } */
-        /* .btn-grey {
-           
-            color: #fff;
-            border: 1px solid #7bb4dc;
-        }
-            
-            .btn-grey:hover {
-                background-color: #7bb4dc;
-                border-color: #7bb4dc;
-                color: #fff;
-            }
-            
-            .btn-grey:active,
-            .btn-grey.active {
-                background-color: #7bb4dc !important;
-                border-color: #7bb4dc !important;
-                color: #fff !important;
-            }
-            
-            .btn-grey:focus,
-            .btn-grey:focus-visible {
-                background-color: #7bb4dc !important;
-                border-color: #7bb4dc !important;
-                color: #fff !important;
-                box-shadow: none; 
-            } */
+  
 
     /* Hide table headers */
     table.mobile-table thead {
@@ -110,7 +80,7 @@
 
 @if (Model.CoursesSchedules.Any())
 {
-    var now = DateTime.UtcNow;
+    //var now = DateTime.UtcNow;
 
     @foreach (var courseSchedules in Model.CoursesSchedules)
     {
@@ -193,9 +163,9 @@
                             {
                                 var schedule = courseSchedules.Schedules[i];
                                 //var isWithin24Hours = schedule.ScheduledAt.HasValue && (schedule.ScheduledAt.Value - now).TotalHours < 24;
-                                var now = DateTime.UtcNow;
-                                var scheduledUtc = TimeZoneInfo.ConvertTimeToUtc(schedule.ScheduledAt.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
-                                var isWithin24Hours = (scheduledUtc - now).TotalHours < 24;
+                                var now = Core.DateTimeHelper.GetTorontoTime();
+                                //var scheduledUtc = TimeZoneInfo.ConvertTimeToUtc(schedule.ScheduledAt.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+                                var isWithin24Hours = (schedule.ScheduledAt.Value - now).TotalHours < 24;
 
                                 <input type="hidden" name="Schedules[@i].EnrollmentID" value=@courseSchedules.Schedules[i].EnrollmentID>
                                 <tr>

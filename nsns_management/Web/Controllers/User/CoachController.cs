@@ -1,4 +1,5 @@
 ﻿
+using Core;
 using Core.Interfaces;
 using Core.Models;
 using Core.Repositories;
@@ -603,6 +604,7 @@ namespace Web.Controllers.User
 
                     var coursesChildren = new List<CourseChildrenViewModel>();
 
+                    
 
                     foreach (Course course in courses)
                     {
@@ -611,6 +613,7 @@ namespace Web.Controllers.User
                         courseChildren.CourseTitle = course.Title;
                         courseChildren.CourseDescription = course.Description;
                         courseChildren.SessionCount = course.SessionCount;
+                        courseChildren.CourseType = course.CourseType;
 
 
 
@@ -642,6 +645,14 @@ namespace Web.Controllers.User
 
 
         }
+
+
+
+
+       
+
+
+
 
 
         [Authorize(Roles = "Coach")]
@@ -692,7 +703,7 @@ namespace Web.Controllers.User
 
         [Authorize(Roles = "Coach")]
         [HttpPost("ScheduleCourse")]
-        public async Task<IActionResult> ScheduleCourse(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, string location, int enrollmentId_Ref)
+        public async Task<IActionResult> ScheduleCourse(int childId, int courseId, DateTime scheduledAt, decimal scheduledHours, string location, int enrollmentId_Ref, bool isRecurring = false, string recurrenceType = "Weekly",  int recurrenceCount = 1 )
         {
             var user = await _userManager.GetUserAsync(User);
             var coach = await _coachRepository.GetCoachByIdAsync(user.Id);
@@ -704,54 +715,91 @@ namespace Web.Controllers.User
             {
                 throw new ArgumentException("Child not found");
             }
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var nowToronto = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            
+            var nowToronto = DateTimeHelper.GetTorontoTime();
 
             if (scheduledAt < nowToronto)
             {
                 TempData["ErrorMessage"] = "Please choose a future time.";
+                return RedirectToAction("ManageSchedules", new { childId, courseId = courseId, enrollmentId = enrollmentId_Ref });
             }
 
             else
             { 
                 var course = await _courseService.GetAsync(courseId); // Ensure the course exists
+
+                if (course == null)
+                {
+                    TempData["ErrorMessage"] = "Course not found.";
+                    return RedirectToAction("ManageSchedules", new { childId, courseId = courseId, enrollmentId = enrollmentId_Ref });
+                }
+
+
+                bool allSuccess = true;
+
+                if (isRecurring && recurrenceCount <= 0)
+                {
+                    TempData["ErrorMessage"] = "Invalid recurrence count.";
+                    return RedirectToAction("ManageSchedules", new { childId, courseId = courseId, enrollmentId = enrollmentId_Ref });
+                }
+
+                int totalToSchedule = isRecurring ? recurrenceCount : 1;
+
                 if (course.SessionCount != null)
                 {
                     var scheduledCount = (await _courseEnrollmentService.GetSchedulesByCourseChildAsync(courseId, childId)).Count();
                     var completedCount = (await _courseEnrollmentService.GetCompletesByCourseChildAsync(courseId, childId)).Count();
-                    // Check if the maximum number of sessions has been reached
-                    if (scheduledCount + completedCount >= course.SessionCount)
+
+                    if (scheduledCount + completedCount + totalToSchedule > course.SessionCount)
                     {
                         TempData["ErrorMessage"] = "The maximum number of sessions for this course has been reached.";
-                        return RedirectToAction("ManageSchedules", new { childId, courseId = courseId, enrollmentId = enrollmentId_Ref });
+                        return RedirectToAction("ManageSchedules", new { childId, courseId, enrollmentId = enrollmentId_Ref });
                     }
                 }
-                bool result = await _courseEnrollmentService.ScheduleCourseAsync(childId, courseId, scheduledAt, scheduledHours, location, coachId, enrollmentId_Ref);
 
-                if (result)
+
+
+                DateTime currentDate = scheduledAt;
+
+                for (int i = 0; i < totalToSchedule; i++)
                 {
+                    bool result = await _courseEnrollmentService.ScheduleCourseAsync(
+                        childId, courseId, currentDate, scheduledHours, location, coachId, enrollmentId_Ref);
 
+                    if (!result)
+                    {
+                        allSuccess = false;
+                        break;
+                    }
 
-                    //var subject = "A Course schedule has been added";
+                    if (isRecurring)
+                    {
+                        if (recurrenceType.Equals("Weekly", StringComparison.OrdinalIgnoreCase))
+                            currentDate = currentDate.AddDays(7);
+                        else if (recurrenceType.Equals("Daily", StringComparison.OrdinalIgnoreCase))
+                            currentDate = currentDate.AddDays(1);
+                        else
+                            break;
+                    }
+                }
 
-                    //var message = "A course schedule has been added for the child: " + child.Name + ":\n" +
-                    //    "Course: " + course.Title + "\n" +
-                    //    "Coach: " + coach.Name + "\n" +
-                    //    "Scheduled At: " + scheduledAt.ToString("yyyy - MM - dd HH: mm") + "\n" +
-                    //    "Scheduled Hours: " + scheduledHours;
-
-                    //await _emailService.SendEmailAsync(child.User.Email, subject, message);  //send to child, how about send to coach?
-
-                    TempData["SuccessMessage"] = "Course scheduled successfully.";
+                if (allSuccess)
+                {
+                    TempData["SuccessMessage"] = "Session(s) scheduled successfully.";
                 }
                 else
                 {
-                    TempData["ErrorMessage"] = "Failed to schedule the course.";
+                    TempData["ErrorMessage"] = "Failed to schedule one or more sessions.";
                 }
             }
 
             return RedirectToAction("ManageSchedules", new { childId, courseId = courseId, enrollmentId = enrollmentId_Ref });
         }
+
+
+
+        
+
 
 
         [Authorize(Roles = "Coach")]
@@ -960,7 +1008,7 @@ namespace Web.Controllers.User
 
             var incomeRecords = await _incomeService.GetCoachMonthlyIncomeAsync(coach.CoachID);
 
-            return View(incomeRecords);
+            return View(incomeRecords.ToList());
         }
 
         

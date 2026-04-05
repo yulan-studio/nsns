@@ -139,17 +139,18 @@
         {
             foreach (var s in Model.Schedules)
             {
-                var start = s.ScheduledAt;
+                var start = s.ScheduledAt.HasValue ? s.ScheduledAt.Value :Core.DateTimeHelper.GetTorontoTime();
                 var hours = s.ScheduledHours ?? 0;
-                var end = start?.AddHours((double)hours);
-                var now = DateTime.UtcNow;
-                var scheduledUtc = start.HasValue ? TimeZoneInfo.ConvertTimeToUtc(start.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")) : now;
-                var isWithin24Hours = (scheduledUtc - now).TotalHours < 24;
+                var end = start.AddHours((double)hours);
+                var now = Core.DateTimeHelper.GetTorontoTime();
+                //var now = DateTime.UtcNow;
+                //var scheduledUtc = start.HasValue ? TimeZoneInfo.ConvertTimeToUtc(start.Value, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")) : now;
+                var isWithin24Hours = (start - now).TotalHours < 24;
 
                 <tr id="row-@s.EnrollmentID">
-                    <td data-label="Date">@start?.ToString("yyyy-MM-dd")</td>
-                    <td data-label="Start">@start?.ToString("HH:mm")</td>
-                    <td data-label="End">@end?.ToString("HH:mm")</td>
+                    <td data-label="Date">@start.ToString("yyyy-MM-dd")</td>
+                    <td data-label="Start">@start.ToString("HH:mm")</td>
+                    <td data-label="End">@end.ToString("HH:mm")</td>
 
                     <td data-label="Location">
                         <span id="locationView-@s.EnrollmentID" class="view-mode">@s.Location</span>
@@ -195,10 +196,16 @@
         }
     </tbody>
 </table>
+<form method="post" action="/Coach/ScheduleCourse" onsubmit="return validateScheduleTime()">
+<div class="mb-3">
+    <strong>Schedule Type</strong><br />
+    <input type="radio" name="isRecurring" value="false" checked onclick="toggleRecurring(false)"> Single
+    <input type="radio" name="isRecurring" value="true" onclick="toggleRecurring(true)"> Recurring
+</div>
 
 <!-- Schedule Form -->
 <div class="mt-4 p-3 bg-light border rounded">
-    <form method="post" action="/Coach/ScheduleCourse" onsubmit="return validateScheduleTime()">
+    
         <input type="hidden" name="childId" value="@Model.Child.ChildID" />
         <input type="hidden" name="courseId" value="@Model.Course.CourseID" />
         <input type="hidden" name="enrollmentId_Ref" value="@Model.EnrollmentID" />
@@ -220,11 +227,53 @@
             <input name="location" class="form-control" required />
         </div>
 
+        <div id="recurringFields" style="display:none;">
+            <div class="mb-2">
+                <strong>Recurrence</strong>
+
+                
+                
+                <select name="recurrenceType" class="form-control">
+                    <option value="Weekly">Weekly</option>
+                    <option value="Daily">Daily</option>
+                </select>
+            </div>
+
+            <div class="mb-2">
+                <strong>Number of Sessions</strong>
+                <input name="recurrenceCount" type="number" min="1" value="1" class="form-control" />
+            </div>
+        </div>
+
         <button class="btn btn-primary">Schedule</button>
-    </form>
+    
 </div>
+</form>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
 <script>
+
+    function toggleRecurring(isRecurring) {
+        const section = document.getElementById("recurringFields");
+        section.style.display = isRecurring ? "block" : "none";
+
+        document.querySelector('[name="recurrenceCount"]').disabled = !isRecurring;
+    }
+
+
     function validateScheduleTime() {
         const el = document.getElementById("scheduledAt");
         const err = document.getElementById("scheduledAtError");

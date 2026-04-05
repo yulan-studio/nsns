@@ -359,7 +359,7 @@ namespace Web.Controllers.Courses
 
 
         [HttpPost]
-        public async Task<IActionResult> AddSession(int courseId, DateTime scheduledAt, decimal scheduledHours, string location, string staffNote)
+        public async Task<IActionResult> AddSession(int courseId, DateTime scheduledAt, decimal scheduledHours, string location, string staffNote, string repeatType, int repeatCount)
         {
 
 
@@ -377,12 +377,39 @@ namespace Web.Controllers.Courses
 
             try
             {
-                var result = await _courseEnrollmentService.AddSessionToGroupCourseAsync(courseId, scheduledAt, scheduledHours, location, staffNote, user);
-                if (!result)
+                var result = false;
+                if (repeatType == "None" || repeatCount <= 1)
                 {
-                    TempData["ErrorMessage"] = "New session has problem to be added.";
+                    result = await _courseEnrollmentService.AddSessionToGroupCourseAsync(courseId, scheduledAt, scheduledHours, location, staffNote, user);
                 }
-                TempData["SuccessMessage"] = "New session added successfully.";
+                else
+                {
+                    DateTime currentDate = scheduledAt;
+
+                    for (int i = 0; i < repeatCount; i++)
+                    {
+                        result = await _courseEnrollmentService.AddSessionToGroupCourseAsync(
+                            courseId, currentDate, scheduledHours, location, staffNote, user);
+
+                        if (repeatType == "Daily")
+                        {
+                            currentDate = currentDate.AddDays(1);
+                        }
+                        else if (repeatType == "Weekly")
+                        {
+                            currentDate = currentDate.AddDays(7);
+                        }
+                    }
+                }
+                if (result)
+                {
+                    TempData["SuccessMessage"] = "Session(s) added successfully.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Failed to add one or more sessions.";
+                }
+                
                 return RedirectToAction("ManageSessions", new { courseId });
             }
             catch (Exception ex)
@@ -497,7 +524,16 @@ namespace Web.Controllers.Courses
 
         }
 
+        
+        [Authorize(Roles = "Staff, Coach")]
+        [HttpGet("Attendance/{courseId}")]
+        public async Task<IActionResult> Attendance(int courseId)
+        {
+            var vm = await _courseEnrollmentService.GetAttendanceAsync(courseId);
+            return View(vm);
+        }
 
+       
 
 
 
@@ -507,7 +543,7 @@ namespace Web.Controllers.Courses
         //{
         //    try
         //    {
-                
+
 
         //        var result = await _courseEnrollmentService.RemoveAsync(enrollmentId);
 

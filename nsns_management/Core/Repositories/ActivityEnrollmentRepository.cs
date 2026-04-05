@@ -25,8 +25,9 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<ActivityEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
 
             return await _context.ActivityEnrollments
                 .Include(e => e.Activity)
@@ -42,8 +43,8 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<ActivityEnrollment>> GetPastEnrollmentsByChildAsync(int childId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
 
             return await _context.ActivityEnrollments
                 .Include(e => e.Activity)
@@ -156,8 +157,7 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<ActivityEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
 
             return await _context.ActivityEnrollments
            .Include(e => e.Activity)
@@ -175,8 +175,7 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<ActivityEnrollmentViewModel>> GetUpcomingEnrollmentsViewByChildAsync(int childId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
 
             return await _context.ActivityEnrollments
            .Include(e => e.Activity)
@@ -220,8 +219,7 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<ActivityEnrollment>> GetRegisteredEnrollmentsByChildAsync(int childId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
 
             return await _context.ActivityEnrollments
                 .Include(e => e.Activity)
@@ -260,10 +258,9 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<ActivityEnrollment>> UpdateActivityStatusToCompletedAsync()
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
 
-            //var now = DateTime.UtcNow;
+            
             var enrollments = await _context.ActivityEnrollments
                 .Include(e => e.Activity)
                 .Where(e => ((DateTime)e.Activity.ScheduledAt).AddDays(1)  <= torontoNow && e.Status == "Confirmed")
