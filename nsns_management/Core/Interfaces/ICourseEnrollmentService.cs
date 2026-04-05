@@ -107,6 +107,12 @@ namespace Core.Interfaces
         Task<IEnumerable<CalendarSchedule>> GetCoachSchedulesAsync(int coachId);
 
         Task<bool> UpdateCoachSchedule(UpdateCoachScheduleViewModel vm);
+
+        //Task<IEnumerable<Child>> GetChildrenByCourseAsync(int courseId);
+
+        //Task<IEnumerable<CourseEnrollmentData>> GetSessionsByCourseAsyn(int courseId);
+
+        Task<SessionAttendanceViewModel> GetAttendanceAsync(int courseId);
     }
 
 

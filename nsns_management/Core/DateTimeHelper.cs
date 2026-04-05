@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Core
 {
-    internal class DateTimeHelper
+    public class DateTimeHelper
     {
+        public static DateTime GetTorontoTime()
+        {
+            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            return torontoNow;
+        }
     }
 }

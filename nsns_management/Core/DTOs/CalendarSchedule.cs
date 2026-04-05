@@ -13,5 +13,6 @@ namespace Core.DTOs
         public DateTime End { get; set; }
         public string Status { get; set; }     // Scheduled / Completed
         public string Color { get; set; }      // FullCalendar 用
+        public string Type { get; set; } // Course / Activity
     }
 }

@@ -29,8 +29,8 @@ namespace Core.Models
 
         public int? UpdatedBy { get; set; } // Updated By User (nullable)
 
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow; // Default Current Timestamp
+        public DateTime CreatedDate { get; set; } = DateTimeHelper.GetTorontoTime(); // Default Current Timestamp
 
-        public DateTime UpdatedDate { get; set; } = DateTime.UtcNow; // Default Current Timestamp on Update
+        public DateTime UpdatedDate { get; set; } = DateTimeHelper.GetTorontoTime(); // Default Current Timestamp on Update
     }
 }

@@ -159,6 +159,9 @@ builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IFeeRepository, FeeRepository>();
 builder.Services.AddScoped<IFeeService, FeeService>();
 
+builder.Services.AddScoped<IChildCalendarRepository, ChildCalendarRepository>();
+builder.Services.AddScoped<IChildCalendarService, ChildCalendarService>();
+
 // Add UserService
 
 

@@ -89,14 +89,15 @@ namespace Core.Services
 
             Coach? coach = null;
 
-            if (courseType == "Private")
-            {
+            //if (courseType == "Private")
+            
+            //{
                 coach = await _coachRepository.GetAsync(coachId);
                 if (coach == null)
                 {
                     throw new Exception("No coach is added.");
                 }
-            }
+            //}
             
 
 
@@ -124,7 +125,7 @@ namespace Core.Services
                 //CoachID = coachId,
                 CreatedBy = user.Id,
                 //CreatedByUser = createdByUser,
-                CreatedDate = DateTime.UtcNow
+                CreatedDate = DateTimeHelper.GetTorontoTime()
             };
 
             
@@ -189,7 +190,7 @@ namespace Core.Services
             existingCourse.IsActive = isActive;
            // existingCourse.UserID = userId;
             existingCourse.UpdatedBy = user.Id;
-            existingCourse.UpdatedDate = DateTime.UtcNow;
+            existingCourse.UpdatedDate = DateTimeHelper.GetTorontoTime();
 
             // Save changes to the repository
             return await _courseRepository.UpdateAsync(existingCourse);

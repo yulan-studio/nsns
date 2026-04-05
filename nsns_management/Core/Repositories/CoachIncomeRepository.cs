@@ -57,7 +57,7 @@ namespace Core.Repositories
                 EnrollmentID = enrollmentId,
                 //IncomeChange = incomeForThisSession,
                 //Income = newIncome,
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = DateTimeHelper.GetTorontoTime(),
                 CreatedBy = updatedBy
             };
 
@@ -112,7 +112,7 @@ namespace Core.Repositories
                         ScheduledAt = (DateTime)x.Enrollment.ScheduledAt,
                         Hours = (decimal)x.Enrollment.ActualHours,
                         //Amount = x.Amount,
-                        ChildName = x.Enrollment.Child.Name,
+                        ChildName = x.Enrollment.Child != null ? x.Enrollment.Child.Name : "Group",
                         CourseName = x.Course.Title
                     }).ToList()
                 })

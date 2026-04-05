@@ -1,4 +1,5 @@
 ﻿
+using Core;
 using Core.Contexts;
 using Core.FormModels;
 using Core.Interfaces;
@@ -49,13 +50,14 @@ namespace Web.Controllers.User
         private readonly IFeeService _feeService;
         private readonly IPaymentService _paymentService;
         private readonly IChildBalanceService _balanceService;
+        private readonly IChildCalendarService _calendarService;
         private readonly EmailService _emailService;
         private readonly UserManager<Core.Models.User> _userManager;
         private readonly Core.R2.R2StorageService _r2UploadService;
         //private readonly AppDbContext _context;
 
 
-        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IFeeService feeService, IPaymentService paymentService, EmailService emailService, UserManager<Core.Models.User> userManager, Core.R2.R2StorageService r2UploadService/*, AppDbContext context*/)
+        public ChildController(IChildService childService, IEmergencyContactService emergencyContactService, ICourseService courseService, IChildBalanceService balanceService, IParentService parentService, ICityService cityService, IParentChildService parentChildService, ISpecialtyService specialtyService, IActivityService activityService, ICourseEnrollmentService courseEnrollmentService, IActivityEnrollmentService activityEnrollmentService, IFeeService feeService, IPaymentService paymentService, IChildCalendarService calendarService, EmailService emailService, UserManager<Core.Models.User> userManager, Core.R2.R2StorageService r2UploadService/*, AppDbContext context*/)
         {
             _r2UploadService = r2UploadService;
             _childService = childService;
@@ -73,7 +75,8 @@ namespace Web.Controllers.User
             _userManager = userManager;
             _emergencyContactService = emergencyContactService;
             _emailService = emailService;
-            
+            _calendarService = calendarService;
+
             //_context = context;   // For transaction
         }
 
@@ -541,7 +544,7 @@ namespace Web.Controllers.User
                     Email = Email,
                     Wechat = Wechat,
                     CreatedBy = user.Id, // Assume the user ID of admin/creator
-                    CreatedDate = DateTime.UtcNow
+                    CreatedDate = DateTimeHelper.GetTorontoTime()
                 };
 
                 // ✅ 2. Save the parent in the database
@@ -961,7 +964,7 @@ namespace Web.Controllers.User
                 if (file != null)
                 {
                     // Upload to R2
-                    string fileName = String.Concat(childId, "-", DateTime.UtcNow.ToString("yyyyMMdd-HHmmss"));
+                    string fileName = String.Concat(childId, "-", DateTimeHelper.GetTorontoTime().ToString("yyyyMMdd-HHmmss"));
                     fileUrl = await _r2UploadService.UploadAsync(file, "payments", fileName);
                 }
                
@@ -1321,7 +1324,7 @@ namespace Web.Controllers.User
             if (file != null)
             {
                 // Upload to R2
-                string fileName = String.Concat(childId, "-", DateTime.UtcNow.ToString("yyyyMMdd-HHmmss"));
+                string fileName = String.Concat(childId, "-", DateTimeHelper.GetTorontoTime().ToString("yyyyMMdd-HHmmss"));
                 fileUrl = await _r2UploadService.UploadAsync(file, "balance", fileName);
             }
 
@@ -1880,6 +1883,22 @@ namespace Web.Controllers.User
             return RedirectToAction("MyConfirmations");
         }
 
+        [HttpGet("MyCalendar")]
+        public async Task<IActionResult> MyCalendar()
+        {
+            return View();
+        }
+
+        [HttpGet("GetChildSchedules")]
+        // API endpoint for AJAX (recommended)
+        public async Task<IActionResult> GetChildSchedules()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var child = await _childService.GetByIdAsync(user.Id);
+            var schedules = await _calendarService.GetChildCalendar(child.ChildID);
+           
+            return Json(schedules);
+        }
 
 
         //[Authorize(Roles = "Staff")]

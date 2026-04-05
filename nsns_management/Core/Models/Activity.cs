@@ -27,6 +27,8 @@ namespace Core.Models
 
         public DateTime ScheduledAt { get; set; }
 
+        public decimal? ScheduledHours { get; set; }
+
         //[Column(TypeName = "decimal(10, 2)")]
         //public decimal Cost { get; set; }
 

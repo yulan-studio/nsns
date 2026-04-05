@@ -1,15 +1,16 @@
 ﻿
-using Core.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+using Core;
+using Core.Contexts;
 using Core.Interfaces;
 using Core.Models;
-using Core.Contexts;
-using System.Diagnostics;
 using Core.Repositories;
+using Core.Services;
+using Core.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Core.ViewModels;
+using System.Diagnostics;
 
 
 
@@ -101,13 +102,13 @@ namespace Web.Controllers.Setting
                 {
                     isNewCity = true;
                     city.CreatedBy = user.Id;
-                    city.CreatedDate = DateTime.UtcNow; ;
+                    city.CreatedDate = DateTimeHelper.GetTorontoTime();
                     result = await _cityService.AddAsync(city);
                 }
                 else
                 {
                     city.UpdatedBy = user.Id;
-                    city.UpdatedDate = DateTime.UtcNow;
+                    city.UpdatedDate = DateTimeHelper.GetTorontoTime();
                     result = await _cityService.UpdateAsync(city);
                 }
 

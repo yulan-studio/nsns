@@ -74,9 +74,9 @@ namespace Core.Repositories
 
         public async Task UpdateActivityStatusToCompletedAsync()
         {
-            //var now = DateTime.UtcNow;
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
+
             var activities = await _context.Activities
                 .Where(a => ((DateTime)a.ScheduledAt).AddDays(1) <= torontoNow /*&& a.IsActive == true*/)
                 .ToListAsync();
