@@ -81,8 +81,7 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<CourseEnrollment>> GetFinishedEnrollmentsByChildAsync(int childId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
 
             return await _context.CourseEnrollments
                 .Include(e => e.Course)
@@ -136,8 +135,7 @@ namespace Core.Repositories
         //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled (not include Registered, Completed, Deleted ) for group courses
         public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByChildAsync(int childId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
             return await _context.CourseEnrollments
                 .Include(e => e.Course)
                 .Include(e => e.Course.Coach)
@@ -238,8 +236,7 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<CourseEnrollment>> GetOverduedEnrollmentsByCourseChildAsync(int courseId, int childId, string status)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
 
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
@@ -281,8 +278,7 @@ namespace Core.Repositories
         //Include /Scheduled/RequestToReschedule/RequestToCancel/Canceled/Deleted (not include Registered, Completed )
         public async Task<IEnumerable<CourseEnrollment>> GetUpcomingEnrollmentsByCourseChildAsync(int courseId, int childId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
             return await _context.CourseEnrollments
                 .Include(e => e.Child)
                 .Include(e => e.Course)
@@ -330,8 +326,7 @@ namespace Core.Repositories
         //Only return upcoming sessions to delete or edit 
         public async Task<IEnumerable<CourseEnrollment>> GetAllUpcomingSessionsByCourseAsync(int courseId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
             return await _context.CourseEnrollments
                 
                 .Where(e => e.CourseID == courseId && e.Child==null && e.ScheduledAt >= torontoNow)
@@ -341,8 +336,7 @@ namespace Core.Repositories
 
         public async Task<IEnumerable<CourseEnrollment>> GetAllPastSessionsByCourseAsync(int courseId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
             return await _context.CourseEnrollments
 
                 .Where(e => e.CourseID == courseId && e.Child == null && e.ScheduledAt < torontoNow)
@@ -354,8 +348,7 @@ namespace Core.Repositories
         //Only return List of Upcoming Session IDs in a course that are registered 
         public async Task<List<int?>> GetRegisteredUpcomingSessionsByCourseAsync(int courseId)
         {
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
             return await _context.CourseEnrollments
                 .Where(e => e.CourseID == courseId && e.ChildID != null && e.ScheduledAt >= torontoNow)
                 .OrderBy(e => e.ScheduledAt) // Sort by ScheduledAt ascending
@@ -430,7 +423,7 @@ namespace Core.Repositories
         public async Task UpdateChildCompletedSessionsAsync(int courseId)
         {
            
-            DateTime now = DateTime.UtcNow;
+            DateTime now = DateTimeHelper.GetTorontoTime();
 
            //Get all sessions of the course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments
@@ -447,6 +440,7 @@ namespace Core.Repositories
             foreach (var session in sessionsToUpdate)
             {
                 session.Status = "Completed";
+                session.ActualHours = session.ScheduledHours; // Assuming actual hours are the same as scheduled hours when completed
             }
 
             await _context.SaveChangesAsync();
@@ -488,13 +482,12 @@ namespace Core.Repositories
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
 
-            //DateTime now = DateTime.UtcNow;
-            var torontoTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
-            var torontoNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, torontoTimeZone);
+            var torontoNow = Core.DateTimeHelper.GetTorontoTime();
 
             //Get all sessions of the group course, which Status is 'Scheduled'
             var sessionsToUpdate = await _context.CourseEnrollments
                 .Include(e => e.Course)
+                //.ThenInclude(c => c.Coach)
                 .Where(e => e.CourseID == courseId
                             && (e.Course.CourseType == "Group")
                             && (e.Status == "Open" || e.Status == "Closed")
@@ -507,6 +500,22 @@ namespace Core.Repositories
             foreach (var session in sessionsToUpdate)
             {
                 session.Status = "Completed";
+                session.ActualHours = session.ScheduledHours; // Assuming actual hours are the same as scheduled hours when completed
+
+                //Add coach hours for this session to CoachIncome table
+                var incomeEntry = new CoachIncome
+                {
+                    CoachID = (int)session.Course.CoachID,
+                    CourseID = session.CourseID,
+                    EnrollmentID = session.EnrollmentID,
+                    //IncomeChange = incomeForThisSession,
+                    //Income = newIncome,
+                    CreatedDate = DateTimeHelper.GetTorontoTime(),
+                    CreatedBy = 0
+                };
+
+                _context.CoachIncomes.Add(incomeEntry);
+                //await _context.SaveChangesAsync();
             }
 
             await _context.SaveChangesAsync();
@@ -671,7 +680,7 @@ namespace Core.Repositories
         {
             var sessions = await _context.CourseEnrollments
                 .Where(e => e.Course.CoachID == coachId)
-                .Where(e => e.ScheduledAt != null && e.Status!="Deleted")
+                .Where(e => e.ScheduledAt != null && e.Status!="Deleted" && e.Child != null)
                 .Include(e => e.Course)
                 .Include(e => e.Child)
                 .ToListAsync();
@@ -683,6 +692,7 @@ namespace Core.Repositories
                 End = e.ActualHours != null
                     ? e.ScheduledAt.Value.AddHours((double)e.ActualHours.Value)
                     : e.ScheduledAt.Value.AddHours((double)(e.ScheduledHours ?? 0)),
+                Type = "Course",
                 Status = e.ActualHours != null ? "Completed" : "Scheduled",
                 Color = e.ActualHours != null ? "#28a745" : "#0d6efd" // 绿 / 蓝
             }).ToList();
@@ -728,6 +738,40 @@ namespace Core.Repositories
                 return true;
             }
         }
+
+
+        public async Task<IEnumerable<Child>> GetChildrenByCourseAsync(int courseId)
+        {
+            var childIds = await _context.CourseEnrollments
+                .Where(e => e.CourseID == courseId && e.ChildID != null)
+                .Select(e => e.ChildID.Value)
+                .Distinct()
+                .ToListAsync();
+
+            return await _context.Children
+                .Where(c => childIds.Contains(c.ChildID))
+                .ToListAsync();
+
+
+
+        }
+
+
+        public async Task<IEnumerable<CourseEnrollmentData>> GetSessionsDataByCourseAsyn(int courseId)
+        {
+            return await _context.CourseEnrollments
+            .Where(e => e.CourseID == courseId && e.ChildID!= null && e.ScheduledAt!= null)
+            .OrderBy(e => e.ScheduledAt)
+            .Select(e => new CourseEnrollmentData
+            {
+                ScheduledAt = e.ScheduledAt.Value,
+                ChildID = e.ChildID,
+                Status = e.Status
+            }).ToListAsync();
+
+        }
+
+
 
 
     }

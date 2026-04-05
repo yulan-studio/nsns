@@ -88,6 +88,9 @@ namespace Core.Interfaces
 
         Task<bool> UpdateCoachSchedule(UpdateCoachScheduleViewModel vm);
 
+        Task<IEnumerable<Child>> GetChildrenByCourseAsync(int courseId);
+
+        Task<IEnumerable<CourseEnrollmentData>> GetSessionsDataByCourseAsyn(int courseId);
 
     }
 }

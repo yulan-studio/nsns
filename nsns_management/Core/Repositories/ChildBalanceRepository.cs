@@ -44,10 +44,10 @@ namespace Core.Repositories
                 BalanceChange = amount,
                 Balance = latestBalance + amount,
                 TransactionType = "Payment",
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = DateTimeHelper.GetTorontoTime(),
                 CreatedBy = createdBy,
                 UpdatedBy = createdBy,
-                UpdatedDate = DateTime.UtcNow
+                UpdatedDate = DateTimeHelper.GetTorontoTime()
             };
 
             _context.ChildBalances.Add(newEntry);
@@ -97,10 +97,10 @@ namespace Core.Repositories
                 BalanceChange = costForThisSession*(-1),
                 Balance = latestBalance - costForThisSession,
                 TransactionType = "Course Session",
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = DateTimeHelper.GetTorontoTime(),
                 CreatedBy = createdBy,
                 UpdatedBy = createdBy,
-                UpdatedDate = DateTime.UtcNow
+                UpdatedDate = DateTimeHelper.GetTorontoTime()
             };
 
             _context.ChildBalances.Add(newEntry);
@@ -119,10 +119,10 @@ namespace Core.Repositories
                 BalanceChange = -cost,
                 Balance = latestBalance - cost,
                 TransactionType = "Course",
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = DateTimeHelper.GetTorontoTime(),
                 //CreatedBy = createdBy,
                 //UpdatedBy = createdBy,
-                UpdatedDate = DateTime.UtcNow
+                UpdatedDate = DateTimeHelper.GetTorontoTime()
             };
 
             _context.ChildBalances.Add(newEntry);
@@ -142,10 +142,10 @@ namespace Core.Repositories
                 BalanceChange = -cost,
                 Balance = latestBalance - cost,
                 TransactionType = "Activity",
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = DateTimeHelper.GetTorontoTime(),
                 //CreatedBy = createdBy,
                 //UpdatedBy = createdBy,
-                UpdatedDate = DateTime.UtcNow
+                UpdatedDate = DateTimeHelper.GetTorontoTime()
             };
 
             _context.ChildBalances.Add(newEntry);
@@ -163,11 +163,11 @@ namespace Core.Repositories
                 CourseID = courseId,
                 BalanceChange = -cost,
                 Balance = latestBalance - cost,
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = DateTimeHelper.GetTorontoTime(),
                 TransactionType = "Course",
                 //CreatedBy = createdBy,
                 //UpdatedBy = createdBy,
-                UpdatedDate = DateTime.UtcNow
+                UpdatedDate = DateTimeHelper.GetTorontoTime()
             };
 
             _context.ChildBalances.Add(newEntry);

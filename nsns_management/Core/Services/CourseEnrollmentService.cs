@@ -117,7 +117,7 @@ namespace Core.Services
                     Child = child,
                     Course = course,
                     CreatedBy = user.Id,
-                    CreatedDate = DateTime.UtcNow,
+                    CreatedDate = DateTimeHelper.GetTorontoTime(),
                     Status = status
                 };
 
@@ -191,7 +191,7 @@ namespace Core.Services
                     Location = location,
                     EnrollmentID_Ref = enrollmentId_Ref,
                     CreatedBy = user.Id,
-                    CreatedDate = DateTime.UtcNow,
+                    CreatedDate = DateTimeHelper.GetTorontoTime(),
                     Status = status
                 };
 
@@ -366,7 +366,7 @@ namespace Core.Services
                 ScheduledHours = scheduledHours,
                 Location = location,
                 CreatedBy = coach.UserID,
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = DateTimeHelper.GetTorontoTime(),
                 Status = "Scheduled",
                 EnrollmentID_Ref = enrollmentId_Ref
             };
@@ -398,7 +398,7 @@ namespace Core.Services
                 Location = location,
                 StaffNote = staffNote,
                 CreatedBy = user.Id,
-                CreatedDate = DateTime.UtcNow,
+                CreatedDate = DateTimeHelper.GetTorontoTime(),
                 Status = "Open"
             };
 
@@ -436,7 +436,7 @@ namespace Core.Services
             await _enrollmentRepository.UpdateChildCompletedSessionsAsync(courseId);
         }
 
-        //Set Session status to be completed after the session past the scheduled time
+        //Set Session status to be completed after the session past the scheduled time for group course
         public async Task UpdateCompletedSessionsAsync(int courseId)
         {
             await _enrollmentRepository.UpdateCompletedSessionsAsync(courseId);
@@ -612,7 +612,7 @@ namespace Core.Services
             {
                 throw new Exception("You’ll be able to complete the session only after the scheduled date has passed.");
             }
-            enrollment.UpdatedDate = DateTime.UtcNow;
+            enrollment.UpdatedDate = DateTimeHelper.GetTorontoTime();
 
             try
             {
@@ -676,7 +676,60 @@ namespace Core.Services
         {
             return await _enrollmentRepository.UpdateCoachSchedule(vm);
         }
-    }
+
+        //public async Task<IEnumerable<Child>> GetChildrenByCourseAsync(int courseId)
+        //{
+        //    return await _enrollmentRepository.GetChildrenByCourseAsync(courseId);
+        //}
+
+        //public async Task<IEnumerable<CourseEnrollmentData>> GetSessionsByCourseAsyn(int courseId)
+        //{
+        //    return await _enrollmentRepository.GetSessionsByCourseAsyn(courseId);
+        //}
+
+        public async Task<SessionAttendanceViewModel> GetAttendanceAsync(int courseId)
+        {
+            var course = await _courseRepository.GetAsync(courseId);
+            var children = await _enrollmentRepository.GetChildrenByCourseAsync(courseId);
+            var sessionsData = await _enrollmentRepository.GetSessionsDataByCourseAsyn(courseId);
+
+            var vm = new SessionAttendanceViewModel();
+
+            vm.Course = course;
+
+            foreach (var c in children)
+            {
+                vm.ChildrenList.Add(new ChildInfo
+                {
+                    ChildID = c.ChildID,
+                    Name = c.Name
+                });
+            }
+
+            var sessionsGroup = sessionsData.GroupBy(s => s.ScheduledAt);
+
+            foreach (var session in sessionsGroup)
+            {
+                var sessionInfo = new SessionInfo
+                {
+                    ScheduledAt = session.Key
+                };
+
+                foreach (var s in session)
+                {
+                    if (s.ChildID.HasValue)
+                        sessionInfo.Children[s.ChildID.Value] = s.Status;
+                }
+
+                vm.Sessions.Add(sessionInfo);
+            }
+
+            return vm;
+        }
+    
+
+
+}
 
 
 }

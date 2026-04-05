@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Cryptography;
+﻿using Core.Interfaces;
 using Core.Models;
-using Core.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.IdentityModel.Tokens;
-using System.Security.Claims;
-using Microsoft.Extensions.Options;
 using Core.Repositories;
-using System.Numerics;
-using System.Xml.Linq;
-using System.Reflection;
+using Core.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Numerics;
+using System.Reflection;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Core.Services
 {
@@ -150,7 +151,7 @@ namespace Core.Services
            
             child.CityID = cityId;
             child.HasOAP = hasOAP;
-            child.User.UpdatedDate = DateTime.UtcNow;
+            child.User.UpdatedDate = DateTimeHelper.GetTorontoTime();
 
             // Update the password if provided
             //if (!string.IsNullOrWhiteSpace(password))
@@ -222,6 +223,15 @@ namespace Core.Services
             var result = await _childRepository.CheckPaidAsync(childId);
             return result;
         }
+
+
+        //public async Task<List<ChildCalendarViewModel>> GetChildSchedules(int childId)
+        //{
+        //    var events = await _childCalendar.GetChildSchedules(childId);
+
+            
+        //    return events.OrderBy(e => e.Start).ToList();
+        //}
 
     }
 }

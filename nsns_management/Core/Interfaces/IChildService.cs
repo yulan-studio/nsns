@@ -1,4 +1,5 @@
 ﻿using Core.Models;
+using Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,8 @@ namespace Core.Interfaces
         Task<bool> CheckRegisteredAsync(int childId);
 
         Task<bool> CheckPaidAsync(int childId);
+
+        //Task<List<ChildCalendarViewModel>> GetChildSchedules(int childId);
     }
 
 
