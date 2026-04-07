@@ -107,6 +107,92 @@ nav a:hover {
     color: #003b6f;
 }
 
+
+
+
+/* 默认桌面显示菜单 */
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* 隐藏汉堡按钮 */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+/* 手机端样式 */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+    margin-left: auto;
+  }
+
+  header {
+        padding: 0.3rem 1rem; /* reduce vertical padding */
+        height: auto; /* let it adjust naturally */
+  }
+
+  .logo-container {
+margin-left: 1rem;
+  }
+
+  .logo-img {
+      height: 50px; /* smaller logo on mobile */
+      margin-top: 1rem;
+  }
+
+  nav ul {
+      padding-left: 0;
+      margin-top: 0.5rem;
+  }
+
+  nav a {
+      font-size: 1rem; /* slightly smaller text on mobile */
+  }
+
+  .nav-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+  }
+
+  .nav-links {
+    display: none; /* 默认隐藏菜单 */
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+    background-color: var(--primary-blue);
+  }
+
+  .nav-links.show {
+    display: flex; /* 点击显示 */
+  }
+
+  .nav-links li {
+    margin: 0 0;
+  }
+
+  .nav-links a {
+    font-size: 1.2rem;
+    padding: 0 1rem;
+    display: block;
+  }
+}
+
+
+
+
+
+
+
+
+
 footer {
     background-color: #E3E3E3;
     color: #363636;
