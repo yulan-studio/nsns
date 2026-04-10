@@ -1570,7 +1570,7 @@ namespace Web.Controllers.User
             
 
 
-            //await _emailService.SendEmailAsync(child.User.Email, subject, htmlMessage);
+            await _emailService.SendEmailAsync(child.User.Email, subject, htmlMessage);
 
             TempData["SuccessMessage"] = "Session updates saved successfully.";
             return RedirectToAction("ManageSessionRegistrations", new { childId = formModel.ChildID, courseId = formModel.CourseID });
