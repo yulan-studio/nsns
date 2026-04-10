@@ -23,6 +23,50 @@ body {
     cursor: pointer;
 }
 
+.brand {
+    display: flex;
+    align-items: center;   /* vertical center alignment */
+    gap: 10px;             /* space between logo and text */
+}
+
+.logo-img {
+    height: 60px;
+    margin-top: 0;         /* remove the top push */
+}
+
+/* .hero-eyebrow {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.9);
+} */
+
+
+.hero-eyebrow {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    margin-bottom: 12px;
+
+    color: #ffffff;
+
+    text-shadow:
+        0 2px 6px rgba(0,0,0,0.5),
+        0 0 2px rgba(0,0,0,0.6);
+}
+
+/* .hero-eyebrow {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+} */
+
+
 /* Mobile styles */
 @media (max-width: 768px) {
 
@@ -223,6 +267,9 @@ header nav a {
     .hero h1 {
         font-size: 1.7rem;
         line-height: 1.3;
+        text-shadow:
+        0 2px 6px rgba(0,0,0,0.5),
+        0 0 2px rgba(0,0,0,0.6);
     }
 
     .hero p {
@@ -548,7 +595,12 @@ a {
 </header> -->
 
 <header>
-    <div><strong>NorthStar Initiative</strong></div>
+    <div class="brand">
+        <a href="https://www.nsns.ca" target="_self" rel="noopener noreferrer">
+             <img src="image/northstar_logo.jpg" alt="Bright Futures Logo" class="logo-img">
+        </a>
+        <strong>NorthStar Initiative</strong>
+    </div>
 
     <div class="menu-toggle">☰</div>
 
@@ -565,6 +617,7 @@ a {
 <section class="hero">
     <div class="hero-content">
         <div class="hero-top">
+        <p class="hero-eyebrow">National AccessAbility Week 2026: May 31 - June 6</p>
         <h1>Building an Inclusive Future<br>through Collective Action</h1>
         </div>
 
