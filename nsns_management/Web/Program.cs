@@ -181,7 +181,7 @@ builder.Services.AddScoped<ICoachSpecialtyService, CoachSpecialtyService>();
 
 builder.Services.AddScoped<IUserRegistrationService, UserRegistrationService>();
 
-var connectionString1 = Environment.GetEnvironmentVariable("DefaultConnection");
+//var connectionString1 = Environment.GetEnvironmentVariable("DefaultConnection");
 try
 {
     //foreach (var c in builder.Configuration.AsEnumerable())
