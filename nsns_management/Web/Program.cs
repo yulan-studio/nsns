@@ -5,6 +5,7 @@ using Core.Interfaces;
 using Core.Models;
 using Core.Repositories;
 using Core.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 //using System.IdentityModel.Tokens.Jwt;
@@ -180,7 +181,7 @@ builder.Services.AddScoped<ICoachSpecialtyService, CoachSpecialtyService>();
 
 builder.Services.AddScoped<IUserRegistrationService, UserRegistrationService>();
 
-var connectionString1 = Environment.GetEnvironmentVariable("DefaultConnection");
+//var connectionString1 = Environment.GetEnvironmentVariable("DefaultConnection");
 try
 {
     //foreach (var c in builder.Configuration.AsEnumerable())
@@ -277,6 +278,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+//app.UseForwardedHeaders(new ForwardedHeadersOptions
+//{
+//    ForwardedHeaders = ForwardedHeaders.XForwardedProto
+//});
+
+//app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 //This will ensure any request to the root URL redirects to /User/AddAdmin.
