@@ -179,6 +179,9 @@ builder.Services.AddScoped<ISpecialtyService, SpecialtyService>();
 builder.Services.AddScoped<ICoachSpecialtyRepository, CoachSpecialtyRepository>();
 builder.Services.AddScoped<ICoachSpecialtyService, CoachSpecialtyService>();
 
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<IReportService, ReportService>();
+
 builder.Services.AddScoped<IUserRegistrationService, UserRegistrationService>();
 
 //var connectionString1 = Environment.GetEnvironmentVariable("DefaultConnection");
