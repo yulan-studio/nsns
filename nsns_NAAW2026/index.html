@@ -651,6 +651,244 @@
                 /* cleaner on mobile */
             }
         }
+
+
+        /* =================================
+   PRIME MINISTER MESSAGE BAR
+================================= */
+
+.pm-bar {
+
+    /* Glass effect */
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    /* Soft border instead of heavy lines */
+    border-top: 1px solid rgba(255, 107, 107, 0.25);
+    border-bottom: 1px solid rgba(255, 107, 107, 0.25);
+
+    border-left: 4px solid #ff6b6b;
+
+    /* Subtle elevation */
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.06);
+
+    padding: 12px 22px;
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* Left glow accent */
+.pm-bar::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    width: 5px;
+
+    background: linear-gradient(
+        to bottom,
+        #ff6b6b,
+        #e04848
+    );
+}
+
+/* Optional soft floating glow */
+/*
+.pm-bar::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: radial-gradient(
+        circle at left center,
+        rgba(255, 107, 107, 0.10),
+        transparent 60%
+    );
+
+    pointer-events: none;
+}*/
+
+/* Replace or upgrade your ::after with shimmer */
+.pm-bar::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    /* shimmer gradient */
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.06) 25%,
+        rgba(255, 107, 107, 0.08) 45%,
+        rgba(255, 255, 255, 0.05) 55%,
+        transparent 70%
+    );
+
+    transform: translateX(-100%);
+    animation: pm-glass-shimmer 6s ease-in-out infinite;
+
+    pointer-events: none;
+}
+
+/* shimmer animation */
+@keyframes pm-glass-shimmer {
+    0% {
+        transform: translateX(-120%);
+    }
+    45% {
+        transform: translateX(120%);
+    }
+    100% {
+        transform: translateX(120%);
+    }
+}
+
+.pm-bar-container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.pm-bar p {
+
+    margin: 0;
+
+    font-size: 0.9rem;
+
+    line-height: 1.65;
+
+    color: #333;
+
+    letter-spacing: 0.1px;
+}
+
+/* heading text */
+.pm-bar strong {
+
+    color: #1F3A5F;
+
+    font-weight: 700;
+}
+
+/* highlighted PM name */
+.pm-highlight {
+
+    color: #8a2f2f;
+
+    font-weight: 700;
+
+    background:
+        linear-gradient(
+            transparent 65%,
+            rgba(255,107,107,0.12) 65%
+        );
+
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+/* PDF link */
+.pm-bar a {
+
+    color: #3f556b;
+
+    font-weight: 700;
+
+    text-decoration: none;
+
+    margin-left: 10px;
+
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.pm-bar a:hover {
+
+    color: #1F3A5F;
+
+    text-decoration: underline;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .pm-bar {
+
+        padding: 10px 16px;
+    }
+
+    .pm-bar p {
+
+        font-size: 0.84rem;
+
+        line-height: 1.55;
+    }
+
+    .pm-bar a {
+
+        display: inline-block;
+
+        margin-top: 6px;
+
+        margin-left: 0;
+    }
+}
+
+        /* =================================
+        OPENING CEREMONY NOTICE
+        ================================= */
+
+        .special-notice {
+            margin-top: 18px;
+
+            background: linear-gradient(135deg, #fff8e8 0%, #ffffff 100%);
+            border-left: 4px solid #d4a017;
+
+            border-radius: 10px;
+
+            padding: 16px 18px;
+
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+        }
+
+        .special-notice-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #b7791f;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .special-notice p {
+            margin: 0 0 14px 0;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .special-notice a {
+            display: inline-block;
+            background: #1F3A5F;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 22px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .special-notice a:hover {
+            background: #16304f;
+        }
     </style>
 </head>
 
@@ -717,6 +955,39 @@
         </div>
     </section>
 
+
+ 
+
+    <!-- PRIME MINISTER MESSAGE BAR -->
+<section class="pm-bar">
+
+    <div class="pm-bar-container">
+
+        <p>
+
+            🇨🇦
+            <strong>
+                Official Greetings from the Prime Minister of Canada:
+            </strong>
+
+            <span class="pm-highlight">
+                The Right Honourable Mark Carney
+            </span>
+
+            has sent official greetings for the Opening Ceremony of
+            National AccessAbility Week 2026.
+
+            <a href="pdf/PrimeMinisterMessage.pdf" target="_blank">
+                Read Official Message PDF →
+            </a>
+
+        </p>
+
+    </div>
+
+</section>
+
+
     <!-- INTRO -->
     <section class="section center">
         <h3><strong>A National AccessAbility Week 2026 initiative</strong></h3>
@@ -724,6 +995,9 @@
         <p>Join us for a week of events that bring people together through dialogue, learning, and inclusive community
             participation.</p>
     </section>
+
+
+      
 
     <!-- ABOUT -->
     <section id="about" class="section grid">
@@ -1014,6 +1288,21 @@
                         <span>2:00–4:00 PM</span>
                         <span>Pierre Elliott Trudeau High School, Markham</span>
                         <h3>Opening Ceremony & Painting Music Interactive Concert</h3>
+                        <div class="special-notice">
+
+                            <div class="special-notice-title">
+                                🇨🇦 Special Announcement
+                            </div>
+
+                            <p>
+                                The Prime Minister of Canada has sent official greetings for the Opening Ceremony of National AccessAbility Week 2026.
+                            </p>
+
+                            <a href="pdf/PrimeMinisterMessage.pdf" target="_blank">
+                                Read Official Greetings
+                            </a>
+
+                        </div>
                     </div>
                     <div class="schedule-content">
                         <p>Join us for the Opening Ceremony of National AccessAbility Week 2026, a meaningful and
