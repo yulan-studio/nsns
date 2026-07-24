@@ -1,232 +1,104 @@
 # NSNS Waiver Application
 
-## Overview
+ASP.NET Core Razor Pages application for submitting event liability waivers. See
+`PROJECT.md` for business requirements and `AGENTS.md` for implementation standards.
 
-The NSNS Waiver Application is an ASP.NET Core Razor Pages web application that allows customers to complete and submit an online liability waiver for an event.
+## Technology
 
-For business requirements and application behaviour, see **PROJECT.md**.
-
-For implementation standards and AI coding instructions, see **AGENTS.md**.
-
----
-
-# Technology Stack
-
-- ASP.NET Core Razor Pages
-- .NET 10
-- MySQL
-- Dapper
-- MySqlConnector
-- Bootstrap
-- Docker
-- Railway
-
----
-
-# Prerequisites
-
-Install the following software before building the application:
-
-- .NET 10 SDK
-- Git
+- .NET 10 and ASP.NET Core Razor Pages
 - MySQL 8.0 or later
-- Docker Desktop (optional for local development)
-- Visual Studio 2022 Community or Visual Studio Code
+- Dapper and MySqlConnector
+- Bootstrap
 
----
+## Build and run
 
-# Getting Started
-
-Clone the repository:
-
-```bash
-git clone <repository-url>
-cd NSNS-Waiver
-```
-
-Restore NuGet packages:
-
-```bash
+```powershell
 dotnet restore
-```
-
-Build the project:
-
-```bash
 dotnet build
-```
-
-Run the application:
-
-```bash
 dotnet run
 ```
 
-The application will display the local development URL in the console.
+## Database configuration
 
----
+Create a local empty database with placeholder local credentials:
 
-# Configuration
-
-## Database Connection
-
-Configure the database connection using the `Default` connection string.
-
-For local development, use .NET User Secrets or environment variables.
-
-Example:
-
-```text
-ConnectionStrings__Default=<your-mysql-connection-string>
+```sql
+CREATE DATABASE nsns_waiver
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
 ```
 
-Do not commit database credentials to source control.
+Configure the `Default` connection string with .NET User Secrets:
 
----
-
-# Database
-
-The application uses MySQL.
-
-The database schema is created using SQL migration scripts located in the project.
-
-Primary tables:
-
-- waiver_submissions
-- waiver_family_members
-- email_outbox
-
-The application does not create or modify the schema automatically during normal execution.
-
----
-
-# Running Database Migrations
-
-Create an empty MySQL database.
-
-Run the SQL migration scripts in order.
-
-Example:
-
-```
-001_create_waiver_tables.sql
+```powershell
+dotnet user-secrets set "ConnectionStrings:Default" "Server=localhost;Port=3306;Database=nsns_waiver;User ID=waiver_local;Password=<local-password>"
 ```
 
-Future migrations should use incrementing numbers.
+Alternatively, use the standard ASP.NET Core environment-variable mapping:
 
----
+```powershell
+$env:ConnectionStrings__Default = "Server=localhost;Port=3306;Database=nsns_waiver;User ID=waiver_local;Password=<local-password>"
+```
 
-# Project Structure
+Never commit database credentials, production connection strings, or other secrets.
+
+## Database migration
+
+The application does not create or update its schema during web requests. From the
+project root, apply migrations explicitly and in numeric order:
+
+```powershell
+mysql --host=localhost --user=waiver_local --password nsns_waiver < Data/Migrations/001_create_waiver_tables.sql
+```
+
+The initial migration is idempotent and creates:
+
+- `waiver_submissions`
+- `waiver_family_members`
+- `email_outbox`
+
+Duplicate waiver submissions—including duplicate event and email combinations—are
+intentionally allowed. Only the server-generated submission reference is unique.
+
+The agreement remains in `Content/waiver-agreement.html`. Agreement content and
+metadata are not stored in MySQL.
+
+## Tests
+
+Run unit tests:
+
+```powershell
+dotnet test
+```
+
+MySQL integration tests require an empty, disposable MySQL test database:
+
+```powershell
+$env:WAIVERAPP_TEST_MYSQL_CONNECTION = "Server=localhost;Port=3306;Database=nsns_waiver_test;User ID=waiver_test;Password=<test-password>"
+dotnet test
+```
+
+Never use a production database for tests. If
+`WAIVERAPP_TEST_MYSQL_CONNECTION` is absent, MySQL integration tests are reported
+as skipped and the unit tests still run.
+
+## Project structure
 
 ```text
 NSNS-Waiver/
-
-├── AGENTS.md
-├── PROJECT.md
-├── README.md
-├── Content/
-│   └── waiver-agreement.html
-├── Data/
-│   ├── Migrations/
-│   └── Repositories/
-├── Models/
-├── Services/
-├── Pages/
-├── wwwroot/
-└── Program.cs
+|-- Content/
+|   `-- waiver-agreement.html
+|-- Data/
+|   `-- Migrations/
+|-- Models/
+|-- Repositories/
+|-- Services/
+|-- Tests/
+|-- Pages/
+|-- wwwroot/
+`-- Program.cs
 ```
 
----
-
-# Development Guidelines
-
-- Read `PROJECT.md` before implementing new features.
-- Follow all coding standards in `AGENTS.md`.
-- Keep business logic in services.
-- Keep database access in repositories.
-- Use asynchronous programming.
-- Use dependency injection.
-- Use parameterized SQL.
-- Do not use Entity Framework Core.
-
----
-
-# Running Tests
-
-Run all automated tests:
-
-```bash
-dotnet test
-```
-
-If integration tests require a MySQL database, configure the appropriate test connection string before running them.
-
----
-
-# Docker
-
-Docker support is provided for deployment consistency.
-
-For everyday development, Docker is optional.
-
-When required:
-
-```bash
-docker compose up --build
-```
-
----
-
-# Deployment
-
-The application is intended to be deployed to Railway using Docker.
-
-Deployment configuration should be kept separate from application code whenever possible.
-
----
-
-# Security
-
-- Validate all user input on the server.
-- Use HTTPS in production.
-- Never commit secrets or credentials.
-- Never log connection strings.
-- Avoid logging personally identifiable information unless required for troubleshooting.
-
----
-
-# Contributing
-
-Before submitting changes:
-
-1. Restore packages.
-
-```bash
-dotnet restore
-```
-
-2. Build the project.
-
-```bash
-dotnet build
-```
-
-3. Run tests.
-
-```bash
-dotnet test
-```
-
-4. Review your changes.
-
-5. Commit using a clear, descriptive commit message.
-
----
-
-# Additional Documentation
-
-| Document | Purpose |
-|----------|---------|
-| `PROJECT.md` | Business requirements and application behaviour |
-| `AGENTS.md` | Coding standards, architecture, and AI development instructions |
-| `README.md` | Project setup, build, configuration, and development guide |
+Keep business logic in services, SQL in repositories, and Razor Pages focused on
+UI concerns. Use asynchronous operations, dependency injection, parameterized SQL,
+and UTC timestamps.

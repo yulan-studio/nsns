@@ -1,11 +1,15 @@
+using nsns_waiver.Data;
+using nsns_waiver.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton<IDbConnectionFactory, MySqlConnectionFactory>();
+builder.Services.AddScoped<IWaiverSubmissionRepository, WaiverSubmissionRepository>();
+builder.Services.AddScoped<IEmailOutboxRepository, EmailOutboxRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
