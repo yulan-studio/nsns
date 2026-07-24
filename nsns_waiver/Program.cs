@@ -13,6 +13,7 @@ builder.Services.AddSingleton<IDbConnectionFactory, MySqlConnectionFactory>();
 builder.Services.AddScoped<IWaiverSubmissionRepository, WaiverSubmissionRepository>();
 builder.Services.AddScoped<IEmailOutboxRepository, EmailOutboxRepository>();
 builder.Services.AddScoped<IWaiverSubmissionService, WaiverSubmissionService>();
+builder.Services.AddScoped<IWaiverAgreementProvider, FileWaiverAgreementProvider>();
 
 var app = builder.Build();
 

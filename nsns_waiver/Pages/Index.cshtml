@@ -1,10 +1,182 @@
-﻿@page
+@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Event waiver";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="waiver-shell">
+    <header class="waiver-hero">
+        <span class="eyebrow">NSNS Event Waiver</span>
+        @if (Model.Event is not null)
+        {
+            <h1>@Model.Event.Name</h1>
+            <p>Complete one form for yourself and up to 20 accompanying family members.</p>
+        }
+        else
+        {
+            <h1>Event not found</h1>
+            <p class="mb-0">Check that your link includes a valid event code.</p>
+        }
+    </header>
+
+    @if (Model.Event is not null)
+    {
+        <form method="post" class="waiver-form">
+            <input asp-for="Input.EventCode" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+            <section class="form-section" aria-labelledby="contact-heading">
+                <div class="section-heading">
+                    <span>01</span>
+                    <div>
+                        <h2 id="contact-heading">Your information</h2>
+                        <p>Enter the contact details for the person signing this waiver.</p>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Input.FirstName" class="form-label"></label>
+                        <input asp-for="Input.FirstName" class="form-control" autocomplete="given-name" />
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Input.LastName" class="form-label"></label>
+                        <input asp-for="Input.LastName" class="form-control" autocomplete="family-name" />
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Input.Email" class="form-label"></label>
+                        <input asp-for="Input.Email" class="form-control" autocomplete="email" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Input.Phone" class="form-label"></label>
+                        <input asp-for="Input.Phone" class="form-control" autocomplete="tel" />
+                        <span asp-validation-for="Input.Phone" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Input.WechatName" class="form-label"></label>
+                        <span class="optional-label">Optional</span>
+                        <input asp-for="Input.WechatName" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="Input.WechatName" class="text-danger"></span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section" aria-labelledby="family-heading">
+                <div class="section-heading section-heading-action">
+                    <span>02</span>
+                    <div>
+                        <h2 id="family-heading">Family members</h2>
+                        <p>Add only family members covered by this submission.</p>
+                    </div>
+                    <button type="button" id="add-family-member" class="btn btn-outline-primary ms-auto">
+                        Add family member
+                    </button>
+                </div>
+
+                <div id="family-members" data-maximum="20">
+                    @for (var index = 0; index < Model.Input.FamilyMembers.Count; index++)
+                    {
+                        <partial name="_FamilyMemberFields"
+                                 model="@(new FamilyMemberFieldsModel(index, Model.Input.FamilyMembers[index]))" />
+                    }
+                </div>
+                <p id="family-member-status" class="form-text mb-0" aria-live="polite">
+                    @Model.Input.FamilyMembers.Count of 20 family members added.
+                </p>
+                <span asp-validation-for="Input.FamilyMembers" class="text-danger"></span>
+            </section>
+
+            <section class="form-section" aria-labelledby="agreement-heading">
+                <div class="section-heading">
+                    <span>03</span>
+                    <div>
+                        <h2 id="agreement-heading">Waiver agreement</h2>
+                        <p>Read the full agreement before signing.</p>
+                    </div>
+                </div>
+
+                <div class="agreement-panel @(Model.AgreementIsApproved ? "" : "agreement-unavailable")"
+                     tabindex="0"
+                     aria-label="Waiver agreement text">
+                    @Html.Raw(Model.AgreementHtml)
+                </div>
+
+                @if (!Model.AgreementIsApproved)
+                {
+                    <div class="alert alert-warning mt-3 mb-0" role="alert">
+                        Submissions are disabled until the approved agreement is added.
+                    </div>
+                }
+            </section>
+
+            <section class="form-section signature-section" aria-labelledby="signature-heading">
+                <div class="section-heading">
+                    <span>04</span>
+                    <div>
+                        <h2 id="signature-heading">Agreement and signature</h2>
+                        <p>Your signing date and time will be generated securely by the server.</p>
+                    </div>
+                </div>
+
+                <div class="form-check agreement-check">
+                    <input asp-for="Input.Agreed" class="form-check-input" disabled="@(!Model.AgreementIsApproved)" />
+                    <label asp-for="Input.Agreed" class="form-check-label">
+                        I have read and agree to the waiver above.
+                    </label>
+                    <span asp-validation-for="Input.Agreed" class="text-danger d-block"></span>
+                </div>
+
+                <div class="mt-4">
+                    <label asp-for="Input.SignatureName" class="form-label"></label>
+                    <input asp-for="Input.SignatureName"
+                           class="form-control signature-input"
+                           autocomplete="name"
+                           placeholder="Type your full legal name"
+                           disabled="@(!Model.AgreementIsApproved)" />
+                    <span asp-validation-for="Input.SignatureName" class="text-danger"></span>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary btn-lg submit-waiver"
+                        disabled="@(!Model.AgreementIsApproved)">
+                    Submit waiver
+                </button>
+            </section>
+        </form>
+    }
 </div>
+
+<template id="family-member-template">
+    <div class="family-member-card" data-family-member>
+        <div class="family-member-header">
+            <h3>Family member <span data-family-number></span></h3>
+            <button type="button" class="btn btn-sm btn-link text-danger" data-remove-family>
+                Remove
+            </button>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label" data-field-label="FirstName">First name</label>
+                <input class="form-control" data-field="FirstName" maxlength="100" />
+                <span class="text-danger field-validation-valid" data-validation="FirstName"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" data-field-label="LastName">Last name</label>
+                <input class="form-control" data-field="LastName" maxlength="100" />
+                <span class="text-danger field-validation-valid" data-validation="LastName"></span>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label" data-field-label="Relationship">Relationship <small>(optional)</small></label>
+                <input class="form-control" data-field="Relationship" maxlength="100" />
+                <span class="text-danger field-validation-valid" data-validation="Relationship"></span>
+            </div>
+        </div>
+    </div>
+</template>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

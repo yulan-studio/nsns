@@ -32,8 +32,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         ArgumentNullException.ThrowIfNull(request);
 
         var errors = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+        var configuredEvent = FindEvent(request.EventCode);
         var eventCode = NormalizeEventCode(request.EventCode);
-        var eventName = ResolveEventName(eventCode);
+        var eventName = configuredEvent?.Name;
 
         if (eventName is null)
         {
@@ -113,14 +114,23 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             signedAtUtc);
     }
 
-    private string? ResolveEventName(string eventCode)
+    public WaiverEventInfo? FindEvent(string? eventCode)
     {
+        var normalizedCode = NormalizeEventCode(eventCode);
+
+        if (normalizedCode.Length == 0)
+        {
+            return null;
+        }
+
         foreach (var configuredEvent in _options.Events)
         {
-            if (NormalizeEventCode(configuredEvent.Key) == eventCode
+            if (NormalizeEventCode(configuredEvent.Key) == normalizedCode
                 && !string.IsNullOrWhiteSpace(configuredEvent.Value))
             {
-                return configuredEvent.Value.Trim();
+                return new WaiverEventInfo(
+                    normalizedCode,
+                    configuredEvent.Value.Trim());
             }
         }
 

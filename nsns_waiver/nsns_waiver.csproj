@@ -9,8 +9,17 @@
 
   <ItemGroup>
     <Compile Remove="Tests\**\*.cs" />
+    <Content Remove="Tests\**\*" />
+    <EmbeddedResource Remove="Tests\**\*" />
+    <None Remove="Tests\**\*" />
     <PackageReference Include="Dapper" Version="2.1.79" />
     <PackageReference Include="MySqlConnector" Version="2.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Content\waiver-agreement.html"
+          CopyToOutputDirectory="PreserveNewest"
+          CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

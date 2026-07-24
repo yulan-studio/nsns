@@ -82,6 +82,11 @@ intentionally allowed. Only the server-generated submission reference is unique.
 The agreement remains in `Content/waiver-agreement.html`. Agreement content and
 metadata are not stored in MySQL.
 
+The repository initially contains a marked placeholder agreement. Replace it
+with the organization’s approved legal HTML before accepting submissions. The
+form detects the placeholder marker and disables signing and submission until
+approved content is present.
+
 ## Tests
 
 Run unit tests:
