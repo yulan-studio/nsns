@@ -42,6 +42,25 @@ $env:ConnectionStrings__Default = "Server=localhost;Port=3306;Database=nsns_waiv
 
 Never commit database credentials, production connection strings, or other secrets.
 
+Configure allowed events and the business-owner notification address using the
+`Waiver` section. Event keys are the values accepted from the `event` query string:
+
+```json
+{
+  "Waiver": {
+    "BusinessOwnerEmail": "owner@example.com",
+    "Events": {
+      "summer-camp-2026": "Summer Camp 2026"
+    }
+  }
+}
+```
+
+For deployed environments, the equivalent keys include
+`Waiver__BusinessOwnerEmail` and
+`Waiver__Events__summer-camp-2026`. Keep real addresses in environment-specific
+configuration rather than committing them to source control.
+
 ## Database migration
 
 The application does not create or update its schema during web requests. From the
