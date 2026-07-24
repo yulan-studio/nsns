@@ -20,7 +20,8 @@ public sealed class MySqlConnectionFactory : IDbConnectionFactory
 
         var builder = new MySqlConnectionStringBuilder(configuredConnectionString)
         {
-            DateTimeKind = MySqlDateTimeKind.Utc
+            DateTimeKind = MySqlDateTimeKind.Utc,
+            GuidFormat = MySqlGuidFormat.None
         };
         _connectionString = builder.ConnectionString;
     }

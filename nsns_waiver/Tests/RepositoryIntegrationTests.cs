@@ -100,6 +100,7 @@ public sealed class RepositoryIntegrationTests
             submission.SubmissionReference);
 
         Assert.NotNull(loaded);
+        Assert.Equal(submission.SubmissionReference, loaded.SubmissionReference);
         Assert.Equal(DateTimeKind.Utc, loaded.SignedAtUtc.Kind);
         Assert.Equal(DateTimeKind.Utc, loaded.CreatedAtUtc.Kind);
 
@@ -126,7 +127,8 @@ public sealed class RepositoryIntegrationTests
     {
         var builder = new MySqlConnectionStringBuilder(GetTestConnectionString())
         {
-            DateTimeKind = MySqlDateTimeKind.Utc
+            DateTimeKind = MySqlDateTimeKind.Utc,
+            GuidFormat = MySqlGuidFormat.None
         };
         var connection = new MySqlConnection(builder.ConnectionString);
         await connection.OpenAsync();

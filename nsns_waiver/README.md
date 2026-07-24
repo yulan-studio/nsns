@@ -74,8 +74,17 @@ dotnet test
 MySQL integration tests require an empty, disposable MySQL test database:
 
 ```powershell
-$env:WAIVERAPP_TEST_MYSQL_CONNECTION = "Server=localhost;Port=3306;Database=nsns_waiver_test;User ID=waiver_test;Password=<test-password>"
+# First edit Tests/test-database.local.ps1 with your local test credentials.
+. .\Tests\test-database.local.ps1
 dotnet test
+```
+
+The local PowerShell file is excluded by `.gitignore`. Loading it sets
+`WAIVERAPP_TEST_MYSQL_CONNECTION` for the current terminal session only. Verify
+that it is loaded without printing the secret:
+
+```powershell
+if ($env:WAIVERAPP_TEST_MYSQL_CONNECTION) { "Test connection is configured" }
 ```
 
 Never use a production database for tests. If
