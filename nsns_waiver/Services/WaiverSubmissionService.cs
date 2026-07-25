@@ -9,7 +9,7 @@ namespace nsns_waiver.Services;
 
 public sealed class WaiverSubmissionService : IWaiverSubmissionService
 {
-    public const int MaximumFamilyMembers = 20;
+    public const int MaximumFamilyMembers = 10;
 
     private readonly IWaiverSubmissionRepository _repository;
     private readonly WaiverOptions _options;

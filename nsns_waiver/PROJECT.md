@@ -34,7 +34,7 @@ The event determines which activity the customer is registering for.
 
 ## Family Members
 
-A submission may include zero to twenty family members.
+A submission may include zero to ten family members.
 
 Each family member has:
 

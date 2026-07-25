@@ -95,11 +95,11 @@ public sealed class WaiverSubmissionServiceTests
     }
 
     [Fact]
-    public async Task SubmitAsync_RejectsMoreThanTwentyFamilyMembers()
+    public async Task SubmitAsync_RejectsMoreThanTenFamilyMembers()
     {
         var repository = new CapturingRepository();
         var service = CreateService(repository);
-        var members = Enumerable.Range(1, 21)
+        var members = Enumerable.Range(1, 11)
             .Select(index => new SubmitWaiverFamilyMember
             {
                 FirstName = $"Member{index}",

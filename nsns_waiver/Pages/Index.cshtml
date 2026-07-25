@@ -10,7 +10,7 @@
         @if (Model.Event is not null)
         {
             <h1>@Model.Event.Name</h1>
-            <p>Complete one form for yourself and up to 20 accompanying family members.</p>
+            <p>Complete one form for yourself and up to 10 family members.</p>
         }
         else
         {
@@ -76,7 +76,7 @@
                     </button>
                 </div>
 
-                <div id="family-members" data-maximum="20">
+                <div id="family-members" data-maximum="10">
                     @for (var index = 0; index < Model.Input.FamilyMembers.Count; index++)
                     {
                         <partial name="_FamilyMemberFields"
@@ -84,7 +84,7 @@
                     }
                 </div>
                 <p id="family-member-status" class="form-text mb-0" aria-live="polite">
-                    @Model.Input.FamilyMembers.Count of 20 family members added.
+                    @Model.Input.FamilyMembers.Count of 10 family members added.
                 </p>
                 <span asp-validation-for="Input.FamilyMembers" class="text-danger"></span>
             </section>

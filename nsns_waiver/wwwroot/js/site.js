@@ -8,7 +8,7 @@
         return;
     }
 
-    const maximum = Number.parseInt(container.dataset.maximum ?? "20", 10);
+    const maximum = Number.parseInt(container.dataset.maximum ?? "10", 10);
     const fields = ["FirstName", "LastName", "Relationship"];
 
     function configureField(card, field, index) {
