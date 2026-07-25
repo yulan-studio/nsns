@@ -1,8 +1,8 @@
 :root {
   --waiver-ink: #18312b;
   --waiver-muted: #64716d;
-  --waiver-primary: #176b57;
-  --waiver-primary-dark: #105244;
+  --waiver-primary: #255f96;
+  --waiver-primary-dark: #194a78;
   --waiver-accent: #e9b949;
   --waiver-canvas: #f4f6f1;
   --waiver-card: #ffffff;
@@ -59,13 +59,13 @@ body {
 }
 
 .waiver-hero {
-  padding: clamp(2rem, 6vw, 4.5rem);
+  padding: clamp(1.35rem, 4vw, 3rem);
   color: white;
   background:
-    linear-gradient(125deg, rgba(12, 73, 59, 0.98), rgba(30, 111, 87, 0.91)),
-    var(--waiver-primary);
+    linear-gradient(125deg, rgba(18, 57, 94, 0.98), rgba(42, 91, 139, 0.94)),
+    #174a78;
   border-radius: 1.5rem 1.5rem 0 0;
-  box-shadow: 0 22px 60px rgba(25, 55, 47, 0.16);
+  box-shadow: 0 22px 60px rgba(11, 33, 61, 0.18);
 }
 
 .eyebrow {
@@ -84,6 +84,10 @@ body {
   font-size: clamp(2.1rem, 5vw, 3.7rem);
   font-weight: 750;
   letter-spacing: -0.045em;
+}
+
+.waiver-hero h1 {
+  font-size: clamp(1.45rem, 3.2vw, 2.3rem);
 }
 
 .waiver-hero p {
@@ -178,8 +182,8 @@ body {
   --bs-btn-border-color: var(--waiver-primary);
   --bs-btn-hover-bg: var(--waiver-primary-dark);
   --bs-btn-hover-border-color: var(--waiver-primary-dark);
-  --bs-btn-disabled-bg: #78938b;
-  --bs-btn-disabled-border-color: #78938b;
+  --bs-btn-disabled-bg: #7894ae;
+  --bs-btn-disabled-border-color: #7894ae;
 }
 
 .btn-outline-primary {
@@ -187,6 +191,10 @@ body {
   --bs-btn-border-color: var(--waiver-primary);
   --bs-btn-hover-bg: var(--waiver-primary);
   --bs-btn-hover-border-color: var(--waiver-primary);
+}
+
+[data-remove-family] {
+  color: var(--waiver-primary) !important;
 }
 
 .family-member-card {
