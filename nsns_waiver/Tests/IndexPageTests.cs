@@ -56,6 +56,21 @@ public sealed class IndexPageTests
     }
 
     [Fact]
+    public async Task OnPost_RejectsSubmissionWhenAgreementIsNotChecked()
+    {
+        var service = new FakeSubmissionService();
+        var page = CreatePage(service, isAgreementApproved: true);
+        page.Input = CreateValidInput();
+        page.Input.Agreed = false;
+
+        var result = await page.OnPostAsync(CancellationToken.None);
+
+        Assert.IsType<PageResult>(result);
+        Assert.Contains("Input.Agreed", page.ModelState.Keys);
+        Assert.Null(service.Request);
+    }
+
+    [Fact]
     public async Task OnPost_AddsServiceValidationErrorsToModelState()
     {
         var service = new FakeSubmissionService

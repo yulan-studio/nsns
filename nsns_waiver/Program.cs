@@ -5,6 +5,10 @@ using nsns_waiver.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
 builder.Services.AddRazorPages();
 builder.Services.Configure<WaiverOptions>(
     builder.Configuration.GetSection(WaiverOptions.SectionName));

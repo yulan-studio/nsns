@@ -53,6 +53,13 @@ public sealed class IndexModel : PageModel
                 "Submissions are unavailable until the approved waiver agreement is configured.");
         }
 
+        if (!Input.Agreed)
+        {
+            ModelState.AddModelError(
+                "Input.Agreed",
+                "You must agree before submitting.");
+        }
+
         if (!ModelState.IsValid)
         {
             return Page();
@@ -150,7 +157,6 @@ public sealed class IndexModel : PageModel
         [Display(Name = "Electronic signature")]
         public string SignatureName { get; set; } = string.Empty;
 
-        [Range(typeof(bool), "true", "true", ErrorMessage = "You must agree before submitting.")]
         public bool Agreed { get; set; }
 
         public List<FamilyMemberInput> FamilyMembers { get; set; } = [];

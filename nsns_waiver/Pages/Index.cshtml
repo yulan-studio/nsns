@@ -122,7 +122,10 @@
                 </div>
 
                 <div class="form-check agreement-check">
-                    <input asp-for="Input.Agreed" class="form-check-input" disabled="@(!Model.AgreementIsApproved)" />
+                    <input asp-for="Input.Agreed"
+                           class="form-check-input"
+                           required
+                           disabled="@(!Model.AgreementIsApproved)" />
                     <label asp-for="Input.Agreed" class="form-check-label">
                         I have read and agree to the waiver above.
                     </label>
