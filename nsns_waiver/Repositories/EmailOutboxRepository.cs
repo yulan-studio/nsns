@@ -35,7 +35,7 @@ public sealed class EmailOutboxRepository : IEmailOutboxRepository
             created_at_utc AS CreatedAtUtc
         FROM email_outbox
         WHERE status = 'Pending'
-          AND (next_attempt_at_utc IS NULL OR next_attempt_at_utc <= @AsOfUtc)
+           OR (status = 'Failed' AND next_attempt_at_utc <= @AsOfUtc)
         ORDER BY created_at_utc, id
         LIMIT @Limit;
         """;
@@ -52,7 +52,10 @@ public sealed class EmailOutboxRepository : IEmailOutboxRepository
 
     private const string MarkFailedSql = """
         UPDATE email_outbox
-        SET status = 'Failed',
+        SET status = CASE
+                WHEN @NextAttemptAtUtc IS NULL THEN 'Abandoned'
+                ELSE 'Failed'
+            END,
             last_attempt_at_utc = @AttemptedAtUtc,
             next_attempt_at_utc = @NextAttemptAtUtc,
             attempt_count = attempt_count + 1,
