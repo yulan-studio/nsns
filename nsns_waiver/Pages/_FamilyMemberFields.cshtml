@@ -9,22 +9,30 @@
     </div>
     <div class="row g-3">
         <div class="col-md-4">
-            <label for="Input_FamilyMembers_@(Model.Index)__FirstName" class="form-label">First name</label>
+            <label for="Input_FamilyMembers_@(Model.Index)__FirstName" class="form-label">
+                First name <span class="required-indicator" aria-hidden="true">*</span>
+                <span class="visually-hidden">required</span>
+            </label>
             <input id="Input_FamilyMembers_@(Model.Index)__FirstName"
                    name="Input.FamilyMembers[@Model.Index].FirstName"
                    value="@Model.Member.FirstName"
                    maxlength="100"
+                   required
                    class="form-control" />
             <span data-valmsg-for="Input.FamilyMembers[@Model.Index].FirstName"
                   data-valmsg-replace="true"
                   class="text-danger"></span>
         </div>
         <div class="col-md-4">
-            <label for="Input_FamilyMembers_@(Model.Index)__LastName" class="form-label">Last name</label>
+            <label for="Input_FamilyMembers_@(Model.Index)__LastName" class="form-label">
+                Last name <span class="required-indicator" aria-hidden="true">*</span>
+                <span class="visually-hidden">required</span>
+            </label>
             <input id="Input_FamilyMembers_@(Model.Index)__LastName"
                    name="Input.FamilyMembers[@Model.Index].LastName"
                    value="@Model.Member.LastName"
                    maxlength="100"
+                   required
                    class="form-control" />
             <span data-valmsg-for="Input.FamilyMembers[@Model.Index].LastName"
                   data-valmsg-replace="true"

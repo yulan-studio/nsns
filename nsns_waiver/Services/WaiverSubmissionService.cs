@@ -141,7 +141,6 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
     private string ValidateOwnerConfiguration()
     {
         var ownerEmail = _options.BusinessOwnerEmail.Trim();
-
         if (!MailAddress.TryCreate(ownerEmail, out _))
         {
             throw new InvalidOperationException(
@@ -200,8 +199,8 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         var customerName = HtmlEncoder.Default.Encode(
             $"{submission.FirstName} {submission.LastName}");
 
-        return
-        [
+        var messages = new List<EmailOutboxMessage>
+        {
             new EmailOutboxMessage
             {
                 MessageType = "CustomerConfirmation",
@@ -210,8 +209,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
                 BodyHtml =
                     $"<p>Hello {customerName},</p>"
                     + $"<p>Your waiver for {eventName} was received.</p>"
-            },
-            new EmailOutboxMessage
+            }
+        };
+        messages.Add(new EmailOutboxMessage
             {
                 MessageType = "BossNotification",
                 RecipientEmail = ownerEmail,
@@ -220,8 +220,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
                     submission,
                     familyMembers,
                     eventName)
-            }
-        ];
+            });
+
+        return messages;
     }
 
     private static string CreateBossNotificationBody(

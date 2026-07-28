@@ -41,6 +41,12 @@ body {
   letter-spacing: -0.02em;
 }
 
+.admin-link {
+  margin-left: auto;
+  color: var(--waiver-primary);
+  font-weight: 650;
+}
+
 .site-main {
   padding-top: 2rem;
   padding-bottom: 4rem;
@@ -156,6 +162,12 @@ body {
 .form-label {
   margin-bottom: 0.4rem;
   font-weight: 650;
+}
+
+.required-indicator {
+  margin-left: 0.15rem;
+  color: #b42318;
+  font-weight: 800;
 }
 
 .optional-label {
@@ -319,6 +331,57 @@ body {
 .reference-value {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.92rem;
+}
+
+.admin-login {
+  max-width: 430px;
+  padding: 2rem;
+  margin: 3rem auto;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 18px 50px rgba(25, 55, 47, 0.14);
+}
+
+.admin-login h1,
+.admin-shell h1 {
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 750;
+}
+
+.admin-shell {
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 18px 50px rgba(25, 55, 47, 0.12);
+}
+
+.admin-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.admin-table-wrap {
+  max-height: 70vh;
+}
+
+.admin-table-wrap thead {
+  position: sticky;
+  top: 0;
+  background: #eef4f9;
+}
+
+.admin-table-wrap th,
+.admin-table-wrap td {
+  min-width: 8rem;
+}
+
+.admin-table-wrap th a {
+  color: var(--waiver-primary-dark);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 @media (max-width: 767px) {

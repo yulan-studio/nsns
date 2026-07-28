@@ -1,0 +1,59 @@
+@page
+@model nsns_waiver.Pages.Admin.SubmissionsModel
+@{
+    ViewData["Title"] = "Waiver submissions";
+}
+
+<section class="admin-shell">
+    <div class="admin-heading">
+        <div>
+            <p class="eyebrow">Protected area</p>
+            <h1>Waiver submissions</h1>
+            <p class="text-muted mb-0">Showing up to 200 submissions.</p>
+        </div>
+        <form method="post" asp-page-handler="Logout">
+            <button type="submit" class="btn btn-outline-primary">Sign out</button>
+        </form>
+    </div>
+
+    @if (Model.Submissions.Count == 0)
+    {
+        <div class="alert alert-info">No waiver submissions have been received yet.</div>
+    }
+    else
+    {
+        <div class="table-responsive admin-table-wrap">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th><a asp-route-sort="eventName" asp-route-direction="@Model.NextDirection("eventName")">Event@Model.SortIndicator("eventName")</a></th>
+                        <th><a asp-route-sort="firstName" asp-route-direction="@Model.NextDirection("firstName")">First name@Model.SortIndicator("firstName")</a></th>
+                        <th><a asp-route-sort="lastName" asp-route-direction="@Model.NextDirection("lastName")">Last name@Model.SortIndicator("lastName")</a></th>
+                        <th><a asp-route-sort="email" asp-route-direction="@Model.NextDirection("email")">Email@Model.SortIndicator("email")</a></th>
+                        <th>Phone</th>
+                        <th>WeChat</th>
+                        <th>Family members</th>
+                        <th>Signature</th>
+                        <th>Signed (UTC)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var submission in Model.Submissions)
+                {
+                    <tr>
+                        <td>@submission.EventName</td>
+                        <td>@submission.FirstName</td>
+                        <td>@submission.LastName</td>
+                        <td><a href="mailto:@submission.Email">@submission.Email</a></td>
+                        <td>@submission.Phone</td>
+                        <td>@(submission.WechatName ?? "—")</td>
+                        <td>@(submission.FamilyMembers ?? "None")</td>
+                        <td>@submission.SignatureName</td>
+                        <td>@submission.SignedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>

@@ -29,7 +29,7 @@ The event determines which activity the customer is registering for.
 10. The application saves the submission to MySQL.
 11. The application queues:
     - a confirmation email to the customer
-    - a notification email to the business owner
+    - a notification email to the configured business owner
 12. A confirmation page displays the submission reference and signed date.
 
 ## Family Members
@@ -85,12 +85,19 @@ The application stores:
 - Family members
 - Email outbox messages
 
+## Administrator Area
+
+The business owner can sign in to a protected administrator area and view the
+most recent waiver submissions.
+
+The submission list can be sorted by event name, customer first name, customer
+last name, or customer email.
+
 ## Future Features
 
-The application may later include an administrator area for:
+The application may later include:
 
-- Viewing submissions
-- Searching by customer
+- Searching submissions by customer
 - Exporting submissions
 - Managing the allowed event list
 

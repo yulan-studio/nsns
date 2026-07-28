@@ -36,22 +36,34 @@
 
                 <div class="row g-3">
                     <div class="col-md-6">
-                        <label asp-for="Input.FirstName" class="form-label"></label>
+                        <label asp-for="Input.FirstName" class="form-label">
+                            First name <span class="required-indicator" aria-hidden="true">*</span>
+                            <span class="visually-hidden">required</span>
+                        </label>
                         <input asp-for="Input.FirstName" class="form-control" autocomplete="given-name" />
                         <span asp-validation-for="Input.FirstName" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="Input.LastName" class="form-label"></label>
+                        <label asp-for="Input.LastName" class="form-label">
+                            Last name <span class="required-indicator" aria-hidden="true">*</span>
+                            <span class="visually-hidden">required</span>
+                        </label>
                         <input asp-for="Input.LastName" class="form-control" autocomplete="family-name" />
                         <span asp-validation-for="Input.LastName" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="Input.Email" class="form-label"></label>
+                        <label asp-for="Input.Email" class="form-label">
+                            Email <span class="required-indicator" aria-hidden="true">*</span>
+                            <span class="visually-hidden">required</span>
+                        </label>
                         <input asp-for="Input.Email" class="form-control" autocomplete="email" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="Input.Phone" class="form-label"></label>
+                        <label asp-for="Input.Phone" class="form-label">
+                            Phone number <span class="required-indicator" aria-hidden="true">*</span>
+                            <span class="visually-hidden">required</span>
+                        </label>
                         <input asp-for="Input.Phone" class="form-control" autocomplete="tel" />
                         <span asp-validation-for="Input.Phone" class="text-danger"></span>
                     </div>
@@ -128,12 +140,17 @@
                            disabled="@(!Model.AgreementIsApproved)" />
                     <label asp-for="Input.Agreed" class="form-check-label">
                         I have read and agree to the waiver above.
+                        <span class="required-indicator" aria-hidden="true">*</span>
+                        <span class="visually-hidden">required</span>
                     </label>
                     <span asp-validation-for="Input.Agreed" class="text-danger d-block"></span>
                 </div>
 
                 <div class="mt-4">
-                    <label asp-for="Input.SignatureName" class="form-label"></label>
+                    <label asp-for="Input.SignatureName" class="form-label">
+                        Electronic signature <span class="required-indicator" aria-hidden="true">*</span>
+                        <span class="visually-hidden">required</span>
+                    </label>
                     <input asp-for="Input.SignatureName"
                            class="form-control signature-input"
                            autocomplete="name"
@@ -162,12 +179,18 @@
         </div>
         <div class="row g-3">
             <div class="col-md-4">
-                <label class="form-label" data-field-label="FirstName">First name</label>
+                <label class="form-label" data-field-label="FirstName">
+                    First name <span class="required-indicator" aria-hidden="true">*</span>
+                    <span class="visually-hidden">required</span>
+                </label>
                 <input class="form-control" data-field="FirstName" maxlength="100" />
                 <span class="text-danger field-validation-valid" data-validation="FirstName"></span>
             </div>
             <div class="col-md-4">
-                <label class="form-label" data-field-label="LastName">Last name</label>
+                <label class="form-label" data-field-label="LastName">
+                    Last name <span class="required-indicator" aria-hidden="true">*</span>
+                    <span class="visually-hidden">required</span>
+                </label>
                 <input class="form-control" data-field="LastName" maxlength="100" />
                 <span class="text-danger field-validation-valid" data-validation="LastName"></span>
             </div>
