@@ -91,7 +91,7 @@ The business owner can sign in to a protected administrator area and view the
 most recent waiver submissions.
 
 The submission list can be sorted by event name, customer first name, customer
-last name, or customer email.
+last name, customer email, phone, signature, or signed date.
 
 ## Future Features
 

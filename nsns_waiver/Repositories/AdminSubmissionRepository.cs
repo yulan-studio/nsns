@@ -25,6 +25,8 @@ public sealed class AdminSubmissionRepository : IAdminSubmissionRepository
             AdminSubmissionSort.FirstName => "s.first_name",
             AdminSubmissionSort.LastName => "s.last_name",
             AdminSubmissionSort.Email => "s.email",
+            AdminSubmissionSort.Phone => "s.phone",
+            AdminSubmissionSort.SignatureName => "s.signature_name",
             _ => "s.signed_at_utc"
         };
         var direction = descending ? "DESC" : "ASC";

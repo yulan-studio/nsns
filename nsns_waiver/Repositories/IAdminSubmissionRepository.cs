@@ -17,5 +17,7 @@ public enum AdminSubmissionSort
     EventName,
     FirstName,
     LastName,
-    Email
+    Email,
+    Phone,
+    SignatureName
 }

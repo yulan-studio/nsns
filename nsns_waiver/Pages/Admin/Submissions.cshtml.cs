@@ -64,6 +64,9 @@ public sealed class SubmissionsModel : PageModel
             "firstname" => AdminSubmissionSort.FirstName,
             "lastname" => AdminSubmissionSort.LastName,
             "email" => AdminSubmissionSort.Email,
+            "phone" => AdminSubmissionSort.Phone,
+            "signature" => AdminSubmissionSort.SignatureName,
+            "signedat" => AdminSubmissionSort.SignedAt,
             _ => AdminSubmissionSort.SignedAt
         };
 
@@ -74,6 +77,8 @@ public sealed class SubmissionsModel : PageModel
             AdminSubmissionSort.FirstName => "firstName",
             AdminSubmissionSort.LastName => "lastName",
             AdminSubmissionSort.Email => "email",
+            AdminSubmissionSort.Phone => "phone",
+            AdminSubmissionSort.SignatureName => "signature",
             _ => "signedAt"
         };
 }
