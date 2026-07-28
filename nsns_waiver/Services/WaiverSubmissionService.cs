@@ -101,7 +101,7 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             UserAgent = userAgent
         };
         var outboxMessages = CreateOutboxMessages(
-            submission, familyMembers, ownerEmail, signedAtUtc);
+            submission, familyMembers, ownerEmail);
 
         await _repository.CreateSubmissionAsync(
             submission,
@@ -194,15 +194,11 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
     private static List<EmailOutboxMessage> CreateOutboxMessages(
         WaiverSubmission submission,
         IReadOnlyCollection<WaiverFamilyMember> familyMembers,
-        string ownerEmail,
-        DateTime signedAtUtc)
+        string ownerEmail)
     {
         var eventName = HtmlEncoder.Default.Encode(submission.EventName);
         var customerName = HtmlEncoder.Default.Encode(
             $"{submission.FirstName} {submission.LastName}");
-        var reference = HtmlEncoder.Default.Encode(submission.SubmissionReference);
-        var signedAt = HtmlEncoder.Default.Encode(
-            signedAtUtc.ToString("yyyy-MM-dd HH:mm:ss 'UTC'"));
 
         return
         [
@@ -214,7 +210,6 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
                 BodyHtml =
                     $"<p>Hello {customerName},</p>"
                     + $"<p>Your waiver for {eventName} was received.</p>"
-                    + $"<p>Reference: {reference}<br>Signed: {signedAt}</p>"
             },
             new EmailOutboxMessage
             {
@@ -224,9 +219,7 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
                 BodyHtml = CreateBossNotificationBody(
                     submission,
                     familyMembers,
-                    eventName,
-                    reference,
-                    signedAt)
+                    eventName)
             }
         ];
     }
@@ -234,13 +227,11 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
     private static string CreateBossNotificationBody(
         WaiverSubmission submission,
         IReadOnlyCollection<WaiverFamilyMember> familyMembers,
-        string encodedEventName,
-        string encodedReference,
-        string encodedSignedAt)
+        string encodedEventName)
     {
         var encoder = HtmlEncoder.Default;
         var body = new StringBuilder()
-            
+            .Append("<h2>New waiver submission</h2>")
             .Append("<p><strong>Event:</strong> ")
             .Append(encodedEventName)
             .Append("</p><h3>Person submitting the waiver</h3><ul>")

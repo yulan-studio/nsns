@@ -53,11 +53,23 @@ public sealed class WaiverSubmissionServiceTests
             {
                 Assert.Equal("CustomerConfirmation", customer.MessageType);
                 Assert.Equal("Customer@Example.com", customer.RecipientEmail);
+                Assert.DoesNotContain(
+                    result.SubmissionReference,
+                    customer.BodyHtml);
+                Assert.DoesNotContain(
+                    "2026-07-24 18:30:00 UTC",
+                    customer.BodyHtml);
             },
             owner =>
             {
                 Assert.Equal("BossNotification", owner.MessageType);
                 Assert.Equal("owner@example.com", owner.RecipientEmail);
+                Assert.DoesNotContain(
+                    result.SubmissionReference,
+                    owner.BodyHtml);
+                Assert.DoesNotContain(
+                    "2026-07-24 18:30:00 UTC",
+                    owner.BodyHtml);
                 Assert.Contains("Customer Person", owner.BodyHtml);
                 Assert.Contains("WeChat User", owner.BodyHtml);
                 Assert.Contains("Customer@Example.com", owner.BodyHtml);
