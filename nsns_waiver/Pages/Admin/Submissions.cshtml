@@ -1,0 +1,89 @@
+@page
+@model nsns_waiver.Pages.Admin.SubmissionsModel
+@{
+    ViewData["Title"] = "Waiver submissions";
+}
+
+<section class="admin-shell">
+    <div class="admin-heading">
+        <div>
+            <p class="eyebrow">Protected area</p>
+            <h1>Waiver submissions</h1>
+            <p class="text-muted mb-0">
+                Showing @Model.TotalSubmissions of up to 200 recent submissions,
+                20 per page.
+            </p>
+        </div>
+        <form method="post" asp-page-handler="Logout">
+            <button type="submit" class="btn btn-outline-primary">Sign out</button>
+        </form>
+    </div>
+
+    @if (Model.Submissions.Count == 0)
+    {
+        <div class="alert alert-info">No waiver submissions have been received yet.</div>
+    }
+    else
+    {
+        <div class="table-responsive admin-table-wrap">
+            <table class="table table-hover align-middle">
+                <thead>
+                    <tr>
+                        <th><a asp-route-sort="eventName" asp-route-direction="@Model.NextDirection("eventName")">Event</a></th>
+                        <th><a asp-route-sort="firstName" asp-route-direction="@Model.NextDirection("firstName")">First Name</a></th>
+                        <th><a asp-route-sort="lastName" asp-route-direction="@Model.NextDirection("lastName")">Last Name</a></th>
+                        <th><a asp-route-sort="email" asp-route-direction="@Model.NextDirection("email")">Email</a></th>
+                        <th><a asp-route-sort="phone" asp-route-direction="@Model.NextDirection("phone")">Phone</a></th>
+                        <th>Family members</th>
+                        <th><a asp-route-sort="signature" asp-route-direction="@Model.NextDirection("signature")">Signature</a></th>
+                        <th><a asp-route-sort="signedAt" asp-route-direction="@Model.NextDirection("signedAt")">Signed (UTC)</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var submission in Model.Submissions)
+                {
+                    <tr>
+                        <td>@submission.EventName</td>
+                        <td>@submission.FirstName</td>
+                        <td>@submission.LastName</td>
+                        <td><a href="mailto:@submission.Email">@submission.Email</a></td>
+                        <td>@submission.Phone</td>
+                        <td>@(submission.FamilyMembers ?? "None")</td>
+                        <td>@submission.SignatureName</td>
+                        <td>@submission.SignedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Submission pages">
+                <ul class="pagination justify-content-center mt-4 mb-0">
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : null)">
+                        <a class="page-link"
+                           asp-route-sort="@Model.Sort"
+                           asp-route-direction="@Model.Direction"
+                           asp-route-page="@(Model.CurrentPage - 1)">Previous</a>
+                    </li>
+                    @for (var pageNumber = 1; pageNumber <= Model.TotalPages; pageNumber++)
+                    {
+                        <li class="page-item @(pageNumber == Model.CurrentPage ? "active" : null)">
+                            <a class="page-link"
+                               asp-route-sort="@Model.Sort"
+                               asp-route-direction="@Model.Direction"
+                               asp-route-page="@pageNumber">@pageNumber</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : null)">
+                        <a class="page-link"
+                           asp-route-sort="@Model.Sort"
+                           asp-route-direction="@Model.Direction"
+                           asp-route-page="@(Model.CurrentPage + 1)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+</section>

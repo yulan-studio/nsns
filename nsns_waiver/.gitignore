@@ -1,0 +1,8 @@
+.vs/
+bin/
+obj/
+*.csproj.user
+Tests/test-database.local.ps1
+
+# The parent repository ignores all JSON files; keep the non-secret app configuration tracked.
+!appsettings.json
