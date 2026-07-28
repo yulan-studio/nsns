@@ -11,6 +11,9 @@ namespace nsns_waiver.Pages.Admin;
 [Authorize]
 public sealed class SubmissionsModel : PageModel
 {
+    private const int PageSize = 20;
+    private const int MaximumSubmissions = 200;
+
     private readonly IAdminSubmissionRepository _repository;
 
     public SubmissionsModel(IAdminSubmissionRepository repository)
@@ -21,21 +24,31 @@ public sealed class SubmissionsModel : PageModel
     public IReadOnlyList<AdminSubmissionListItem> Submissions { get; private set; } = [];
     public string Sort { get; private set; } = "signedAt";
     public string Direction { get; private set; } = "desc";
+    public int CurrentPage { get; private set; } = 1;
+    public int TotalPages { get; private set; }
+    public int TotalSubmissions { get; private set; }
 
     public async Task OnGetAsync(
         string? sort,
         string? direction,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        int page = 1)
     {
         var selectedSort = ParseSort(sort);
         var descending = string.Equals(direction, "desc", StringComparison.OrdinalIgnoreCase);
 
         Sort = ToQueryValue(selectedSort);
         Direction = descending ? "desc" : "asc";
+        TotalSubmissions = await _repository.CountRecentAsync(
+            MaximumSubmissions,
+            cancellationToken);
+        TotalPages = (int)Math.Ceiling(TotalSubmissions / (double)PageSize);
+        CurrentPage = Math.Clamp(page, 1, Math.Max(TotalPages, 1));
         Submissions = await _repository.GetRecentAsync(
             selectedSort,
             descending,
-            200,
+            (CurrentPage - 1) * PageSize,
+            PageSize,
             cancellationToken);
     }
 

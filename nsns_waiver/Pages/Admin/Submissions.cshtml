@@ -9,7 +9,10 @@
         <div>
             <p class="eyebrow">Protected area</p>
             <h1>Waiver submissions</h1>
-            <p class="text-muted mb-0">Showing up to 200 submissions.</p>
+            <p class="text-muted mb-0">
+                Showing @Model.TotalSubmissions of up to 200 recent submissions,
+                20 per page.
+            </p>
         </div>
         <form method="post" asp-page-handler="Logout">
             <button type="submit" class="btn btn-outline-primary">Sign out</button>
@@ -53,5 +56,34 @@
                 </tbody>
             </table>
         </div>
+
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Submission pages">
+                <ul class="pagination justify-content-center mt-4 mb-0">
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : null)">
+                        <a class="page-link"
+                           asp-route-sort="@Model.Sort"
+                           asp-route-direction="@Model.Direction"
+                           asp-route-page="@(Model.CurrentPage - 1)">Previous</a>
+                    </li>
+                    @for (var pageNumber = 1; pageNumber <= Model.TotalPages; pageNumber++)
+                    {
+                        <li class="page-item @(pageNumber == Model.CurrentPage ? "active" : null)">
+                            <a class="page-link"
+                               asp-route-sort="@Model.Sort"
+                               asp-route-direction="@Model.Direction"
+                               asp-route-page="@pageNumber">@pageNumber</a>
+                        </li>
+                    }
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : null)">
+                        <a class="page-link"
+                           asp-route-sort="@Model.Sort"
+                           asp-route-direction="@Model.Direction"
+                           asp-route-page="@(Model.CurrentPage + 1)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        }
     }
 </section>

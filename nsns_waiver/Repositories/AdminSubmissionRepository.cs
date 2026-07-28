@@ -16,6 +16,7 @@ public sealed class AdminSubmissionRepository : IAdminSubmissionRepository
     public async Task<IReadOnlyList<AdminSubmissionListItem>> GetRecentAsync(
         AdminSubmissionSort sort,
         bool descending,
+        int offset,
         int limit,
         CancellationToken cancellationToken = default)
     {
@@ -52,19 +53,46 @@ public sealed class AdminSubmissionRepository : IAdminSubmissionRepository
                     FROM waiver_family_members f
                     WHERE f.submission_id = s.id
                 ) AS FamilyMembers
-            FROM waiver_submissions s
+            FROM (
+                SELECT *
+                FROM waiver_submissions
+                ORDER BY signed_at_utc DESC, id DESC
+                LIMIT 200
+            ) s
             ORDER BY {{orderColumn}} {{direction}}, s.id DESC
-            LIMIT @Limit;
+            LIMIT @Limit OFFSET @Offset;
             """;
 
         await using var connection =
             await _connectionFactory.OpenConnectionAsync(cancellationToken);
         var command = new CommandDefinition(
             sql,
-            new { Limit = Math.Clamp(limit, 1, 200) },
+            new
+            {
+                Limit = Math.Clamp(limit, 1, 200),
+                Offset = Math.Clamp(offset, 0, 199)
+            },
             cancellationToken: cancellationToken);
         var submissions =
             await connection.QueryAsync<AdminSubmissionListItem>(command);
         return submissions.AsList();
+    }
+
+    public async Task<int> CountRecentAsync(
+        int maximum,
+        CancellationToken cancellationToken = default)
+    {
+        const string sql = """
+            SELECT LEAST(COUNT(*), @Maximum)
+            FROM waiver_submissions;
+            """;
+
+        await using var connection =
+            await _connectionFactory.OpenConnectionAsync(cancellationToken);
+        var command = new CommandDefinition(
+            sql,
+            new { Maximum = Math.Clamp(maximum, 1, 200) },
+            cancellationToken: cancellationToken);
+        return await connection.ExecuteScalarAsync<int>(command);
     }
 }

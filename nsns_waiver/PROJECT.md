@@ -93,6 +93,9 @@ most recent waiver submissions.
 The submission list can be sorted by event name, customer first name, customer
 last name, customer email, phone, signature, or signed date.
 
+The administrator area displays up to 200 recent submissions, with 20 records
+per page and no more than 10 pages.
+
 ## Future Features
 
 The application may later include:
