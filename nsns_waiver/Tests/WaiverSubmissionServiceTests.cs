@@ -58,6 +58,12 @@ public sealed class WaiverSubmissionServiceTests
             {
                 Assert.Equal("BossNotification", owner.MessageType);
                 Assert.Equal("owner@example.com", owner.RecipientEmail);
+                Assert.Contains("Customer Person", owner.BodyHtml);
+                Assert.Contains("WeChat User", owner.BodyHtml);
+                Assert.Contains("Customer@Example.com", owner.BodyHtml);
+                Assert.Contains("(416) 555-0123", owner.BodyHtml);
+                Assert.Contains("Child Member", owner.BodyHtml);
+                Assert.Contains("Daughter", owner.BodyHtml);
             });
         Assert.Equal(1, repository.CreateCallCount);
     }
@@ -67,7 +73,17 @@ public sealed class WaiverSubmissionServiceTests
     {
         var repository = new CapturingRepository();
         var service = CreateService(repository);
-        var request = CreateValidRequest(firstName: "<script>alert(1)</script>");
+        var request = CreateValidRequest(
+            firstName: "<script>alert(1)</script>",
+            familyMembers:
+            [
+                new SubmitWaiverFamilyMember
+                {
+                    FirstName = "<b>Child</b>",
+                    LastName = "Member",
+                    Relationship = "<em>Daughter</em>"
+                }
+            ]);
 
         await service.SubmitAsync(request);
 
@@ -77,6 +93,11 @@ public sealed class WaiverSubmissionServiceTests
         Assert.Contains(
             "&lt;script&gt;",
             repository.OutboxMessages.First().BodyHtml);
+        var ownerEmail = repository.OutboxMessages.Last().BodyHtml;
+        Assert.DoesNotContain("<b>Child</b>", ownerEmail);
+        Assert.DoesNotContain("<em>Daughter</em>", ownerEmail);
+        Assert.Contains("&lt;b&gt;Child&lt;/b&gt;", ownerEmail);
+        Assert.Contains("&lt;em&gt;Daughter&lt;/em&gt;", ownerEmail);
     }
 
     [Fact]

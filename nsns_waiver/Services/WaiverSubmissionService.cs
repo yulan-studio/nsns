@@ -1,4 +1,5 @@
 using System.Net.Mail;
+using System.Text;
 using System.Text.Encodings.Web;
 using Microsoft.Extensions.Options;
 using nsns_waiver.Models;
@@ -100,7 +101,7 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             UserAgent = userAgent
         };
         var outboxMessages = CreateOutboxMessages(
-            submission, ownerEmail, signedAtUtc);
+            submission, familyMembers, ownerEmail, signedAtUtc);
 
         await _repository.CreateSubmissionAsync(
             submission,
@@ -192,6 +193,7 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
 
     private static List<EmailOutboxMessage> CreateOutboxMessages(
         WaiverSubmission submission,
+        IReadOnlyCollection<WaiverFamilyMember> familyMembers,
         string ownerEmail,
         DateTime signedAtUtc)
     {
@@ -219,12 +221,72 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
                 MessageType = "BossNotification",
                 RecipientEmail = ownerEmail,
                 Subject = $"New waiver submission - {submission.EventName}",
-                BodyHtml =
-                    $"<p>A waiver was submitted for {eventName}.</p>"
-                    + $"<p>Reference: {reference}<br>Signed: {signedAt}</p>"
+                BodyHtml = CreateBossNotificationBody(
+                    submission,
+                    familyMembers,
+                    eventName,
+                    reference,
+                    signedAt)
             }
         ];
     }
+
+    private static string CreateBossNotificationBody(
+        WaiverSubmission submission,
+        IReadOnlyCollection<WaiverFamilyMember> familyMembers,
+        string encodedEventName,
+        string encodedReference,
+        string encodedSignedAt)
+    {
+        var encoder = HtmlEncoder.Default;
+        var body = new StringBuilder()
+            
+            .Append("<p><strong>Event:</strong> ")
+            .Append(encodedEventName)
+            .Append("</p><h3>Person submitting the waiver</h3><ul>")
+            .Append("<li><strong>Name:</strong> ")
+            .Append(encoder.Encode($"{submission.FirstName} {submission.LastName}"))
+            .Append("</li><li><strong>WeChat name:</strong> ")
+            .Append(EncodeOptional(encoder, submission.WechatName))
+            .Append("</li><li><strong>Email:</strong> ")
+            .Append(encoder.Encode(submission.Email))
+            .Append("</li><li><strong>Phone:</strong> ")
+            .Append(encoder.Encode(submission.Phone))
+            .Append("</li><li><strong>Electronic signature:</strong> ")
+            .Append(encoder.Encode(submission.SignatureName))
+            .Append("</li></ul><h3>Family members</h3>");
+
+        if (familyMembers.Count == 0)
+        {
+            body.Append("<p>None</p>");
+        }
+        else
+        {
+            body.Append("<ol>");
+            foreach (var member in familyMembers)
+            {
+                body.Append("<li>")
+                    .Append(encoder.Encode($"{member.FirstName} {member.LastName}"));
+
+                if (!string.IsNullOrWhiteSpace(member.Relationship))
+                {
+                    body.Append(" — ")
+                        .Append(encoder.Encode(member.Relationship));
+                }
+
+                body.Append("</li>");
+            }
+
+            body.Append("</ol>");
+        }
+
+        return body.ToString();
+    }
+
+    private static string EncodeOptional(HtmlEncoder encoder, string? value) =>
+        string.IsNullOrWhiteSpace(value)
+            ? "Not provided"
+            : encoder.Encode(value);
 
     private static string ValidateEmail(
         Dictionary<string, List<string>> errors,
