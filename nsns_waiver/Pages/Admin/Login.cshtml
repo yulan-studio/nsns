@@ -1,0 +1,32 @@
+@page
+@model nsns_waiver.Pages.Admin.LoginModel
+@{
+    ViewData["Title"] = "Boss login";
+}
+
+<section class="admin-login">
+    <p class="eyebrow">Protected area</p>
+    <h1>Boss login</h1>
+    <p class="text-muted">Sign in to view waiver submissions.</p>
+
+    <form method="post">
+        <input type="hidden" asp-for="ReturnUrl" />
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+        <div class="mb-3">
+            <label asp-for="Input.Username" class="form-label"></label>
+            <input asp-for="Input.Username" class="form-control" autocomplete="username" />
+            <span asp-validation-for="Input.Username" class="text-danger"></span>
+        </div>
+        <div class="mb-4">
+            <label asp-for="Input.Password" class="form-label"></label>
+            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" />
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Sign in</button>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
