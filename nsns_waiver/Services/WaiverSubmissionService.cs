@@ -205,10 +205,15 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             {
                 MessageType = "CustomerConfirmation",
                 RecipientEmail = submission.Email,
-                Subject = $"Waiver confirmation - {submission.EventName}",
+                Subject = $"Waiver received - {submission.EventName}",
                 BodyHtml =
-                    $"<p>Hello {customerName},</p>"
-                    + $"<p>Your waiver for {eventName} was received.</p>"
+                    $"<p>Dear {customerName},</p>"
+                    + $"<p>Thank you for submitting your waiver for "
+                    + $"{eventName}. We are pleased to confirm that it has "
+                    + "been received successfully.</p>"
+                    + "<p>No further action is required at this time. "
+                    + "Please retain this email for your records.</p>"
+                    + "<p>Sincerely,<br>The NorthStar Team</p>"
             }
         };
         messages.Add(new EmailOutboxMessage

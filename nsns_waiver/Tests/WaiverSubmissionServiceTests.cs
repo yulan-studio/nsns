@@ -53,6 +53,19 @@ public sealed class WaiverSubmissionServiceTests
             {
                 Assert.Equal("CustomerConfirmation", customer.MessageType);
                 Assert.Equal("Customer@Example.com", customer.RecipientEmail);
+                Assert.Equal(
+                    "Waiver received - Summer Camp 2026",
+                    customer.Subject);
+                Assert.Contains(
+                    "Dear Customer Person,",
+                    customer.BodyHtml);
+                Assert.Contains(
+                    "Thank you for submitting your waiver for Summer Camp 2026.",
+                    customer.BodyHtml);
+                Assert.Contains(
+                    "No further action is required at this time.",
+                    customer.BodyHtml);
+                Assert.Contains("The NSNS Team", customer.BodyHtml);
                 Assert.DoesNotContain(
                     result.SubmissionReference,
                     customer.BodyHtml);
