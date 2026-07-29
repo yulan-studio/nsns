@@ -21,6 +21,7 @@ public sealed class IndexPageTests
         Assert.Equal("Summer Camp 2026", page.Event?.Name);
         Assert.Equal("summer-camp-2026", page.Input.EventCode);
         Assert.True(page.AgreementIsApproved);
+        Assert.True(page.Input.MediaReleaseAgreed);
     }
 
     [Fact]

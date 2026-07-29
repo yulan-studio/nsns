@@ -161,7 +161,7 @@ public sealed class IndexModel : PageModel
         public bool Agreed { get; set; }
 
         [Display(Name = "Media release")]
-        public bool MediaReleaseAgreed { get; set; }
+        public bool MediaReleaseAgreed { get; set; } = true;
 
         public List<FamilyMemberInput> FamilyMembers { get; set; } = [];
     }
