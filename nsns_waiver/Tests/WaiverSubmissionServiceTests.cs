@@ -84,6 +84,9 @@ public sealed class WaiverSubmissionServiceTests
                     "2026-07-24 18:30:00 UTC",
                     owner.BodyHtml);
                 Assert.Contains("Customer Person", owner.BodyHtml);
+                Assert.Contains(
+                    "<h3><strong>Summer Camp 2026</strong></h3>",
+                    owner.BodyHtml);
                 Assert.Contains("WeChat User", owner.BodyHtml);
                 Assert.Contains("Customer@Example.com", owner.BodyHtml);
                 Assert.Contains("(416) 555-0123", owner.BodyHtml);
@@ -95,6 +98,12 @@ public sealed class WaiverSubmissionServiceTests
                 Assert.Contains(
                     "href=\"https://waiver.nsns.ca/Admin/Submissions\"",
                     owner.BodyHtml);
+                Assert.Equal(
+                    2,
+                    owner.BodyHtml.Split(
+                        "<hr style=\"border: 0; border-top: 1px solid "
+                        + "#b7b7b7; margin: 16px 0;\">",
+                        StringSplitOptions.None).Length - 1);
             });
         Assert.Equal(1, repository.CreateCallCount);
     }
