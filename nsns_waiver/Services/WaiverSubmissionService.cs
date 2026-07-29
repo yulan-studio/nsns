@@ -242,9 +242,12 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
                 "<hr style=\"border: 0; border-top: 1px solid #b7b7b7; "
                 + "margin: 16px 0;\">")
             
-            .Append("<h3><strong>")
+            .Append(
+                "<h3><strong><span style=\"background-color: #fff3cd;\">")
             .Append(encodedEventName)
-            .Append("</strong></h3><h3>Person submitting the waiver</h3><ul>")
+            .Append(
+                "</span></strong></h3>"
+                + "<h3>Person submitting the waiver</h3><ul>")
             .Append("<li><strong>Name:</strong> ")
             .Append(encoder.Encode($"{submission.FirstName} {submission.LastName}"))
             .Append("</li><li><strong>WeChat name:</strong> ")

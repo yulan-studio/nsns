@@ -85,7 +85,8 @@ public sealed class WaiverSubmissionServiceTests
                     owner.BodyHtml);
                 Assert.Contains("Customer Person", owner.BodyHtml);
                 Assert.Contains(
-                    "<h3><strong>Summer Camp 2026</strong></h3>",
+                    "<h3><strong><span style=\"background-color: #fff3cd;\">"
+                    + "Summer Camp 2026</span></strong></h3>",
                     owner.BodyHtml);
                 Assert.Contains("WeChat User", owner.BodyHtml);
                 Assert.Contains("Customer@Example.com", owner.BodyHtml);
