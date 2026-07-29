@@ -205,10 +205,15 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             {
                 MessageType = "CustomerConfirmation",
                 RecipientEmail = submission.Email,
-                Subject = $"Waiver confirmation - {submission.EventName}",
+                Subject = $"Waiver received - {submission.EventName}",
                 BodyHtml =
-                    $"<p>Hello {customerName},</p>"
-                    + $"<p>Your waiver for {eventName} was received.</p>"
+                    $"<p>Dear {customerName},</p>"
+                    + $"<p>Thank you for submitting your waiver for "
+                    + $"{eventName}. We are pleased to confirm that it has "
+                    + "been received successfully.</p>"
+                    + "<p>No further action is required at this time. "
+                    + "Please retain this email for your records.</p>"
+                    + "<p>Sincerely,<br>The NorthStar Team</p>"
             }
         };
         messages.Add(new EmailOutboxMessage
@@ -233,7 +238,7 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         var encoder = HtmlEncoder.Default;
         var body = new StringBuilder()
             .Append("<h2>New waiver submission</h2>")
-            .Append("<p><strong>Event:</strong> ")
+            .Append("<h3><strong>Event:</strong></h3>")
             .Append(encodedEventName)
             .Append("</p><h3>Person submitting the waiver</h3><ul>")
             .Append("<li><strong>Name:</strong> ")
@@ -271,6 +276,11 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
 
             body.Append("</ol>");
         }
+
+        body.Append(
+            "<p>To view this and other waiver submissions, please visit the "
+            + "<a href=\"https://waiver.nsns.ca/Admin/Submissions\">"
+            + "waiver submissions page</a>.</p>");
 
         return body.ToString();
     }
