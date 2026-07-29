@@ -65,7 +65,7 @@ public sealed class WaiverSubmissionServiceTests
                 Assert.Contains(
                     "No further action is required at this time.",
                     customer.BodyHtml);
-                Assert.Contains("The NSNS Team", customer.BodyHtml);
+                Assert.Contains("The NorthStar Team", customer.BodyHtml);
                 Assert.DoesNotContain(
                     result.SubmissionReference,
                     customer.BodyHtml);
@@ -89,6 +89,12 @@ public sealed class WaiverSubmissionServiceTests
                 Assert.Contains("(416) 555-0123", owner.BodyHtml);
                 Assert.Contains("Child Member", owner.BodyHtml);
                 Assert.Contains("Daughter", owner.BodyHtml);
+                Assert.Contains(
+                    "To view this and other waiver submissions",
+                    owner.BodyHtml);
+                Assert.Contains(
+                    "href=\"https://waiver.nsns.ca/Admin/Submissions\"",
+                    owner.BodyHtml);
             });
         Assert.Equal(1, repository.CreateCallCount);
     }
