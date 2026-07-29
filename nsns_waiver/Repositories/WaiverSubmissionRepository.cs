@@ -11,11 +11,13 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
         INSERT INTO waiver_submissions (
             submission_reference, event_code, event_name, first_name, last_name,
             wechat_name, email, normalized_email, phone, normalized_phone,
-            signature_name, agreed, signed_at_utc, ip_address, user_agent)
+            signature_name, agreed, media_release_agreed, signed_at_utc,
+            ip_address, user_agent)
         VALUES (
             @SubmissionReference, @EventCode, @EventName, @FirstName, @LastName,
             @WechatName, @Email, @NormalizedEmail, @Phone, @NormalizedPhone,
-            @SignatureName, @Agreed, @SignedAtUtc, @IpAddress, @UserAgent);
+            @SignatureName, @Agreed, @MediaReleaseAgreed, @SignedAtUtc,
+            @IpAddress, @UserAgent);
         SELECT LAST_INSERT_ID();
         """;
 
@@ -54,6 +56,7 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
             normalized_phone AS NormalizedPhone,
             signature_name AS SignatureName,
             agreed AS Agreed,
+            media_release_agreed AS MediaReleaseAgreed,
             signed_at_utc AS SignedAtUtc,
             ip_address AS IpAddress,
             user_agent AS UserAgent,

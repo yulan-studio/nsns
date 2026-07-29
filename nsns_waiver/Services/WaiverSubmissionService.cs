@@ -96,6 +96,7 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             NormalizedPhone = normalizedPhone,
             SignatureName = signatureName,
             Agreed = true,
+            MediaReleaseAgreed = request.MediaReleaseAgreed,
             SignedAtUtc = signedAtUtc,
             IpAddress = ipAddress,
             UserAgent = userAgent
@@ -258,6 +259,8 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             .Append(encoder.Encode(submission.Phone))
             .Append("</li><li><strong>Electronic signature:</strong> ")
             .Append(encoder.Encode(submission.SignatureName))
+            .Append("</li><li><strong>Media release:</strong> ")
+            .Append(submission.MediaReleaseAgreed ? "Agreed" : "Declined")
             .Append("</li></ul><h3>Family members</h3>");
 
         if (familyMembers.Count == 0)

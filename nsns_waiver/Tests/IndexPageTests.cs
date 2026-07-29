@@ -37,6 +37,7 @@ public sealed class IndexPageTests
         Assert.Equal("abc-123", page.TempData[nameof(ConfirmationModel.SubmissionReference)]);
         Assert.NotNull(service.Request);
         Assert.Equal("summer-camp-2026", service.Request.EventCode);
+        Assert.True(service.Request.MediaReleaseAgreed);
         Assert.Single(service.Request.FamilyMembers);
         Assert.Equal("127.0.0.1", service.Request.IpAddress);
     }
@@ -125,6 +126,7 @@ public sealed class IndexPageTests
             Phone = "4165550123",
             SignatureName = "Test Customer",
             Agreed = true,
+            MediaReleaseAgreed = true,
             FamilyMembers =
             [
                 new IndexModel.FamilyMemberInput

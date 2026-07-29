@@ -37,6 +37,7 @@ public sealed class WaiverSubmissionServiceTests
         Assert.Equal("customer@example.com", submission.NormalizedEmail);
         Assert.Equal("(416) 555-0123", submission.Phone);
         Assert.Equal("4165550123", submission.NormalizedPhone);
+        Assert.True(submission.MediaReleaseAgreed);
         Assert.Equal(DateTimeKind.Utc, submission.SignedAtUtc.Kind);
         Assert.Equal(FixedUtcNow.UtcDateTime, submission.SignedAtUtc);
         Assert.True(Guid.TryParse(result.SubmissionReference, out _));
@@ -93,6 +94,9 @@ public sealed class WaiverSubmissionServiceTests
                 Assert.Contains("(416) 555-0123", owner.BodyHtml);
                 Assert.Contains("Child Member", owner.BodyHtml);
                 Assert.Contains("Daughter", owner.BodyHtml);
+                Assert.Contains(
+                    "<strong>Media release:</strong> Agreed",
+                    owner.BodyHtml);
                 Assert.Contains(
                     "To view this and other waiver submissions",
                     owner.BodyHtml);
@@ -193,6 +197,22 @@ public sealed class WaiverSubmissionServiceTests
     }
 
     [Fact]
+    public async Task SubmitAsync_AllowsDecliningOptionalMediaRelease()
+    {
+        var repository = new CapturingRepository();
+        var service = CreateService(repository);
+
+        await service.SubmitAsync(
+            CreateValidRequest(mediaReleaseAgreed: false));
+
+        var submission = Assert.IsType<WaiverSubmission>(repository.Submission);
+        Assert.False(submission.MediaReleaseAgreed);
+        Assert.Contains(
+            "<strong>Media release:</strong> Declined",
+            repository.OutboxMessages.Last().BodyHtml);
+    }
+
+    [Fact]
     public async Task SubmitAsync_ThrowsClearErrorForMissingOwnerEmailConfiguration()
     {
         var repository = new CapturingRepository();
@@ -230,6 +250,7 @@ public sealed class WaiverSubmissionServiceTests
         string eventCode = " Summer-Camp-2026 ",
         string firstName = " Customer ",
         bool agreed = true,
+        bool mediaReleaseAgreed = true,
         IReadOnlyCollection<SubmitWaiverFamilyMember>? familyMembers = null) =>
         new()
         {
@@ -241,6 +262,7 @@ public sealed class WaiverSubmissionServiceTests
             Phone = " (416) 555-0123 ",
             SignatureName = " Customer Person ",
             Agreed = agreed,
+            MediaReleaseAgreed = mediaReleaseAgreed,
             FamilyMembers = familyMembers ?? [],
             IpAddress = " 127.0.0.1 ",
             UserAgent = " Test Browser "

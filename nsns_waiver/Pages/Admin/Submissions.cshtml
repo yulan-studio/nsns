@@ -35,6 +35,7 @@
                         <th><a asp-route-sort="email" asp-route-direction="@Model.NextDirection("email")">Email</a></th>
                         <th><a asp-route-sort="phone" asp-route-direction="@Model.NextDirection("phone")">Phone</a></th>
                         <th>Family members</th>
+                        <th>Media release</th>
                         <th><a asp-route-sort="signature" asp-route-direction="@Model.NextDirection("signature")">Signature</a></th>
                         <th><a asp-route-sort="signedAt" asp-route-direction="@Model.NextDirection("signedAt")">Signed (UTC)</a></th>
                     </tr>
@@ -49,6 +50,7 @@
                         <td><a href="mailto:@submission.Email">@submission.Email</a></td>
                         <td>@submission.Phone</td>
                         <td>@(submission.FamilyMembers ?? "None")</td>
+                        <td>@(submission.MediaReleaseAgreed ? "Agreed" : "Declined")</td>
                         <td>@submission.SignatureName</td>
                         <td>@submission.SignedAtUtc.ToString("yyyy-MM-dd HH:mm")</td>
                     </tr>
