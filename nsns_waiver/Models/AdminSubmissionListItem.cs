@@ -9,6 +9,7 @@ public sealed class AdminSubmissionListItem
     public required string Email { get; init; }
     public required string Phone { get; init; }
     public required string SignatureName { get; init; }
+    public bool MediaReleaseAgreed { get; init; }
     public DateTime SignedAtUtc { get; init; }
     public string? FamilyMembers { get; init; }
 }

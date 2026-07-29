@@ -101,6 +101,7 @@ public sealed class RepositoryIntegrationTests
 
         Assert.NotNull(loaded);
         Assert.Equal(submission.SubmissionReference, loaded.SubmissionReference);
+        Assert.True(loaded.MediaReleaseAgreed);
         Assert.Equal(DateTimeKind.Utc, loaded.SignedAtUtc.Kind);
         Assert.Equal(DateTimeKind.Utc, loaded.CreatedAtUtc.Kind);
 
@@ -153,6 +154,7 @@ public sealed class RepositoryIntegrationTests
             NormalizedPhone = "5550100",
             SignatureName = "Test Customer",
             Agreed = true,
+            MediaReleaseAgreed = true,
             SignedAtUtc = DateTime.UtcNow
         };
 

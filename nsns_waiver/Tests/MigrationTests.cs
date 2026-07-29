@@ -36,6 +36,14 @@ public sealed class MigrationTests
     }
 
     [Fact]
+    public void SubmissionStoresOptionalMediaReleaseChoice()
+    {
+        Assert.Matches(
+            @"media_release_agreed\s+BOOLEAN\s+NOT\s+NULL\s+DEFAULT\s+TRUE",
+            _sql);
+    }
+
+    [Fact]
     public void RelatedTablesHaveCascadeForeignKeysAndRequiredIndexes()
     {
         Assert.Contains(

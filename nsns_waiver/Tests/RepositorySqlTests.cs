@@ -35,4 +35,15 @@ public sealed class RepositorySqlTests
                 EmailOutboxRepository.InsertSql
             }
         };
+
+    [Fact]
+    public void SubmissionSql_PersistsMediaReleaseChoice()
+    {
+        Assert.Contains(
+            "media_release_agreed",
+            WaiverSubmissionRepository.InsertSubmissionSql);
+        Assert.Contains(
+            "@MediaReleaseAgreed",
+            WaiverSubmissionRepository.InsertSubmissionSql);
+    }
 }

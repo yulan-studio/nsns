@@ -83,6 +83,7 @@ public sealed class IndexModel : PageModel
                 Phone = Input.Phone,
                 SignatureName = Input.SignatureName,
                 Agreed = Input.Agreed,
+                MediaReleaseAgreed = Input.MediaReleaseAgreed,
                 FamilyMembers = Input.FamilyMembers
                     .Select(member => new SubmitWaiverFamilyMember
                     {
@@ -158,6 +159,9 @@ public sealed class IndexModel : PageModel
         public string SignatureName { get; set; } = string.Empty;
 
         public bool Agreed { get; set; }
+
+        [Display(Name = "Media release")]
+        public bool MediaReleaseAgreed { get; set; } = true;
 
         public List<FamilyMemberInput> FamilyMembers { get; set; } = [];
     }
