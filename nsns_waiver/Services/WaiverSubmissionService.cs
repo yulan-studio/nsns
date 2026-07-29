@@ -238,8 +238,12 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         var encoder = HtmlEncoder.Default;
         var body = new StringBuilder()
             .Append("<h2>New waiver submission</h2>")
-            .Append("<h3><strong>Event:</strong></h3>")
+            .Append(
+                "<hr style=\"border: 0; border-top: 1px solid #b7b7b7; "
+                + "margin: 16px 0;\">")
+            .Append("<h3><strong>")
             .Append(encodedEventName)
+            .Append("</strong></h3>")
             .Append("</p><h3>Person submitting the waiver</h3><ul>")
             .Append("<li><strong>Name:</strong> ")
             .Append(encoder.Encode($"{submission.FirstName} {submission.LastName}"))
@@ -278,8 +282,12 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         }
 
         body.Append(
-            "<p>To view this and other waiver submissions, please visit the "
-            + "<a href=\"https://waiver.nsns.ca/Admin/Submissions\">"
+            "<hr style=\"border: 0; border-top: 1px solid #b7b7b7; "
+            + "margin: 16px 0;\">"
+            + "<p style=\"color: #000000;\">To view this and other waiver "
+            + "submissions, please visit the "
+            + "<a href=\"https://waiver.nsns.ca/Admin/Submissions\" "
+            + "style=\"color: #000000;\">"
             + "waiver submissions page</a>.</p>");
 
         return body.ToString();
