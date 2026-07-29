@@ -96,6 +96,7 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             NormalizedPhone = normalizedPhone,
             SignatureName = signatureName,
             Agreed = true,
+            MediaReleaseAgreed = request.MediaReleaseAgreed,
             SignedAtUtc = signedAtUtc,
             IpAddress = ipAddress,
             UserAgent = userAgent
@@ -241,10 +242,13 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             .Append(
                 "<hr style=\"border: 0; border-top: 1px solid #b7b7b7; "
                 + "margin: 16px 0;\">")
-            .Append("<h3><strong>")
+            
+            .Append(
+                "<h3><strong><span style=\"background-color: #fff3cd;\">")
             .Append(encodedEventName)
-            .Append("</strong></h3>")
-            .Append("</p><h3>Person submitting the waiver</h3><ul>")
+            .Append(
+                "</span></strong></h3>"
+                + "<h3>Person submitting the waiver</h3><ul>")
             .Append("<li><strong>Name:</strong> ")
             .Append(encoder.Encode($"{submission.FirstName} {submission.LastName}"))
             .Append("</li><li><strong>WeChat name:</strong> ")
@@ -255,6 +259,8 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             .Append(encoder.Encode(submission.Phone))
             .Append("</li><li><strong>Electronic signature:</strong> ")
             .Append(encoder.Encode(submission.SignatureName))
+            .Append("</li><li><strong>Media release:</strong> ")
+            .Append(submission.MediaReleaseAgreed ? "Agreed" : "Declined")
             .Append("</li></ul><h3>Family members</h3>");
 
         if (familyMembers.Count == 0)
@@ -284,10 +290,8 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         body.Append(
             "<hr style=\"border: 0; border-top: 1px solid #b7b7b7; "
             + "margin: 16px 0;\">"
-            + "<p style=\"color: #000000;\">To view this and other waiver "
-            + "submissions, please visit the "
-            + "<a href=\"https://waiver.nsns.ca/Admin/Submissions\" "
-            + "style=\"color: #000000;\">"
+            + "<p>To view this and other waiver submissions, please visit the "
+            + "<a href=\"https://waiver.nsns.ca/Admin/Submissions\">"
             + "waiver submissions page</a>.</p>");
 
         return body.ToString();

@@ -40,6 +40,7 @@ public sealed class AdminSubmissionRepository : IAdminSubmissionRepository
                 s.email AS Email,
                 s.phone AS Phone,
                 s.signature_name AS SignatureName,
+                s.media_release_agreed AS MediaReleaseAgreed,
                 s.signed_at_utc AS SignedAtUtc,
                 (
                     SELECT GROUP_CONCAT(
