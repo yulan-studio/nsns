@@ -8,6 +8,9 @@ using nsns_waiver.Repositories;
 
 namespace nsns_waiver.Pages.Admin;
 
+/// <summary>
+/// Displays the protected, sortable, paginated waiver-submission list.
+/// </summary>
 [Authorize]
 public sealed class SubmissionsModel : PageModel
 {
@@ -16,6 +19,9 @@ public sealed class SubmissionsModel : PageModel
 
     private readonly IAdminSubmissionRepository _repository;
 
+    /// <summary>
+    /// Creates the page with read-only administrator submission access.
+    /// </summary>
     public SubmissionsModel(IAdminSubmissionRepository repository)
     {
         _repository = repository;
@@ -28,6 +34,9 @@ public sealed class SubmissionsModel : PageModel
     public int TotalPages { get; private set; }
     public int TotalSubmissions { get; private set; }
 
+    /// <summary>
+    /// Parses sort/page input and loads one page from the 200 newest submissions.
+    /// </summary>
     public async Task OnGetAsync(
         string? sort,
         string? direction,
@@ -52,17 +61,26 @@ public sealed class SubmissionsModel : PageModel
             cancellationToken);
     }
 
+    /// <summary>
+    /// Returns the direction a column link should use on its next click.
+    /// </summary>
     public string NextDirection(string column) =>
         string.Equals(Sort, column, StringComparison.OrdinalIgnoreCase)
         && Direction == "asc"
             ? "desc"
             : "asc";
 
+    /// <summary>
+    /// Returns an arrow for the active sort column, otherwise an empty string.
+    /// </summary>
     public string SortIndicator(string column) =>
         string.Equals(Sort, column, StringComparison.OrdinalIgnoreCase)
             ? Direction == "asc" ? " ↑" : " ↓"
             : string.Empty;
 
+    /// <summary>
+    /// Deletes the authentication cookie and returns to the login page.
+    /// </summary>
     public async Task<IActionResult> OnPostLogoutAsync()
     {
         await HttpContext.SignOutAsync(
@@ -70,6 +88,9 @@ public sealed class SubmissionsModel : PageModel
         return RedirectToPage("/Admin/Login");
     }
 
+    /// <summary>
+    /// Converts an untrusted query-string value to an allowed sort enum.
+    /// </summary>
     private static AdminSubmissionSort ParseSort(string? sort) =>
         sort?.ToLowerInvariant() switch
         {
@@ -83,6 +104,9 @@ public sealed class SubmissionsModel : PageModel
             _ => AdminSubmissionSort.SignedAt
         };
 
+    /// <summary>
+    /// Converts the sort enum back to the canonical query-string value.
+    /// </summary>
     private static string ToQueryValue(AdminSubmissionSort sort) =>
         sort switch
         {

@@ -8,6 +8,9 @@ using nsns_waiver.Repositories;
 
 namespace nsns_waiver.Services;
 
+/// <summary>
+/// Validates waiver input, builds related records, and coordinates atomic persistence.
+/// </summary>
 public sealed class WaiverSubmissionService : IWaiverSubmissionService
 {
     public const int MaximumFamilyMembers = 10;
@@ -16,6 +19,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
     private readonly WaiverOptions _options;
     private readonly TimeProvider _timeProvider;
 
+    /// <summary>
+    /// Creates the service with persistence, configuration, and a testable clock.
+    /// </summary>
     public WaiverSubmissionService(
         IWaiverSubmissionRepository repository,
         IOptions<WaiverOptions> options,
@@ -26,12 +32,16 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         _timeProvider = timeProvider;
     }
 
+    /// <summary>
+    /// Validates all form data, queues both emails, and saves everything transactionally.
+    /// </summary>
     public async Task<SubmitWaiverResult> SubmitAsync(
         SubmitWaiverRequest request,
         CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
 
+        // Collect every validation problem so the customer can fix the form in one pass.
         var errors = new Dictionary<string, List<string>>(StringComparer.Ordinal);
         var configuredEvent = FindEvent(request.EventCode);
         var eventCode = NormalizeEventCode(request.EventCode);
@@ -80,6 +90,7 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
                     StringComparer.Ordinal));
         }
 
+        // Security-sensitive values are generated on the server after validation.
         var signedAtUtc = _timeProvider.GetUtcNow().UtcDateTime;
         var submissionReference = Guid.NewGuid().ToString();
         var submission = new WaiverSubmission
@@ -116,6 +127,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             signedAtUtc);
     }
 
+    /// <summary>
+    /// Normalizes and resolves a query-string event code from configured events.
+    /// </summary>
     public WaiverEventInfo? FindEvent(string? eventCode)
     {
         var normalizedCode = NormalizeEventCode(eventCode);
@@ -139,6 +153,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         return null;
     }
 
+    /// <summary>
+    /// Validates the configured owner address used for notification emails.
+    /// </summary>
     private string ValidateOwnerConfiguration()
     {
         var ownerEmail = _options.BusinessOwnerEmail.Trim();
@@ -151,6 +168,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         return ownerEmail;
     }
 
+    /// <summary>
+    /// Validates, trims, and maps up to the configured family-member limit.
+    /// </summary>
     private static List<WaiverFamilyMember> ValidateFamilyMembers(
         Dictionary<string, List<string>> errors,
         IReadOnlyCollection<SubmitWaiverFamilyMember>? requestedMembers)
@@ -191,6 +211,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         return validated;
     }
 
+    /// <summary>
+    /// Builds the customer confirmation and business-owner notification messages.
+    /// </summary>
     private static List<EmailOutboxMessage> CreateOutboxMessages(
         WaiverSubmission submission,
         IReadOnlyCollection<WaiverFamilyMember> familyMembers,
@@ -231,6 +254,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         return messages;
     }
 
+    /// <summary>
+    /// Builds an HTML-safe owner notification containing all submitted details.
+    /// </summary>
     private static string CreateBossNotificationBody(
         WaiverSubmission submission,
         IReadOnlyCollection<WaiverFamilyMember> familyMembers,
@@ -297,11 +323,17 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         return body.ToString();
     }
 
+    /// <summary>
+    /// Encodes optional email content or returns a readable fallback.
+    /// </summary>
     private static string EncodeOptional(HtmlEncoder encoder, string? value) =>
         string.IsNullOrWhiteSpace(value)
             ? "Not provided"
             : encoder.Encode(value);
 
+    /// <summary>
+    /// Validates and returns a trimmed email address.
+    /// </summary>
     private static string ValidateEmail(
         Dictionary<string, List<string>> errors,
         string? value)
@@ -319,6 +351,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         return email;
     }
 
+    /// <summary>
+    /// Trims a required value and records missing or length errors.
+    /// </summary>
     private static string ValidateRequired(
         Dictionary<string, List<string>> errors,
         string field,
@@ -342,6 +377,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         return trimmed;
     }
 
+    /// <summary>
+    /// Converts blank optional input to null and records length errors.
+    /// </summary>
     private static string? ValidateOptional(
         Dictionary<string, List<string>> errors,
         string field,
@@ -366,12 +404,21 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         return trimmed;
     }
 
+    /// <summary>
+    /// Produces the canonical lower-case event code used for matching and storage.
+    /// </summary>
     private static string NormalizeEventCode(string? value) =>
         value?.Trim().ToLowerInvariant() ?? string.Empty;
 
+    /// <summary>
+    /// Removes formatting from a phone number for normalized lookup.
+    /// </summary>
     private static string NormalizePhone(string value) =>
         string.Concat(value.Where(char.IsDigit));
 
+    /// <summary>
+    /// Adds one message to a field's accumulated validation errors.
+    /// </summary>
     private static void AddError(
         Dictionary<string, List<string>> errors,
         string field,

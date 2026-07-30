@@ -5,6 +5,9 @@ using nsns_waiver.Models;
 
 namespace nsns_waiver.Repositories;
 
+/// <summary>
+/// Uses Dapper and parameterized SQL to persist complete waiver submissions.
+/// </summary>
 public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
 {
     internal const string InsertSubmissionSql = """
@@ -68,11 +71,17 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
 
     private readonly IDbConnectionFactory _connectionFactory;
 
+    /// <summary>
+    /// Creates the repository with the shared database connection factory.
+    /// </summary>
     public WaiverSubmissionRepository(IDbConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
     }
 
+    /// <summary>
+    /// Inserts a standalone submission and updates its generated database ID.
+    /// </summary>
     public async Task<ulong> InsertSubmissionAsync(
         WaiverSubmission submission,
         CancellationToken cancellationToken = default)
@@ -85,6 +94,9 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
         return id;
     }
 
+    /// <summary>
+    /// Inserts a standalone family member and updates its generated IDs.
+    /// </summary>
     public async Task<ulong> InsertFamilyMemberAsync(
         ulong submissionId,
         WaiverFamilyMember familyMember,
@@ -99,6 +111,9 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
         return id;
     }
 
+    /// <summary>
+    /// Loads a submission by the UUID reference shown to the customer.
+    /// </summary>
     public async Task<WaiverSubmission?> GetBySubmissionReferenceAsync(
         string submissionReference,
         CancellationToken cancellationToken = default)
@@ -112,6 +127,9 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
         return await connection.QuerySingleOrDefaultAsync<WaiverSubmission>(command);
     }
 
+    /// <summary>
+    /// Saves the waiver, family members, and outbox messages in one transaction.
+    /// </summary>
     public async Task<ulong> CreateSubmissionAsync(
         WaiverSubmission submission,
         IReadOnlyCollection<WaiverFamilyMember> familyMembers,
@@ -125,6 +143,7 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
 
         try
         {
+            // Nothing related to the waiver becomes visible unless every insert succeeds.
             var submissionId = await InsertSubmissionCoreAsync(
                 connection, transaction, submission, cancellationToken);
 
@@ -156,11 +175,15 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
         }
         catch
         {
+            // Ignore request cancellation while rolling back; database consistency wins.
             await transaction.RollbackAsync(CancellationToken.None);
             throw;
         }
     }
 
+    /// <summary>
+    /// Executes the submission insert with an optional transaction.
+    /// </summary>
     private static Task<ulong> InsertSubmissionCoreAsync(
         MySqlConnection connection,
         MySqlTransaction? transaction,
@@ -175,6 +198,9 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
         return connection.ExecuteScalarAsync<ulong>(command);
     }
 
+    /// <summary>
+    /// Executes the family-member insert with an optional transaction.
+    /// </summary>
     private static Task<ulong> InsertFamilyMemberCoreAsync(
         MySqlConnection connection,
         MySqlTransaction? transaction,
@@ -197,6 +223,9 @@ public sealed class WaiverSubmissionRepository : IWaiverSubmissionRepository
         return connection.ExecuteScalarAsync<ulong>(command);
     }
 
+    /// <summary>
+    /// Executes the outbox insert inside the submission transaction.
+    /// </summary>
     private static Task<ulong> InsertOutboxCoreAsync(
         MySqlConnection connection,
         MySqlTransaction transaction,

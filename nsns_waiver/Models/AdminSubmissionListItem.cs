@@ -1,5 +1,8 @@
 namespace nsns_waiver.Models;
 
+/// <summary>
+/// Read-only projection used to render one row in the admin submissions table.
+/// </summary>
 public sealed class AdminSubmissionListItem
 {
     public required string EventName { get; init; }

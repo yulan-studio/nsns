@@ -1,5 +1,8 @@
 namespace nsns_waiver.Options;
 
+/// <summary>
+/// Maps the configured administrator username and password.
+/// </summary>
 public sealed class AdminOptions
 {
     public const string SectionName = "Admin";
