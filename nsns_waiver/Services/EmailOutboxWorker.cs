@@ -3,12 +3,18 @@ using nsns_waiver.Options;
 
 namespace nsns_waiver.Services;
 
+/// <summary>
+/// Continuously polls and processes the email outbox while the application runs.
+/// </summary>
 public sealed class EmailOutboxWorker : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly EmailOptions _options;
     private readonly ILogger<EmailOutboxWorker> _logger;
 
+    /// <summary>
+    /// Creates the hosted worker and captures its polling configuration.
+    /// </summary>
     public EmailOutboxWorker(
         IServiceScopeFactory scopeFactory,
         IOptions<EmailOptions> options,
@@ -19,6 +25,9 @@ public sealed class EmailOutboxWorker : BackgroundService
         _logger = logger;
     }
 
+    /// <summary>
+    /// Runs the polling loop until application shutdown.
+    /// </summary>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         if (!_options.Enabled)
@@ -36,6 +45,7 @@ public sealed class EmailOutboxWorker : BackgroundService
         {
             try
             {
+                // The processor is scoped because it depends on scoped repositories.
                 using var scope = _scopeFactory.CreateScope();
                 var processor =
                     scope.ServiceProvider.GetRequiredService<EmailOutboxProcessor>();

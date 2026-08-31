@@ -1,5 +1,8 @@
 namespace nsns_waiver.Models;
 
+/// <summary>
+/// Represents an email queued for reliable background delivery.
+/// </summary>
 public sealed class EmailOutboxMessage
 {
     public ulong Id { get; set; }

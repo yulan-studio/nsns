@@ -1,5 +1,8 @@
 namespace nsns_waiver.Models;
 
+/// <summary>
+/// Represents one family member attached to a waiver submission.
+/// </summary>
 public sealed class WaiverFamilyMember
 {
     public ulong Id { get; set; }
