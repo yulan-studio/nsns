@@ -413,7 +413,7 @@ body {
 
   .section-heading-action .btn {
     width: 100%;
-    margin-left: 3.3rem !important;
+    margin-left: 0 !important;
   }
 
   .confirmation-shell {
