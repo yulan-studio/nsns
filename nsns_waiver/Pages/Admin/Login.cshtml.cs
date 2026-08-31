@@ -9,11 +9,17 @@ using nsns_waiver.Services;
 
 namespace nsns_waiver.Pages.Admin;
 
+/// <summary>
+/// Handles administrator sign-in and creation of the authentication cookie.
+/// </summary>
 [AllowAnonymous]
 public sealed class LoginModel : PageModel
 {
     private readonly IAdminCredentialValidator _credentialValidator;
 
+    /// <summary>
+    /// Creates the page with the configured credential validator.
+    /// </summary>
     public LoginModel(IAdminCredentialValidator credentialValidator)
     {
         _credentialValidator = credentialValidator;
@@ -25,6 +31,9 @@ public sealed class LoginModel : PageModel
     [BindProperty(SupportsGet = true)]
     public string? ReturnUrl { get; set; }
 
+    /// <summary>
+    /// Redirects an already authenticated administrator to submissions.
+    /// </summary>
     public IActionResult OnGet()
     {
         return User.Identity?.IsAuthenticated == true
@@ -32,6 +41,9 @@ public sealed class LoginModel : PageModel
             : Page();
     }
 
+    /// <summary>
+    /// Validates credentials, signs in, and redirects only to a local return URL.
+    /// </summary>
     public async Task<IActionResult> OnPostAsync()
     {
         if (!ModelState.IsValid)
@@ -52,11 +64,15 @@ public sealed class LoginModel : PageModel
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(identity));
 
+        // Local-only validation prevents an attacker from supplying an external redirect.
         return Url.IsLocalUrl(ReturnUrl)
             ? LocalRedirect(ReturnUrl)
             : RedirectToPage("/Admin/Submissions");
     }
 
+    /// <summary>
+    /// Represents credentials posted by the login form.
+    /// </summary>
     public sealed class LoginInput
     {
         [Required, StringLength(100)]

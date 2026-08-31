@@ -5,11 +5,17 @@ using nsns_waiver.Services;
 
 namespace nsns_waiver.Pages;
 
+/// <summary>
+/// Handles display and submission of the public event-waiver form.
+/// </summary>
 public sealed class IndexModel : PageModel
 {
     private readonly IWaiverSubmissionService _submissionService;
     private readonly IWaiverAgreementProvider _agreementProvider;
 
+    /// <summary>
+    /// Creates the page with event/submission logic and agreement-file access.
+    /// </summary>
     public IndexModel(
         IWaiverSubmissionService submissionService,
         IWaiverAgreementProvider agreementProvider)
@@ -25,6 +31,9 @@ public sealed class IndexModel : PageModel
     public string AgreementHtml { get; private set; } = string.Empty;
     public bool AgreementIsApproved { get; private set; }
 
+    /// <summary>
+    /// Resolves the event query parameter and loads the current waiver agreement.
+    /// </summary>
     public async Task OnGetAsync(
         [FromQuery(Name = "event")] string? eventCode,
         CancellationToken cancellationToken)
@@ -34,6 +43,9 @@ public sealed class IndexModel : PageModel
         await LoadAgreementAsync(cancellationToken);
     }
 
+    /// <summary>
+    /// Validates page state, maps form input, submits the waiver, and redirects.
+    /// </summary>
     public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
     {
         Event = _submissionService.FindEvent(Input.EventCode);
@@ -100,6 +112,7 @@ public sealed class IndexModel : PageModel
                 request,
                 cancellationToken);
 
+            // TempData carries confirmation details across the redirect without a query string.
             TempData[nameof(ConfirmationModel.SubmissionReference)] =
                 result.SubmissionReference;
             TempData[nameof(ConfirmationModel.EventName)] = result.EventName;
@@ -123,6 +136,9 @@ public sealed class IndexModel : PageModel
         }
     }
 
+    /// <summary>
+    /// Loads the agreement HTML and whether it is approved for submissions.
+    /// </summary>
     private async Task LoadAgreementAsync(CancellationToken cancellationToken)
     {
         var agreement = await _agreementProvider.GetAsync(cancellationToken);
@@ -130,6 +146,9 @@ public sealed class IndexModel : PageModel
         AgreementIsApproved = agreement.IsApproved;
     }
 
+    /// <summary>
+    /// Represents fields posted by the main waiver form.
+    /// </summary>
     public sealed class WaiverInput
     {
         [Required]
@@ -161,11 +180,14 @@ public sealed class IndexModel : PageModel
         public bool Agreed { get; set; }
 
         [Display(Name = "Media release")]
-        public bool MediaReleaseAgreed { get; set; } = true;
+        public bool MediaReleaseAgreed { get; set; }
 
         public List<FamilyMemberInput> FamilyMembers { get; set; } = [];
     }
 
+    /// <summary>
+    /// Represents one repeatable family-member section in the form.
+    /// </summary>
     public sealed class FamilyMemberInput
     {
         [Required, StringLength(100)]

@@ -4,15 +4,24 @@ using nsns_waiver.Models;
 
 namespace nsns_waiver.Repositories;
 
+/// <summary>
+/// Reads the capped, paginated submission list used by administrators.
+/// </summary>
 public sealed class AdminSubmissionRepository : IAdminSubmissionRepository
 {
     private readonly IDbConnectionFactory _connectionFactory;
 
+    /// <summary>
+    /// Creates the repository with the shared database connection factory.
+    /// </summary>
     public AdminSubmissionRepository(IDbConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
     }
 
+    /// <summary>
+    /// Returns one sorted page from the 200 newest submissions.
+    /// </summary>
     public async Task<IReadOnlyList<AdminSubmissionListItem>> GetRecentAsync(
         AdminSubmissionSort sort,
         bool descending,
@@ -20,6 +29,7 @@ public sealed class AdminSubmissionRepository : IAdminSubmissionRepository
         int limit,
         CancellationToken cancellationToken = default)
     {
+        // Map the enum to a fixed SQL fragment; never accept a raw column from the URL.
         var orderColumn = sort switch
         {
             AdminSubmissionSort.EventName => "s.event_name",
@@ -79,6 +89,9 @@ public sealed class AdminSubmissionRepository : IAdminSubmissionRepository
         return submissions.AsList();
     }
 
+    /// <summary>
+    /// Counts submissions without exceeding the admin area's display cap.
+    /// </summary>
     public async Task<int> CountRecentAsync(
         int maximum,
         CancellationToken cancellationToken = default)

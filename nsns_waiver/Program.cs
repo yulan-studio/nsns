@@ -6,10 +6,12 @@ using nsns_waiver.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure concise application logging for both deployed and local environments.
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
+// Register Razor Pages and cookie authentication for the protected admin area.
 builder.Services.AddRazorPages();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -24,12 +26,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 builder.Services.AddAuthorization();
+
+// Bind strongly typed settings from appsettings and environment variables.
 builder.Services.Configure<WaiverOptions>(
     builder.Configuration.GetSection(WaiverOptions.SectionName));
 builder.Services.Configure<EmailOptions>(
     builder.Configuration.GetSection(EmailOptions.SectionName));
 builder.Services.Configure<AdminOptions>(
     builder.Configuration.GetSection(AdminOptions.SectionName));
+
+// Register the clock, data access, business services, email transport, and worker.
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddSingleton<IDbConnectionFactory, MySqlConnectionFactory>();
 builder.Services.AddScoped<IWaiverSubmissionRepository, WaiverSubmissionRepository>();
@@ -44,6 +50,7 @@ builder.Services.AddHostedService<EmailOutboxWorker>();
 
 var app = builder.Build();
 
+// Production requests use a friendly error page, HSTS, and HTTPS redirection.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -54,9 +61,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseRouting();
 
+// Authentication must run before authorization evaluates protected pages.
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Serve static assets and map every Razor Page endpoint.
 app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();

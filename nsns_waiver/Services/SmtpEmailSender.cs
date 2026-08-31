@@ -6,15 +6,24 @@ using nsns_waiver.Options;
 
 namespace nsns_waiver.Services;
 
+/// <summary>
+/// Sends queued HTML emails through the configured SMTP server.
+/// </summary>
 public sealed class SmtpEmailSender : IEmailSender
 {
     private readonly EmailOptions _options;
 
+    /// <summary>
+    /// Creates the sender from the Email configuration section.
+    /// </summary>
     public SmtpEmailSender(IOptions<EmailOptions> options)
     {
         _options = options.Value;
     }
 
+    /// <summary>
+    /// Validates configuration, creates an HTML message, and sends it through SMTP.
+    /// </summary>
     public async Task SendAsync(
         EmailOutboxMessage message,
         CancellationToken cancellationToken = default)
@@ -45,6 +54,9 @@ public sealed class SmtpEmailSender : IEmailSender
         await smtpClient.SendMailAsync(mailMessage, cancellationToken);
     }
 
+    /// <summary>
+    /// Fails fast when required SMTP settings or the sender address are invalid.
+    /// </summary>
     private void ValidateConfiguration()
     {
         if (string.IsNullOrWhiteSpace(_options.Smtp.Host)

@@ -4,6 +4,9 @@ using nsns_waiver.Repositories;
 
 namespace nsns_waiver.Services;
 
+/// <summary>
+/// Delivers one batch of queued emails and records success or retry state.
+/// </summary>
 public sealed class EmailOutboxProcessor
 {
     private readonly IEmailOutboxRepository _repository;
@@ -12,6 +15,9 @@ public sealed class EmailOutboxProcessor
     private readonly TimeProvider _timeProvider;
     private readonly ILogger<EmailOutboxProcessor> _logger;
 
+    /// <summary>
+    /// Creates the processor with its repository, sender, options, clock, and logger.
+    /// </summary>
     public EmailOutboxProcessor(
         IEmailOutboxRepository repository,
         IEmailSender sender,
@@ -26,6 +32,9 @@ public sealed class EmailOutboxProcessor
         _logger = logger;
     }
 
+    /// <summary>
+    /// Sends all currently eligible messages up to the configured batch size.
+    /// </summary>
     public async Task<int> ProcessBatchAsync(
         CancellationToken cancellationToken = default)
     {
@@ -58,6 +67,7 @@ public sealed class EmailOutboxProcessor
                 var attemptedAtUtc = _timeProvider.GetUtcNow().UtcDateTime;
                 var maximumAttempts = Math.Clamp(_options.MaximumAttempts, 1, 20);
                 var nextAttemptNumber = message.AttemptCount + 1;
+                // Exponential backoff is capped at 64 minutes; null abandons the message.
                 DateTime? nextAttemptAtUtc = nextAttemptNumber >= maximumAttempts
                     ? null
                     : attemptedAtUtc.AddMinutes(
