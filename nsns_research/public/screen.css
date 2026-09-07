@@ -46,3 +46,35 @@
   opacity: 0;
   pointer-events: none;
 }
+
+.evidence-summary strong small {
+  margin-left: 5px;
+  color: var(--muted);
+  font: 600 12px Inter, "Microsoft YaHei", sans-serif;
+}
+
+.pane[data-pane="4"] .cards {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.evidence-summary ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.evidence-classification {
+  margin-top: 22px;
+}
+
+.evidence-classification > p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.evidence-classification select {
+  min-width: 145px;
+  margin: 0;
+}
