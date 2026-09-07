@@ -1,0 +1,10 @@
+{
+  "name": "neurodiversity-research-assistant",
+  "version": "0.1.0",
+  "private": true,
+  "description": "自闭症及神经多样性儿童干预研究论文助手 MVP",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  }
+}
