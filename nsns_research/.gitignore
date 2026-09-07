@@ -5,3 +5,8 @@ outputs/
 *.log
 .env
 .env.*
+
+# Required application and Railway configuration files.
+# The repository-level .gitignore excludes *.json, so explicitly keep these.
+!package.json
+!railway.json
