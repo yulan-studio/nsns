@@ -1,4 +1,4 @@
-# Railway 部署说明（暂不使用持久化存储）
+# Railway 部署与 Cloudflare R2 PDF 存储
 
 ## 部署前提
 
@@ -16,7 +16,28 @@
 5. 进入服务 **Settings** → **Networking** → **Generate Domain**。
 6. 打开生成的 `https://...up.railway.app` 地址。
 
-本阶段不需要设置 `PORT`、`HOST`、`PYTHON_BIN` 或 `DATA_DIR`；Dockerfile 和 Railway 会提供默认值。
+不需要设置 `PORT`、`HOST`、`PYTHON_BIN` 或 `DATA_DIR`；Dockerfile 和 Railway 会提供默认值。
+
+## 使用 Cloudflare R2 永久保存 PDF
+
+先在 Cloudflare R2 创建一个私有 Bucket，并创建仅允许该 Bucket **Object Read & Write** 的 R2 S3 API Token。然后在 Railway 服务的 **Variables** 中添加：
+
+```text
+R2_ACCOUNT_ID=Cloudflare Account ID
+R2_ACCESS_KEY_ID=R2 Token 的 Access Key ID
+R2_SECRET_ACCESS_KEY=R2 Token 的 Secret Access Key
+R2_BUCKET_NAME=Bucket 名称
+```
+
+四项必须同时存在。保存变量后 Railway 会重新部署。打开：
+
+```text
+https://你的域名/health
+```
+
+看到 `"pdf_storage": "cloudflare-r2"` 表示连接方式已启用。之后上传的 PDF 会先在 Railway 临时目录解析，再写入私有 R2；网页仍通过 `/api/uploads/...` 打开文件，不会暴露 R2 密钥或公开 Bucket。
+
+旧的本地 PDF 不会自动迁移到 R2，需要重新上传。请勿上传包含可识别儿童身份的数据。
 
 ## 使用 Railway CLI 部署
 
@@ -30,7 +51,7 @@ railway up
 
 然后在 Railway 服务的 Networking 中生成公开域名。
 
-## 临时存储的重要限制
+## 未配置 R2 时的临时存储限制
 
 - 上传的 PDF 和服务器保存的检索 JSON 位于临时文件系统。
 - 重新部署、容器替换或服务重启后，这些文件可能消失。
