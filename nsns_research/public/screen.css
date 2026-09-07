@@ -3,6 +3,10 @@
   text-decoration: none;
 }
 
+.pane[data-pane="3"] > .upload {
+  display: none;
+}
+
 #studyRows a:hover,
 #studyRows a:focus {
   text-decoration: underline;
