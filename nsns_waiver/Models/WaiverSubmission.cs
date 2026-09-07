@@ -1,5 +1,8 @@
 namespace nsns_waiver.Models;
 
+/// <summary>
+/// Represents the primary waiver record stored in waiver_submissions.
+/// </summary>
 public sealed class WaiverSubmission
 {
     public ulong Id { get; set; }
@@ -15,6 +18,7 @@ public sealed class WaiverSubmission
     public required string NormalizedPhone { get; init; }
     public required string SignatureName { get; init; }
     public bool Agreed { get; init; }
+    public bool MediaReleaseAgreed { get; init; }
     public DateTime SignedAtUtc { get; init; }
     public string? IpAddress { get; init; }
     public string? UserAgent { get; init; }

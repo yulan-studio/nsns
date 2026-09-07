@@ -2,10 +2,16 @@ using MySqlConnector;
 
 namespace nsns_waiver.Data;
 
+/// <summary>
+/// Validates the configured MySQL connection string and opens UTC-aware connections.
+/// </summary>
 public sealed class MySqlConnectionFactory : IDbConnectionFactory
 {
     private readonly string _connectionString;
 
+    /// <summary>
+    /// Reads and validates ConnectionStrings:Default once during construction.
+    /// </summary>
     public MySqlConnectionFactory(IConfiguration configuration)
     {
         var configuredConnectionString = configuration.GetConnectionString("Default")
@@ -26,6 +32,9 @@ public sealed class MySqlConnectionFactory : IDbConnectionFactory
         _connectionString = builder.ConnectionString;
     }
 
+    /// <summary>
+    /// Opens a new MySQL connection and disposes it if opening fails.
+    /// </summary>
     public async Task<MySqlConnection> OpenConnectionAsync(
         CancellationToken cancellationToken = default)
     {

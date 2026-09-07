@@ -4,6 +4,9 @@ using nsns_waiver.Models;
 
 namespace nsns_waiver.Repositories;
 
+/// <summary>
+/// Stores email delivery state and retry scheduling in MySQL.
+/// </summary>
 public sealed class EmailOutboxRepository : IEmailOutboxRepository
 {
     internal const string InsertSql = """
@@ -65,11 +68,17 @@ public sealed class EmailOutboxRepository : IEmailOutboxRepository
 
     private readonly IDbConnectionFactory _connectionFactory;
 
+    /// <summary>
+    /// Creates the repository with the shared database connection factory.
+    /// </summary>
     public EmailOutboxRepository(IDbConnectionFactory connectionFactory)
     {
         _connectionFactory = connectionFactory;
     }
 
+    /// <summary>
+    /// Queues one message and updates its generated database ID.
+    /// </summary>
     public async Task<ulong> InsertAsync(
         EmailOutboxMessage message,
         CancellationToken cancellationToken = default)
@@ -85,6 +94,9 @@ public sealed class EmailOutboxRepository : IEmailOutboxRepository
         return id;
     }
 
+    /// <summary>
+    /// Loads pending messages and failed messages whose retry time has arrived.
+    /// </summary>
     public async Task<IReadOnlyList<EmailOutboxMessage>> GetPendingAsync(
         int limit,
         DateTime asOfUtc,
@@ -105,6 +117,9 @@ public sealed class EmailOutboxRepository : IEmailOutboxRepository
         return messages.AsList();
     }
 
+    /// <summary>
+    /// Marks a message sent and clears any previous error.
+    /// </summary>
     public async Task MarkSentAsync(
         ulong id,
         DateTime sentAtUtc,
@@ -119,6 +134,9 @@ public sealed class EmailOutboxRepository : IEmailOutboxRepository
         await connection.ExecuteAsync(command);
     }
 
+    /// <summary>
+    /// Marks a message failed, or abandoned when no next retry is supplied.
+    /// </summary>
     public async Task MarkFailedAsync(
         ulong id,
         string safeErrorSummary,

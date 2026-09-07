@@ -61,6 +61,19 @@ For deployed environments, the equivalent keys include
 `Waiver__Events__summer-camp-2026`. Keep real addresses in environment-specific
 configuration rather than committing them to source control.
 
+## Boss submission page
+
+The protected submission page is available at `/Admin/Submissions`. Configure
+its credentials locally with User Secrets:
+
+```powershell
+dotnet user-secrets set "Admin:Username" "boss"
+dotnet user-secrets set "Admin:Password" "<a-strong-local-password>"
+```
+
+For Railway, use the `Admin__Username` and `Admin__Password` environment
+variables. Do not put real admin credentials in `appsettings.json`.
+
 ## Database migration
 
 The application does not create or update its schema during web requests. From the

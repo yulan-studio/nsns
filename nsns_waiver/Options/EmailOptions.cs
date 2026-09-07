@@ -1,5 +1,8 @@
 namespace nsns_waiver.Options;
 
+/// <summary>
+/// Maps email worker, retry, sender, and SMTP configuration.
+/// </summary>
 public sealed class EmailOptions
 {
     public const string SectionName = "Email";
@@ -13,6 +16,9 @@ public sealed class EmailOptions
     public SmtpOptions Smtp { get; set; } = new();
 }
 
+/// <summary>
+/// Maps the SMTP server credentials and transport settings.
+/// </summary>
 public sealed class SmtpOptions
 {
     public string Host { get; set; } = string.Empty;

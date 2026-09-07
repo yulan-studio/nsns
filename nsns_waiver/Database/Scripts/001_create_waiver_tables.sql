@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS waiver_submissions (
     normalized_phone VARCHAR(40) NOT NULL,
     signature_name VARCHAR(200) NOT NULL,
     agreed BOOLEAN NOT NULL,
+    media_release_agreed BOOLEAN NOT NULL DEFAULT TRUE,
     signed_at_utc DATETIME(6) NOT NULL,
     ip_address VARCHAR(45) NULL,
     user_agent VARCHAR(500) NULL,

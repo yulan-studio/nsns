@@ -21,5 +21,8 @@
     <None Include="..\Data\Migrations\001_create_waiver_tables.sql"
           Link="001_create_waiver_tables.sql"
           CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Data\Migrations\002_add_media_release_agreed.sql"
+          Link="002_add_media_release_agreed.sql"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
