@@ -18,6 +18,17 @@
 
 不需要设置 `PORT`、`HOST`、`PYTHON_BIN` 或 `DATA_DIR`；Dockerfile 和 Railway 会提供默认值。
 
+## 配置登录
+
+在Railway服务的 **Variables** 中设置以下变量，然后重新部署：
+
+```text
+AUTH_USERNAME=nsns
+AUTH_PASSWORD=请设置为约定的密码
+```
+
+密码只保存在Railway环境变量中，不要提交到GitHub。生产环境未配置这两个变量时，网站不会允许登录。会话保存在当前服务进程中，有效期12小时；Railway重启或重新部署后需要重新登录。
+
 ## 使用 Cloudflare R2 永久保存 PDF
 
 先在 Cloudflare R2 创建一个私有 Bucket，并创建仅允许该 Bucket **Object Read & Write** 的 R2 S3 API Token。然后在 Railway 服务的 **Variables** 中添加：

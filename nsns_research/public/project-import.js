@@ -8,7 +8,11 @@ const importInput = document.createElement('input');
 importInput.type = 'file';
 importInput.accept = '.json,application/json';
 importInput.hidden = true;
-document.querySelector('#resetProject').before(exportButton, importButton, importInput);
+const logoutButton = document.createElement('button');
+logoutButton.className = 'ghost';
+logoutButton.textContent = '退出登录';
+document.querySelector('#resetProject').before(exportButton, importButton, importInput, logoutButton);
+logoutButton.onclick = async () => { await fetch('/api/logout', { method: 'POST' }); location.replace('/login'); };
 
 function exportProjectRecord() {
   const record = {
