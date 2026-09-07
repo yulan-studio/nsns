@@ -18,14 +18,18 @@ def main():
     pages = []
     for page in reader.pages:
         pages.append(page.extract_text() or "")
-    text = "\n".join(pages).strip()
+    plain_text = "\n".join(pages).strip()
+    text = "\n".join(
+        f"[[PDF_PAGE:{number}]]\n{page_text}"
+        for number, page_text in enumerate(pages, start=1)
+    ).strip()
     meta = reader.metadata or {}
     print(json.dumps({
         "filename": path.name,
         "pages": len(reader.pages),
         "title": str(meta.get("/Title") or "").strip(),
         "text": text[:300000],
-        "text_length": len(text),
+        "text_length": len(plain_text),
     }, ensure_ascii=False))
 
 

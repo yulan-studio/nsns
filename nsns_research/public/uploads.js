@@ -9,8 +9,138 @@ document.querySelector('#files').onchange = async event => {
   }
 };
 
+const evidenceFields = [
+  ['population', '研究对象', /participant|children|adolesc|autis|asd\b/i],
+  ['intervention', '干预方案', /exercise|physical activity|training|week|session|aerobic|sport|yoga|swim/i],
+  ['outcomes', '量表与结局', /anxi|depress|emotion|behavio|well-being|quality of life|scale|questionnaire/i],
+  ['results', '研究结果', /result|significant|p\s*[<=>]|confidence interval|effect size|improv|decreas/i],
+  ['missing', '缺失数据', /dropout|attrition|lost to follow|missing data|withdraw/i],
+  ['adverse', '不良事件', /adverse|safety|injur|harm/i]
+];
+
+evidenceSnippets = function traceableEvidenceSnippets(text) {
+  const marked = String(text || '');
+  const pageMatches = [...marked.matchAll(/\[\[PDF_PAGE:(\d+)\]\]\s*([\s\S]*?)(?=\[\[PDF_PAGE:\d+\]\]|$)/g)];
+  const sources = pageMatches.length
+    ? pageMatches.map(match => ({ page: `PDF第${match[1]}页`, text: match[2] }))
+    : [{ page: '网页全文（无PDF页码）', text: marked }];
+  const result = { _evidence: {} };
+
+  evidenceFields.forEach(([key, label, pattern]) => {
+    const matches = [];
+    sources.forEach(source => {
+      source.text.split(/(?<=[.!?。！？])\s+/).forEach(sentence => {
+        const clean = sentence.replace(/\s+/g, ' ').trim();
+        if (clean.length > 30 && clean.length < 700 && pattern.test(clean) && matches.length < 2) matches.push({ page: source.page, quote: clean });
+      });
+    });
+    const fallback = key === 'missing' ? '未自动定位；不能解释为没有缺失' : key === 'adverse' ? '未自动定位；不能解释为没有不良事件' : '原文中未自动定位';
+    result[key] = matches.map(item => item.quote).join(' ') || fallback;
+    result._evidence[key] = {
+      label,
+      page: matches.map(item => item.page).filter((value, index, all) => all.indexOf(value) === index).join('、') || (pageMatches.length ? 'PDF页码未定位' : '网页全文（无PDF页码）'),
+      quote: matches.map(item => item.quote).join(' ') || '没有自动定位到可引用片段，请人工查看全文。',
+      status: '待人工确认',
+      confirmedAt: null
+    };
+  });
+  return result;
+};
+
+function ensureEvidenceTrace(study) {
+  if (!study.fullText) return null;
+  if (!study.fullText._evidence) {
+    study.fullText._evidence = {};
+    evidenceFields.forEach(([key, label]) => {
+      study.fullText._evidence[key] = {
+        label,
+        page: study.uploadedName ? '旧解析记录无页码，请重新上传PDF或人工定位' : '网页全文（无PDF页码）',
+        quote: study.fullText[key] || '没有自动定位到可引用片段，请人工查看全文。',
+        status: '待人工确认',
+        confirmedAt: null
+      };
+    });
+  }
+  return study.fullText._evidence;
+}
+
+function evidenceResolved(item) {
+  return ['已人工确认', '人工修正', '原文未报告'].includes(item?.status);
+}
+
+function pdfPageNumber(item) {
+  return Number((item?.page?.match(/PDF第(\d+)页/) || [])[1]) || 1;
+}
+
+function renderEvidenceTrace(row, study, studyIndex) {
+  const details = row.querySelector('details');
+  const trace = details && ensureEvidenceTrace(study);
+  if (!trace || row.nextElementSibling?.classList.contains('evidence-trace-row')) return;
+  const panel = document.createElement('section');
+  panel.className = 'evidence-trace';
+  const confirmed = Object.values(trace).filter(evidenceResolved).length;
+  const pdfAvailable = String(study.fullTextUrl || '').startsWith('/api/uploads/');
+  const initialPage = pdfPageNumber(trace.population);
+  const fieldHtml = evidenceFields.map(([key, label]) => {
+    const item = trace[key];
+    const resolved = evidenceResolved(item);
+    const page = pdfPageNumber(item);
+    const pageLabel = pdfAvailable && /PDF第\d+页/.test(item.page)
+      ? `<button class="page-link" type="button" data-pdf-page="${page}">${esc(item.page)}</button>`
+      : `<span>${esc(item.page)}</span>`;
+    return `<details class="trace-item" ${resolved ? '' : 'open'}><summary><strong>${label}</strong><span class="badge ${resolved ? '' : 'warn'}">${esc(item.status)}</span></summary><div class="trace-body"><div class="trace-location">${pageLabel}</div><blockquote>${esc(item.quote)}</blockquote>${item.originalQuote ? `<details class="original-extract"><summary>查看原自动提取内容</summary><p>${esc(item.originalQuote)}</p></details>` : ''}<div class="trace-actions">${resolved ? `<small>处理时间：${esc(item.confirmedAt || '已记录')}</small>` : `<button type="button" data-confirm-extract="${key}" data-study="${studyIndex}">与原文一致</button><button type="button" class="ghost" data-correct-extract="${key}" data-study="${studyIndex}">内容不正确</button><button type="button" class="ghost" data-not-reported="${key}" data-study="${studyIndex}">原文未报告</button>`}</div></div></details>`;
+  }).join('');
+  const viewer = pdfAvailable
+    ? `<iframe class="pdf-viewer" title="${esc(study.name)} PDF全文" src="${esc(study.fullTextUrl)}#page=${initialPage}"></iframe>`
+    : `<div class="pdf-unavailable"><strong>当前来源不是已上传PDF</strong><p>PMC网页全文没有固定PDF页码。请在新标签打开原文核对。</p>${study.fullTextUrl ? `<a href="${esc(study.fullTextUrl)}" target="_blank" rel="noopener">打开全文</a>` : ''}</div>`;
+  panel.innerHTML = `<div class="trace-heading"><div><h4>全文提取核对（${confirmed}/${evidenceFields.length}项已处理）</h4><p>左侧查看全文，右侧逐项核对。已处理项目自动折叠。</p></div><button type="button" data-confirm-descriptive="${studyIndex}">本页全部确认（仅描述性3项）</button></div><div class="trace-workspace"><div class="trace-document">${viewer}</div><div class="trace-fields">${fieldHtml}</div></div>`;
+  const traceRow = document.createElement('tr');
+  traceRow.className = 'evidence-trace-row';
+  traceRow.hidden = !details.open;
+  const traceCell = document.createElement('td');
+  traceCell.colSpan = 6;
+  traceCell.append(panel);
+  traceRow.append(traceCell);
+  row.after(traceRow);
+  details.addEventListener('toggle', () => { traceRow.hidden = !details.open; });
+
+  panel.querySelectorAll('[data-pdf-page]').forEach(button => button.onclick = () => {
+    const viewerFrame = panel.querySelector('.pdf-viewer');
+    if (viewerFrame) viewerFrame.src = `${study.fullTextUrl}#page=${button.dataset.pdfPage}`;
+  });
+  panel.querySelector('[data-confirm-descriptive]').onclick = () => {
+    ['population', 'intervention', 'outcomes'].forEach(key => {
+      const item = trace[key];
+      if (!evidenceResolved(item)) { item.status = '已人工确认'; item.confirmedAt = new Date().toISOString(); }
+    });
+    save(); rows();
+  };
+  panel.querySelectorAll('[data-confirm-extract]').forEach(button => button.onclick = () => {
+    const target = trace[button.dataset.confirmExtract];
+    target.status = '已人工确认'; target.confirmedAt = new Date().toISOString();
+    save(); rows();
+  });
+  panel.querySelectorAll('[data-correct-extract]').forEach(button => button.onclick = () => {
+    const key = button.dataset.correctExtract; const target = trace[key];
+    const correction = prompt('请输入根据原文核对后的正确内容：', target.quote);
+    if (!correction?.trim()) return;
+    target.originalQuote ||= target.quote; target.quote = correction.trim(); target.status = '人工修正'; target.confirmedAt = new Date().toISOString();
+    study.fullText[key] = correction.trim();
+    save(); rows();
+  });
+  panel.querySelectorAll('[data-not-reported]').forEach(button => button.onclick = () => {
+    const key = button.dataset.notReported; const target = trace[key];
+    if (!confirm('确认您已查看全文，并确认该项在原文中未报告？')) return;
+    target.originalQuote ||= target.quote; target.quote = '原文未报告（研究者确认）'; target.status = '原文未报告'; target.confirmedAt = new Date().toISOString();
+    study.fullText[key] = '原文未报告';
+    save(); rows();
+  });
+}
+
 function placeRowUploadLinks() {
   document.querySelectorAll('#studyRows tr').forEach(row => {
+    const studyIndex = Number(row.dataset.studyI);
+    if (Number.isInteger(studyIndex)) renderEvidenceTrace(row, state.studies[studyIndex], studyIndex);
     const upload = row.querySelector('.row-upload');
     if (!upload) return;
 

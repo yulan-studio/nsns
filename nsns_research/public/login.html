@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>登录 · 神经多样性儿童研究论文助手</title>
+  <style>
+    :root{--ink:#18342f;--green:#176b5f;--paper:#f4f1e9;--card:#fffefa;--line:#d8d2c6;--muted:#687773}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(145deg,#112e29 0 38%,var(--paper) 38%);color:var(--ink);font-family:Inter,"Microsoft YaHei",sans-serif}.login{width:min(430px,100%);padding:34px;background:var(--card);border:1px solid var(--line);box-shadow:0 18px 55px #0d292238}.eyebrow{color:var(--green);font-size:12px;font-weight:700;letter-spacing:.1em}.login h1{margin:8px 0 10px;font:700 30px/1.2 Georgia,"Noto Serif SC",serif}.login>p{margin:0 0 24px;color:var(--muted);line-height:1.6}label{display:block;margin:16px 0;font-weight:700}input{width:100%;margin-top:7px;padding:12px;border:1px solid #9ca7a3;border-radius:3px;font:inherit}button{width:100%;margin-top:8px;padding:12px;border:0;border-radius:3px;background:var(--green);color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.6;cursor:wait}#status{min-height:24px;margin:14px 0 0;color:#873b28;font-size:14px}.note{padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <main class="login">
+    <span class="eyebrow">研究资料受保护</span>
+    <h1>登录研究论文助手</h1>
+    <p>登录后才能访问项目记录和已上传的论文全文。</p>
+    <form id="loginForm">
+      <label>用户名<input id="username" autocomplete="username" required autofocus></label>
+      <label>密码<input id="password" type="password" autocomplete="current-password" required></label>
+      <button id="submit" type="submit">登录</button>
+      <p id="status" role="alert"></p>
+    </form>
+    <p class="note">请勿上传可识别儿童身份的数据。公共设备使用后请退出登录。</p>
+  </main>
+  <script>
+    loginForm.onsubmit=async event=>{event.preventDefault();submit.disabled=true;status.textContent='正在登录…';try{const response=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:username.value,password:password.value})});const result=await response.json();if(!response.ok)throw Error(result.error||'登录失败');location.replace('/')}catch(error){status.textContent=error.message;submit.disabled=false}};
+  </script>
+</body>
+</html>
