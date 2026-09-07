@@ -2,6 +2,7 @@ process.env.AUTH_USERNAME = 'test-user';
 process.env.AUTH_PASSWORD = 'test-only-password';
 const test=require('node:test');const assert=require('node:assert/strict');const path=require('path');const {safeFile}=require('../server');
 test('serves index safely',()=>assert.equal(path.basename(safeFile('/')),'index.html'));
+test('serves the web user guide safely',()=>assert.equal(path.basename(safeFile('/user-guide.html')),'user-guide.html'));
 test('blocks traversal',()=>assert.equal(safeFile('/../server.js'),null));
 
 test('requires login and accepts configured local credentials', async () => {

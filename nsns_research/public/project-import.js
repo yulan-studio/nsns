@@ -11,7 +11,11 @@ importInput.hidden = true;
 const logoutButton = document.createElement('button');
 logoutButton.className = 'ghost';
 logoutButton.textContent = '退出登录';
-document.querySelector('#resetProject').before(exportButton, importButton, importInput, logoutButton);
+const guideButton = document.createElement('button');
+guideButton.className = 'ghost';
+guideButton.textContent = '使用说明';
+guideButton.onclick = () => window.open('/user-guide.html', '_blank', 'noopener');
+document.querySelector('#resetProject').before(guideButton, exportButton, importButton, importInput, logoutButton);
 logoutButton.onclick = async () => { await fetch('/api/logout', { method: 'POST' }); location.replace('/login'); };
 
 function exportProjectRecord() {
