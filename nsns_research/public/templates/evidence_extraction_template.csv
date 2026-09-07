@@ -1,0 +1,2 @@
+record_id,pmid,doi,citation,title,access_level,evidence_class,source_location,verbatim_support,population,design,sample_size,intervention,comparator,outcome,timepoint,effect_measure,effect_value,ci_lower,ci_upper,p_value,missing_data,adverse_events,reviewer,verification_status,notes
+SYNTHETIC_DEMO,,,,Synthetic placeholder,abstract_only,direct,abstract,,,,,,,,,,,,,,,,,unverified,Delete this synthetic row before real use

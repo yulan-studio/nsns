@@ -1,0 +1,2 @@
+study_id,analysis_population,arm,timepoint,outcome,outcome_type,n_analyzed,estimate,estimate_type,ci_lower,ci_upper,ci_level,p_value,unit,missing_n,missing_method,adverse_events_n,source_file,source_page_or_table,verification_status,notes
+SYNTHETIC_DEMO,ITT,Support intervention,12_weeks,Participation score,continuous,40,,,,,95,,,,,,,synthetic_example,NA,unverified,Delete this synthetic row before real use
