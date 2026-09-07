@@ -1,6 +1,8 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+const { Readable } = require('stream');
 const { URL } = require('url');
 const { execFile } = require('child_process');
 
@@ -23,6 +25,65 @@ function safeFile(urlPath) {
   return full.startsWith(PUBLIC + path.sep) || full === path.join(PUBLIC, 'index.html') ? full : null;
 }
 function stamp() { return new Date().toISOString().replace(/[:.]/g, '-'); }
+
+function r2Config() {
+  const accountId = process.env.R2_ACCOUNT_ID;
+  const accessKeyId = process.env.R2_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.R2_SECRET_ACCESS_KEY;
+  const bucket = process.env.R2_BUCKET_NAME;
+  const supplied = [accountId, accessKeyId, secretAccessKey, bucket].filter(Boolean).length;
+  return { enabled: supplied === 4, incomplete: supplied > 0 && supplied < 4, accountId, accessKeyId, secretAccessKey, bucket };
+}
+
+function sha256(value) { return crypto.createHash('sha256').update(value).digest('hex'); }
+function hmac(key, value, encoding) { return crypto.createHmac('sha256', key).update(value).digest(encoding); }
+function r2ObjectUrl(config, key) {
+  const objectPath = key.split('/').map(encodeURIComponent).join('/');
+  return new URL(`https://${config.accountId}.r2.cloudflarestorage.com/${encodeURIComponent(config.bucket)}/${objectPath}`);
+}
+function signedR2Request(method, key, body) {
+  const config = r2Config();
+  if (!config.enabled) throw new Error(config.incomplete ? 'R2环境变量配置不完整' : 'R2尚未配置');
+  const url = r2ObjectUrl(config, key);
+  const now = new Date();
+  const amzDate = now.toISOString().replace(/[:-]|\.\d{3}/g, '');
+  const date = amzDate.slice(0, 8);
+  const payloadHash = sha256(body || Buffer.alloc(0));
+  const canonicalHeaders = `host:${url.host}\nx-amz-content-sha256:${payloadHash}\nx-amz-date:${amzDate}\n`;
+  const signedHeaders = 'host;x-amz-content-sha256;x-amz-date';
+  const canonicalRequest = [method, url.pathname, '', canonicalHeaders, signedHeaders, payloadHash].join('\n');
+  const scope = `${date}/auto/s3/aws4_request`;
+  const stringToSign = ['AWS4-HMAC-SHA256', amzDate, scope, sha256(canonicalRequest)].join('\n');
+  const dateKey = hmac(`AWS4${config.secretAccessKey}`, date);
+  const regionKey = hmac(dateKey, 'auto');
+  const serviceKey = hmac(regionKey, 's3');
+  const signingKey = hmac(serviceKey, 'aws4_request');
+  const signature = hmac(signingKey, stringToSign, 'hex');
+  return {
+    url,
+    options: {
+      method,
+      headers: {
+        Authorization: `AWS4-HMAC-SHA256 Credential=${config.accessKeyId}/${scope}, SignedHeaders=${signedHeaders}, Signature=${signature}`,
+        'x-amz-content-sha256': payloadHash,
+        'x-amz-date': amzDate,
+        ...(body ? { 'Content-Type': 'application/pdf', 'Content-Length': String(body.length) } : {})
+      },
+      ...(body ? { body } : {})
+    }
+  };
+}
+
+async function putPdfInR2(filename, body) {
+  const request = signedR2Request('PUT', `pdf/${filename}`, body);
+  const response = await fetch(request.url, request.options);
+  if (!response.ok) throw new Error(`R2上传失败（HTTP ${response.status}）`);
+}
+
+async function getPdfFromR2(filename, method) {
+  const request = signedR2Request(method, `pdf/${filename}`);
+  return fetch(request.url, request.options);
+}
 
 async function pubmedSearch(reqUrl, res) {
   const term = (reqUrl.searchParams.get('term') || '').trim();
@@ -129,16 +190,41 @@ function extractUploadedPdf(req, res) {
     const filename = `${Date.now()}-${path.basename(original).replace(/[^\w.()-]+/g, '_')}`; const file = path.join(UPLOADS, filename); fs.writeFileSync(file, Buffer.concat(chunks));
     const bundledPython = 'C:\\Users\\Yulan\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe';
     const python = process.env.PYTHON_BIN || process.env.CODEX_PYTHON || (process.platform === 'win32' && fs.existsSync(bundledPython) ? bundledPython : process.platform === 'win32' ? 'python' : 'python3');
-    execFile(python, [path.join(ROOT, 'scripts', 'extract_pdf.py'), file], { maxBuffer: 5 * 1024 * 1024 }, (error, stdout, stderr) => {
-      try { const result = JSON.parse(stdout || '{}'); if (error || result.error) { try { fs.unlinkSync(file); } catch {} return json(res, 422, { error: result.error || 'PDF解析失败', detail: stderr.trim() }); } json(res, 200, { ...result, filename: original, stored_as: filename, url: `/api/uploads/${encodeURIComponent(filename)}` }); }
-      catch { json(res, 500, { error: 'PDF解析结果无效', detail: stderr.trim() }); }
+    execFile(python, [path.join(ROOT, 'scripts', 'extract_pdf.py'), file], { maxBuffer: 5 * 1024 * 1024 }, async (error, stdout, stderr) => {
+      try {
+        const result = JSON.parse(stdout || '{}');
+        if (error || result.error) { try { fs.unlinkSync(file); } catch {} return json(res, 422, { error: result.error || 'PDF解析失败', detail: stderr.trim() }); }
+        const config = r2Config();
+        if (config.incomplete) { try { fs.unlinkSync(file); } catch {} return json(res, 500, { error: 'R2环境变量配置不完整' }); }
+        if (config.enabled) {
+          await putPdfInR2(filename, fs.readFileSync(file));
+          try { fs.unlinkSync(file); } catch {}
+        }
+        json(res, 200, { ...result, filename: original, stored_as: filename, storage: config.enabled ? 'cloudflare-r2' : 'local', url: `/api/uploads/${encodeURIComponent(filename)}` });
+      }
+      catch (uploadError) { try { fs.unlinkSync(file); } catch {} json(res, 500, { error: uploadError.message || 'PDF保存失败', detail: stderr.trim() }); }
     });
   });
 }
 
-function serveUploadedPdf(reqUrl, res, headOnly = false) {
+async function serveUploadedPdf(reqUrl, res, headOnly = false) {
   const name = decodeURIComponent(reqUrl.pathname.slice('/api/uploads/'.length));
   if (!name || name !== path.basename(name) || !/\.pdf$/i.test(name)) return json(res, 400, { error: '无效PDF地址' });
+  const config = r2Config();
+  if (config.incomplete) return json(res, 500, { error: 'R2环境变量配置不完整' });
+  if (config.enabled) {
+    try {
+      const remote = await getPdfFromR2(name, headOnly ? 'HEAD' : 'GET');
+      if (remote.status === 404) return json(res, 404, { error: 'PDF不存在或已移除' });
+      if (!remote.ok) return json(res, 502, { error: `无法从R2读取PDF（HTTP ${remote.status}）` });
+      const headers = { 'Content-Type': 'application/pdf', 'Content-Disposition': `inline; filename="${name.replace(/["\r\n]/g, '_')}"`, 'Cache-Control': 'private, max-age=3600' };
+      const contentLength = remote.headers.get('content-length');
+      if (contentLength) headers['Content-Length'] = contentLength;
+      res.writeHead(200, headers);
+      if (headOnly) return res.end();
+      return Readable.fromWeb(remote.body).pipe(res);
+    } catch (error) { return json(res, 502, { error: '无法从R2读取PDF', detail: error.message }); }
+  }
   const file = path.join(UPLOADS, name);
   if (!fs.existsSync(file) || !fs.statSync(file).isFile()) return json(res, 404, { error: 'PDF不存在或已移除' });
   res.writeHead(200, { 'Content-Type': 'application/pdf', 'Content-Disposition': `inline; filename="${name.replace(/["\r\n]/g, '_')}"`, 'Cache-Control': 'private, max-age=3600' });
@@ -148,7 +234,7 @@ function serveUploadedPdf(reqUrl, res, headOnly = false) {
 
 const server = http.createServer(async (req, res) => {
   const reqUrl = new URL(req.url, 'http://localhost');
-  if (req.method === 'GET' && reqUrl.pathname === '/health') return json(res, 200, { ok: true });
+  if (req.method === 'GET' && reqUrl.pathname === '/health') return json(res, 200, { ok: true, pdf_storage: r2Config().enabled ? 'cloudflare-r2' : r2Config().incomplete ? 'r2-incomplete' : 'local' });
   if (req.method === 'GET' && reqUrl.pathname === '/api/pubmed/search') return pubmedSearch(reqUrl, res);
   if (req.method === 'GET' && reqUrl.pathname === '/api/pubmed/summaries') return pubmedSummaries(reqUrl, res);
   if (req.method === 'GET' && reqUrl.pathname === '/api/pubmed/abstracts') return pubmedAbstracts(reqUrl, res);
