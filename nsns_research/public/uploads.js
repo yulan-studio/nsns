@@ -9,8 +9,84 @@ document.querySelector('#files').onchange = async event => {
   }
 };
 
+const evidenceFields = [
+  ['population', '研究对象', /participant|children|adolesc|autis|asd\b/i],
+  ['intervention', '干预方案', /exercise|physical activity|training|week|session|aerobic|sport|yoga|swim/i],
+  ['outcomes', '量表与结局', /anxi|depress|emotion|behavio|well-being|quality of life|scale|questionnaire/i],
+  ['results', '研究结果', /result|significant|p\s*[<=>]|confidence interval|effect size|improv|decreas/i],
+  ['missing', '缺失数据', /dropout|attrition|lost to follow|missing data|withdraw/i],
+  ['adverse', '不良事件', /adverse|safety|injur|harm/i]
+];
+
+evidenceSnippets = function traceableEvidenceSnippets(text) {
+  const marked = String(text || '');
+  const pageMatches = [...marked.matchAll(/\[\[PDF_PAGE:(\d+)\]\]\s*([\s\S]*?)(?=\[\[PDF_PAGE:\d+\]\]|$)/g)];
+  const sources = pageMatches.length
+    ? pageMatches.map(match => ({ page: `PDF第${match[1]}页`, text: match[2] }))
+    : [{ page: '网页全文（无PDF页码）', text: marked }];
+  const result = { _evidence: {} };
+
+  evidenceFields.forEach(([key, label, pattern]) => {
+    const matches = [];
+    sources.forEach(source => {
+      source.text.split(/(?<=[.!?。！？])\s+/).forEach(sentence => {
+        const clean = sentence.replace(/\s+/g, ' ').trim();
+        if (clean.length > 30 && clean.length < 700 && pattern.test(clean) && matches.length < 2) matches.push({ page: source.page, quote: clean });
+      });
+    });
+    const fallback = key === 'missing' ? '未自动定位；不能解释为没有缺失' : key === 'adverse' ? '未自动定位；不能解释为没有不良事件' : '原文中未自动定位';
+    result[key] = matches.map(item => item.quote).join(' ') || fallback;
+    result._evidence[key] = {
+      label,
+      page: matches.map(item => item.page).filter((value, index, all) => all.indexOf(value) === index).join('、') || (pageMatches.length ? 'PDF页码未定位' : '网页全文（无PDF页码）'),
+      quote: matches.map(item => item.quote).join(' ') || '没有自动定位到可引用片段，请人工查看全文。',
+      status: '待人工确认',
+      confirmedAt: null
+    };
+  });
+  return result;
+};
+
+function ensureEvidenceTrace(study) {
+  if (!study.fullText) return null;
+  if (!study.fullText._evidence) {
+    study.fullText._evidence = {};
+    evidenceFields.forEach(([key, label]) => {
+      study.fullText._evidence[key] = {
+        label,
+        page: study.uploadedName ? '旧解析记录无页码，请重新上传PDF或人工定位' : '网页全文（无PDF页码）',
+        quote: study.fullText[key] || '没有自动定位到可引用片段，请人工查看全文。',
+        status: '待人工确认',
+        confirmedAt: null
+      };
+    });
+  }
+  return study.fullText._evidence;
+}
+
+function renderEvidenceTrace(row, study, studyIndex) {
+  const details = row.querySelector('details');
+  const trace = details && ensureEvidenceTrace(study);
+  if (!trace || details.querySelector('.evidence-trace')) return;
+  const panel = document.createElement('section');
+  panel.className = 'evidence-trace';
+  const confirmed = Object.values(trace).filter(item => item.status === '已人工确认').length;
+  panel.innerHTML = `<h4>原文追溯与人工确认（${confirmed}/${evidenceFields.length}项）</h4>${evidenceFields.map(([key, label]) => { const item = trace[key]; return `<article><div><strong>${label}</strong><span class="badge ${item.status === '已人工确认' ? '' : 'warn'}">${esc(item.status)}</span></div><small>${esc(item.page)}</small><blockquote>${esc(item.quote)}</blockquote>${item.status === '已人工确认' ? `<small>确认时间：${esc(item.confirmedAt || '已记录')}</small>` : `<button type="button" data-confirm-extract="${key}" data-study="${studyIndex}">确认此项与原文一致</button>`}</article>`; }).join('')}`;
+  details.append(panel);
+  panel.querySelectorAll('[data-confirm-extract]').forEach(button => button.onclick = () => {
+    const target = state.studies[+button.dataset.study]?.fullText?._evidence?.[button.dataset.confirmExtract];
+    if (!target) return;
+    target.status = '已人工确认';
+    target.confirmedAt = new Date().toISOString();
+    save();
+    rows();
+  });
+}
+
 function placeRowUploadLinks() {
   document.querySelectorAll('#studyRows tr').forEach(row => {
+    const studyIndex = Number(row.dataset.studyI);
+    if (Number.isInteger(studyIndex)) renderEvidenceTrace(row, state.studies[studyIndex], studyIndex);
     const upload = row.querySelector('.row-upload');
     if (!upload) return;
 

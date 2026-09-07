@@ -78,3 +78,38 @@
   min-width: 145px;
   margin: 0;
 }
+
+.evidence-trace {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.evidence-trace h4 {
+  margin: 0 0 10px;
+}
+
+.evidence-trace article {
+  margin: 10px 0;
+  padding: 12px;
+  background: #f8faf9;
+  border: 1px solid var(--line);
+}
+
+.evidence-trace article > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.evidence-trace blockquote {
+  margin: 8px 0;
+  padding-left: 10px;
+  border-left: 3px solid var(--green);
+  color: var(--muted);
+}
+
+.evidence-trace button {
+  padding: 6px 9px;
+  font-size: 12px;
+}
