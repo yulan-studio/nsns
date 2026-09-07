@@ -1,0 +1,55 @@
+@model nsns_waiver.Pages.FamilyMemberFieldsModel
+
+<div class="family-member-card" data-family-member>
+    <div class="family-member-header">
+        <h3>Family member <span data-family-number>@(Model.Index + 1)</span></h3>
+        <button type="button" class="btn btn-sm btn-link text-danger" data-remove-family>
+            Remove
+        </button>
+    </div>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <label for="Input_FamilyMembers_@(Model.Index)__FirstName" class="form-label">
+                First name <span class="required-indicator" aria-hidden="true">*</span>
+                <span class="visually-hidden">required</span>
+            </label>
+            <input id="Input_FamilyMembers_@(Model.Index)__FirstName"
+                   name="Input.FamilyMembers[@Model.Index].FirstName"
+                   value="@Model.Member.FirstName"
+                   maxlength="100"
+                   required
+                   class="form-control" />
+            <span data-valmsg-for="Input.FamilyMembers[@Model.Index].FirstName"
+                  data-valmsg-replace="true"
+                  class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label for="Input_FamilyMembers_@(Model.Index)__LastName" class="form-label">
+                Last name <span class="required-indicator" aria-hidden="true">*</span>
+                <span class="visually-hidden">required</span>
+            </label>
+            <input id="Input_FamilyMembers_@(Model.Index)__LastName"
+                   name="Input.FamilyMembers[@Model.Index].LastName"
+                   value="@Model.Member.LastName"
+                   maxlength="100"
+                   required
+                   class="form-control" />
+            <span data-valmsg-for="Input.FamilyMembers[@Model.Index].LastName"
+                  data-valmsg-replace="true"
+                  class="text-danger"></span>
+        </div>
+        <div class="col-md-4">
+            <label for="Input_FamilyMembers_@(Model.Index)__Relationship" class="form-label">
+                Relationship <small>(optional)</small>
+            </label>
+            <input id="Input_FamilyMembers_@(Model.Index)__Relationship"
+                   name="Input.FamilyMembers[@Model.Index].Relationship"
+                   value="@Model.Member.Relationship"
+                   maxlength="100"
+                   class="form-control" />
+            <span data-valmsg-for="Input.FamilyMembers[@Model.Index].Relationship"
+                  data-valmsg-replace="true"
+                  class="text-danger"></span>
+        </div>
+    </div>
+</div>
