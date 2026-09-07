@@ -28,6 +28,18 @@ function placeRowUploadLinks() {
     const statusCell = row.lastElementChild;
     if (statusCell && upload.parentElement !== statusCell) statusCell.append(upload);
   });
+  updateScreeningButtons();
+}
+
+function updateScreeningButtons() {
+  const autoScreen = document.querySelector('#autoScreen');
+  const findFullText = document.querySelector('#findFullText');
+  if (!autoScreen || !findFullText) return;
+
+  const total = state.search?.pmids?.length || 0;
+  const complete = total > 0 && state.studies.length >= total;
+  autoScreen.classList.toggle('ghost', complete);
+  findFullText.classList.toggle('ghost', !complete);
 }
 
 const uploadRows = document.querySelector('#studyRows');
