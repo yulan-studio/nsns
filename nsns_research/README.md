@@ -12,6 +12,8 @@ node server.js
 
 然后打开 `http://127.0.0.1:8787`。PubMed 检索需要能够访问 NCBI；检索记录保存在 `work/search-records/`。
 
+PDF 默认保存在本机 `work/uploads/`。部署到 Railway 后可通过 `R2_ACCOUNT_ID`、`R2_ACCESS_KEY_ID`、`R2_SECRET_ACCESS_KEY` 和 `R2_BUCKET_NAME` 四个环境变量启用私有 Cloudflare R2 存储，详见 `DEPLOY_RAILWAY.md`。
+
 ## 五步自动化流程
 
 1. 用日常语言填写研究问题，系统整理研究对象、干预、比较和结局。
