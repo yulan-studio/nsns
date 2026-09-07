@@ -1,0 +1,33 @@
+@page
+@model ConfirmationModel
+@{
+    ViewData["Title"] = "Waiver submitted";
+}
+
+<div class="confirmation-shell">
+    <div class="confirmation-mark" aria-hidden="true">✓</div>
+    <span class="eyebrow">Submission complete</span>
+    <h1>Your waiver has been received.</h1>
+    <p class="confirmation-lead">
+        Thank you. A confirmation email has been queued for delivery.
+    </p>
+
+    <dl class="confirmation-details">
+        <div>
+            <dt>Event</dt>
+            <dd>@Model.EventName</dd>
+        </div>
+        <div>
+            <dt>Submission reference</dt>
+            <dd class="reference-value">@Model.SubmissionReference</dd>
+        </div>
+        <div>
+            <dt>Signed</dt>
+            <dd>@Model.SignedAtUtcText</dd>
+        </div>
+    </dl>
+
+    <p class="text-muted mb-0">
+        Keep the submission reference for your records.
+    </p>
+</div>

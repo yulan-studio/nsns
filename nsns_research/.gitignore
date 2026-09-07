@@ -1,0 +1,7 @@
+node_modules/
+work/uploads/
+work/search-records/
+outputs/
+*.log
+.env
+.env.*
