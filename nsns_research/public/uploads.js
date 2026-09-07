@@ -78,7 +78,7 @@ evidence = function renderEvidenceWorkspace() {
   const categories = [
     ['核心焦虑', included.filter(study => evidenceLevelLabel(study.level) === '核心焦虑'), '直接测量焦虑或使用焦虑量表的研究。'],
     ['相关情绪/行为', included.filter(study => evidenceLevelLabel(study.level) === '相关情绪/行为'), '测量情绪调节、问题行为、幸福感或生活质量等相关结局的研究。'],
-    ['探索性证据', included.filter(study => evidenceLevelLabel(study.level) === '探索性证据'), '与研究问题有关，但结局或研究设计只能提供间接、探索性信息。'],
+    ['探索性证据', included.filter(study => evidenceLevelLabel(study.level) === '探索性证据'), '与主题有关，但不能直接回答“运动是否改善心理健康”。例如只报告体适能、以心理健康为次要结局、没有合适对照组或样本很小。它不等于研究质量差，也不等于应当排除；论文引用时需要降低结论强度并说明局限。'],
     ['待分类', included.filter(study => evidenceLevelLabel(study.level) === '待分类'), '自动提取不足，必须查看全文后由研究者决定。']
   ];
 
