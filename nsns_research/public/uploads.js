@@ -14,7 +14,8 @@ function placeRowUploadLinks() {
     const upload = row.querySelector('.row-upload');
     if (!upload) return;
 
-    if (row.querySelector('details')) {
+    const decision = row.querySelector('select[data-i]')?.value;
+    if (row.querySelector('details') || decision === '排除') {
       upload.remove();
       return;
     }
