@@ -11,6 +11,12 @@ const PUBLIC = path.join(ROOT, 'public');
 const DATA_ROOT = process.env.DATA_DIR ? path.resolve(process.env.DATA_DIR) : path.join(ROOT, 'work');
 const RECORDS = path.join(DATA_ROOT, 'search-records');
 const UPLOADS = path.join(DATA_ROOT, 'uploads');
+const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
+const sessions = new Map();
+const loginAttempts = new Map();
+const production = process.env.NODE_ENV === 'production';
+const authUsername = process.env.AUTH_USERNAME || '';
+const authPassword = process.env.AUTH_PASSWORD || '';
 fs.mkdirSync(RECORDS, { recursive: true });
 fs.mkdirSync(UPLOADS, { recursive: true });
 
@@ -25,6 +31,43 @@ function safeFile(urlPath) {
   return full.startsWith(PUBLIC + path.sep) || full === path.join(PUBLIC, 'index.html') ? full : null;
 }
 function stamp() { return new Date().toISOString().replace(/[:.]/g, '-'); }
+
+function parseCookies(req) {
+  return Object.fromEntries(String(req.headers.cookie || '').split(';').map(value => value.trim().split('=').map(decodeURIComponent)).filter(parts => parts.length === 2));
+}
+function authenticated(req) {
+  const token = parseCookies(req).research_session;
+  const session = token && sessions.get(token);
+  if (!session || session.expiresAt <= Date.now()) { if (token) sessions.delete(token); return false; }
+  return true;
+}
+function sameSecret(actual, expected) {
+  const a = Buffer.from(String(actual)); const b = Buffer.from(String(expected));
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+function readJsonBody(req, max = 4096) {
+  return new Promise((resolve, reject) => { const chunks = []; let size = 0; req.on('data', chunk => { size += chunk.length; if (size > max) { reject(new Error('请求过大')); req.destroy(); } else chunks.push(chunk); }); req.on('end', () => { try { resolve(JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}')); } catch { reject(new Error('JSON格式无效')); } }); req.on('error', reject); });
+}
+function clientKey(req) { return String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'unknown').split(',')[0].trim(); }
+async function login(req, res) {
+  if (!authUsername || !authPassword) return json(res, 503, { error: '登录尚未配置，请在Railway设置AUTH_USERNAME和AUTH_PASSWORD' });
+  const key = clientKey(req); const attempt = loginAttempts.get(key) || { count: 0, blockedUntil: 0 };
+  if (attempt.blockedUntil > Date.now()) return json(res, 429, { error: '尝试次数过多，请15分钟后重试' });
+  try {
+    const body = await readJsonBody(req);
+    if (!sameSecret(body.username, authUsername) || !sameSecret(body.password, authPassword)) {
+      attempt.count += 1; if (attempt.count >= 5) { attempt.count = 0; attempt.blockedUntil = Date.now() + 15 * 60 * 1000; } loginAttempts.set(key, attempt);
+      return json(res, 401, { error: '用户名或密码不正确' });
+    }
+    loginAttempts.delete(key); const token = crypto.randomBytes(32).toString('hex'); sessions.set(token, { expiresAt: Date.now() + SESSION_TTL_MS });
+    res.writeHead(200, { 'Content-Type': types['.json'], 'Set-Cookie': `research_session=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${SESSION_TTL_MS / 1000}${production ? '; Secure' : ''}`, 'Cache-Control': 'no-store' });
+    res.end(JSON.stringify({ ok: true }));
+  } catch (error) { json(res, 400, { error: error.message }); }
+}
+function logout(req, res) {
+  const token = parseCookies(req).research_session; if (token) sessions.delete(token);
+  res.writeHead(200, { 'Content-Type': types['.json'], 'Set-Cookie': `research_session=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0${production ? '; Secure' : ''}`, 'Cache-Control': 'no-store' }); res.end(JSON.stringify({ ok: true }));
+}
 
 function r2Config() {
   const accountId = process.env.R2_ACCOUNT_ID;
@@ -234,7 +277,14 @@ async function serveUploadedPdf(reqUrl, res, headOnly = false) {
 
 const server = http.createServer(async (req, res) => {
   const reqUrl = new URL(req.url, 'http://localhost');
-  if (req.method === 'GET' && reqUrl.pathname === '/health') return json(res, 200, { ok: true, pdf_storage: r2Config().enabled ? 'cloudflare-r2' : r2Config().incomplete ? 'r2-incomplete' : 'local' });
+  if (req.method === 'GET' && reqUrl.pathname === '/health') return json(res, 200, { ok: true, authentication: authUsername && authPassword ? 'configured' : 'missing', pdf_storage: r2Config().enabled ? 'cloudflare-r2' : r2Config().incomplete ? 'r2-incomplete' : 'local' });
+  if (req.method === 'GET' && reqUrl.pathname === '/login') { const file = path.join(PUBLIC, 'login.html'); res.writeHead(200, { 'Content-Type': types['.html'], 'Cache-Control': 'no-store' }); return fs.createReadStream(file).pipe(res); }
+  if (req.method === 'POST' && reqUrl.pathname === '/api/login') return login(req, res);
+  if (req.method === 'POST' && reqUrl.pathname === '/api/logout') return logout(req, res);
+  if (!authenticated(req)) {
+    if (reqUrl.pathname.startsWith('/api/')) return json(res, 401, { error: '请先登录' });
+    res.writeHead(302, { Location: '/login', 'Cache-Control': 'no-store' }); return res.end();
+  }
   if (req.method === 'GET' && reqUrl.pathname === '/api/pubmed/search') return pubmedSearch(reqUrl, res);
   if (req.method === 'GET' && reqUrl.pathname === '/api/pubmed/summaries') return pubmedSummaries(reqUrl, res);
   if (req.method === 'GET' && reqUrl.pathname === '/api/pubmed/abstracts') return pubmedAbstracts(reqUrl, res);
