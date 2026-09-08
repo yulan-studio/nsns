@@ -20,7 +20,7 @@ const authPassword = process.env.AUTH_PASSWORD || '';
 fs.mkdirSync(RECORDS, { recursive: true });
 fs.mkdirSync(UPLOADS, { recursive: true });
 
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.csv': 'text/csv; charset=utf-8' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.csv': 'text/csv; charset=utf-8', '.png': 'image/png', '.ico': 'image/png' };
 function json(res, status, body) {
   res.writeHead(status, { 'Content-Type': types['.json'] });
   res.end(JSON.stringify(body, null, 2));
@@ -278,6 +278,7 @@ async function serveUploadedPdf(reqUrl, res, headOnly = false) {
 const server = http.createServer(async (req, res) => {
   const reqUrl = new URL(req.url, 'http://localhost');
   if (req.method === 'GET' && reqUrl.pathname === '/health') return json(res, 200, { ok: true, authentication: authUsername && authPassword ? 'configured' : 'missing', pdf_storage: r2Config().enabled ? 'cloudflare-r2' : r2Config().incomplete ? 'r2-incomplete' : 'local' });
+  if (req.method === 'GET' && ['/favicon.ico', '/apple-touch-icon.png'].includes(reqUrl.pathname)) { const file = path.join(PUBLIC, reqUrl.pathname.slice(1)); res.writeHead(200, { 'Content-Type': types[path.extname(file)], 'Cache-Control': 'public, max-age=86400' }); return fs.createReadStream(file).pipe(res); }
   if (req.method === 'GET' && reqUrl.pathname === '/login') { const file = path.join(PUBLIC, 'login.html'); res.writeHead(200, { 'Content-Type': types['.html'], 'Cache-Control': 'no-store' }); return fs.createReadStream(file).pipe(res); }
   if (req.method === 'POST' && reqUrl.pathname === '/api/login') return login(req, res);
   if (req.method === 'POST' && reqUrl.pathname === '/api/logout') return logout(req, res);
