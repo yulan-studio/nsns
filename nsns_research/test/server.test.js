@@ -14,6 +14,10 @@ test('requires login and accepts configured local credentials', async () => {
     assert.equal(protectedResponse.status, 302);
     assert.equal(protectedResponse.headers.get('location'), '/login');
 
+    const iconResponse = await fetch(`${base}/favicon.ico`);
+    assert.equal(iconResponse.status, 200);
+    assert.equal(iconResponse.headers.get('content-type'), 'image/png');
+
     const loginResponse = await fetch(`${base}/api/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
