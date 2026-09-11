@@ -225,8 +225,6 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
         string agreementHtml)
     {
         var eventName = HtmlEncoder.Default.Encode(submission.EventName);
-        var customerName = HtmlEncoder.Default.Encode(
-            $"{submission.FirstName} {submission.LastName}");
 
         var messages = new List<EmailOutboxMessage>
         {
@@ -235,14 +233,11 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
                 MessageType = "CustomerConfirmation",
                 RecipientEmail = submission.Email,
                 Subject = $"Waiver received - {submission.EventName}",
-                BodyHtml =
-                    $"<p>Dear {customerName},</p>"
-                    + $"<p>Thank you for submitting your waiver for "
-                    + $"{eventName}. We are pleased to confirm that it has "
-                    + "been received successfully.</p>"
-                    + "<p>No further action is required at this time. "
-                    + "Please retain this email for your records.</p>"
-                    + "<p>Sincerely,<br>The NorthStar Team</p>"
+                BodyHtml = CreateCustomerConfirmationBody(
+                    submission,
+                    familyMembers,
+                    eventName,
+                    agreementHtml)
             }
         };
         messages.Add(new EmailOutboxMessage
@@ -258,6 +253,72 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             });
 
         return messages;
+    }
+
+    /// <summary>
+    /// Builds the customer's complete submitted record and agreement email.
+    /// </summary>
+    private static string CreateCustomerConfirmationBody(
+        WaiverSubmission submission,
+        IReadOnlyCollection<WaiverFamilyMember> familyMembers,
+        string encodedEventName,
+        string agreementHtml)
+    {
+        var encoder = HtmlEncoder.Default;
+        var body = new StringBuilder()
+            .Append("<h2>Waiver submission confirmation</h2>")
+            .Append("<p>Dear ")
+            .Append(encoder.Encode($"{submission.FirstName} {submission.LastName}"))
+            .Append(",</p><p>Your complete submitted record is below.</p>")
+            .Append("<h3>Activity</h3><ul><li><strong>Name:</strong> ")
+            .Append(encodedEventName)
+            .Append("</li><li><strong>Event code:</strong> ")
+            .Append(encoder.Encode(submission.EventCode))
+            .Append("</li><li><strong>Submission reference:</strong> ")
+            .Append(encoder.Encode(submission.SubmissionReference))
+            .Append("</li><li><strong>Signed date and time (UTC):</strong> ")
+            .Append(encoder.Encode(submission.SignedAtUtc.ToString("yyyy-MM-dd HH:mm:ss 'UTC'")))
+            .Append("</li></ul><h3>Submitted information</h3><ul>")
+            .Append("<li><strong>Name:</strong> ")
+            .Append(encoder.Encode($"{submission.FirstName} {submission.LastName}"))
+            .Append("</li><li><strong>WeChat name:</strong> ")
+            .Append(EncodeOptional(encoder, submission.WechatName))
+            .Append("</li><li><strong>Email:</strong> ")
+            .Append(encoder.Encode(submission.Email))
+            .Append("</li><li><strong>Phone:</strong> ")
+            .Append(encoder.Encode(submission.Phone))
+            .Append("</li><li><strong>Electronic signature:</strong> ")
+            .Append(encoder.Encode(submission.SignatureName))
+            .Append("</li><li><strong>Agreement accepted:</strong> ")
+            .Append(submission.Agreed ? "Yes" : "No")
+            .Append("</li><li><strong>Media release:</strong> ")
+            .Append(submission.MediaReleaseAgreed ? "Agreed" : "Declined")
+            .Append("</li></ul><h3>Family members</h3>");
+
+        if (familyMembers.Count == 0)
+        {
+            body.Append("<p>None</p>");
+        }
+        else
+        {
+            body.Append("<ol>");
+            foreach (var member in familyMembers)
+            {
+                body.Append("<li>")
+                    .Append(encoder.Encode($"{member.FirstName} {member.LastName}"));
+                if (!string.IsNullOrWhiteSpace(member.Relationship))
+                {
+                    body.Append(" — ").Append(encoder.Encode(member.Relationship));
+                }
+                body.Append("</li>");
+            }
+            body.Append("</ol>");
+        }
+
+        return body.Append("<hr><h2>Waiver Agreement</h2>")
+            .Append(agreementHtml)
+            .Append("<p>Sincerely,<br>The NorthStar Team</p>")
+            .ToString();
     }
 
     /// <summary>

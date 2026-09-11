@@ -60,19 +60,14 @@ public sealed class WaiverSubmissionServiceTests
                 Assert.Contains(
                     "Dear Customer Person,",
                     customer.BodyHtml);
-                Assert.Contains(
-                    "Thank you for submitting your waiver for Summer Camp 2026.",
-                    customer.BodyHtml);
-                Assert.Contains(
-                    "No further action is required at this time.",
-                    customer.BodyHtml);
+                Assert.Contains("Submission reference:", customer.BodyHtml);
+                Assert.Contains("Customer@Example.com", customer.BodyHtml);
+                Assert.Contains("Child Member", customer.BodyHtml);
+                Assert.Contains("Program and Scope", customer.BodyHtml);
+                Assert.Contains("Acknowledgement and Assumption of Risks", customer.BodyHtml);
                 Assert.Contains("The NorthStar Team", customer.BodyHtml);
-                Assert.DoesNotContain(
-                    result.SubmissionReference,
-                    customer.BodyHtml);
-                Assert.DoesNotContain(
-                    "2026-07-24 18:30:00 UTC",
-                    customer.BodyHtml);
+                Assert.Contains(result.SubmissionReference, customer.BodyHtml);
+                Assert.Contains("2026-07-24 18:30:00 UTC", customer.BodyHtml);
             },
             owner =>
             {
