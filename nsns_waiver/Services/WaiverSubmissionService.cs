@@ -16,6 +16,7 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
     public const int MaximumFamilyMembers = 10;
 
     private readonly IWaiverSubmissionRepository _repository;
+    private readonly IWaiverAgreementProvider _agreementProvider;
     private readonly WaiverOptions _options;
     private readonly TimeProvider _timeProvider;
 
@@ -24,10 +25,12 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
     /// </summary>
     public WaiverSubmissionService(
         IWaiverSubmissionRepository repository,
+        IWaiverAgreementProvider agreementProvider,
         IOptions<WaiverOptions> options,
         TimeProvider timeProvider)
     {
         _repository = repository;
+        _agreementProvider = agreementProvider;
         _options = options.Value;
         _timeProvider = timeProvider;
     }
@@ -112,8 +115,9 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             IpAddress = ipAddress,
             UserAgent = userAgent
         };
+        var agreement = await _agreementProvider.GetAsync(cancellationToken);
         var outboxMessages = CreateOutboxMessages(
-            submission, familyMembers, ownerEmail);
+            submission, familyMembers, ownerEmail, agreement.Html);
 
         await _repository.CreateSubmissionAsync(
             submission,
@@ -217,7 +221,8 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
     private static List<EmailOutboxMessage> CreateOutboxMessages(
         WaiverSubmission submission,
         IReadOnlyCollection<WaiverFamilyMember> familyMembers,
-        string ownerEmail)
+        string ownerEmail,
+        string agreementHtml)
     {
         var eventName = HtmlEncoder.Default.Encode(submission.EventName);
         var customerName = HtmlEncoder.Default.Encode(
@@ -248,7 +253,8 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
                 BodyHtml = CreateBossNotificationBody(
                     submission,
                     familyMembers,
-                    eventName)
+                    eventName,
+                    agreementHtml)
             });
 
         return messages;
@@ -260,7 +266,8 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
     private static string CreateBossNotificationBody(
         WaiverSubmission submission,
         IReadOnlyCollection<WaiverFamilyMember> familyMembers,
-        string encodedEventName)
+        string encodedEventName,
+        string agreementHtml)
     {
         var encoder = HtmlEncoder.Default;
         var body = new StringBuilder()
@@ -319,6 +326,10 @@ public sealed class WaiverSubmissionService : IWaiverSubmissionService
             + "<p>To view this and other waiver submissions, please visit the "
             + "<a href=\"https://waiver.nsns.ca/Admin/Submissions\">"
             + "waiver submissions page</a>.</p>");
+
+        body.Append("<hr style=\"border: 0; border-top: 1px solid #b7b7b7; margin: 16px 0;\">")
+            .Append("<h2>Waiver Agreement</h2>")
+            .Append(agreementHtml);
 
         return body.ToString();
     }

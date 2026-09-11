@@ -94,6 +94,8 @@ public sealed class WaiverSubmissionServiceTests
                 Assert.Contains("(416) 555-0123", owner.BodyHtml);
                 Assert.Contains("Child Member", owner.BodyHtml);
                 Assert.Contains("Daughter", owner.BodyHtml);
+                Assert.Contains("Program and Scope", owner.BodyHtml);
+                Assert.Contains("Acknowledgement and Assumption of Risks", owner.BodyHtml);
                 Assert.Contains(
                     "<strong>Media release:</strong> Agreed",
                     owner.BodyHtml);
@@ -222,6 +224,7 @@ public sealed class WaiverSubmissionServiceTests
         });
         var service = new WaiverSubmissionService(
             repository,
+            new TestAgreementProvider(),
             options,
             new FixedTimeProvider(FixedUtcNow));
 
@@ -242,8 +245,19 @@ public sealed class WaiverSubmissionServiceTests
         });
         return new WaiverSubmissionService(
             repository,
+            new TestAgreementProvider(),
             options,
             new FixedTimeProvider(FixedUtcNow));
+    }
+
+    private sealed class TestAgreementProvider : IWaiverAgreementProvider
+    {
+        public Task<WaiverAgreementContent> GetAsync(
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(new WaiverAgreementContent(
+                "<section><h2>Program and Scope</h2>"
+                + "<p>Acknowledgement and Assumption of Risks</p></section>",
+                true));
     }
 
     private static SubmitWaiverRequest CreateValidRequest(
