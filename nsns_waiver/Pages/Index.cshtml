@@ -1,12 +1,12 @@
 @page
 @model IndexModel
 @{
-    ViewData["Title"] = "Event waiver";
+    ViewData["Title"] = "Waiver";
 }
 
 <div class="waiver-shell">
     <header class="waiver-hero">
-        <span class="eyebrow">NorthStar Event Waiver</span>
+        <span class="eyebrow">NorthStar Waiver</span>
         @if (Model.Event is not null)
         {
             <h1>@Model.Event.Name</h1>
