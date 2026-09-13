@@ -60,19 +60,14 @@ public sealed class WaiverSubmissionServiceTests
                 Assert.Contains(
                     "Dear Customer Person,",
                     customer.BodyHtml);
-                Assert.Contains(
-                    "Thank you for submitting your waiver for Summer Camp 2026.",
-                    customer.BodyHtml);
-                Assert.Contains(
-                    "No further action is required at this time.",
-                    customer.BodyHtml);
+                Assert.Contains("Submission reference:", customer.BodyHtml);
+                Assert.Contains("Customer@Example.com", customer.BodyHtml);
+                Assert.Contains("Child Member", customer.BodyHtml);
+                Assert.Contains("Program and Scope", customer.BodyHtml);
+                Assert.Contains("Acknowledgement and Assumption of Risks", customer.BodyHtml);
                 Assert.Contains("The NorthStar Team", customer.BodyHtml);
-                Assert.DoesNotContain(
-                    result.SubmissionReference,
-                    customer.BodyHtml);
-                Assert.DoesNotContain(
-                    "2026-07-24 18:30:00 UTC",
-                    customer.BodyHtml);
+                Assert.Contains(result.SubmissionReference, customer.BodyHtml);
+                Assert.Contains("2026-07-24 18:30:00 UTC", customer.BodyHtml);
             },
             owner =>
             {
@@ -94,6 +89,8 @@ public sealed class WaiverSubmissionServiceTests
                 Assert.Contains("(416) 555-0123", owner.BodyHtml);
                 Assert.Contains("Child Member", owner.BodyHtml);
                 Assert.Contains("Daughter", owner.BodyHtml);
+                Assert.Contains("Program and Scope", owner.BodyHtml);
+                Assert.Contains("Acknowledgement and Assumption of Risks", owner.BodyHtml);
                 Assert.Contains(
                     "<strong>Media release:</strong> Agreed",
                     owner.BodyHtml);
@@ -222,6 +219,7 @@ public sealed class WaiverSubmissionServiceTests
         });
         var service = new WaiverSubmissionService(
             repository,
+            new TestAgreementProvider(),
             options,
             new FixedTimeProvider(FixedUtcNow));
 
@@ -242,8 +240,19 @@ public sealed class WaiverSubmissionServiceTests
         });
         return new WaiverSubmissionService(
             repository,
+            new TestAgreementProvider(),
             options,
             new FixedTimeProvider(FixedUtcNow));
+    }
+
+    private sealed class TestAgreementProvider : IWaiverAgreementProvider
+    {
+        public Task<WaiverAgreementContent> GetAsync(
+            CancellationToken cancellationToken = default) =>
+            Task.FromResult(new WaiverAgreementContent(
+                "<section><h2>Program and Scope</h2>"
+                + "<p>Acknowledgement and Assumption of Risks</p></section>",
+                true));
     }
 
     private static SubmitWaiverRequest CreateValidRequest(
