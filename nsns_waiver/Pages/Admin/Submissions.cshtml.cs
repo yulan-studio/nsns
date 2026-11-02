@@ -40,7 +40,7 @@ public sealed class SubmissionsModel : PageModel
         string? sort,
         string? direction,
         CancellationToken cancellationToken,
-        int page = 1)
+        int p = 1)
     {
         var selectedSort = ParseSort(sort);
         var descending = !string.Equals(
@@ -53,7 +53,7 @@ public sealed class SubmissionsModel : PageModel
         TotalSubmissions = await _repository.CountRecentAsync(
             cancellationToken);
         TotalPages = (int)Math.Ceiling(TotalSubmissions / (double)PageSize);
-        CurrentPage = Math.Clamp(page, 1, Math.Max(TotalPages, 1));
+        CurrentPage = Math.Clamp(p, 1, Math.Max(TotalPages, 1));
         Submissions = await _repository.GetRecentAsync(
             selectedSort,
             descending,
