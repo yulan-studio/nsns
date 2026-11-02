@@ -8,7 +8,7 @@ namespace nsns_waiver.Repositories;
 public interface IAdminSubmissionRepository
 {
     /// <summary>
-    /// Returns one page from the 200 most recent submissions.
+    /// Returns one page from all submissions.
     /// </summary>
     Task<IReadOnlyList<AdminSubmissionListItem>> GetRecentAsync(
         AdminSubmissionSort sort,
@@ -18,10 +18,9 @@ public interface IAdminSubmissionRepository
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Counts recent submissions up to the requested display maximum.
+    /// Counts all submissions for pagination.
     /// </summary>
     Task<int> CountRecentAsync(
-        int maximum,
         CancellationToken cancellationToken = default);
 }
 
