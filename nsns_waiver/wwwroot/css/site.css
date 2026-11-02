@@ -387,6 +387,10 @@ body {
   table-layout: fixed;
 }
 
+.admin-pagination {
+  padding-top: 1rem;
+}
+
 .admin-table-wrap th a {
   color: var(--waiver-primary-dark);
   text-decoration: none;
