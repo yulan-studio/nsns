@@ -29,6 +29,7 @@
             <table class="table table-hover align-middle">
                 <thead>
                     <tr>
+                        <th scope="col">No.</th>
                         <th><a asp-route-sort="eventName" asp-route-direction="@Model.NextDirection("eventName")">Event</a></th>
                         <th><a asp-route-sort="firstName" asp-route-direction="@Model.NextDirection("firstName")">First Name</a></th>
                         <th><a asp-route-sort="lastName" asp-route-direction="@Model.NextDirection("lastName")">Last Name</a></th>
@@ -41,9 +42,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (var submission in Model.Submissions)
+                @foreach (var (submission, index) in Model.Submissions.Select((submission, index) => (submission, index)))
                 {
                     <tr>
+                        <td>@(1 + ((Model.CurrentPage - 1) * 20) + index)</td>
                         <td>@submission.EventName</td>
                         <td>@submission.FirstName</td>
                         <td>@submission.LastName</td>
